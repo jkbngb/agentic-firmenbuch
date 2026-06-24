@@ -1,0 +1,16 @@
+[project]
+name = "fbl-derive"
+version = "1.0.0"
+description = "Stage 6b: ratios, growth, trends, size, peer percentiles -> 30_derived."
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fbl-core",
+    "pydantic>=2.7",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fbl_derive"]

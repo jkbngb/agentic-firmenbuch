@@ -1,0 +1,34 @@
+# secrets (real .env files are ignored; *.example templates are tracked)
+.env
+.env.*
+!*.example
+
+# local agent/editor tooling
+.claude/
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+.uv/
+*.egg-info/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+htmlcov/
+.coverage
+
+# os / editor
+.DS_Store
+.idea/
+.vscode/
+
+# local data / scratch (never commit real Firmenbuch data dumps)
+data/
+*.local.json
+
+# bicep build artifacts
+infra/main.json
+
+# agent build-context, not for the public repo (kept locally)
+CLAUDE.md

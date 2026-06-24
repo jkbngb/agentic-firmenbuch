@@ -1,0 +1,315 @@
+﻿
+## Change History 2026-01-23
+
+- **Bugfixes**
+  - Korrektur des Prüfausdrucks für die `PERSONENKENNUNG` in den `ALLGEMEINE_ANGABEN` durch Anpassung des regulären Ausdrucks
+  - Korrektur der Bezeichnung des Unterpostens `ANLAGEVERMOEGEN_NICHT_AUSWEISPFLICHTIGER_REST` beim Datentypen `BILANZ_IMMATERIELLE_VERMOEGENSGEGENSTAENDE` (Posten: `IMMATERIELLE_VERMOEGENSGEGENSTAENDE`) in der `BILANZ` (Bilanz) nach `IMMATERIELLE_VERMOEGENSGEGENSTAENDE_NICHT_AUSWEISPFLICHTIGER_REST`
+  - Korrektur der Bezeichnung des Unterpostens `NENNBETRAG_EIGENER_ANTEILE` von `BILANZ_EINGEFORDERTES_GRUNDKAPITAL` in der `BILANZ` (Bilanz) nach `NENNBETRAG_EIGENER_AKTIEN`
+  - Korrektur der Bezeichnung des Unterpostens `VERINDLICHKEITEN_AUS_ANNAHME_UND_AUSSTELLUNG_VON_WECHSELN` von `SPIEGEL_VERBINDLICHKEITEN_VERBINDLICHKEITEN` im `VERBINDLICHKEITENSPIEGEL` (Verbindlichkeitenspiegel) nach `VERBINDLICHKEITEN_AUS_ANNAHME_UND_AUSSTELLUNG_VON_WECHSEL`
+    - ebenso Umbenennung des dazugehörigen Types von `SPIEGEL_VERBINDLICHKEITEN_VERINDLICHKEITEN_AUS_ANNAHME_UND_AUSSTELLUNG_VON_WECHSELN` nach `SPIEGEL_VERBINDLICHKEITEN_VERBINDLICHKEITEN_AUS_ANNAHME_UND_AUSSTELLUNG_VON_WECHSEL`
+  - Korrektur des regulären Ausdrucks der `BILANZ_VERSION` bei der Angabe der Spezifikationsversion
+  - Hinzufügen des Postens `NENNBETRAG_RECHNERISCHER_WERT_EIGENER_ANTEILE` in der `ANLAGE1_AUSZUG_AUS_DER_BILANZ` (`ANLAGE1`) beim Datentypen `ANLAGE1_EINGEFORDERTES_STAMMKAPITAL` als neuer Unterposten von `EINGEFORDERTES_STAMMKAPITAL`
+- **Anpassungen**
+  - Erweiterung der Überschriftenvisualisierung um den Parameterwert `V` für "vorläufiger/unvollständiger Jahresabschluss" und "vorläufiger/unvollständiger Konzernabschluss"
+  - Änderungen an der `BILANZ`, an der `ANLAGE1_AUSZUG_AUS_DER_BILANZ` und an der `ANLAGE3_AUSZUG_AUS_DER_BILANZ`, sowie am `SPIEGEL_VERBINDLICHKEITEN`, `SPIEGEL_FORDERUNGEN`, `SPIEGEL_RUECKLAGEN`:
+    - Posten `NICHT_BEHERRSCHENDE_ANTEILE` in der `BILANZ` wurden nach dem Posten `BILANZGEWINN_BILANZVERLUST` eingeordnet (dieser Posten ist relevant für Konzernabschlüsse) beim Hauptposten `BILANZ_EIGENKAPITAL` in der `BILANZ`    
+    - aufgrund von mehrfachen Rückmeldungen von einreichenden Software-Herstellern und Anwendern wurden folgende Änderungen durchgeführt:
+      - zur Kompatibilitätserhöhung zwischen `BILANZ` und `ANLAGE1_AUSZUG_AUS_DER_BILANZ` / `ANLAGE3_AUSZUG_AUS_DER_BILANZ`:
+        - Posten `EIGENKAPITAL_FREIER_POSTEN_1` wurde in der `ANLAGE1_AUSZUG_AUS_DER_BILANZ` zu `EIGENKAPITAL_FREIER_POSTEN_2` umbenannt
+        - Posten `EIGENKAPITAL_FREIER_POSTEN_2` wurde in der `ANLAGE1_AUSZUG_AUS_DER_BILANZ` zu `EIGENKAPITAL_FREIER_POSTEN_3` umbenannt
+        - Posten `EIGENKAPITAL_FREIER_POSTEN_1` wurde in der `ANLAGE3_AUSZUG_AUS_DER_BILANZ` zu `EIGENKAPITAL_FREIER_POSTEN_2` umbenannt
+        - Posten `EIGENKAPITAL_FREIER_POSTEN_2` wurde in der `ANLAGE3_AUSZUG_AUS_DER_BILANZ` zu `EIGENKAPITAL_FREIER_POSTEN_3` umbenannt
+      - zur Kompatibilitätserhöhung zwischen `BILANZ` und `SPIEGEL_RUECKLAGEN`:
+        - Posten `EIGENKAPITAL_FREIER_POSTEN` wurde im `SPIEGEL_RUECKLAGEN` zu `EIGENKAPITAL_FREIER_POSTEN_2` umbenannt
+      - Bezeichnungskürzungen:
+        - Kürzung der Bezeichnung des Unterpostens `VERBINDLICHKEITEN_GEGENUEBER_UNTERNEHMEN_MIT_DENEN_EIN_BETEILIGUNGSVERHAELTNIS_BESTEHT` von `BILANZ_VERBINDLICHKEITEN` in der Bilanz `BILANZ` nach `VERBINDLICHKEITEN_GEGENUEBER_UNTERNEHMEN_MIT_BETEILIGUNGSVERHAELTNIS`
+          - ebenso Umbenennung des dazugehörigen Types von `BILANZ_VERBINDLICHKEITEN_GEGENUEBER_UNTERNEHMEN_MIT_DENEN_EIN_BETEILIGUNGSVERHAELTNIS_BESTEHT` nach `BILANZ_VERBINDLICHKEITEN_GEGENUEBER_UNTERNEHMEN_MIT_BETEILIGUNGSVERHAELTNIS`
+        - Kürzung der Bezeichnung des Unterpostens `VERBINDLICHKEITEN_AUS_DER_ANNAHME_GEZOGENER_WECHSEL_UND_DER_AUSSTELLUNG_EIGENER_WECHSEL` von `BILANZ_VERBINDLICHKEITEN` in der Bilanz `BILANZ` nach `VERBINDLICHKEITEN_AUS_ANNAHME_UND_AUSSTELLUNG_VON_WECHSEL`
+          - ebenso Umbenennung des dazugehörigen Types von `BILANZ_VERBINDLICHKEITEN_AUS_DER_ANNAHME_GEZOGENER_WECHSEL_UND_DER_AUSSTELLUNG_EIGENER_WECHSEL` nach `BILANZ_VERBINDLICHKEITEN_AUS_ANNAHME_UND_AUSSTELLUNG_VON_WECHSEL`
+      - Entfernung von einschränkenden Entweder-Oder-Blöcken in den Spiegeln:
+        - Entfernung von einschränkenden Entweder-Oder-Blöcken aus dem Datentypen `SPIEGEL_VERBINDLICHKEITEN`:
+          - Entfernung des Entweder-Oder-Blockes für die Unterposten von `ANLEIHEN` im Datentyp `SPIEGEL_VERBINDLICHKEITEN_ANLEIHEN` beim Datentypen `SPIEGEL_VERBINDLICHKEITEN_VERBINDLICHKEITEN`
+          - Entfernung des Entweder-Oder-Blockes für die Unterposten von `SONSTIGE_VERBINDLICHKEITEN` im Datentyp `SPIEGEL_VERBINDLICHKEITEN_SONSTIGE_VERBINDLICHKEITEN` beim Datentypen `SPIEGEL_VERBINDLICHKEITEN_VERBINDLICHKEITEN`
+        - Entfernung von einschränkenden Entweder-Oder-Blöcken aus dem `SPIEGEL_FORDERUNGEN`:
+          - Entfernung des Entweder-Oder-Blockes für die Unterposten von `SONSTIGE_FORDERUNGEN_UND_VERMOEGENSGEGENSTAENDE` im Datentyp `SPIEGEL_FORDERUNGEN_SONSTIGE_FORDERUNGEN_UND_VERMOEGENSGEGENSTAENDE` beim Datentypen `SPIEGEL_FORDERUNGEN_FORDERUNGEN_UND_SONSTIGE_VERMOEGENSGEGENSTAENDE`
+        - Entfernung von einschränkenden Entweder-Oder-Blöcken aus dem `SPIEGEL_RUECKLAGEN`
+          - Entfernung des Entweder-Oder-Blockes für die Unterposten von `GEBUNDENE` im Datentyp `SPIEGEL_RUECKLAGEN_KAPITALRUECKLAGEN_GEBUNDENE` im Datentyp `SPIEGEL_RUECKLAGEN`
+      - Umbenennung vom Posten `ANDERE_RUECKLAGEN` beim Datentypen `SPIEGEL_RUECKLAGEN`
+        - Posten `ANDERE_RUECKLAGEN` wurde nach `ANDERE_RUECKLAGEN_FREIE_RUECKLAGEN` umbenannt 
+  - Überarbeitungen an der GuV - spezifische Änderungen an der GuV, betrifft die GuV-Gesamtkostenverfahren `GUV_GKV` und die GuV-Umsatzkostenverfahren `GUV_UKV`:
+    - `GUV_GKV`-Änderungen im XSD und im `Excel` auf dem `Excel`-Blatt `GuV (GKV)`:
+      - Modifikationen an der `GUV_GKV` am Datentypen `GUV_GKV_BILANZ_GEWINN_VERLUST` für den Posten `BILANZ_GEWINN_VERLUST`:
+        - der Unterposten `VERGUETUNG_FUER_HYBRIDE_FINANZINSTRUMENTE` von `GUV_GKV_BILANZ_GEWINN_VERLUST` wurde nach dem Posten `GEWINN_VERLUSTUEBERRECHNUNG` und vor dem Posten `GEWINN_VERLUSTVORTRAG_AUS_DEM_VORJAHR` eingereiht
+        - der Unterposten `ANTEILE_ANDERER_GESELLSCHAFTER` von `GUV_GKV_BILANZ_GEWINN_VERLUST` wurde nach dem Posten `GEWINN_VERLUSTUEBERRECHNUNG` und vor dem Posten `GEWINN_VERLUSTVORTRAG_AUS_DEM_VORJAHR` eingereiht
+        - der Unterposten `ZUWEISUNG_VON_GEWINNRUECKLAGEN` von `GUV_GKV_BILANZ_GEWINN_VERLUST` wurde nach `ZUWEISUNG_ZU_GEWINNRUECKLAGEN` umbenannt
+          - ebenso Umbenennung des dazugehörigen Types von `GUV_GKV_ZUWEISUNG_VON_GEWINNRUECKLAGEN` nach `GUV_GKV_ZUWEISUNG_ZU_GEWINNRUECKLAGEN`
+        - ein neuer Unterposten `GUV_FREIER_POSTEN` nach dem Posten `GEWINN_VERLUSTVORTRAG_AUS_DEM_VORJAHR` wurde in der `GuV (GKV)` beim Datentypen `GUV_GKV_BILANZ_GEWINN_VERLUST` für den Posten `BILANZ_GEWINN_VERLUST` hinzugefügt (bsplw. für Währungsdifferenzen)
+      - Modifikationen an der `GUV_GKV` am Datentypen `GUV_GKV_ZWISCHENSUMME_BETRIEBSERFOLG` für den Posten `ZWISCHENSUMME_BETRIEBSERFOLG`:
+        - Ausbau des Workarounds, sowie der `DEPREACTED`-Informationen für den Unterposten `SONSTIGE_BETRIEBLICHE_ERTRAEGE` von `GUV_GKV_ZWISCHENSUMME_BETRIEBSERFOLG` 
+          - der Unterposten `SONSTIGE_BETRIEBLICHE_ERTRAEGE` von `GUV_GKV_ZWISCHENSUMME_BETRIEBSERFOLG` existiert nunmehr für die `UMSATZERLOESE`-Variante ausschließlich als `SONSTIGE_BETRIEBLICHE_ERTRAEGE_ZU_UMSATZERLOESE`
+            - der Unterposten `SONSTIGE_BETRIEBLICHE_ERTRAEGE` von `GUV_GKV_ZWISCHENSUMME_BETRIEBSERFOLG` existiert nunmehr für die `ROHERGEBNIS`-Variante ausschließlich als `SONSTIGE_BETRIEBLICHE_ERTRAEGE_ZU_ROHERGEBNIS`
+        - Neuanordnung der Elementsequenzvarianten für die `UMSATZERLOESE`-Variante und die `ROHERGEBNIS`-Variante im XSD - dies hat keine Auswirkungen auf die resultierenden JAb-4.0-XML-Postenanordnungen (da es sich um eine Sequenz in einem Choice-Block handelt)
+            - Angabe des jeweiligen Hauptelements der Elementsequenz von `GUV_GKV_ZWISCHENSUMME_BETRIEBSERFOLG` bei der `UMSATZERLOESE`-Variante für den Hauptposten `UMSATZERLOESE` von minimaler Häufigkeit von `0` auf `1` geändert
+            - Angabe des jeweiligen Hauptelements der Elementsequenz von `GUV_GKV_ZWISCHENSUMME_BETRIEBSERFOLG` bei der `ROHERGEBNIS`-Variante für den Hauptposten `ROHERGEBNIS` von minimaler Häufigkeit von `0` auf `1` geändert
+        - Erweiterung der `UMSATZERLOESE`-Variante um einen Posten `FREIER_POSTEN_ZU_UMSATZERLOESE` (bsplw. für Beiträge der öffentlichen Hand) beim Posten `GUV_GKV_ZWISCHENSUMME_BETRIEBSERFOLG`
+        - übersichtlichere Gestaltung der `Excel`-Spezifikation für den Posten `GUV_GKV_ZWISCHENSUMME_BETRIEBSERFOLG` in der `GUV_GKV` zum besseren Verständnis
+      - Erweiterung der `Excel`-Spezifikation im Blatt `GUV_GKV` um die Berechnung des Gewinnes und Verlustes nach dem Gesamtkostenverfahren (zu finden: unterhalb der Postenanordnungen im `Excel`-Blatt `GuV (GKV)`)
+    - `GUV_UKV`-Änderungen im XSD und im `Excel` auf dem `Excel`-Blatt `GuV (UKV)`:
+      - Modifikationen an der `GUV_UKV` am Datentypen `GUV_UKV_BILANZ_GEWINN_VERLUST` für den Posten `BILANZ_GEWINN_VERLUST`:
+        - der Unterposten `VERGUETUNG_FUER_HYBRIDE_FINANZINSTRUMENTE` von `GUV_UKV_BILANZ_GEWINN_VERLUST` wurde nach dem Posten `GEWINN_VERLUSTUEBERRECHNUNG` und vor dem Posten `GEWINN_VERLUSTVORTRAG_AUS_DEM_VORJAHR` eingereiht
+        - der Unterposten `ANTEILE_ANDERER_GESELLSCHAFTER` von `GUV_UKV_BILANZ_GEWINN_VERLUST` wurde nach dem Posten `GEWINN_VERLUSTUEBERRECHNUNG` und vor dem Posten `GEWINN_VERLUSTVORTRAG_AUS_DEM_VORJAHR` eingereiht
+        - der Unterposten `ZUWEISUNG_VON_GEWINNRUECKLAGEN` von `GUV_UKV_BILANZ_GEWINN_VERLUST` wurde nach `ZUWEISUNG_ZU_GEWINNRUECKLAGEN` umbenannt
+          - ebenso Umbenennung des dazugehörigen Types von `GUV_UKV_ZUWEISUNG_VON_GEWINNRUECKLAGEN` nach `GUV_UKV_ZUWEISUNG_ZU_GEWINNRUECKLAGEN`
+        - ein neuer Unterposten `GUV_FREIER_POSTEN` nach dem Posten `GEWINN_VERLUSTVORTRAG_AUS_DEM_VORJAHR` wurde in der `GuV (UKV)` beim Datentypen `GUV_UKV_BILANZ_GEWINN_VERLUST` für den Posten `BILANZ_GEWINN_VERLUST` hinzugefügt (bsplw. für Währungsdifferenzen)
+      - Modifikationen an der `GUV_UKV` am Posten `GUV_UKV_ZWISCHENSUMME_BETRIEBSERFOLG` für den Posten `ZWISCHENSUMME_BETRIEBSERFOLG`: 
+        - Neugliederung des Datentyps `GUV_UKV_BRUTTOERGEBNIS_VOM_UMSATZ` für den Posten `BRUTTOERGEBNIS_VOM_UMSATZ` als eigenständige Zwischensumme für die `UMSATZERLOESE`-Variante
+          - verschieben des Postens `UMSATZERLOESE` als neuer Unterposten `UMSATZERLOESE` in `GUV_UKV_BRUTTOERGEBNIS_VOM_UMSATZ` 
+          - verschieben des Postens `HERSTELLUNGSKOSTEN_DER_LEISTUNGEN` als neuer Unterposten `HERSTELLUNGSKOSTEN_DER_LEISTUNGEN` in `GUV_UKV_BRUTTOERGEBNIS_VOM_UMSATZ` 
+          - Erweiterung der `UMSATZERLOESE`-Variante um einen Posten `FREIER_POSTEN_ZU_UMSATZERLOESE` (bsplw. für Beiträge der öffentlichen Hand) beim Posten `GUV_UKV_BRUTTOERGEBNIS_VOM_UMSATZ`
+          - übersichtlichere Gestaltung der `Excel`-Spezifikation für den Posten `GUV_UKV_ZWISCHENSUMME_BETRIEBSERFOLG` in der `GUV_UKV` zum besseren Verständnis
+        - Neuanordnung der Elementsequenzvarianten für `UMSATZERLOESE`-Variante und `ROHERGEBNIS`-Variante im XSD - dies hat keine Auswirkungen auf die resultierenden JAb-4.0-XML-Postenanordnungen (da es sich um eine Sequenz in einem Choice-Block handelt) 
+      - Modifikationen an der `GUV_UKV` am Datentypen `GUV_UKV_ZWISCHENSUMME_FINANZERFOLG` für den Posten `ZWISCHENSUMME_FINANZERFOLG`:
+        - der Unterposten `ERTRAEGE_AUS_ABGANG_UND_ZUSCHREIBUNG_ZU_FINANZANLAGEN` von `GUV_UKV_ZWISCHENSUMME_FINANZERFOLG` in der `GUV_UKV` wurde nach `ERTRAEGE_AUS_ABGANG_VON_UND_ZUSCHREIBUNG_ZU_FINANZANLAGEN` umbenannt 
+      - Erweiterung der `Excel`-Spezifikation im Blatt `GUV_UKV` um die Berechnung des Gewinnes und Verlustes nach dem Gesamtkostenverfahren (zu finden: unterhalb der Postenanordnungen im `Excel`-Blatt `GuV (UKV)`)
+  - vorhandene Beispieldaten wurden auf den neuesten Stand aktualisiert
+  - im `Excel` wurden die Tags angepasst und aktualisiert
+
+## Change History 2025-06-04
+
+- **Bugfixes**
+    - Bugfix und Workaround der falschen GUV-Postenanordnung in der Struktur `GUV_GKV` für den Posten `SONSTIGE_BETRIEBLICHE_ERTRAEGE`:
+        - Einführung eines neuen Postens: `SONSTIGE_BETRIEBLICHE_ERTRAEGE_ZU_ROHERGEBNIS` für den Entweder-Zweig nach dem Posten `ROHERGEBNIS`
+        - Einführung eines neuen Postens: `SONSTIGE_BETRIEBLICHE_ERTRAEGE_ZU_UMSATZERLOESE` für den Oder-Zweig nach dem Posten `UMSATZERLOESE`
+        - Workaround: Beibehaltung des bestehenden Postens: `SONSTIGE_BETRIEBLICHE_ERTRAEGE`, welche die bestehende Struktur abwärtskompatibel mit Version 9 hält
+        - **Hinweis**: Der aktuelle Zeitrahmen erfordert einen non-breaking Change, da der nächste voraussichtliche ERV-Release-Termin erst im November wäre,
+        - **Hinweis**: muss für die aktuellen Einreichungen dieser Fehler behoben werden, ohne das bisherige XSD in der Version 9 (vom Ende April 2025) und
+        - **Hinweis**: aus denen erzeugte Jahresabschluss-XML-/Konzernabschluss-XML-Dateien zu invalidieren. Sofern bleibt dieses neue XSD in der Version 10
+        - **Hinweis**: noch kompatibel mit der Version 9 und XML-Dateien aus beiden Versionen können vom Firmenbuch entgegengenommen werden, dieser Umstand hält bis
+        - **Hinweis**: zum nächsten ERV-Release-Termin im November an. Der entsprechende Posten ist im neuen XSD mit dem Kommentar `DEPRECATED` ("veraltet") versehen.
+    - Freie Posten in den Beispieldateien wurden um beispielhafte Bezeichnungen erweitert
+    - Bugfix der obigen Punkte (auch) in den Beispieldateien, sofern nötig
+- **Anpassungen**
+    - Erweiterung des Postens `BILANZ_GEWINN_ODER_VERLUST` um einen weiteren optionalen Davon-Unterposten `DAVON_AUSSCHUETTUNG_HYBRIDE_FINANZINSTRUMENTE_VORGESEHEN`.
+    - vorhandene Beispieldaten wurden auf den neuesten Stand aktualisiert
+    - im `Excel` wurden die Tags angepasst und aktualisiert
+
+## Change History 2025-04-04
+
+- **Bugfixes**
+    - Korrektur von Rechtschreibfehlern
+        - Posten `SONSTIGE_BETRIEBLICHEN_AUFWENDUNGEN` nach `SONSTIGE_BETRIEBLICHE_AUFWENDUNGEN` umbenannt
+        - Posten `SONSTIGE_BETRIEBLICHEN_AUFWENDUNGEN_FREIER_POSTEN` nach `SONSTIGE_BETRIEBLICHE_AUFWENDUNGEN_FREIER_POSTEN` umbenannt
+        - Posten `GESCHAEFTSFUEHRER_ZUGUNSTEN_EINGEGANGENE_HAFTUNSVERHAELTNISSE` nach `GESCHAEFTSFUEHRER_ZUGUNSTEN_EINGEGANGENE_HAFTUNGSVERHAELTNISSE` umbenannt
+        - Posten `AUFSICHTSRATSMITGLIEDER_ZUGUNSTEN_EINGEGANGENE_HAFTUNSVERHAELTNISSE` nach `AUFSICHTSRATSMITGLIEDER_ZUGUNSTEN_EINGEGANGENE_HAFTUNGSVERHAELTNISSE` umbenannt
+        - Datentyp `ANLAGE2_BLIANZIERUNGS_UND_BEWERTUNGSMETHODEN` nach `ANLAGE2_BILANZIERUNGS_UND_BEWERTUNGSMETHODEN` umbenannt
+    - Bugfix der obigen Punkte (auch) in den Beispieldateien
+- **Anpassungen**
+    - Vereinheitlichung der Benennung der Davon-Restlaufzeit-Posten mit Präfix `DAVON_MIT_EINER_RESTLAUFZEIT_*` nach `DAVON_RESTLAUFZEIT_*`
+    - Vereinheitlichung der `ANLAGE2` (Anlage 2) - Posten mit den korrespondierenden `ZUSATZANGABEN_MIKRO_AG` (Zusatzangaben für Mikro-AGs) - Posten
+        - Posten `GESAMTBETRAG_DER_HAFTUNGSVERPFLICHTUNGEN` nach `GESAMTBETRAG_DER_HAFTUNGSVERHAELTNISSE_UND_VERPFLICHTUNGEN` umbenannt
+        - Posten `VORSCHUESSE_KREDITE_HAFTUNGSVERHAELTNISSE` nach `VORSCHUESSE_KREDITE_UND_HAFTUNGSVERHAELTNISSE` umbenannt
+        - Datentyp `ANLAGE2_GESAMTBETRAG_DER_HAFTUNGSVERPFLICHTUNGEN` nach `ANLAGE2_GESAMTBETRAG_DER_HAFTUNGSVERHAELTNISSE` umbenannt
+    - vorhandene Beispieldaten wurden auf den neuesten Stand aktualisiert
+    - im `Excel` wurden die Tags angepasst und aktualisiert
+
+## Change History 2025-02-24
+
+- **Bugfixes**
+    - Fehlerbehebung beim Datentypen `ZEICHENFOLGE_255`
+        - die minimale Unterschranke von der Zeichenlänge `1` wurde auf `0` korrigiert, nun ist es möglich einen Leerstring zu übermitteln
+    - Fehlerbehebung der Nachkommastellendefinition `NACHKOMMASTELLEN` von `G` auf `N` in den folgenden Beispieldateien:
+        - beispiel-jahresabschluss-bilanz-mit-guv-gkv-mit-spiegeln-max.xml
+        - beispiel-jahresabschluss-bilanz-mit-guv-gkv-mit-spiegeln-min.xml
+        - beispiel-jahresabschluss-bilanz-mit-guv-ukv-mit-spiegeln-max.xml
+        - beispiel-jahresabschluss-bilanz-mit-guv-ukv-mit-spiegeln-min.xml
+    - Korrektur der Beispieldateien an der Spalte `ART_UND_FORM_DER_SICHERUNG` im `VERBINDLICHKEITENSPIEGEL`:
+        - alle Vorkommnisse der Spalte mit einem Wert von `0.00` auf `` (leer) geändert
+    - Korrektur der Datentypen von freien Posten in den folgenden Strukturen:
+        - `GUV_GKV`
+            - Freie Unterposten von `GUV_GKV_STEUERN_VOM_EINKOMMEN_UND_ERTRAG` wurde angepasst
+            - Freie Unterposten von `GUV_GKV_ZWISCHENSUMME_FINANZERFOLG` wurde angepasst
+            - Freie Unterposten von `GUV_GKV_PERSONALAUFWAND` wurde angepasst
+            - Freie Unterposten von `GUV_GKV_ABSCHREIBUNGEN` wurde angepasst
+            - Freie Unterposten von `GUV_GKV_SONSTIGE_BETRIEBLICHE_AUFWENDUNGEN` wurde angepasst
+            - Freie Unterposten von `GUV_GKV_ERTRAEGE_AUS_BETEILIGUNGEN` wurde angepasst
+            - Freie Unterposten von `GUV_GKV_ERTRAEGE_AUS_WERTPAPIEREN_UND_AUSLEIHUNGEN` wurde angepasst
+            - Freie Unterposten von `GUV_GKV_SONSTIGE_ZINSEN_UND_AEHNLICHE_ERTRAEGE` wurde angepasst
+            - Freie Unterposten von `GUV_GKV_AUFWENDUNGEN_AUS_FINANZANLAGEN_UND_WERTPAPIEREN` wurde angepasst
+            - Freie Unterposten von `GUV_GKV_ZINSEN_UND_AEHNLICHE_AUFWENDUNGEN` wurde angepasst
+            - Freie Unterposten von `GUV_GKV_ERTRAEGE_AUS_ABGANG_UND_ZUSCHREIBUNG_ZUM_ANLAGEVERMOEGEN` wurde angepasst
+            - Freie Unterposten von `GUV_GKV_SOZIALE_AUFWENDUNGEN` wurde angepasst
+            - Freie Unterposten von `GUV_GKV_GEGENSTAENDE_DES_ANLAGEVERMOEGENS_UND_SACHANLAGEN` wurde angepasst
+        - `GUV_UKV`
+            - Freie Unterposten von `GUV_UKV_STEUERN_VOM_EINKOMMEN_UND_ERTRAG` wurde angepasst
+            - Freie Unterposten von `GUV_UKV_ZWISCHENSUMME_FINANZERFOLG` wurde angepasst
+            - Freie Unterposten von `GUV_UKV_SONSTIGE_BETRIEBLICHE_AUFWENDUNGEN` wurde angepasst
+            - Freie Unterposten von `GUV_UKV_ERTRAEGE_AUS_BETEILIGUNGEN` wurde angepasst
+            - Freie Unterposten von `GUV_UKV_ERTRAEGE_AUS_WERTPAPIEREN_UND_AUSLEIHUNGEN` wurde angepasst
+            - Freie Unterposten von `GUV_UKV_SONSTIGE_ZINSEN_UND_AEHNLICHE_ERTRAEGE` wurde angepasst
+            - Freie Unterposten von `GUV_UKV_AUFWENDUNGEN_AUS_FINANZANLAGEN_UND_WERTPAPIEREN` wurde angepasst
+            - Freie Unterposten von `GUV_UKV_ZINSEN_UND_AEHNLICHE_AUFWENDUNGEN` wurde angepasst
+            - Freie Unterposten von `GUV_UKV_ERTRAEGE_AUS_ABGANG_UND_ZUSCHREIBUNG_ZUM_ANLAGEVERMOEGEN` wurde angepasst
+        - `ANLAGE1_AUSZUG_AUS_DER_BILANZ`
+            - Datentyp von `AKTIVA_FREIER_POSTEN` wurde angepasst
+            - Datentyp von `ANLAGEVERMOEGEN_FREIER_POSTEN` wurde angepasst
+            - Datentyp von `UMLAUFVERMOEGEN_FREIER_POSTEN` wurde angepasst
+        - `ANLAGE3_AUSZUG_AUS_DER_BILANZ`
+            - Datentyp von `AKTIVA_FREIER_POSTEN` wurde angepasst
+            - Datentyp von `ANLAGEVERMOEGEN_FREIER_POSTEN` wurde angepasst
+            - Datentyp von `UMLAUFVERMOEGEN_FREIER_POSTEN` wurde angepasst
+    - Bugfix der obigen Punkte (auch) in den Beispieldateien
+- **Anpassungen**
+    - Erweiterung der GuV - Struktur für das Gesamtkostenverfahren und Umsatzkostenverfahren um die GuV-Ausweisart `A` (Anhang) bzw. `R` (Rücklagenspiegel) nach § 231 Abs. 5 UGB per XML-Tag `JAHRESUEBERSCHUSS_JAHRESFEHLBETRAG` anstatt des XML-Tags `BILANZ_GEWINN_VERLUST` (bei vollständig-strukturierter GuV-Ausweisart `G`)
+    - vorhandene Beispieldaten wurden auf den neuesten Stand aktualisiert
+    - im `Excel` wurden die Tags angepasst und aktualisiert
+
+## Change History 2024-12-04
+
+- **Bugfixes**
+    - Fehlerbehebung in den `ALLGEMEINE_ANGABEN`
+        - die Unterposten der `FIRMENDATEN`, und zwar: `FIRMENBUCHNUMMER` und `FIRMENWORTLAUT` wurden nunmehr lt. Allgemeinen Angaben der Excel-Spezifikation als verpflichtend eingetragen
+    - Fehlerbehebungen in der `ANLAGE2_OFFENZULEGENDER_ANHANG`
+        - Korrektur des Posten-Datentyps von `AKTIVE_LATENTE_STEUERN` vom Wert `ANLAGE2_POSTEN_T_M` auf `ANLAGE2_AKTIVE_LATENTE_STEUERN`
+    - Fehlerbehebung in der `GUV_GKV` und der `GUV_UKV`
+        - Korrektur des Unterpostens `FREIER_POSTEN` des Postens `STEUERN_VOM_EINKOMMEN_UND_ERTRAG` - eine maximale Häufigkeit von `1` und wurde auf `unbounded` gestellt
+    - Fehlerbehebungen im `VERBINDLICHKEITENSPIEGEL`
+        - der Posten `ERHALTENE_ANZAHLUNGEN_AUF_BESTELLUNG` (Einzahl) wurde nach `ERHALTENE_ANZAHLUNGEN_AUF_BESTELLUNGEN` (Mehrzahl) korrigiert
+        - der Unterposten `ART_UND_FORM_DER_SICHERUNG` der Postenzeile des Verbindlichkeitenspiegels `SPIEGEL_VERBINDLICHKEITEN_POSTENZEILE` wurde von `BETRAG` nach `ZEICHENFOLGE_255` geändert
+    - Bugfix der obigen Punkte in den Beispieldateien
+- **Anpassungen**
+    - Einführung eines neuen Basisdatentypen: `ANZAHL` für die Verwendung bei der Angabe von Anzahlen
+        - bsplw. in der `ANLAGE2_OFFENZULEGENDER_ANHANG` bei der Angabe der durchschnittlichen Zahl der Arbeitnehmer/innen während des Geschäftsjahrs `DURCHSCHNITTLICHE_ANZAHL_ARBEITNEHMER`
+    - Änderung in den `ALLGEMEINE_ANGABEN`
+        - Änderung des Datentyps für `BILANZ_VERSION` von `xs:decimal` auf `xs:string` mit vorgegebener Syntax
+    - Änderung beim Posten-Basis-Datentyp für `BILANZ`, `GUV_GKV`, `GUV_UKV`, `ANLAGE1_AUSZUG_AUS_DER_BILANZ` und `ANLAGE3_AUSZUG_AUS_DER_BILANZ`
+        - Erstellung eines neuen `davon` - Attributs für die Markierung der Davon-Posten
+    - Änderung in der `ANLAGE1_AUSZUG_AUS_DER_BILANZ`
+        - Änderung der Bezeichnung für ein Unterelement von `ANLAGE1_EINGEFORDERTES_STAMMKAPITAL` von `STAMMKAPITAL_DAVON_EINGEZAHLT` auf `DAVON_EINGEZAHLT`
+    - Änderungen am `ANLAGENSPIEGEL`
+        - Erweiterung der `SPIEGEL_ANLAGEN_POSTENZEILE` um `BEZEICHNUNG` für die Postenbezeichnung
+        - Erweiterung der `SPIEGEL_ANLAGEN_POSTEN` um die drei Attribute `summieren`, `visualisieren`, `davon`
+    - Änderungen am `VERBINDLICHKEITENSPIEGEL`
+        - Erweiterung der `SPIEGEL_VERBINDLICHKEITEN_POSTENZEILE` um `BEZEICHNUNG` für die Postenbezeichnung
+        - Erweiterung der `SPIEGEL_VERBINDLICHKEITEN_POSTEN` um die drei Attribute `summieren`, `visualisieren`, `davon`
+    - Änderungen am `FORDERUNGENSPIEGEL`
+        - Erweiterung der `SPIEGEL_FORDERUNGEN_POSTENZEILE` um `BEZEICHNUNG` für die Postenbezeichnung
+        - Erweiterung der `SPIEGEL_FORDERUNGEN_POSTEN` um die drei Attribute `summieren`, `visualisieren`, `davon`
+    - Änderungen am `ENTWICKLUNG_DER_RUECKSTELLUNGEN`
+        - Erweiterung der `SPIEGEL_RUECKSTELLUNGEN_POSTENZEILE` um `BEZEICHNUNG` für die Postenbezeichnung
+        - Erweiterung der `SPIEGEL_RUECKSTELLUNGEN_POSTEN` um die drei Attribute `summieren`, `visualisieren`, `davon`
+        - Erstellung eines neuen Datentyps für die Benennung der umbenennbaren Spalten: `SPIEGEL_RUECKSTELLUNGEN_BEZEICHNUNGEN_SPALTEN`
+        - Neues Unterelement `BEZEICHNUNGEN_SPALTEN` beim Ankerdatentypen des Rückstellungenspiegels `SPIEGEL_RUECKSTELLUNGEN`
+    - Änderungen am `RUECKLAGENSPIEGEL`
+        - Erweiterung der `SPIEGEL_RUECKLAGEN_POSTENZEILE` um `BEZEICHNUNG` für die Postenbezeichnung
+        - Erweiterung der `SPIEGEL_RUECKLAGEN_POSTEN` um die drei Attribute `summieren`, `visualisieren`, `davon`
+        - Erstellung eines neuen Datentyps für die Benennung der umbenennbaren Spalten: `SPIEGEL_RUECKLAGEN_BEZEICHNUNGEN_SPALTEN`
+        - Neues Unterelement `BEZEICHNUNGEN_SPALTEN` beim Ankerdatentypen des Rücklagenspiegel `SPIEGEL_RUECKLAGEN`
+    - vorhandene Beispieldaten wurden auf den neuesten Stand aktualisiert
+    - im `Excel` wurden die Tags angepasst und aktualisiert
+
+## Change History 2024-11-08
+
+- **Bugfixes**
+    - Fehlerbehebungen in der `ANLAGE2_OFFENZULEGENDER_ANHANG`
+        - Korrektur des Posten-Datentyps von `AKTIVE_LATENTE_STEUERN` vom Wert `ANLAGE2_POSTEN_T_M` auf `ANLAGE2_AKTIVE_LATENTE_STEUERN`
+    - Bugfix der obigen Punkte in den Beispieldateien
+- **Anpassungen**
+    - Änderung in den `ALLGEMEINE_ANGABEN`
+        - Änderung des Datentyps für `BILANZ_VERSION` von `xs:decimal` auf `xs:string` mit vorgegebener Syntax
+    - Änderung beim Posten-Basis-Datentyp für `BILANZ`, `GUV_GKV`, `GUV_UKV`, `ANLAGE1_AUSZUG_AUS_DER_BILANZ` und `ANLAGE3_AUSZUG_AUS_DER_BILANZ`
+        - Erstellung eines neuen `davon` - Attributs für die Markierung der Davon-Posten
+    - Änderung in der `ANLAGE1_AUSZUG_AUS_DER_BILANZ`
+        - Änderung der Bezeichnung für ein Unterelement von `ANLAGE1_EINGEFORDERTES_STAMMKAPITAL` von `STAMMKAPITAL_DAVON_EINGEZAHLT` auf `DAVON_EINGEZAHLT`
+    - Änderungen am `ANLAGENSPIEGEL`
+        - Erweiterung der `SPIEGEL_ANLAGEN_POSTENZEILE` um `BEZEICHNUNG` für die Postenbezeichnung
+        - Erweiterung der `SPIEGEL_ANLAGEN_POSTEN` um die drei Attribute `summieren`, `visualisieren`, `davon`
+    - Änderungen am `VERBINDLICHKEITENSPIEGEL`
+        - Erweiterung der `SPIEGEL_VERBINDLICHKEITEN_POSTENZEILE` um `BEZEICHNUNG` für die Postenbezeichnung
+        - Erweiterung der `SPIEGEL_VERBINDLICHKEITEN_POSTEN` um die drei Attribute `summieren`, `visualisieren`, `davon`
+    - Änderungen am `FORDERUNGENSPIEGEL`
+        - Erweiterung der `SPIEGEL_FORDERUNGEN_POSTENZEILE` um `BEZEICHNUNG` für die Postenbezeichnung
+        - Erweiterung der `SPIEGEL_FORDERUNGEN_POSTEN` um die drei Attribute `summieren`, `visualisieren`, `davon`
+    - Änderungen am `ENTWICKLUNG_DER_RUECKSTELLUNGEN`
+        - Erweiterung der `SPIEGEL_RUECKSTELLUNGEN_POSTENZEILE` um `BEZEICHNUNG` für die Postenbezeichnung
+        - Erweiterung der `SPIEGEL_RUECKSTELLUNGEN_POSTEN` um die drei Attribute `summieren`, `visualisieren`, `davon`
+        - Erstellung eines neuen Datentyps für die Benennung der umbenennbaren Spalten: `SPIEGEL_RUECKSTELLUNGEN_BEZEICHNUNGEN_SPALTEN`
+        - Neues Unterelement `BEZEICHNUNGEN_SPALTEN` beim Ankerdatentypen des Rückstellungenspiegels `SPIEGEL_RUECKSTELLUNGEN`
+    - Änderungen am `RUECKLAGENSPIEGEL`
+        - Erweiterung der `SPIEGEL_RUECKLAGEN_POSTENZEILE` um `BEZEICHNUNG` für die Postenbezeichnung
+        - Erweiterung der `SPIEGEL_RUECKLAGEN_POSTEN` um die drei Attribute `summieren`, `visualisieren`, `davon`
+        - Erstellung eines neuen Datentyps für die Benennung der umbenennbaren Spalten: `SPIEGEL_RUECKLAGEN_BEZEICHNUNGEN_SPALTEN`
+        - Neues Unterelement `BEZEICHNUNGEN_SPALTEN` beim Ankerdatentypen des Rücklagenspiegel `SPIEGEL_RUECKLAGEN`
+    - vorhandene Beispieldaten wurden auf den neuesten Stand aktualisiert
+    - im `Excel` wurden die Tags angepasst und aktualisiert
+
+## Change History 2024-10-29
+
+- **Bugfixes**
+    - Fehlerbehebungen in den `ALLGEMEINE_ANGABEN`
+        - Korrektur der Unterelementhäufigkeiten des Postens `GESCHAEFTSJAHR` in den `ALLGEMEINE_ANGABEN`
+    - Fehlerbehebungen in der `ANLAGE1_AUSZUG_AUS_DER_BILANZ` und der `ANLAGE3_AUSZUG_AUS_DER_BILANZ`
+        - Verschiebung des Postens `RUECKLAGE_FUER_EIGENE_ANTEILE` in der Anlage 1 und Anlage 3 unter den Posten `GEWINNRUECKLAGEN`, angleichend an die Bilanz
+    - Fehlerbehebungen in der `ANLAGE2_OFFENZULEGENDER_ANHANG`
+        - Korrektur der Umlaute des Tags `VORSCHUESSE_KREDITE_HAFTUNGSVERHÄLTNISSE` nach `VORSCHUESSE_KREDITE_HAFTUNGSVERHAELTNISSE`
+        - Korrektur der Umlaute des Tags `ZUSÄTZLICHE_ANGABEN_DER_VERMÖGENS_FINANZ_ERTRAGSLAGE` nach `ZUSAETZLICHE_ANGABEN_DER_VERMOEGENS_FINANZ_ERTRAGSLAGE`
+        - Verschiebung des Postens `FREMDWAEHRUNG_UMRECHNUNGSGRUNDLAGEN` in der Anlage 2 unter den Posten `BILANZIERUNGS_UND_BEWERTUNGSMETHODEN`
+        - Pflichtangabe des Textfeldes für den Parent-Typen: `MUTTERUNTERNEHMEN_NAME_UND_SITZ` im offenzulegender Anhang (Anlage 2) wurde entfernt
+        - Korrektur der Postenbezeichnungen (singular zu plural) im offenzulegenden Anhang (Anlage 2):
+            - Posten `UNVERRECHNETE_BELASTUNG` nach `UNVERRECHNETE_BELASTUNGEN`
+            - Posten `UNVERRECHNETE_ENTLASTUNG` nach `UNVERRECHNETE_ENTLASTUNGEN`
+    - Datentyp-Änderungen bezüglich der freien Posten in der `BILANZ` und in den Spiegeln
+        - Datentyp-Korrektur von freien Posten mit beliebig vielen freien Posten von `POSTEN_MIT_FREIEN_POSTEN` nach `FREIER_POSTEN_MIT_FREIEN_POSTEN`
+        - Datentyp-Korrektur von freien Spiegel-Posten mit beliebig vielen freien Spiegel-Posten von `SPIEGEL_ANLAGEN_POSTEN_MIT_FREIEN_POSTEN` nach `SPIEGEL_ANLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN`
+    - Fehlerbehebungen in den Spiegeln
+        - Korrektur der Optionalität/Multiplizität des Postenzeile `SPIEGEL_VERBINDLICHKEITEN_POSTENZEILE` - Unterelements `RESTLAUFZEIT_BIS_ZU_1_JAHR` im `VERBINDLICHKEITENSPIEGEL`
+        - Korrektur der Postenverzweigungsoption des Spiegelpostens `SONSTIGE_VERBINDLICHKEITEN` im `VERBINDLICHKEITENSPIEGEL`
+        - Korrektur der Optionalität/Multiplizität der Postenzeile `SPIEGEL_FORDERUNGEN_POSTENZEILE` - Unterelemente `RESTLAUFZEIT_BIS_ZU_1_JAHR` und `RESTLAUFZEIT_UEBER_1_JAHR` im `FORDERUNGENSPIEGEL`
+        - Korrektur der Optionalität/Multiplizität der Postenzeile `SPIEGEL_RUECKSTELLUNGEN_POSTENZEILE` - Unterelemente `DOTIERUNG`, `VERWENDUNG` und `AUFLOESUNG` im Rückstellungenspiegel `ENTWICKLUNG_DER_RUECKSTELLUNGEN`
+    - Bugfix der obigen Punkte in den Beispieldateien
+- **Anpassungen**
+    - JAb 4.0 - Übermittlungsschema / Hauptstruktur (XSD-Generell)
+        - Änderung von Datentypangabe für einige Elemente von `xs:string` nach `ZEICHENFOLGE` um unerlaubte Zeichen zu vermeiden
+        - Einführung eines neuen `FREIEN_POSTEN_MIT_FREIEN_POSTEN` - Datentyps für die Bilanz und den damit verbundenen identen Strukturen
+        - Hinzufügen des PDF - Anhangs `ANHANG` als optionalen Base64-Datenstring mit einer max. Dateigröße von 20MB
+        - Änderungen an dem Basisdatentypen `POSTEN`
+            - Umbenennung des Attributs `summierbar` nach `summieren`
+            - Klarstellung der Optionalität der Attribute `summieren` und `visualisieren`
+        - Hauptstruktur erweitert um die Gewinn- und Verlustrechnung (GuV):
+            - Gewinn- und Verlustrechnung (GuV) nach Gesamtkostenverfahren `GUV_GKV`
+                - Tags deklariert und im Excel hinzugefügt
+                - Struktur wurde integriert
+            - Gewinn- und Verlustrechnung (GuV) nach Umsatzkostenverfahren `GUV_UKV`
+                - Tags deklariert und im Excel hinzugefügt
+                - Struktur wurde integriert
+    - Änderungen in den `ALLGEMEINE_ANGABEN`
+        - Einführung des Prüfsummen-Elements: `PRUEFSUMME`, das SHA256-Checksum - Werte beinhalten soll
+        - Änderung des Datentyps für `SOFTWARE_HERSTELLER` von `HERSTELLER` auf `SOFTWARE_HERSTELLER`
+        - Neues Element `BESTAETIGUNG_UEBEREINSTIMMUNG_ORIGINAL` für die Bestätigung der einreichenden Person
+        - Entfernung des Elments `AENDERUNG_BERICHTIGUNG`
+        - Neues Element `UEBERSCHRIFT_DER_VISUALISIERUNG` für die Visualisierung von "geänderter" bzw. "berichtigter" Bilanz, sowie der Liquidationsschlussbilanz
+        - Umbenennung des Datentyps für das Element `FIRMEN_DETAILS` von `FIRMENDATEN` auf `FIRMENDATEN`
+        - Element `GESCHAEFTSJAHR` wurde um das Datum der Aufstellung `DATUM_DER_AUFSTELLUNG` und um die `GROESSENKLASSE` erweitert
+        - Eingabe- und Zieldarstellungsinformationen wurden im Element `GESCHAEFTSJAHR` unter `EINGABEDARSTELLUNG` und `ZIELDARSTELLUNG` ermöglicht
+    - Änderungen an der `BILANZ` und an den Auszügen aus der Bilanz `ANLAGE1_AUSZUG_AUS_DER_BILANZ` und `ANLAGE3_AUSZUG_AUS_DER_BILANZ`, sowie am `RUECKLAGENSPIEGEL`
+        - Erstellung eines neuen Postens `PASSIVA_FREIER_POSTEN_1` in der Bilanz, in der Anlage 1 und in der Anlage 3, bei gleichzeitiger Umbenennung des bestehenden freien Postens `PASSIVA_FREIER_POSTEN` nach `PASSIVA_FREIER_POSTEN_2`  in der Bilanz, in der Anlage 1 und in der Anlage 3
+        - Erstellung eines neuen Postens `EIGENKAPITAL_FREIER_POSTEN_1` in der Anlage 1 und in der Anlage 3, bei gleichzeitiger Umbenennung des bestehenden freien Postens `EIGENKAPITAL_FREIER_POSTEN` nach `EIGENKAPITAL_FREIER_POSTEN_2` in der Anlage 1 und in der Anlage 3
+        - Erstellung eines neuen Postens `EIGENKAPITAL_FREIER_POSTEN` auf Hauptebene im `RUECKLAGENSPIEGEL`
+    - Vereinfachung/Umbenennung der Postenbezeichnungen der folgenden Posten
+        - Unterposten `EIGENKAPITAL_DAVON_FESTKAPITAL` von `EIGENKAPITAL` wurde nach `DAVON_FESTKAPITAL` umbenannt
+        - Unterposten `EIGENKAPITAL_DAVON_VARIABLES_KAPITAL` von `EIGENKAPITAL` wurde nach `DAVON_VARIABLES_KAPITAL` umbenannt
+        - Unterposten `STAMMKAPITAL_DAVON_EINGEZAHLT` von `EINGEFORDERTES_STAMMKAPITAL` wurde nach `DAVON_EINGEZAHLT` umbenannt
+        - Unterposten `GRUNDKAPITAL_DAVON_EINGEZAHLT` von `EINGEFORDERTES_GRUNDKAPITAL` wurde nach `DAVON_EINGEZAHLT` umbenannt
+        - Unterposten `FREIER_POSTEN` in den Kapitalrücklagen `KAPITALRUECKLAGEN` in der Bilanz wurde nach `KAPITALRUECKLAGEN_FREIER_POSTEN` umbenannt
+        - Unterposten `FREIER_POSTEN_*` in den Gewinnrücklagen `GEWINNRUECKLAGEN` in der Bilanz wurden nach `GEWINNRUECKLAGEN_FREIER_POSTEN_*` umbenannt
+        - Unterposten `SONSTIGE_VERBINDLICHKEITEN_DAVON_AUS_STEUERN` aus dem Posten `SONSTIGE_VERBINDLICHKEITEN` des `VERBINDLICHKEITENSPIEGEL` nach `DAVON_AUS_STEUERN` umbenannt
+        - Unterposten `SONSTIGE_VERBINDLICHKEITEN_DAVON_IM_RAHMEN_DER_SOZIALEN_SICHERHEIT` aus dem Posten `SONSTIGE_VERBINDLICHKEITEN` des `VERBINDLICHKEITENSPIEGEL` nach `DAVON_IM_RAHMEN_DER_SOZIALEN_SICHERHEIT` umbenannt
+        - Unterposten `KAPITALRUECKLAGEN_GEBUNDENE_DAVON_FUER_ANTEILE_AN_MUTTERUNTERNEHMEN` aus dem Posten `SPIEGEL_RUECKLAGEN_KAPITALRUECKLAGEN_GEBUNDENE` des `RUECKLAGENSPIEGEL` nach `DAVON_FUER_ANTEILE_AN_MUTTERUNTERNEHMEN` umbenannt
+        - Unterposten `KAPITALRUECKLAGEN_GEBUNDENE_FREIER_POSTEN` aus dem Posten `SPIEGEL_RUECKLAGEN_KAPITALRUECKLAGEN_GEBUNDENE` des `RUECKLAGENSPIEGEL` nach `FREIER_POSTEN` umbenannt
+    - Änderungen in den Zusatzangaben für Mikro-AGs `ZUSATZANGABEN_MIKRO_AG`
+        - Unterposten `TEXT` in Sub-Typen der `ZUSATZANGABEN_MIKRO_AG` sind nunmehr als Datentyp `ZEICHENFOLGE` statt `xs:string` geführt (eine technische Längenbeschränkung muss erst evaluiert werden)
+        - Unterposten `TEXT` in Sub-Typen der `ANLAGE2_OFFENZULEGENDER_ANHANG` sind nunmehr als Datentyp `ZEICHENFOLGE` statt `xs:string` geführt (eine technische Längenbeschränkung muss erst evaluiert werden)
+    - Erstellung von neuen Beispieldateien für die GuV
+        - `beispiel-jahresabschluss-bilanz-mit-guv-gkv-min.xml` für `GUV_GKV`
+        - `beispiel-jahresabschluss-bilanz-mit-guv-ukv-min.xml` für `GUV_UKV`
+    - vorhandene Beispieldaten wurden auf den neuesten Stand aktualisiert
+    - im `Excel` wurden die Tags angepasst und aktualisiert

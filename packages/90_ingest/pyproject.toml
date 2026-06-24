@@ -1,0 +1,18 @@
+[project]
+name = "fbl-ingest"
+version = "1.0.0"
+description = "Layer 90_raw: enumeration + change-feed delta + raw ingestion to 90-raw."
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fbl-core",
+    "fbl-registry",
+    "fbl-firmenbuch-client",
+    "pydantic>=2.7",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fbl_ingest"]

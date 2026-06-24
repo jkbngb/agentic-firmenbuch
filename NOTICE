@@ -1,0 +1,9 @@
+agentic-firmenbuch
+Copyright (c) 2026 Jakob Neugebauer — released under the MIT License (see LICENSE).
+
+Data attribution
+----------------
+This project processes data from the Austrian Firmenbuch (Companies Register),
+provided by the Austrian Federal Ministry of Justice (BMJ) as an EU High Value
+Dataset and licensed under CC BY 4.0. Any redistribution of the data must keep
+the attribution: "Quelle: Österreichisches Firmenbuch / BMJ – Justiz (CC BY 4.0)".

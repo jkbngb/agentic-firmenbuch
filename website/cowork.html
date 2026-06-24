@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="mask-icon" href="favicon.svg" color="#19C37D" />
+<title>Claude Cowork verbinden (per Klick) – Agentic-Firmenbuch.at</title>
+<meta name="description" content="Schritt-für-Schritt mit Screenshots: Agentic-Firmenbuch.at in der Claude Desktop-App (Cowork) per Connector verbinden – ohne API-Key, nur mit E-Mail-Login (OAuth)." />
+<link rel="canonical" href="https://www.agentic-firmenbuch.at/cowork.html" />
+<meta name="robots" content="index,follow" />
+<meta name="theme-color" content="#0A0B0E" />
+<meta name="color-scheme" content="dark" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#0A0B0E;--surface:#14161B;--surface-2:#181B22;
+    --line:rgba(255,255,255,.08);--line-2:rgba(255,255,255,.13);
+    --text:#EDEFF3;--dim:#9AA2AF;--faint:#6B7280;--accent:#19C37D;--mint:#19C37D;
+    --r-sm:10px;--r-md:14px;--r-lg:20px;--maxw:760px;
+    --font-d:"Bricolage Grotesque",system-ui,sans-serif;
+    --font-b:"IBM Plex Sans",system-ui,sans-serif;
+    --font-m:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{font-family:var(--font-b);background:var(--ink);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(55% 35% at 50% -10%,rgba(25,195,125,.13),transparent 70%)}
+  a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+  .wrap{width:100%;max-width:1200px;margin-inline:auto;padding-inline:24px}
+  @media(max-width:560px){.wrap{padding-inline:18px}}
+  header{position:sticky;top:0;z-index:60;backdrop-filter:saturate(160%) blur(14px);background:rgba(10,11,14,.72);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:20px}
+  .brand{display:inline-flex;align-items:center;gap:11px;font-family:var(--font-d);font-weight:700;font-size:18px;letter-spacing:-.02em;color:var(--text)}
+  .mark{width:30px;height:30px;flex:none}
+  .back{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;font-weight:500;color:var(--dim);padding:9px 15px;border:1px solid var(--line-2);border-radius:var(--r-md);background:rgba(255,255,255,.04)}
+  .back:hover{color:var(--text);background:rgba(255,255,255,.08);text-decoration:none}.back svg{width:16px;height:16px}
+  main{padding-block:clamp(40px,7vw,80px) clamp(56px,9vw,104px)}
+  .doc{max-width:var(--maxw);margin-inline:auto}
+  .eyebrow{font-family:var(--font-m);font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  h1{font-family:var(--font-d);font-weight:700;font-size:clamp(2rem,5vw,3rem);letter-spacing:-.03em;line-height:1.05;margin:14px 0 12px}
+  .sub{color:var(--dim);font-size:1.05rem;max-width:62ch}
+  .ph{font-family:var(--font-m);font-size:.92em;color:var(--mint);background:rgba(25,195,125,.08);border:1px solid rgba(25,195,125,.22);border-radius:6px;padding:1px 7px;word-break:break-all}
+  .note{margin-top:18px;padding:14px 16px;border:1px solid var(--line-2);border-radius:var(--r-md);background:rgba(255,255,255,.03);color:var(--dim);font-size:.95rem}
+  .note strong{color:var(--text)}
+  .step{margin-top:38px;display:flex;flex-direction:column;gap:12px}
+  .step h2{font-family:var(--font-d);font-weight:600;font-size:1.28rem;letter-spacing:-.02em;display:flex;align-items:baseline;gap:12px}
+  .step h2 .n{font-family:var(--font-m);font-size:1rem;color:var(--accent);font-weight:500;flex:none}
+  .step p{color:var(--dim)}.step p strong{color:var(--text);font-weight:600}
+  .shot{display:block;width:100%;border:1px solid var(--line-2);border-radius:var(--r-md);background:var(--surface);box-shadow:0 8px 30px rgba(0,0,0,.35)}
+  figure{margin:4px 0 0}figcaption{margin-top:7px;font-size:.85rem;color:var(--faint)}
+  .cta{display:inline-block;margin-top:8px;background:var(--accent);color:#08130D;font-weight:700;padding:12px 20px;border-radius:var(--r-md)}
+  .cta:hover{text-decoration:none;filter:brightness(1.05)}
+  footer{border-top:1px solid var(--line);padding-block:34px 40px;margin-top:56px}
+  .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:center}
+  .foot-links{display:flex;gap:22px;flex-wrap:wrap}.foot-links a{color:var(--dim);font-size:14px}.foot-links a:hover{color:var(--text)}
+  .foot small{color:var(--faint);font-size:12.5px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html" aria-label="Agentic-Firmenbuch.at – Startseite">
+      <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="1" y="1" width="30" height="30" rx="9" fill="#14161B" stroke="#19C37D" stroke-opacity=".5"/>
+        <rect x="8" y="8" width="7" height="7" rx="2" fill="#19C37D"/>
+        <rect x="17" y="8" width="7" height="7" rx="2" fill="#19C37D" fill-opacity=".4"/>
+        <rect x="8" y="17" width="7" height="7" rx="2" fill="#19C37D" fill-opacity=".4"/>
+        <rect x="17" y="17" width="7" height="7" rx="2" fill="#19C37D"/>
+      </svg>
+      <span><span style="color:#19C37D">Agentic</span>-Firmenbuch.at</span>
+    </a>
+    <a class="back" href="onboarding.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+      Alle Verbindungswege
+    </a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap doc">
+    <span class="eyebrow">Anleitung · Claude Cowork</span>
+    <h1>In Claude verbinden – per Klick, kein API-Key</h1>
+    <p class="sub">Für die <strong>Claude Desktop-App</strong> (Tabs <em>Chat</em> und <em>Cowork</em>)
+       ist <strong>kein API-Key erforderlich</strong>. Es wird ein Connector hinzugefügt, die
+       Anmeldung erfolgt einmalig per E-Mail.</p>
+
+    <section class="step">
+      <h2><span class="n">1</span> Einstellungen öffnen</h2>
+      <p>Unten links auf den eigenen Namen und anschließend auf <strong>Einstellungen</strong> klicken.</p>
+      <figure>
+        <img class="shot" src="cowork-1-einstellungen.png" alt="Claude Desktop-App: Menü unten links geöffnet, Eintrag Einstellungen" loading="lazy">
+        <figcaption>Menü unten links → Einstellungen.</figcaption>
+      </figure>
+    </section>
+
+    <section class="step">
+      <h2><span class="n">2</span> Connector hinzufügen</h2>
+      <p>Links <strong>Konnektoren</strong> öffnen, oben rechts auf <strong>Hinzufügen</strong>
+         und dann auf <strong>Benutzerdefinierten Connector hinzufügen</strong> klicken.</p>
+      <figure>
+        <img class="shot" src="cowork-2-konnektoren-hinzufuegen.png" alt="Einstellungen → Konnektoren, Menü Hinzufügen mit Benutzerdefinierten Connector hinzufügen" loading="lazy">
+        <figcaption>Konnektoren → Hinzufügen → Benutzerdefinierten Connector hinzufügen.</figcaption>
+      </figure>
+    </section>
+
+    <section class="step">
+      <h2><span class="n">3</span> Name &amp; Adresse eintragen</h2>
+      <p>Als Name <span class="ph">Agentic-Firmenbuch</span> und als Adresse
+         <span class="ph">https://mcp.agentic-firmenbuch.at/mcp</span> eintragen, dann
+         <strong>Hinzufügen</strong> wählen. Die OAuth-Felder bleiben leer.</p>
+      <figure>
+        <img class="shot" src="cowork-3-connector-daten.png" alt="Dialog Benutzerdefinierten Connector hinzufügen mit Name Agentic-Firmenbuch und URL https://mcp.agentic-firmenbuch.at/mcp" loading="lazy">
+        <figcaption>Name + URL eintragen, dann „Hinzufügen“.</figcaption>
+      </figure>
+    </section>
+
+    <section class="step">
+      <h2><span class="n">4</span> Verbinden</h2>
+      <p>Beim neuen Connector auf <strong>Verbinden</strong> klicken – es öffnet sich ein Browser-Tab
+         für die Anmeldung.</p>
+      <figure>
+        <img class="shot" src="cowork-4-verbinden.png" alt="Connector-Seite: „Du bist noch nicht mit Agentic-Firmenbuch verbunden“ mit Button Verbinden" loading="lazy">
+        <figcaption>„Verbinden“ – danach öffnet sich der Browser.</figcaption>
+      </figure>
+    </section>
+
+    <section class="step">
+      <h2><span class="n">5</span> E-Mail bestätigen</h2>
+      <p>Im Browser die <strong>E-Mail-Adresse</strong> eingeben und
+         <strong>Bestätigungslink senden</strong> wählen. Den Link in der E-Mail öffnen (15 Minuten
+         gültig) – die Verbindung ist hergestellt. <strong>Kein API-Key, kein Passwort.</strong></p>
+      <figure>
+        <img class="shot" src="cowork-5-login-email.png" alt="Login-Seite von Agentic-Firmenbuch.at: E-Mail-Feld und Button Bestätigungslink senden" loading="lazy">
+        <figcaption>E-Mail eingeben → Bestätigungslink senden → Link in der E-Mail klicken.</figcaption>
+      </figure>
+    </section>
+
+    <section class="step">
+      <h2><span class="n">✓</span> Testen</h2>
+      <p>In einem neuen Chat eine Frage stellen, z. B.
+         <em>„Bist du mit Agentic-Firmenbuch verbunden und welche Tools stehen dir zur Verfügung?“</em>
+         Nennt der Agent die Firmenbuch-Werkzeuge (Unternehmen suchen, Kennzahlen, Historie …),
+         ist die Verbindung aktiv.</p>
+      <a class="cta" href="index.html#start">Loslegen</a>
+      <div class="note"><strong>Lieber ein anderes Tool?</strong> Claude Code, VS Code,
+         Cursor &amp; Co. verbinden sich mit einem <strong>API-Key</strong> –
+         <a href="onboarding.html">hier entlang</a>.</div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="foot-links">
+      <a href="index.html">Start</a>
+      <a href="onboarding.html">Verbinden</a>
+      <a href="felder.html">Datenfelder</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+      <a href="nutzungsbedingungen.html">Nutzungsbedingungen</a>
+    </div>
+    <small>© <span id="y"></span> Agentic-Firmenbuch.at · Österreichisches Firmenbuch / BMJ – Justiz, CC BY 4.0</small>
+  </div>
+</footer>
+<script>document.getElementById("y").textContent=new Date().getFullYear();</script>
+</body>
+</html>

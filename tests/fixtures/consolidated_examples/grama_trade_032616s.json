@@ -1,0 +1,808 @@
+{
+    "id": "032616s",
+    "fnr": "032616s",
+    "name": "GRAMA-TRADE, Export-Import-Transit Gmb",
+    "tier": "C",
+    "register_id": "AT_032616s",
+    "lei": null,
+    "gets_northdata": false,
+    "gets_serpapi": true,
+    "is_holding_name": false,
+    "name_pattern_flags": [],
+    "sector": {
+        "id": "transport_logistics",
+        "label_de": "Transport & Logistik",
+        "method": "haiku_kg",
+        "confidence": 0.85,
+        "primary_nace_code": null
+    },
+    "size": {
+        "band": "K",
+        "band_de": "Klein",
+        "effective": "small",
+        "peer_percentiles": {
+            "bilanzsumme": 38.5,
+            "equity_ratio": 79.1,
+            "bilanzsumme_5y_cagr": 14.6,
+            "eigenkapital_5y_cagr": 34.1
+        }
+    },
+    "location": {
+        "country": "AT",
+        "country_de": "Österreich",
+        "bundesland": null,
+        "bundesland_de": null,
+        "city": null,
+        "postal_code": null
+    },
+    "company": {
+        "founded_year": null,
+        "founded_source": null,
+        "age_years": null,
+        "first_filing_year": 2020,
+        "last_filing_year": 2025,
+        "filing_years_available": 6,
+        "has_website": true,
+        "vat_id": null,
+        "email": null,
+        "stammkapital": null
+    },
+    "financials": {
+        "latest_year": 2025,
+        "revenue_basis": null,
+        "has_bilanz": true,
+        "has_guv": false,
+        "bilanz": {
+            "bilanzsumme": {
+                "latest": 1137155.73,
+                "history": {
+                    "2020": 1454398.93,
+                    "2021": 1335453,
+                    "2022": 1536441.75,
+                    "2023": 1337201.93,
+                    "2024": 1380154.16,
+                    "2025": 1137155.73
+                },
+                "annual_growth_rates": {
+                    "2021": -0.0818,
+                    "2022": 0.1505,
+                    "2023": -0.1297,
+                    "2024": 0.0321,
+                    "2025": -0.1761
+                },
+                "growth_1y": -0.1761,
+                "growth_3y_cagr": -0.0954,
+                "growth_5y_cagr": -0.048,
+                "growth_avg_yearly": -0.041,
+                "growth_volatility": 0.1321,
+                "growth_max_year": 0.1505,
+                "growth_min_year": -0.1761
+            },
+            "eigenkapital": {
+                "latest": 917426.81,
+                "history": {
+                    "2020": 773978.21,
+                    "2021": 798785.11,
+                    "2022": 858372.17,
+                    "2023": 885943.08,
+                    "2024": 903900.64,
+                    "2025": 917426.81
+                },
+                "annual_growth_rates": {
+                    "2021": 0.0321,
+                    "2022": 0.0746,
+                    "2023": 0.0321,
+                    "2024": 0.0203,
+                    "2025": 0.015
+                },
+                "growth_1y": 0.015,
+                "growth_3y_cagr": 0.0224,
+                "growth_5y_cagr": 0.0346,
+                "growth_avg_yearly": 0.0348,
+                "growth_volatility": 0.0235,
+                "growth_max_year": 0.0746,
+                "growth_min_year": 0.015
+            },
+            "verbindlichkeiten": {
+                "latest": 203536.2,
+                "history": {
+                    "2020": 646954.68,
+                    "2021": 515111.33,
+                    "2022": 658404.78,
+                    "2023": 436042.96,
+                    "2024": 466484.94,
+                    "2025": 203536.2
+                },
+                "annual_growth_rates": {
+                    "2021": -0.2038,
+                    "2022": 0.2782,
+                    "2023": -0.3377,
+                    "2024": 0.0698,
+                    "2025": -0.5637
+                },
+                "growth_1y": -0.5637,
+                "growth_3y_cagr": -0.3238,
+                "growth_5y_cagr": -0.2065,
+                "growth_avg_yearly": -0.1514,
+                "growth_volatility": 0.332,
+                "growth_max_year": 0.2782,
+                "growth_min_year": -0.5637
+            },
+            "anlagevermoegen": {
+                "latest": 420.2,
+                "history": {
+                    "2020": 555.64,
+                    "2021": 0.21,
+                    "2022": 0.21,
+                    "2023": 0.21,
+                    "2024": 1260.19,
+                    "2025": 420.2
+                },
+                "annual_growth_rates": {
+                    "2021": -0.9996,
+                    "2022": 0,
+                    "2023": 0,
+                    "2024": 5999.9048,
+                    "2025": -0.6666
+                },
+                "growth_1y": -0.6666,
+                "growth_3y_cagr": 11.6012,
+                "growth_5y_cagr": -0.0543,
+                "growth_avg_yearly": 1199.6477,
+                "growth_volatility": 2683.4253,
+                "growth_max_year": 5999.9048,
+                "growth_min_year": -0.9996
+            },
+            "umlaufvermoegen": {
+                "latest": 1136735.53,
+                "history": {
+                    "2020": 1453843.29,
+                    "2021": 1335452.79,
+                    "2022": 1528126.72,
+                    "2023": 1337167.57,
+                    "2024": 1378859.82,
+                    "2025": 1136735.53
+                },
+                "annual_growth_rates": {
+                    "2021": -0.0814,
+                    "2022": 0.1443,
+                    "2023": -0.125,
+                    "2024": 0.0312,
+                    "2025": -0.1756
+                },
+                "growth_1y": -0.1756,
+                "growth_3y_cagr": -0.0939,
+                "growth_5y_cagr": -0.048,
+                "growth_avg_yearly": -0.0413,
+                "growth_volatility": 0.1288,
+                "growth_max_year": 0.1443,
+                "growth_min_year": -0.1756
+            },
+            "cash": {
+                "latest": 310130.05,
+                "history": {
+                    "2020": 84.38,
+                    "2021": 124.88,
+                    "2022": 199.97,
+                    "2023": 100.27,
+                    "2024": 155.55,
+                    "2025": 310130.05
+                },
+                "annual_growth_rates": {
+                    "2021": 0.48,
+                    "2022": 0.6013,
+                    "2023": -0.4986,
+                    "2024": 0.5513,
+                    "2025": 1992.7644
+                },
+                "growth_1y": 1992.7644,
+                "growth_3y_cagr": 10.5751,
+                "growth_5y_cagr": 4.1649,
+                "growth_avg_yearly": 398.7797,
+                "growth_volatility": 891.0647,
+                "growth_max_year": 1992.7644,
+                "growth_min_year": -0.4986
+            },
+            "rueckstellungen": {
+                "latest": 16192.72,
+                "history": {
+                    "2020": 33466.04,
+                    "2021": 21556.56,
+                    "2022": 19664.8,
+                    "2023": 15215.89,
+                    "2024": 9768.58,
+                    "2025": 16192.72
+                },
+                "annual_growth_rates": {
+                    "2021": -0.3559,
+                    "2022": -0.0878,
+                    "2023": -0.2262,
+                    "2024": -0.358,
+                    "2025": 0.6576
+                },
+                "growth_1y": 0.6576,
+                "growth_3y_cagr": -0.0627,
+                "growth_5y_cagr": -0.1351,
+                "growth_avg_yearly": -0.0741,
+                "growth_volatility": 0.4239,
+                "growth_max_year": 0.6576,
+                "growth_min_year": -0.358
+            },
+            "sachanlagen": {
+                "latest": 420.2,
+                "history": {
+                    "2020": 555.64,
+                    "2021": 0.21,
+                    "2022": 0.21,
+                    "2023": 0.21,
+                    "2024": 1260.19,
+                    "2025": 420.2
+                },
+                "annual_growth_rates": {
+                    "2021": -0.9996,
+                    "2022": 0,
+                    "2023": 0,
+                    "2024": 5999.9048,
+                    "2025": -0.6666
+                },
+                "growth_1y": -0.6666,
+                "growth_3y_cagr": 11.6012,
+                "growth_5y_cagr": -0.0543,
+                "growth_avg_yearly": 1199.6477,
+                "growth_volatility": 2683.4253,
+                "growth_max_year": 5999.9048,
+                "growth_min_year": -0.9996
+            },
+            "vorraete": {
+                "latest": 0,
+                "history": {
+                    "2020": 291155.89,
+                    "2021": 327064.58,
+                    "2022": 495961.59,
+                    "2023": 543336.2,
+                    "2024": 491298.5,
+                    "2025": 0
+                },
+                "annual_growth_rates": {
+                    "2021": 0.1233,
+                    "2022": 0.5164,
+                    "2023": 0.0955,
+                    "2024": -0.0958,
+                    "2025": -1
+                },
+                "growth_1y": -1,
+                "growth_3y_cagr": null,
+                "growth_5y_cagr": null,
+                "growth_avg_yearly": -0.0721,
+                "growth_volatility": 0.5644,
+                "growth_max_year": 0.5164,
+                "growth_min_year": -1
+            },
+            "forderungen": {
+                "latest": 826605.48,
+                "history": {
+                    "2020": 1162603.02,
+                    "2021": 1008263.33,
+                    "2022": 1031965.16,
+                    "2023": 793731.1,
+                    "2024": 887405.77,
+                    "2025": 826605.48
+                },
+                "annual_growth_rates": {
+                    "2021": -0.1328,
+                    "2022": 0.0235,
+                    "2023": -0.2309,
+                    "2024": 0.118,
+                    "2025": -0.0685
+                },
+                "growth_1y": -0.0685,
+                "growth_3y_cagr": -0.0713,
+                "growth_5y_cagr": -0.0659,
+                "growth_avg_yearly": -0.0581,
+                "growth_volatility": 0.1353,
+                "growth_max_year": 0.118,
+                "growth_min_year": -0.2309
+            },
+            "finanzanlagen": {
+                "latest": 0,
+                "history": {
+                    "2020": 0,
+                    "2021": 0,
+                    "2022": 0,
+                    "2023": 0,
+                    "2024": 0,
+                    "2025": 0
+                },
+                "annual_growth_rates": null,
+                "growth_1y": null,
+                "growth_3y_cagr": null,
+                "growth_5y_cagr": null,
+                "growth_avg_yearly": null,
+                "growth_volatility": null,
+                "growth_max_year": null,
+                "growth_min_year": null
+            },
+            "bilanzgewinn_verlust": {
+                "latest": 873823.11,
+                "history": {
+                    "2020": 730374.51,
+                    "2021": 755181.41,
+                    "2022": 814768.47,
+                    "2023": 842339.38,
+                    "2024": 860296.94,
+                    "2025": 873823.11
+                },
+                "annual_growth_rates": {
+                    "2021": 0.034,
+                    "2022": 0.0789,
+                    "2023": 0.0338,
+                    "2024": 0.0213,
+                    "2025": 0.0157
+                },
+                "growth_1y": 0.0157,
+                "growth_3y_cagr": 0.0236,
+                "growth_5y_cagr": 0.0365,
+                "growth_avg_yearly": 0.0367,
+                "growth_volatility": 0.0249,
+                "growth_max_year": 0.0789,
+                "growth_min_year": 0.0157
+            },
+            "kapitalruecklagen": {
+                "latest": 0,
+                "history": {
+                    "2020": 0,
+                    "2021": 0,
+                    "2022": 0,
+                    "2023": 0,
+                    "2024": 0,
+                    "2025": 0
+                },
+                "annual_growth_rates": null,
+                "growth_1y": null,
+                "growth_3y_cagr": null,
+                "growth_5y_cagr": null,
+                "growth_avg_yearly": null,
+                "growth_volatility": null,
+                "growth_max_year": null,
+                "growth_min_year": null
+            },
+            "gewinnruecklagen": {
+                "latest": 0,
+                "history": {
+                    "2020": 0,
+                    "2021": 0,
+                    "2022": 0,
+                    "2023": 0,
+                    "2024": 0,
+                    "2025": 0
+                },
+                "annual_growth_rates": null,
+                "growth_1y": null,
+                "growth_3y_cagr": null,
+                "growth_5y_cagr": null,
+                "growth_avg_yearly": null,
+                "growth_volatility": null,
+                "growth_max_year": null,
+                "growth_min_year": null
+            },
+            "stammkapital": {
+                "latest": 87207.4,
+                "history": {
+                    "2020": 87207.4,
+                    "2021": 87207.4,
+                    "2022": 87207.4,
+                    "2023": 87207.4,
+                    "2024": 87207.4,
+                    "2025": 87207.4
+                },
+                "annual_growth_rates": {
+                    "2021": 0,
+                    "2022": 0,
+                    "2023": 0,
+                    "2024": 0,
+                    "2025": 0
+                },
+                "growth_1y": 0,
+                "growth_3y_cagr": 0,
+                "growth_5y_cagr": 0,
+                "growth_avg_yearly": 0,
+                "growth_volatility": 0,
+                "growth_max_year": 0,
+                "growth_min_year": 0
+            }
+        },
+        "guv": null
+    },
+    "ratios": {
+        "equity_ratio": {
+            "latest": 0.8068,
+            "history": {
+                "2020": 0.5322,
+                "2021": 0.5981,
+                "2022": 0.5587,
+                "2023": 0.6625,
+                "2024": 0.6549,
+                "2025": 0.8068
+            },
+            "avg_3y": 0.7081,
+            "avg_5y": 0.6562,
+            "min_5y": 0.5587,
+            "max_5y": 0.8068,
+            "trend": "improving",
+            "volatility": 0.0943
+        },
+        "debt_ratio": {
+            "latest": 0.1932,
+            "history": {
+                "2020": 0.4448,
+                "2021": 0.3857,
+                "2022": 0.4285,
+                "2023": 0.3261,
+                "2024": 0.338,
+                "2025": 0.179
+            },
+            "avg_3y": 0.281,
+            "avg_5y": 0.3315,
+            "min_5y": 0.179,
+            "max_5y": 0.4285,
+            "trend": "declining",
+            "volatility": 0.0944
+        },
+        "debt_to_equity": {
+            "latest": 0.2219
+        },
+        "working_capital_ratio": {
+            "latest": 5.5849
+        },
+        "anlagedeckungsgrad_1": {
+            "latest": null
+        },
+        "ebit_margin": {
+            "latest": null,
+            "history": null,
+            "avg_3y": null,
+            "avg_5y": null,
+            "min_5y": null,
+            "max_5y": null,
+            "trend": null,
+            "volatility": null
+        },
+        "ebitda_margin": {
+            "latest": null,
+            "history": null,
+            "avg_3y": null,
+            "avg_5y": null,
+            "min_5y": null,
+            "max_5y": null,
+            "trend": null,
+            "volatility": null
+        },
+        "net_margin": {
+            "latest": null,
+            "history": null,
+            "avg_3y": null,
+            "avg_5y": null,
+            "min_5y": null,
+            "max_5y": null,
+            "trend": null,
+            "volatility": null
+        },
+        "personalkostenquote": {
+            "latest": null
+        },
+        "materialaufwandsquote": {
+            "latest": null
+        },
+        "roa": {
+            "latest": null
+        },
+        "roe": {
+            "latest": null
+        },
+        "capital_profile": "over_capitalized"
+    },
+    "growth": {
+        "profile": "shrinking",
+        "method": "bilanzsumme"
+    },
+    "employees": null,
+    "ownership": null,
+    "corporate_structure": null,
+    "succession": {
+        "succession_score": 53,
+        "succession_band": "moderate",
+        "succession_components": {
+            "age_component": 80,
+            "tenure_component": 30,
+            "founder_component": 20,
+            "tenure_basis": "finanzonline_min"
+        },
+        "is_founder_led": false,
+        "founder_signal_basis": null,
+        "primary_gf": {
+            "name": "Samo Hribernik",
+            "birth_year": 1963,
+            "age_in_2026": 63,
+            "tenure_min_years": 6,
+            "tenure_min_years_basis": "finanzonline_filing_window",
+            "tenure_real_since": null,
+            "tenure_real_years": null
+        },
+        "current_gf_persons": null,
+        "n_signatories_latest": 1,
+        "signatories_history": {
+            "history": {
+                "2020": 1,
+                "2021": 1,
+                "2022": 1,
+                "2023": 1,
+                "2024": 1,
+                "2025": 1
+            },
+            "change_years": null,
+            "stability_years": 5,
+            "all_names_ever": [
+                "Samo Hribernik"
+            ]
+        },
+        "previous_names": null
+    },
+    "events": null,
+    "score": {
+        "overall": 30.4,
+        "year": 2025,
+        "band": "weak",
+        "band_label": "Weak Signals",
+        "band_label_de": "Schwache Hinweise",
+        "band_description": "Limited indicators; window not apparent from available data",
+        "band_description_de": "Begrenzte Indikatoren; kein Übergangsfenster aus den verfügbaren Daten erkennbar",
+        "band_color": "#94b3cc",
+        "dimensions": {
+            "exit_likelihood": {
+                "score": 29,
+                "weight": 0.4,
+                "components": {
+                    "altersprofil": {
+                        "points": 12,
+                        "max": 25,
+                        "pct": 0.48
+                    },
+                    "founder_match": {
+                        "points": 0,
+                        "max": 20,
+                        "pct": 0
+                    },
+                    "key_person": {
+                        "points": 12,
+                        "max": 15,
+                        "pct": 0.8
+                    },
+                    "mgmt_stability": {
+                        "points": 5,
+                        "max": 15,
+                        "pct": 0.3333
+                    },
+                    "gesellschafter_wechsel": {
+                        "points": null,
+                        "max": 25,
+                        "pct": null
+                    }
+                },
+                "details": {
+                    "max_relevant_age": 62.9,
+                    "founder_signatories": [],
+                    "is_founder_led": false,
+                    "founder_evidence": [],
+                    "gf_count": 0,
+                    "years_same_signatories": 5,
+                    "shareholder_data_available": false,
+                    "scored_components_max": 75
+                },
+                "signals": [
+                    "Founder/GF age 62 – approaching succession age",
+                    "Sole signatory, name not in company name, owner-managed under different name or post-acquisition",
+                    "No formal GF listed, sole signatory controls operations",
+                    "Same signatories for 5 years",
+                    "Shareholder data not yet enriched – Gesellschafter-Wechsel cannot be scored"
+                ],
+                "signals_de": [
+                    "GF-Alter 62 – nähert sich dem Nachfolgealter",
+                    "Alleiniger Zeichnungsberechtigter, Name nicht im Firmennamen, inhabergeführt unter anderem Namen oder nach Übernahme",
+                    "Kein formaler GF gelistet, alleiniger Zeichnungsberechtigter kontrolliert Betrieb",
+                    "Gleiche Zeichnungsberechtigte seit 5 Jahren",
+                    "Gesellschafter-Daten noch nicht angereichert – Gesellschafter-Wechsel nicht bewertbar"
+                ]
+            },
+            "company_quality": {
+                "score": 35,
+                "weight": 0.35,
+                "components": {
+                    "profitabilitaet": {
+                        "points": null,
+                        "max": 25,
+                        "pct": null
+                    },
+                    "eigenkapital": {
+                        "points": 20,
+                        "max": 20,
+                        "pct": 1
+                    },
+                    "wachstum": {
+                        "points": 0,
+                        "max": 20,
+                        "pct": 0
+                    },
+                    "verschuldung": {
+                        "points": 15,
+                        "max": 15,
+                        "pct": 1
+                    },
+                    "branche": {
+                        "points": 0,
+                        "max": 20,
+                        "pct": 0
+                    }
+                },
+                "details": {
+                    "has_pnl": false,
+                    "equity_ratio": 0.8068,
+                    "revenue_data_available": false,
+                    "fk_to_ek": 0.22,
+                    "industry_id": "unknown",
+                    "industry_label_de": "Nicht klassifiziert",
+                    "industry_label_en": "Unclassified",
+                    "industry_confidence": "none"
+                },
+                "signals": [
+                    "No P&L in filings – profitability not assessable",
+                    "Very strong equity (81%) – clean balance sheet",
+                    "No revenue history in filings, growth not assessable",
+                    "Low leverage (FK/EK = 0.22) – clean capital structure",
+                    "Industry not classified yet"
+                ],
+                "signals_de": [
+                    "Keine GuV in Einreichungen – Profitabilität nicht beurteilbar",
+                    "Sehr hohe Eigenkapitalquote (81%) – saubere Bilanz",
+                    "Keine Umsatzhistorie in Einreichungen, Wachstum nicht beurteilbar",
+                    "Geringe Verschuldung (FK/EK = 0.22) – saubere Kapitalstruktur",
+                    "Branche noch nicht klassifiziert"
+                ]
+            },
+            "timing_signals": {
+                "score": 26,
+                "weight": 0.25,
+                "components": {
+                    "investment_decline": {
+                        "points": 6,
+                        "max": 45,
+                        "pct": 0.1333
+                    },
+                    "harvesting": {
+                        "points": 0,
+                        "max": 35,
+                        "pct": 0
+                    },
+                    "bilanzielle_stabilitaet": {
+                        "points": 20,
+                        "max": 20,
+                        "pct": 1
+                    }
+                },
+                "details": {
+                    "sachanlagen_decline_streak": 1,
+                    "bilanzielle_stabilitaet_issues": []
+                },
+                "signals": [
+                    "Harvesting pattern not assessable without P&L",
+                    "Clean bilanz: no distress signals (positive equity, no loss-year cluster, active status)"
+                ],
+                "signals_de": [
+                    "Harvesting-Muster ohne GuV nicht beurteilbar",
+                    "Bilanzielle Stabilität: keine Distresssignale (positives EK, keine Häufung von Verlustjahren, aktiver Status)"
+                ]
+            }
+        },
+        "observations": [
+            {
+                "type": "cash_accumulation",
+                "severity": "info",
+                "year": 2025,
+                "text_en": "Cash growing 2 years to 27% of assets",
+                "text_de": "Kassenbestand wächst seit 2 Jahren auf 27% der Bilanzsumme",
+                "details": {
+                    "streak_years": 2,
+                    "cash_to_assets": 0.2727
+                }
+            },
+            {
+                "type": "balance_jump",
+                "severity": "info",
+                "year": 2025,
+                "text_en": "Liabilities dropped 56% year over year",
+                "text_de": "Verbindlichkeiten um 56% gegenüber Vorjahr gesunken",
+                "details": {
+                    "metric": "liabilities",
+                    "change": -0.5637
+                }
+            }
+        ],
+        "top_signals": [
+            {
+                "dimension": "exit_likelihood",
+                "text": "Founder/GF age 62 – approaching succession age",
+                "text_de": "GF-Alter 62 – nähert sich dem Nachfolgealter"
+            },
+            {
+                "dimension": "exit_likelihood",
+                "text": "Sole signatory, name not in company name, owner-managed under different name or post-acquisition",
+                "text_de": "Alleiniger Zeichnungsberechtigter, Name nicht im Firmennamen, inhabergeführt unter anderem Namen oder nach Übernahme"
+            },
+            {
+                "dimension": "exit_likelihood",
+                "text": "No formal GF listed, sole signatory controls operations",
+                "text_de": "Kein formaler GF gelistet, alleiniger Zeichnungsberechtigter kontrolliert Betrieb"
+            },
+            {
+                "dimension": "exit_likelihood",
+                "text": "Same signatories for 5 years",
+                "text_de": "Gleiche Zeichnungsberechtigte seit 5 Jahren"
+            },
+            {
+                "dimension": "exit_likelihood",
+                "text": "Shareholder data not yet enriched – Gesellschafter-Wechsel cannot be scored",
+                "text_de": "Gesellschafter-Daten noch nicht angereichert – Gesellschafter-Wechsel nicht bewertbar"
+            }
+        ],
+        "scored_at": "2026-06-05T07:23:04Z"
+    },
+    "description": {
+        "text": null,
+        "source": null,
+        "length": 0
+    },
+    "online_presence": {
+        "business_type": "Geschäftsstelle in Graz",
+        "google_rating": null,
+        "google_review_count": null,
+        "phone": "0316 5869900",
+        "opening_hours": "Geschlossen · Öffnet Do um 08 - 00",
+        "has_operating_hours": true,
+        "is_claimed_listing": false,
+        "social_profiles": null,
+        "top_organic_links": [
+            {
+                "title": "GRAMA-TRADE, Export-Import-Transit GmbH in Graz",
+                "url": "https://www.firmenabc.at/grama-trade-export-import-transit-gmbh_PUe",
+                "domain": "www.firmenabc.at"
+            },
+            {
+                "title": "GRAMA-TRADE, Export-Import-Transit GmbH - Firmenbuch",
+                "url": "https://www.evi.gv.at/f/32616s",
+                "domain": "www.evi.gv.at"
+            },
+            {
+                "title": "GRAMA-TRADE, Export-Import-Transit GmbH - Graz (Stadt)",
+                "url": "https://www.herold.at/gelbe-seiten/graz/ZQpwW/grama-trade-export-import-transit-gmbh/",
+                "domain": "www.herold.at"
+            }
+        ],
+        "has_website": true,
+        "has_wikipedia": false,
+        "has_linkedin": false,
+        "n_organic_results": 10
+    },
+    "external": {
+        "northdata_url": null,
+        "company_website": "https://www.google.at/search?safe=off&sca_esv=a82350b6429375af&hl=de&gl=at&si=AL3DRZHrmvnFAVQPOO2Bzhf8AX9KZZ6raUI_dT7DG_z0kV2_x189ce-1OxqQkDKXbjclNssa-82JIJDvTjmIUmeDofDcZ5vq8e868cUzY-9C3Kb7380rO3hcgde5d74TwydFL3_E3cvumS1bZtvQ7dSf34b7KLc2RPF8ioJCA11QojSzjxGYjOY%3D&q=Grama-Trade+Export-+Import+Transit+GmbH+Rezensionen&sa=X&ved=2ahUKEwiumdif_uuUAxXfk2oFHWD2BEUQ0bkNegQIIhAF"
+    },
+    "_meta": {
+        "full_doc_ref": "7_scored/032616s",
+        "built_at": "2026-06-05T13:33:42Z",
+        "built_by": "phase9_present.py builder v4.2"
+    },
+    "_rid": "1A45AOB9EZphAAAAAAAAAA==",
+    "_self": "dbs/1A45AA==/colls/1A45AOB9EZo=/docs/1A45AOB9EZphAAAAAAAAAA==/",
+    "_etag": "\"0e004b82-0000-1500-0000-6a22d0360000\"",
+    "_attachments": "attachments/",
+    "_ts": 1780666422
+}

@@ -1,0 +1,1056 @@
+{
+    "id": "093450b",
+    "fnr": "093450b",
+    "name": "Schubert CleanTech GmbH",
+    "tier": "A",
+    "register_id": "AT_093450b",
+    "lei": "52990030E4I66GPM0O41",
+    "gets_northdata": true,
+    "gets_serpapi": true,
+    "is_holding_name": false,
+    "name_pattern_flags": [],
+    "sector": {
+        "id": "machinery_metal",
+        "label_de": "Maschinen- und Metallindustrie",
+        "method": "nace",
+        "confidence": 0.95,
+        "primary_nace_code": "28.29"
+    },
+    "size": {
+        "band": "M",
+        "band_de": "Mittel",
+        "effective": "medium",
+        "peer_percentiles": {
+            "bilanzsumme": 82.9,
+            "equity_ratio": 28.9,
+            "bilanzsumme_5y_cagr": 82.2,
+            "eigenkapital_5y_cagr": 60.6
+        }
+    },
+    "location": {
+        "country": "AT",
+        "country_de": "Österreich",
+        "bundesland": "N",
+        "bundesland_de": "Niederösterreich",
+        "city": "Ober-Grafendorf",
+        "postal_code": "3200"
+    },
+    "company": {
+        "founded_year": 1994,
+        "founded_source": "northdata_events",
+        "age_years": 32,
+        "first_filing_year": 2020,
+        "last_filing_year": 2025,
+        "filing_years_available": 6,
+        "has_website": true,
+        "vat_id": null,
+        "email": "office@schubert.tech",
+        "stammkapital": {
+            "amount": 218000,
+            "currency": "EUR",
+            "formatted": "218.000 €"
+        }
+    },
+    "financials": {
+        "latest_year": 2025,
+        "revenue_basis": "rohergebnis",
+        "has_bilanz": true,
+        "has_guv": true,
+        "bilanz": {
+            "bilanzsumme": {
+                "latest": 23492979.69,
+                "history": {
+                    "2020": 10777460.87,
+                    "2021": 12890888.66,
+                    "2022": 15483505.72,
+                    "2023": 19923837.84,
+                    "2024": 21330383.35,
+                    "2025": 23492979.69
+                },
+                "annual_growth_rates": {
+                    "2021": 0.1961,
+                    "2022": 0.2011,
+                    "2023": 0.2868,
+                    "2024": 0.0706,
+                    "2025": 0.1014
+                },
+                "growth_1y": 0.1014,
+                "growth_3y_cagr": 0.1491,
+                "growth_5y_cagr": 0.1686,
+                "growth_avg_yearly": 0.1712,
+                "growth_volatility": 0.0864,
+                "growth_max_year": 0.2868,
+                "growth_min_year": 0.0706
+            },
+            "eigenkapital": {
+                "latest": 6393383.95,
+                "history": {
+                    "2020": 3718917.94,
+                    "2021": 4338154.56,
+                    "2022": 4971904.45,
+                    "2023": 5384555.79,
+                    "2024": 6029080.51,
+                    "2025": 6393383.95
+                },
+                "annual_growth_rates": {
+                    "2021": 0.1665,
+                    "2022": 0.1461,
+                    "2023": 0.083,
+                    "2024": 0.1197,
+                    "2025": 0.0604
+                },
+                "growth_1y": 0.0604,
+                "growth_3y_cagr": 0.0874,
+                "growth_5y_cagr": 0.1145,
+                "growth_avg_yearly": 0.1151,
+                "growth_volatility": 0.0437,
+                "growth_max_year": 0.1665,
+                "growth_min_year": 0.0604
+            },
+            "verbindlichkeiten": {
+                "latest": 9749100.41,
+                "history": {
+                    "2020": 3780549.12,
+                    "2021": 4587791.86,
+                    "2022": 5868905.87,
+                    "2023": 9119568.43,
+                    "2024": 9435677.29,
+                    "2025": 9749100.41
+                },
+                "annual_growth_rates": {
+                    "2021": 0.2135,
+                    "2022": 0.2792,
+                    "2023": 0.5539,
+                    "2024": 0.0347,
+                    "2025": 0.0332
+                },
+                "growth_1y": 0.0332,
+                "growth_3y_cagr": 0.1843,
+                "growth_5y_cagr": 0.2086,
+                "growth_avg_yearly": 0.2229,
+                "growth_volatility": 0.2146,
+                "growth_max_year": 0.5539,
+                "growth_min_year": 0.0332
+            },
+            "anlagevermoegen": {
+                "latest": 3425134.31,
+                "history": {
+                    "2020": 2081276.74,
+                    "2021": 2038659,
+                    "2022": 2492717.1,
+                    "2023": 2570463.73,
+                    "2024": 3809583.09,
+                    "2025": 3425134.31
+                },
+                "annual_growth_rates": {
+                    "2021": -0.0205,
+                    "2022": 0.2227,
+                    "2023": 0.0312,
+                    "2024": 0.4821,
+                    "2025": -0.1009
+                },
+                "growth_1y": -0.1009,
+                "growth_3y_cagr": 0.1117,
+                "growth_5y_cagr": 0.1048,
+                "growth_avg_yearly": 0.1229,
+                "growth_volatility": 0.2335,
+                "growth_max_year": 0.4821,
+                "growth_min_year": -0.1009
+            },
+            "umlaufvermoegen": {
+                "latest": 19454205.89,
+                "history": {
+                    "2020": 8035872.51,
+                    "2021": 10291359.42,
+                    "2022": 12533758.94,
+                    "2023": 16850748.17,
+                    "2024": 16956932.99,
+                    "2025": 19454205.89
+                },
+                "annual_growth_rates": {
+                    "2021": 0.2807,
+                    "2022": 0.2179,
+                    "2023": 0.3444,
+                    "2024": 0.0063,
+                    "2025": 0.1473
+                },
+                "growth_1y": 0.1473,
+                "growth_3y_cagr": 0.1578,
+                "growth_5y_cagr": 0.1934,
+                "growth_avg_yearly": 0.1993,
+                "growth_volatility": 0.1304,
+                "growth_max_year": 0.3444,
+                "growth_min_year": 0.0063
+            },
+            "cash": {
+                "latest": 5299849.9,
+                "history": {
+                    "2020": 1012909.04,
+                    "2021": 2868574.09,
+                    "2022": 1116814.94,
+                    "2023": 2555893.41,
+                    "2024": 4980386.25,
+                    "2025": 5299849.9
+                },
+                "annual_growth_rates": {
+                    "2021": 1.832,
+                    "2022": -0.6107,
+                    "2023": 1.2886,
+                    "2024": 0.9486,
+                    "2025": 0.0641
+                },
+                "growth_1y": 0.0641,
+                "growth_3y_cagr": 0.6805,
+                "growth_5y_cagr": 0.3923,
+                "growth_avg_yearly": 0.7045,
+                "growth_volatility": 0.9762,
+                "growth_max_year": 1.832,
+                "growth_min_year": -0.6107
+            },
+            "rueckstellungen": {
+                "latest": 7261735.04,
+                "history": {
+                    "2020": 3277993.81,
+                    "2021": 3941189.7,
+                    "2022": 4516645.26,
+                    "2023": 5307301.71,
+                    "2024": 5765899.2,
+                    "2025": 7261735.04
+                },
+                "annual_growth_rates": {
+                    "2021": 0.2023,
+                    "2022": 0.146,
+                    "2023": 0.1751,
+                    "2024": 0.0864,
+                    "2025": 0.2594
+                },
+                "growth_1y": 0.2594,
+                "growth_3y_cagr": 0.1715,
+                "growth_5y_cagr": 0.1724,
+                "growth_avg_yearly": 0.1738,
+                "growth_volatility": 0.0643,
+                "growth_max_year": 0.2594,
+                "growth_min_year": 0.0864
+            },
+            "sachanlagen": {
+                "latest": 3171182.13,
+                "history": {
+                    "2020": 1790262.62,
+                    "2021": 1769197.04,
+                    "2022": 2237642.74,
+                    "2023": 2314740.75,
+                    "2024": 3555534.24,
+                    "2025": 3171182.13
+                },
+                "annual_growth_rates": {
+                    "2021": -0.0118,
+                    "2022": 0.2648,
+                    "2023": 0.0345,
+                    "2024": 0.536,
+                    "2025": -0.1081
+                },
+                "growth_1y": -0.1081,
+                "growth_3y_cagr": 0.1233,
+                "growth_5y_cagr": 0.1211,
+                "growth_avg_yearly": 0.1431,
+                "growth_volatility": 0.2589,
+                "growth_max_year": 0.536,
+                "growth_min_year": -0.1081
+            },
+            "vorraete": {
+                "latest": 8110619.17,
+                "history": {
+                    "2020": 4010845.97,
+                    "2021": 3876230.42,
+                    "2022": 6894525.12,
+                    "2023": 8058513.16,
+                    "2024": 6028815.07,
+                    "2025": 8110619.17
+                },
+                "annual_growth_rates": {
+                    "2021": -0.0336,
+                    "2022": 0.7787,
+                    "2023": 0.1688,
+                    "2024": -0.2519,
+                    "2025": 0.3453
+                },
+                "growth_1y": 0.3453,
+                "growth_3y_cagr": 0.0556,
+                "growth_5y_cagr": 0.1512,
+                "growth_avg_yearly": 0.2015,
+                "growth_volatility": 0.3923,
+                "growth_max_year": 0.7787,
+                "growth_min_year": -0.2519
+            },
+            "forderungen": {
+                "latest": 6043736.82,
+                "history": {
+                    "2020": 3012117.5,
+                    "2021": 3546554.91,
+                    "2022": 4522418.88,
+                    "2023": 6236341.6,
+                    "2024": 5947731.67,
+                    "2025": 6043736.82
+                },
+                "annual_growth_rates": {
+                    "2021": 0.1774,
+                    "2022": 0.2752,
+                    "2023": 0.379,
+                    "2024": -0.0463,
+                    "2025": 0.0161
+                },
+                "growth_1y": 0.0161,
+                "growth_3y_cagr": 0.1015,
+                "growth_5y_cagr": 0.1494,
+                "growth_avg_yearly": 0.1603,
+                "growth_volatility": 0.1766,
+                "growth_max_year": 0.379,
+                "growth_min_year": -0.0463
+            },
+            "finanzanlagen": {
+                "latest": 235800,
+                "history": {
+                    "2020": 235800,
+                    "2021": 235800,
+                    "2022": 235800,
+                    "2023": 235800,
+                    "2024": 235800,
+                    "2025": 235800
+                },
+                "annual_growth_rates": {
+                    "2021": 0,
+                    "2022": 0,
+                    "2023": 0,
+                    "2024": 0,
+                    "2025": 0
+                },
+                "growth_1y": 0,
+                "growth_3y_cagr": 0,
+                "growth_5y_cagr": 0,
+                "growth_avg_yearly": 0,
+                "growth_volatility": 0,
+                "growth_max_year": 0,
+                "growth_min_year": 0
+            },
+            "bilanzgewinn_verlust": {
+                "latest": 5817151.38,
+                "history": {
+                    "2020": 3142685.37,
+                    "2021": 3761921.99,
+                    "2022": 4395671.88,
+                    "2023": 4808323.22,
+                    "2024": 5452847.94,
+                    "2025": 5817151.38
+                },
+                "annual_growth_rates": {
+                    "2021": 0.197,
+                    "2022": 0.1685,
+                    "2023": 0.0939,
+                    "2024": 0.134,
+                    "2025": 0.0668
+                },
+                "growth_1y": 0.0668,
+                "growth_3y_cagr": 0.0979,
+                "growth_5y_cagr": 0.1311,
+                "growth_avg_yearly": 0.132,
+                "growth_volatility": 0.0531,
+                "growth_max_year": 0.197,
+                "growth_min_year": 0.0668
+            },
+            "kapitalruecklagen": {
+                "latest": 92621.33,
+                "history": {
+                    "2020": 92621.33,
+                    "2021": 92621.33,
+                    "2022": 92621.33,
+                    "2023": 92621.33,
+                    "2024": 92621.33,
+                    "2025": 92621.33
+                },
+                "annual_growth_rates": {
+                    "2021": 0,
+                    "2022": 0,
+                    "2023": 0,
+                    "2024": 0,
+                    "2025": 0
+                },
+                "growth_1y": 0,
+                "growth_3y_cagr": 0,
+                "growth_5y_cagr": 0,
+                "growth_avg_yearly": 0,
+                "growth_volatility": 0,
+                "growth_max_year": 0,
+                "growth_min_year": 0
+            },
+            "gewinnruecklagen": {
+                "latest": 265611.24,
+                "history": {
+                    "2020": 265611.24,
+                    "2021": 265611.24,
+                    "2022": 265611.24,
+                    "2023": 265611.24,
+                    "2024": 265611.24,
+                    "2025": 265611.24
+                },
+                "annual_growth_rates": {
+                    "2021": 0,
+                    "2022": 0,
+                    "2023": 0,
+                    "2024": 0,
+                    "2025": 0
+                },
+                "growth_1y": 0,
+                "growth_3y_cagr": 0,
+                "growth_5y_cagr": 0,
+                "growth_avg_yearly": 0,
+                "growth_volatility": 0,
+                "growth_max_year": 0,
+                "growth_min_year": 0
+            },
+            "stammkapital": {
+                "latest": 218000,
+                "history": {
+                    "2020": 218000,
+                    "2021": 218000,
+                    "2022": 218000,
+                    "2023": 218000,
+                    "2024": 218000,
+                    "2025": 218000
+                },
+                "annual_growth_rates": {
+                    "2021": 0,
+                    "2022": 0,
+                    "2023": 0,
+                    "2024": 0,
+                    "2025": 0
+                },
+                "growth_1y": 0,
+                "growth_3y_cagr": 0,
+                "growth_5y_cagr": 0,
+                "growth_avg_yearly": 0,
+                "growth_volatility": 0,
+                "growth_max_year": 0,
+                "growth_min_year": 0
+            }
+        },
+        "guv": {
+            "rohergebnis": {
+                "latest": 24424100.52,
+                "history": {
+                    "2020": 13134525.88,
+                    "2021": 12922526.15,
+                    "2022": 14774027.12,
+                    "2023": 16830962.85,
+                    "2024": 20523908.51,
+                    "2025": 24424100.52
+                },
+                "annual_growth_rates": {
+                    "2021": -0.0161,
+                    "2022": 0.1433,
+                    "2023": 0.1392,
+                    "2024": 0.2194,
+                    "2025": 0.19
+                },
+                "growth_1y": 0.19,
+                "growth_3y_cagr": 0.1824,
+                "growth_5y_cagr": 0.1321,
+                "growth_avg_yearly": 0.1352,
+                "growth_volatility": 0.0909,
+                "growth_max_year": 0.2194,
+                "growth_min_year": -0.0161
+            },
+            "personalaufwand": {
+                "latest": -17070434.71,
+                "history": {
+                    "2020": -9941073.98,
+                    "2021": -10321946.79,
+                    "2022": -11476554.9,
+                    "2023": -12716708.7,
+                    "2024": -14475593.27,
+                    "2025": -17070434.71
+                },
+                "annual_growth_rates": {
+                    "2021": -0.0383,
+                    "2022": -0.1119,
+                    "2023": -0.1081,
+                    "2024": -0.1383,
+                    "2025": -0.1793
+                },
+                "growth_1y": -0.1793,
+                "growth_3y_cagr": null,
+                "growth_5y_cagr": null,
+                "growth_avg_yearly": -0.1152,
+                "growth_volatility": 0.0515,
+                "growth_max_year": -0.0383,
+                "growth_min_year": -0.1793
+            },
+            "abschreibungen": {
+                "latest": -834467.61,
+                "history": {
+                    "2020": -480993.55,
+                    "2021": -481434.71,
+                    "2022": -518363.32,
+                    "2023": -539429.38,
+                    "2024": -780819.7,
+                    "2025": -834467.61
+                },
+                "annual_growth_rates": {
+                    "2021": -0.0009,
+                    "2022": -0.0767,
+                    "2023": -0.0406,
+                    "2024": -0.4475,
+                    "2025": -0.0687
+                },
+                "growth_1y": -0.0687,
+                "growth_3y_cagr": null,
+                "growth_5y_cagr": null,
+                "growth_avg_yearly": -0.1269,
+                "growth_volatility": 0.1817,
+                "growth_max_year": -0.0009,
+                "growth_min_year": -0.4475
+            },
+            "ebit": {
+                "latest": 1523815.88,
+                "history": null,
+                "annual_growth_rates": null,
+                "growth_1y": null,
+                "growth_3y_cagr": null,
+                "growth_5y_cagr": null,
+                "growth_avg_yearly": null,
+                "growth_volatility": null,
+                "growth_max_year": null,
+                "growth_min_year": null
+            },
+            "ebitda": {
+                "latest": 2358283.49,
+                "history": null,
+                "annual_growth_rates": null,
+                "growth_1y": null,
+                "growth_3y_cagr": null,
+                "growth_5y_cagr": null,
+                "growth_avg_yearly": null,
+                "growth_volatility": null,
+                "growth_max_year": null,
+                "growth_min_year": null
+            },
+            "jahresueberschuss": {
+                "latest": 1214303.44,
+                "history": {
+                    "2020": 572194.45,
+                    "2021": 619236.62,
+                    "2022": 633749.89,
+                    "2023": 964375.48,
+                    "2024": 1334179.89,
+                    "2025": 1214303.44
+                },
+                "annual_growth_rates": {
+                    "2021": 0.0822,
+                    "2022": 0.0234,
+                    "2023": 0.5217,
+                    "2024": 0.3835,
+                    "2025": -0.0899
+                },
+                "growth_1y": -0.0899,
+                "growth_3y_cagr": 0.242,
+                "growth_5y_cagr": 0.1624,
+                "growth_avg_yearly": 0.1842,
+                "growth_volatility": 0.2574,
+                "growth_max_year": 0.5217,
+                "growth_min_year": -0.0899
+            }
+        }
+    },
+    "ratios": {
+        "equity_ratio": {
+            "latest": 0.2721,
+            "history": {
+                "2020": 0.3451,
+                "2021": 0.3365,
+                "2022": 0.3211,
+                "2023": 0.2703,
+                "2024": 0.2827,
+                "2025": 0.2721
+            },
+            "avg_3y": 0.275,
+            "avg_5y": 0.2965,
+            "min_5y": 0.2703,
+            "max_5y": 0.3365,
+            "trend": "declining",
+            "volatility": 0.0303
+        },
+        "debt_ratio": {
+            "latest": 0.7241,
+            "history": {
+                "2020": 0.3508,
+                "2021": 0.3559,
+                "2022": 0.379,
+                "2023": 0.4577,
+                "2024": 0.4424,
+                "2025": 0.415
+            },
+            "avg_3y": 0.4384,
+            "avg_5y": 0.41,
+            "min_5y": 0.3559,
+            "max_5y": 0.4577,
+            "trend": "improving",
+            "volatility": 0.0425
+        },
+        "debt_to_equity": {
+            "latest": 1.5249
+        },
+        "working_capital_ratio": {
+            "latest": 1.9955
+        },
+        "anlagedeckungsgrad_1": {
+            "latest": 1.8666
+        },
+        "ebit_margin": {
+            "latest": null,
+            "history": null,
+            "avg_3y": null,
+            "avg_5y": null,
+            "min_5y": null,
+            "max_5y": null,
+            "trend": null,
+            "volatility": null
+        },
+        "ebitda_margin": {
+            "latest": null,
+            "history": null,
+            "avg_3y": null,
+            "avg_5y": null,
+            "min_5y": null,
+            "max_5y": null,
+            "trend": null,
+            "volatility": null
+        },
+        "net_margin": {
+            "latest": null,
+            "history": {
+                "2020": 0.0436,
+                "2021": 0.0479,
+                "2022": 0.0429,
+                "2023": 0.0573,
+                "2024": 0.065,
+                "2025": 0.0497
+            },
+            "avg_3y": 0.0573,
+            "avg_5y": 0.0526,
+            "min_5y": 0.0429,
+            "max_5y": 0.065,
+            "trend": "improving",
+            "volatility": 0.0087
+        },
+        "personalkostenquote": {
+            "latest": null
+        },
+        "materialaufwandsquote": {
+            "latest": null
+        },
+        "roa": {
+            "latest": 0.0517
+        },
+        "roe": {
+            "latest": 0.1899
+        },
+        "capital_profile": "balanced"
+    },
+    "growth": {
+        "profile": "fast_growing",
+        "method": "rohergebnis"
+    },
+    "employees": null,
+    "ownership": {
+        "n_shareholders": 2,
+        "n_shareholders_with_pct": 1,
+        "shares_disclosure": "full",
+        "largest_share_pct": 100,
+        "sum_known_shares_pct": 100,
+        "is_family_owned": true,
+        "is_pe_owned": false,
+        "is_foreign_owned": false,
+        "ownership_source": "northdata.relatedPersons"
+    },
+    "corporate_structure": {
+        "n_related": 2,
+        "n_parents": 0,
+        "n_subsidiaries": 0,
+        "n_siblings": 0,
+        "n_other": 2,
+        "has_parent": false,
+        "has_subsidiaries": false,
+        "parents": null,
+        "subsidiaries": null,
+        "siblings": null,
+        "other_related": [
+            {
+                "name": "VALBENE GmbH",
+                "country": "AT",
+                "city": "Trumau",
+                "northdata_url": "https://www.northdata.de/VALBENE%20GmbH,%20Trumau/265567s",
+                "role_raw": "Shareholder",
+                "role_label": "Gesellschafter",
+                "since": "2012-04-17"
+            },
+            {
+                "name": "ACC Automation Competence Center GmbH",
+                "country": "AT",
+                "city": "Ober-Grafendorf",
+                "northdata_url": "https://www.northdata.de/ACC%20Automation%20Competence%20Center%20GmbH,%20Ober-Grafendorf/194734z",
+                "role_raw": "Shareholder",
+                "role_label": "Gesellschafter",
+                "since": "2015-12-01"
+            }
+        ],
+        "source": "northdata.relatedCompanies"
+    },
+    "succession": {
+        "succession_score": 54.5,
+        "succession_band": "moderate",
+        "succession_components": {
+            "age_component": 50,
+            "tenure_component": 85,
+            "founder_component": 20,
+            "tenure_basis": "northdata_real"
+        },
+        "is_founder_led": false,
+        "founder_signal_basis": null,
+        "primary_gf": {
+            "name": "Claus Benedict",
+            "birth_year": 1972,
+            "age_in_2026": 54,
+            "tenure_min_years": 6,
+            "tenure_min_years_basis": "finanzonline_filing_window",
+            "tenure_real_since": "2002-06-18",
+            "tenure_real_years": 24
+        },
+        "current_gf_persons": [
+            {
+                "name": "Claus Benedict",
+                "birth_year": 1972,
+                "age_in_2026": 54,
+                "since": "2002-06-18"
+            }
+        ],
+        "n_signatories_latest": 1,
+        "signatories_history": {
+            "history": {
+                "2020": 1,
+                "2021": 1,
+                "2022": 1,
+                "2023": 1,
+                "2024": 1,
+                "2025": 1
+            },
+            "change_years": null,
+            "stability_years": 5,
+            "all_names_ever": [
+                "Claus Benedict"
+            ]
+        },
+        "previous_names": [
+            {
+                "name": "Schubert Elektroanlagen GmbH Ober - Grafendorf, politische Gemeinde Ober-Grafendorf",
+                "legal_form": "GmbH",
+                "until_date": "2022-12-01"
+            }
+        ]
+    },
+    "events": [
+        {
+            "year": 2025,
+            "date": "2025-10-11",
+            "type": "ManagementChange",
+            "description": "Nicht mehr Prokura: Alexander Schneeweis"
+        },
+        {
+            "year": 2024,
+            "date": "2024-04-09",
+            "type": "ManagementChange",
+            "description": "Prokura: Stefan Haslinger"
+        },
+        {
+            "year": 2024,
+            "date": "2024-03-07",
+            "type": "ManagementChange",
+            "description": "Nicht mehr Prokura: Christoph Bäck"
+        },
+        {
+            "year": 2023,
+            "date": "2023-04-14",
+            "type": "ManagementChange",
+            "description": "Prokura: Christoph Kramer"
+        },
+        {
+            "year": 2022,
+            "date": "2022-12-02",
+            "type": "NameChange",
+            "description": "vormals: Schubert Elektroanlagen GmbH Ober - Grafendorf, politische Gemeinde Ober-Grafendorf"
+        }
+    ],
+    "score": {
+        "overall": 61.1,
+        "year": 2025,
+        "band": "strong",
+        "band_label": "Strong Signals",
+        "band_label_de": "Deutliche Hinweise",
+        "band_description": "Several indicators point toward a transition window; warrants closer review",
+        "band_description_de": "Mehrere Indikatoren weisen auf ein Übergangsfenster hin; nähere Prüfung empfohlen",
+        "band_color": "#2d6a9f",
+        "dimensions": {
+            "exit_likelihood": {
+                "score": 42,
+                "weight": 0.4,
+                "components": {
+                    "altersprofil": {
+                        "points": 0,
+                        "max": 25,
+                        "pct": 0
+                    },
+                    "founder_match": {
+                        "points": 0,
+                        "max": 20,
+                        "pct": 0
+                    },
+                    "key_person": {
+                        "points": 12,
+                        "max": 15,
+                        "pct": 0.8
+                    },
+                    "mgmt_stability": {
+                        "points": 5,
+                        "max": 15,
+                        "pct": 0.3333
+                    },
+                    "gesellschafter_wechsel": {
+                        "points": 25,
+                        "max": 25,
+                        "pct": 1
+                    }
+                },
+                "details": {
+                    "max_relevant_age": 53.5,
+                    "founder_signatories": [],
+                    "is_founder_led": false,
+                    "founder_evidence": [],
+                    "gf_count": 0,
+                    "years_same_signatories": 5,
+                    "shareholder_data_available": true,
+                    "shareholder_snapshot_count": 0,
+                    "shareholder_change_event_count": 0,
+                    "scored_components_max": 100
+                },
+                "signals": [
+                    "Sole signatory, name not in company name, owner-managed under different name or post-acquisition",
+                    "No formal GF listed, sole signatory controls operations",
+                    "Same signatories for 5 years",
+                    "No ownership changes in available history – stable ownership, prime transition candidate"
+                ],
+                "signals_de": [
+                    "Alleiniger Zeichnungsberechtigter, Name nicht im Firmennamen, inhabergeführt unter anderem Namen oder nach Übernahme",
+                    "Kein formaler GF gelistet, alleiniger Zeichnungsberechtigter kontrolliert Betrieb",
+                    "Gleiche Zeichnungsberechtigte seit 5 Jahren",
+                    "Keine Eigentümerwechsel in verfügbarer Historie – stabile Eigentümerstruktur, klassischer Übergabe-Kandidat"
+                ]
+            },
+            "company_quality": {
+                "score": 83,
+                "weight": 0.35,
+                "components": {
+                    "profitabilitaet": {
+                        "points": 25,
+                        "max": 25,
+                        "pct": 1
+                    },
+                    "eigenkapital": {
+                        "points": 8,
+                        "max": 20,
+                        "pct": 0.4
+                    },
+                    "wachstum": {
+                        "points": 20,
+                        "max": 20,
+                        "pct": 1
+                    },
+                    "verschuldung": {
+                        "points": 10,
+                        "max": 15,
+                        "pct": 0.6667
+                    },
+                    "branche": {
+                        "points": 20,
+                        "max": 20,
+                        "pct": 1
+                    }
+                },
+                "details": {
+                    "has_pnl": true,
+                    "profitable_years": 5,
+                    "pnl_years_considered": 5,
+                    "net_income": 1214303.44,
+                    "equity_ratio": 0.2721,
+                    "revenue_data_available": true,
+                    "revenue_growth_streak": 4,
+                    "fk_to_ek": 1.52,
+                    "industry_id": "machinery_metal",
+                    "industry_label_de": "Maschinen- und Metallindustrie",
+                    "industry_label_en": "Machinery & Metal Industry",
+                    "industry_confidence": "high"
+                },
+                "signals": [
+                    "Consistently profitable (5 of 5 years)",
+                    "Adequate equity (27%)",
+                    "Revenue growing 4 consecutive years",
+                    "Moderate leverage (FK/EK = 1.52)",
+                    "Industry: Machinery & Metal Industry"
+                ],
+                "signals_de": [
+                    "Durchgehend profitabel (5 von 5 Jahren)",
+                    "Angemessene Eigenkapitalquote (27%)",
+                    "Umsatz wächst seit 4 aufeinanderfolgenden Jahren",
+                    "Moderate Verschuldung (FK/EK = 1.52)",
+                    "Branche: Maschinen- und Metallindustrie"
+                ]
+            },
+            "timing_signals": {
+                "score": 61,
+                "weight": 0.25,
+                "components": {
+                    "investment_decline": {
+                        "points": 6,
+                        "max": 45,
+                        "pct": 0.1333
+                    },
+                    "harvesting": {
+                        "points": 35,
+                        "max": 35,
+                        "pct": 1
+                    },
+                    "bilanzielle_stabilitaet": {
+                        "points": 20,
+                        "max": 20,
+                        "pct": 1
+                    }
+                },
+                "details": {
+                    "sachanlagen_decline_streak": 1,
+                    "revenue_change_1y": 0.19,
+                    "sachanlagen_change_1y": -0.1081,
+                    "bilanzielle_stabilitaet_issues": []
+                },
+                "signals": [
+                    "Revenue growing while investment declining – classic harvesting pattern",
+                    "Clean bilanz: no distress signals (positive equity, no loss-year cluster, active status)"
+                ],
+                "signals_de": [
+                    "Umsatzwachstum bei sinkenden Investitionen – klassisches Abschöpfungsmuster",
+                    "Bilanzielle Stabilität: keine Distresssignale (positives EK, keine Häufung von Verlustjahren, aktiver Status)"
+                ]
+            }
+        },
+        "observations": [
+            {
+                "type": "cash_accumulation",
+                "severity": "info",
+                "year": 2025,
+                "text_en": "Cash growing 3 years to 23% of assets",
+                "text_de": "Kassenbestand wächst seit 3 Jahren auf 23% der Bilanzsumme",
+                "details": {
+                    "streak_years": 3,
+                    "cash_to_assets": 0.2256
+                }
+            }
+        ],
+        "top_signals": [
+            {
+                "dimension": "exit_likelihood",
+                "text": "Sole signatory, name not in company name, owner-managed under different name or post-acquisition",
+                "text_de": "Alleiniger Zeichnungsberechtigter, Name nicht im Firmennamen, inhabergeführt unter anderem Namen oder nach Übernahme"
+            },
+            {
+                "dimension": "exit_likelihood",
+                "text": "No formal GF listed, sole signatory controls operations",
+                "text_de": "Kein formaler GF gelistet, alleiniger Zeichnungsberechtigter kontrolliert Betrieb"
+            },
+            {
+                "dimension": "exit_likelihood",
+                "text": "Same signatories for 5 years",
+                "text_de": "Gleiche Zeichnungsberechtigte seit 5 Jahren"
+            },
+            {
+                "dimension": "exit_likelihood",
+                "text": "No ownership changes in available history – stable ownership, prime transition candidate",
+                "text_de": "Keine Eigentümerwechsel in verfügbarer Historie – stabile Eigentümerstruktur, klassischer Übergabe-Kandidat"
+            },
+            {
+                "dimension": "company_quality",
+                "text": "Consistently profitable (5 of 5 years)",
+                "text_de": "Durchgehend profitabel (5 von 5 Jahren)"
+            }
+        ],
+        "scored_at": "2026-06-05T07:29:09Z"
+    },
+    "description": {
+        "text": null,
+        "source": null,
+        "length": 0
+    },
+    "online_presence": {
+        "business_type": "Energieausrüstung und -lösungen in Ober-Grafendorf",
+        "google_rating": 4.6,
+        "google_review_count": 44,
+        "phone": "02747 2535",
+        "opening_hours": "Geschlossen · Öffnet Do um 07 - 00",
+        "has_operating_hours": true,
+        "is_claimed_listing": false,
+        "social_profiles": [
+            {
+                "name": "YouTube",
+                "url": "https://www.youtube.com/@schubertcleantech"
+            },
+            {
+                "name": "LinkedIn",
+                "url": "https://at.linkedin.com/company/schubertcleantech"
+            },
+            {
+                "name": "Facebook",
+                "url": "https://www.facebook.com/schubert.cleantech"
+            }
+        ],
+        "top_organic_links": [
+            {
+                "title": "Schubert CleanTech GmbH in Ober-Grafendorf",
+                "url": "https://www.firmenabc.at/schubert-cleantech-gmbh_jSE",
+                "domain": "www.firmenabc.at"
+            },
+            {
+                "title": "Schubert CleanTech GmbH als Arbeitgeber",
+                "url": "https://www.kununu.com/at/schubert-cleantech",
+                "domain": "www.kununu.com"
+            },
+            {
+                "title": "Schubert CleanTech GmbH",
+                "url": "https://at.linkedin.com/company/schubertcleantech",
+                "domain": "at.linkedin.com"
+            }
+        ],
+        "has_website": true,
+        "has_wikipedia": false,
+        "has_linkedin": true,
+        "n_organic_results": 6
+    },
+    "external": {
+        "northdata_url": "https://www.northdata.de/Schubert%20CleanTech%20GmbH,%20Ober-Grafendorf/093450b",
+        "company_website": "http://www.schubert.tech/"
+    },
+    "_meta": {
+        "full_doc_ref": "7_scored/093450b",
+        "built_at": "2026-06-05T13:34:34Z",
+        "built_by": "phase9_present.py builder v4.2"
+    },
+    "_rid": "1A45AOB9EZq5DgAAAAAAAA==",
+    "_self": "dbs/1A45AA==/colls/1A45AOB9EZo=/docs/1A45AOB9EZq5DgAAAAAAAA==/",
+    "_etag": "\"0e00c691-0000-1500-0000-6a22d06a0000\"",
+    "_attachments": "attachments/",
+    "_ts": 1780666474
+}

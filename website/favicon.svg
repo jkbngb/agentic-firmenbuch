@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Agentic-Firmenbuch.at">
+  <rect width="32" height="32" rx="7" fill="#0C0E12"/>
+  <rect width="32" height="32" rx="7" fill="url(#g)" fill-opacity=".5"/>
+  <defs>
+    <radialGradient id="g" cx="30%" cy="22%" r="80%">
+      <stop offset="0" stop-color="#19C37D" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#19C37D" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="6.5" y="6.5" width="8.6" height="8.6" rx="2.3" fill="#19C37D"/>
+  <rect x="16.9" y="6.5" width="8.6" height="8.6" rx="2.3" fill="#19C37D" fill-opacity=".42"/>
+  <rect x="6.5" y="16.9" width="8.6" height="8.6" rx="2.3" fill="#19C37D" fill-opacity=".42"/>
+  <rect x="16.9" y="16.9" width="8.6" height="8.6" rx="2.3" fill="#19C37D"/>
+</svg>

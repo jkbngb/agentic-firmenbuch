@@ -1,0 +1,15 @@
+# Azure Functions (Python v2) runtime deps for the signup API.
+azure-functions
+azure-cosmos>=4.5
+azure-identity
+azure-communication-email
+httpx
+pydantic>=2
+pydantic-settings
+
+# Workspace packages reused by the Functions (account lifecycle, config, storage).
+# Relative paths resolve from this folder (api/). For Static Web Apps / Oryx builds that
+# don't see ../packages, build wheels first (see api/README.md) — we do NOT deploy here.
+../packages/core
+../packages/auth
+../packages/mcp_server

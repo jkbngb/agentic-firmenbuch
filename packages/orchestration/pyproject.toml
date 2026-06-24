@@ -1,0 +1,27 @@
+[project]
+name = "fbl-orchestration"
+version = "1.0.0"
+description = "Stage 8: the Container Apps Job entrypoint that runs ingest..present per mode."
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fbl-core",
+    "fbl-registry",
+    "fbl-firmenbuch-client",
+    "fbl-ingest",
+    "fbl-parse",
+    "fbl-consolidate",
+    "fbl-derive",
+    "fbl-present",
+    "fbl-mcp-server",  # store_stats: rebuild the served __stats__ snapshot after each run
+    "pydantic>=2.7",
+]
+
+[project.scripts]
+fbl-pipeline = "fbl_orchestration.__main__:cli"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fbl_orchestration"]

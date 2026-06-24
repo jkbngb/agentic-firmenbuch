@@ -1,0 +1,4158 @@
+{
+  "_meta": {
+    "source": "a prior project pipeline/shared/position_mapping.py (auto-generated from official JAb 4.0 spec: 4.00_Struktur_JAb_2026_03_11-V31.xlsx + JAb_4_00-Uebermittlung.xsd)",
+    "purpose": "Canonical financial-statement position taxonomy. Each canonical snake_case name maps from BOTH legacy HGB_*/XXX_* codes AND new v4 semantic element names. Copy into core/mapping/.",
+    "entry_count": 317,
+    "categories": [
+      "anlage_1",
+      "anlage_2",
+      "anlage_3",
+      "anlagenspiegel",
+      "bilanz",
+      "forderungenspiegel",
+      "guv_gesamtkostenverfahren",
+      "guv_umsatzkostenverfahren",
+      "ruecklagenspiegel",
+      "rueckstellungenspiegel",
+      "verbindlichkeitenspiegel",
+      "zusatzangaben_mikro_ag"
+    ]
+  },
+  "positions": [
+    {
+      "canonical": "aktiva",
+      "label_de": "Aktiva",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2"
+      ],
+      "v4_elements": [
+        "AKTIVA"
+      ]
+    },
+    {
+      "canonical": "aktiva_freier_posten",
+      "label_de": "Aktiva freier posten",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "AKTIVA_FREIER_POSTEN"
+      ]
+    },
+    {
+      "canonical": "aktiva_rechnungsabgrenzungsposten",
+      "label_de": "Aktiva rechnungsabgrenzungsposten",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_C"
+      ],
+      "v4_elements": [
+        "AKTIVA_RECHNUNGSABGRENZUNGSPOSTEN"
+      ]
+    },
+    {
+      "canonical": "aktive_latente_steuern",
+      "label_de": "Aktive latente steürn",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_2",
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_D",
+        "HGB_Form_3_26"
+      ],
+      "v4_elements": [
+        "AKTIVE_LATENTE_STEUERN"
+      ]
+    },
+    {
+      "canonical": "anlage1_auszug_aus_der_bilanz",
+      "label_de": "Auszug aus der Bilanz (Anlage 1)",
+      "category": "anlage_1",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_2"
+      ],
+      "v4_elements": [
+        "ANLAGE1_AUSZUG_AUS_DER_BILANZ"
+      ]
+    },
+    {
+      "canonical": "anlagevermoegen",
+      "label_de": "Anlagevermögen",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "anlagenspiegel",
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A"
+      ],
+      "v4_elements": [
+        "ANLAGEVERMOEGEN"
+      ]
+    },
+    {
+      "canonical": "anlagevermoegen_freier_posten",
+      "label_de": "Anlagevermögen freier posten",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "anlagenspiegel",
+        "bilanz"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "ANLAGEVERMOEGEN_FREIER_POSTEN"
+      ]
+    },
+    {
+      "canonical": "bilanzgewinn_bilanzverlust",
+      "label_de": "Bilanzgewinn bilanzverlust",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_A_IV"
+      ],
+      "v4_elements": [
+        "BILANZGEWINN_BILANZVERLUST"
+      ]
+    },
+    {
+      "canonical": "davon_eingeforderte_aber_noch_nicht_eingezahlte_betraege_von_gesellschaftern",
+      "label_de": "Davon eingeforderte aber noch nicht eingezahlte beträge von gesellschaftern",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz",
+        "forderungenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_B_II_4_HGB_229"
+      ],
+      "v4_elements": [
+        "DAVON_EINGEFORDERTE_ABER_NOCH_NICHT_EINGEZAHLTE_BETRAEGE_VON_GESELLSCHAFTERN"
+      ]
+    },
+    {
+      "canonical": "davon_eingezahlt",
+      "label_de": "Davon eingezahlt",
+      "category": "anlage_1",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_229_1_A_II_a",
+        "HGB_229_1_A_I_a"
+      ],
+      "v4_elements": [
+        "DAVON_EINGEZAHLT"
+      ]
+    },
+    {
+      "canonical": "davon_gewinnvortrag_verlustvortrag",
+      "label_de": "Davon gewinnvortrag verlustvortrag",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_A_IV_x"
+      ],
+      "v4_elements": [
+        "DAVON_GEWINNVORTRAG_VERLUSTVORTRAG"
+      ]
+    },
+    {
+      "canonical": "davon_restlaufzeit_von_mehr_als_einem_jahr",
+      "label_de": "Davon restlaufzeit von mehr als einem jahr",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_B_II_1_HGB_225b",
+        "HGB_224_2_B_II_2_HGB_225b",
+        "HGB_224_2_B_II_3_HGB_225b",
+        "HGB_224_2_B_II_4_HGB_225b",
+        "HGB_224_2_B_II_x_HGB_225b",
+        "HGB_224_3_D_1_HGB_225b",
+        "HGB_224_3_D_2_HGB_225b",
+        "HGB_224_3_D_3_HGB_225b",
+        "HGB_224_3_D_4_HGB_225b",
+        "HGB_224_3_D_5_HGB_225b",
+        "HGB_224_3_D_6_HGB_225b",
+        "HGB_224_3_D_7_HGB_225b",
+        "HGB_224_3_D_8_HGB_225b",
+        "HGB_224_3_D_HGB_225b"
+      ],
+      "v4_elements": [
+        "DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR"
+      ]
+    },
+    {
+      "canonical": "derzeit_nicht_einforderbare_einlagen",
+      "label_de": "Derzeit nicht einforderbare einlagen",
+      "category": "anlage_1",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_229_1_A_I_b"
+      ],
+      "v4_elements": [
+        "DERZEIT_NICHT_EINFORDERBARE_EINLAGEN"
+      ]
+    },
+    {
+      "canonical": "eigenkapital",
+      "label_de": "Eigenkapital",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_A"
+      ],
+      "v4_elements": [
+        "EIGENKAPITAL"
+      ]
+    },
+    {
+      "canonical": "eigenkapital_freier_posten_2",
+      "label_de": "Eigenkapital freier posten 2",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz",
+        "ruecklagenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "EIGENKAPITAL_FREIER_POSTEN_2"
+      ]
+    },
+    {
+      "canonical": "eigenkapital_freier_posten_3",
+      "label_de": "Eigenkapital freier posten 3",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "EIGENKAPITAL_FREIER_POSTEN_3"
+      ]
+    },
+    {
+      "canonical": "eingefordertes_stammkapital",
+      "label_de": "Eingefordertes stammkapital",
+      "category": "anlage_1",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_229_1_A_I"
+      ],
+      "v4_elements": [
+        "EINGEFORDERTES_STAMMKAPITAL"
+      ]
+    },
+    {
+      "canonical": "finanzanlagen",
+      "label_de": "Finanzanlagen",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "anlagenspiegel",
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_III"
+      ],
+      "v4_elements": [
+        "FINANZANLAGEN"
+      ]
+    },
+    {
+      "canonical": "forderungen_und_sonstige_vermoegensgegenstaende",
+      "label_de": "Forderungen und sonstige Vermögensgegenstände",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz",
+        "forderungenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_B_II"
+      ],
+      "v4_elements": [
+        "FORDERUNGEN_UND_SONSTIGE_VERMOEGENSGEGENSTAENDE"
+      ]
+    },
+    {
+      "canonical": "gewinnruecklagen",
+      "label_de": "Gewinnrücklagen",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz",
+        "ruecklagenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_A_III"
+      ],
+      "v4_elements": [
+        "GEWINNRUECKLAGEN"
+      ]
+    },
+    {
+      "canonical": "hybride_finanzinstrumente",
+      "label_de": "Hybride finanzinstrumente",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "XXX_224_3_D_X"
+      ],
+      "v4_elements": [
+        "HYBRIDE_FINANZINSTRUMENTE"
+      ]
+    },
+    {
+      "canonical": "immaterielle_vermoegensgegenstaende",
+      "label_de": "Immaterielle Vermögensgegenstände",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "anlagenspiegel",
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_I"
+      ],
+      "v4_elements": [
+        "IMMATERIELLE_VERMOEGENSGEGENSTAENDE"
+      ]
+    },
+    {
+      "canonical": "investitionszuschuesse",
+      "label_de": "Investitionszuschüße",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "XXX_224_3_B_X"
+      ],
+      "v4_elements": [
+        "INVESTITIONSZUSCHUESSE"
+      ]
+    },
+    {
+      "canonical": "kapitalruecklagen",
+      "label_de": "Kapitalrücklagen",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz",
+        "ruecklagenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_A_II"
+      ],
+      "v4_elements": [
+        "KAPITALRUECKLAGEN"
+      ]
+    },
+    {
+      "canonical": "kassenbestand_schecks_guthaben_bei_kreditinstituten",
+      "label_de": "Kaßenbestand schecks guthaben bei kreditinstituten",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_B_IV"
+      ],
+      "v4_elements": [
+        "KASSENBESTAND_SCHECKS_GUTHABEN_BEI_KREDITINSTITUTEN"
+      ]
+    },
+    {
+      "canonical": "nennbetrag_rechnerischer_wert_eigener_anteile",
+      "label_de": "Nennbetrag rechnerischer wert eigener anteile",
+      "category": "anlage_1",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_229_1_A_I_d"
+      ],
+      "v4_elements": [
+        "NENNBETRAG_RECHNERISCHER_WERT_EIGENER_ANTEILE"
+      ]
+    },
+    {
+      "canonical": "passiva",
+      "label_de": "Passiva",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_3"
+      ],
+      "v4_elements": [
+        "PASSIVA"
+      ]
+    },
+    {
+      "canonical": "passiva_freier_posten_1",
+      "label_de": "Paßiva freier posten 1",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "PASSIVA_FREIER_POSTEN_1"
+      ]
+    },
+    {
+      "canonical": "passiva_freier_posten_2",
+      "label_de": "Paßiva freier posten 2",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "PASSIVA_FREIER_POSTEN_2"
+      ]
+    },
+    {
+      "canonical": "passiva_rechnungsabgrenzungsposten",
+      "label_de": "Paßiva rechnungsabgrenzungsposten",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_E"
+      ],
+      "v4_elements": [
+        "PASSIVA_RECHNUNGSABGRENZUNGSPOSTEN"
+      ]
+    },
+    {
+      "canonical": "ruecklage_fuer_eigene_anteile",
+      "label_de": "Rücklage für eigene anteile",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz",
+        "ruecklagenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_A_V"
+      ],
+      "v4_elements": [
+        "RUECKLAGE_FUER_EIGENE_ANTEILE"
+      ]
+    },
+    {
+      "canonical": "rueckstellungen",
+      "label_de": "Rückstellungen",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz",
+        "rueckstellungenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_C"
+      ],
+      "v4_elements": [
+        "RUECKSTELLUNGEN"
+      ]
+    },
+    {
+      "canonical": "sachanlagen",
+      "label_de": "Sachanlagen",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "anlagenspiegel",
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_II"
+      ],
+      "v4_elements": [
+        "SACHANLAGEN"
+      ]
+    },
+    {
+      "canonical": "sonstige_nicht_eingeforderte_ausstehende_einlagen",
+      "label_de": "Sonstige nicht eingeforderte außtehende einlagen",
+      "category": "anlage_1",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_229_1_A_II_c",
+        "HGB_229_1_A_I_c"
+      ],
+      "v4_elements": [
+        "SONSTIGE_NICHT_EINGEFORDERTE_AUSSTEHENDE_EINLAGEN"
+      ]
+    },
+    {
+      "canonical": "stammkapital",
+      "label_de": "Stammkapital",
+      "category": "anlage_1",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_A_I_a"
+      ],
+      "v4_elements": [
+        "STAMMKAPITAL"
+      ]
+    },
+    {
+      "canonical": "umlaufvermoegen",
+      "label_de": "Umlaufvermögen",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_B"
+      ],
+      "v4_elements": [
+        "UMLAUFVERMOEGEN"
+      ]
+    },
+    {
+      "canonical": "umlaufvermoegen_freier_posten",
+      "label_de": "Umlaufvermögen freier posten",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "UMLAUFVERMOEGEN_FREIER_POSTEN"
+      ]
+    },
+    {
+      "canonical": "verbindlichkeiten",
+      "label_de": "Verbindlichkeiten",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz",
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_D"
+      ],
+      "v4_elements": [
+        "VERBINDLICHKEITEN"
+      ]
+    },
+    {
+      "canonical": "vorraete",
+      "label_de": "Vorräte",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_B_I"
+      ],
+      "v4_elements": [
+        "VORRAETE"
+      ]
+    },
+    {
+      "canonical": "wertpapiere_und_anteile",
+      "label_de": "Wertpapiere und anteile",
+      "category": "anlage_1",
+      "extra_categories": [
+        "anlage_3",
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_B_III"
+      ],
+      "v4_elements": [
+        "WERTPAPIERE_UND_ANTEILE"
+      ]
+    },
+    {
+      "canonical": "aenderung_der_bilanzierungs_und_bewertungsmethoden",
+      "label_de": "Änderung der bilanzierungs und bewertungsmethoden",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_6_5"
+      ],
+      "v4_elements": [
+        "AENDERUNG_DER_BILANZIERUNGS_UND_BEWERTUNGSMETHODEN"
+      ]
+    },
+    {
+      "canonical": "anlage2_offenzulegender_anhang",
+      "label_de": "Offenzulegender Anhang  (Anlage 2)",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3"
+      ],
+      "v4_elements": [
+        "ANLAGE2_OFFENZULEGENDER_ANHANG"
+      ]
+    },
+    {
+      "canonical": "art_und_form_dieser_sicherheiten",
+      "label_de": "Art und form dieser sicherheiten",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_9_4"
+      ],
+      "v4_elements": [
+        "ART_UND_FORM_DIESER_SICHERHEITEN"
+      ]
+    },
+    {
+      "canonical": "art_und_form_jeder_dinglichen_sicherheit",
+      "label_de": "Art und form jeder dinglichen sicherheit",
+      "category": "anlage_2",
+      "extra_categories": [
+        "zusatzangaben_mikro_ag"
+      ],
+      "hgb_codes": [
+        "HGB_Form_242_1_1_3",
+        "HGB_Form_3_11_3"
+      ],
+      "v4_elements": [
+        "ART_UND_FORM_JEDER_DINGLICHEN_SICHERHEIT"
+      ]
+    },
+    {
+      "canonical": "aufsichtsratsmitglieder",
+      "label_de": "Aufsichtsratsmitglieder",
+      "category": "anlage_2",
+      "extra_categories": [
+        "zusatzangaben_mikro_ag"
+      ],
+      "hgb_codes": [
+        "HGB_Form_242_1_2_b",
+        "HGB_Form_3_17_b"
+      ],
+      "v4_elements": [
+        "AUFSICHTSRATSMITGLIEDER"
+      ]
+    },
+    {
+      "canonical": "aufsichtsratsmitglieder_betrag_der_vorschuesse",
+      "label_de": "Aufsichtsratsmitglieder betrag der vorschüße",
+      "category": "anlage_2",
+      "extra_categories": [
+        "zusatzangaben_mikro_ag"
+      ],
+      "hgb_codes": [
+        "HGB_Form_242_1_2_b_1",
+        "HGB_Form_3_17_b_1"
+      ],
+      "v4_elements": [
+        "AUFSICHTSRATSMITGLIEDER_BETRAG_DER_VORSCHUESSE"
+      ]
+    },
+    {
+      "canonical": "aufsichtsratsmitglieder_im_geschaeftsjahr_erlassene_betraege",
+      "label_de": "Aufsichtsratsmitglieder im geschäftsjahr erlaßene beträge",
+      "category": "anlage_2",
+      "extra_categories": [
+        "zusatzangaben_mikro_ag"
+      ],
+      "hgb_codes": [
+        "HGB_Form_242_1_2_b_4",
+        "HGB_Form_3_17_b_4"
+      ],
+      "v4_elements": [
+        "AUFSICHTSRATSMITGLIEDER_IM_GESCHAEFTSJAHR_ERLASSENE_BETRAEGE"
+      ]
+    },
+    {
+      "canonical": "aufsichtsratsmitglieder_wesentliche_bedingungen",
+      "label_de": "Aufsichtsratsmitglieder wesentliche bedingungen",
+      "category": "anlage_2",
+      "extra_categories": [
+        "zusatzangaben_mikro_ag"
+      ],
+      "hgb_codes": [
+        "HGB_Form_242_1_2_b_3",
+        "HGB_Form_3_17_b_3"
+      ],
+      "v4_elements": [
+        "AUFSICHTSRATSMITGLIEDER_WESENTLICHE_BEDINGUNGEN"
+      ]
+    },
+    {
+      "canonical": "aufsichtsratsmitglieder_zinsen_dafuer",
+      "label_de": "Aufsichtsratsmitglieder zinsen dafür",
+      "category": "anlage_2",
+      "extra_categories": [
+        "zusatzangaben_mikro_ag"
+      ],
+      "hgb_codes": [
+        "HGB_Form_242_1_2_b_2",
+        "HGB_Form_3_17_b_2"
+      ],
+      "v4_elements": [
+        "AUFSICHTSRATSMITGLIEDER_ZINSEN_DAFUER"
+      ]
+    },
+    {
+      "canonical": "aufsichtsratsmitglieder_zugunsten_eingegangene_haftungsverhaeltnisse",
+      "label_de": "Aufsichtsratsmitglieder zugunsten eingegangene haftungsverhältniße",
+      "category": "anlage_2",
+      "extra_categories": [
+        "zusatzangaben_mikro_ag"
+      ],
+      "hgb_codes": [
+        "HGB_Form_242_1_2_b_5",
+        "HGB_Form_3_17_b_5"
+      ],
+      "v4_elements": [
+        "AUFSICHTSRATSMITGLIEDER_ZUGUNSTEN_EINGEGANGENE_HAFTUNGSVERHAELTNISSE"
+      ]
+    },
+    {
+      "canonical": "auslaendische_registernummer_des_mutterunternehmens",
+      "label_de": "Ausländische registernummer des mutterunternehmens",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "AUSLAENDISCHE_REGISTERNUMMER_DES_MUTTERUNTERNEHMENS"
+      ]
+    },
+    {
+      "canonical": "auslaendischer_sitz_des_mutterunternehmens",
+      "label_de": "Ausländischer sitz des mutterunternehmens",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "AUSLAENDISCHER_SITZ_DES_MUTTERUNTERNEHMENS"
+      ]
+    },
+    {
+      "canonical": "auslaendisches_mutterunternehmen",
+      "label_de": "Ausländisches mutterunternehmen",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "AUSLAENDISCHES_MUTTERUNTERNEHMEN"
+      ]
+    },
+    {
+      "canonical": "betrag_ueber_die_herstellungskosten",
+      "label_de": "Betrag über die herstellungskosten",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_8_2"
+      ],
+      "v4_elements": [
+        "BETRAG_UEBER_DIE_HERSTELLUNGSKOSTEN"
+      ]
+    },
+    {
+      "canonical": "betrag_und_wesensart_der_ertrags_und_aufwandsposten",
+      "label_de": "Betrag und wesensart der ertrags und aufwandsposten",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_27"
+      ],
+      "v4_elements": [
+        "BETRAG_UND_WESENSART_DER_ERTRAGS_UND_AUFWANDSPOSTEN"
+      ]
+    },
+    {
+      "canonical": "betrag_verbindlichkeiten_dingliche_sicherheiten",
+      "label_de": "Betrag verbindlichkeiten dingliche sicherheiten",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_9_3"
+      ],
+      "v4_elements": [
+        "BETRAG_VERBINDLICHKEITEN_DINGLICHE_SICHERHEITEN"
+      ]
+    },
+    {
+      "canonical": "betrag_verbindlichkeiten_restlaufzeit_mehr_als_fuenf_jahre",
+      "label_de": "Betrag verbindlichkeiten restlaufzeit mehr als fünf jahre",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_9_1"
+      ],
+      "v4_elements": [
+        "BETRAG_VERBINDLICHKEITEN_RESTLAUFZEIT_MEHR_ALS_FUENF_JAHRE"
+      ]
+    },
+    {
+      "canonical": "bewertungsgrundlagen_fuer_posten",
+      "label_de": "Bewertungsgrundlagen für posten",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_6_3"
+      ],
+      "v4_elements": [
+        "BEWERTUNGSGRUNDLAGEN_FUER_POSTEN"
+      ]
+    },
+    {
+      "canonical": "bilanzierungs_und_bewertungsmethoden",
+      "label_de": "Bilanzierungs und bewertungsmethoden",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_6"
+      ],
+      "v4_elements": [
+        "BILANZIERUNGS_UND_BEWERTUNGSMETHODEN"
+      ]
+    },
+    {
+      "canonical": "bilanzierungs_und_bewertungsmethoden_begruendung_dafuer",
+      "label_de": "Bilanzierungs und bewertungsmethoden begründung dafür",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_6_1"
+      ],
+      "v4_elements": [
+        "BILANZIERUNGS_UND_BEWERTUNGSMETHODEN_BEGRUENDUNG_DAFUER"
+      ]
+    },
+    {
+      "canonical": "bilanzierungs_und_bewertungsmethoden_einfluss_auf_die_ertragslage",
+      "label_de": "Bilanzierungs und bewertungsmethoden einfluß auf die ertragslage",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_6_2"
+      ],
+      "v4_elements": [
+        "BILANZIERUNGS_UND_BEWERTUNGSMETHODEN_EINFLUSS_AUF_DIE_ERTRAGSLAGE"
+      ]
+    },
+    {
+      "canonical": "davon_pensionsverpflichtungen",
+      "label_de": "Davon pensionsverpflichtungen",
+      "category": "anlage_2",
+      "extra_categories": [
+        "zusatzangaben_mikro_ag"
+      ],
+      "hgb_codes": [
+        "HGB_Form_242_1_1_4",
+        "HGB_Form_3_11_4"
+      ],
+      "v4_elements": [
+        "DAVON_PENSIONSVERPFLICHTUNGEN"
+      ]
+    },
+    {
+      "canonical": "davon_verpflichtungen_gegenueber_unternehmen",
+      "label_de": "Davon verpflichtungen gegenüber unternehmen",
+      "category": "anlage_2",
+      "extra_categories": [
+        "zusatzangaben_mikro_ag"
+      ],
+      "hgb_codes": [
+        "HGB_Form_242_1_1_1",
+        "HGB_Form_3_11_1"
+      ],
+      "v4_elements": [
+        "DAVON_VERPFLICHTUNGEN_GEGENUEBER_UNTERNEHMEN"
+      ]
+    },
+    {
+      "canonical": "durchschnittliche_anzahl_arbeitnehmer",
+      "label_de": "Durchschnittliche anzahl arbeitnehmer",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_16"
+      ],
+      "v4_elements": [
+        "DURCHSCHNITTLICHE_ANZAHL_ARBEITNEHMER"
+      ]
+    },
+    {
+      "canonical": "eigenkapital_erforderliche_informationen_fuer_personengesellschaften",
+      "label_de": "Eigenkapital erforderliche informationen für personengesellschaften",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_25"
+      ],
+      "v4_elements": [
+        "EIGENKAPITAL_ERFORDERLICHE_INFORMATIONEN_FUER_PERSONENGESELLSCHAFTEN"
+      ]
+    },
+    {
+      "canonical": "einfluss_auf_die_ertragslage",
+      "label_de": "Einfluß auf die ertragslage",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_8_3"
+      ],
+      "v4_elements": [
+        "EINFLUSS_AUF_DIE_ERTRAGSLAGE"
+      ]
+    },
+    {
+      "canonical": "entwicklung_des_anlagevermoegens",
+      "label_de": "Entwicklung des anlagevermögens",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "ENTWICKLUNG_DES_ANLAGEVERMOEGENS"
+      ]
+    },
+    {
+      "canonical": "erlaeuterung_des_zeitraums",
+      "label_de": "Erläuterung des zeitraums",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_28"
+      ],
+      "v4_elements": [
+        "ERLAEUTERUNG_DES_ZEITRAUMS"
+      ]
+    },
+    {
+      "canonical": "erlaeuterung_negatives_eigenkapital",
+      "label_de": "Erläuterung negatives eigenkapital",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_5"
+      ],
+      "v4_elements": [
+        "ERLAEUTERUNG_NEGATIVES_EIGENKAPITAL"
+      ]
+    },
+    {
+      "canonical": "form_der_darstellung_begruendung_dafuer",
+      "label_de": "Form der darstellung begründung dafür",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_1_1"
+      ],
+      "v4_elements": [
+        "FORM_DER_DARSTELLUNG_BEGRUENDUNG_DAFUER"
+      ]
+    },
+    {
+      "canonical": "fremdwaehrung_umrechnungsgrundlagen",
+      "label_de": "Fremdwährung umrechnungsgrundlagen",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_10"
+      ],
+      "v4_elements": [
+        "FREMDWAEHRUNG_UMRECHNUNGSGRUNDLAGEN"
+      ]
+    },
+    {
+      "canonical": "gesamtbetrag_der_haftungsverhaeltnisse_und_verpflichtungen",
+      "label_de": "Gesamtbetrag der haftungsverhältniße und verpflichtungen",
+      "category": "anlage_2",
+      "extra_categories": [
+        "zusatzangaben_mikro_ag"
+      ],
+      "hgb_codes": [
+        "HGB_Form_242_1_1",
+        "HGB_Form_3_11"
+      ],
+      "v4_elements": [
+        "GESAMTBETRAG_DER_HAFTUNGSVERHAELTNISSE_UND_VERPFLICHTUNGEN"
+      ]
+    },
+    {
+      "canonical": "geschaeftsfuehrer",
+      "label_de": "Geschäftsführer",
+      "category": "anlage_2",
+      "extra_categories": [
+        "zusatzangaben_mikro_ag"
+      ],
+      "hgb_codes": [
+        "HGB_Form_242_1_2_a",
+        "HGB_Form_3_17_a"
+      ],
+      "v4_elements": [
+        "GESCHAEFTSFUEHRER"
+      ]
+    },
+    {
+      "canonical": "geschaeftsfuehrer_betrag_der_vorschuesse",
+      "label_de": "Geschäftsführer betrag der vorschüße",
+      "category": "anlage_2",
+      "extra_categories": [
+        "zusatzangaben_mikro_ag"
+      ],
+      "hgb_codes": [
+        "HGB_Form_242_1_2_a_1",
+        "HGB_Form_3_17_a_1"
+      ],
+      "v4_elements": [
+        "GESCHAEFTSFUEHRER_BETRAG_DER_VORSCHUESSE"
+      ]
+    },
+    {
+      "canonical": "geschaeftsfuehrer_im_geschaeftsjahr_erlassene_betraege",
+      "label_de": "Geschäftsführer im geschäftsjahr erlaßene beträge",
+      "category": "anlage_2",
+      "extra_categories": [
+        "zusatzangaben_mikro_ag"
+      ],
+      "hgb_codes": [
+        "HGB_Form_242_1_2_a_4",
+        "HGB_Form_3_17_a_4"
+      ],
+      "v4_elements": [
+        "GESCHAEFTSFUEHRER_IM_GESCHAEFTSJAHR_ERLASSENE_BETRAEGE"
+      ]
+    },
+    {
+      "canonical": "geschaeftsfuehrer_wesentliche_bedingungen",
+      "label_de": "Geschäftsführer wesentliche bedingungen",
+      "category": "anlage_2",
+      "extra_categories": [
+        "zusatzangaben_mikro_ag"
+      ],
+      "hgb_codes": [
+        "HGB_Form_242_1_2_a_3",
+        "HGB_Form_3_17_a_3"
+      ],
+      "v4_elements": [
+        "GESCHAEFTSFUEHRER_WESENTLICHE_BEDINGUNGEN"
+      ]
+    },
+    {
+      "canonical": "geschaeftsfuehrer_zinsen_dafuer",
+      "label_de": "Geschäftsführer zinsen dafür",
+      "category": "anlage_2",
+      "extra_categories": [
+        "zusatzangaben_mikro_ag"
+      ],
+      "hgb_codes": [
+        "HGB_Form_242_1_2_a_2",
+        "HGB_Form_3_17_a_2"
+      ],
+      "v4_elements": [
+        "GESCHAEFTSFUEHRER_ZINSEN_DAFUER"
+      ]
+    },
+    {
+      "canonical": "geschaeftsfuehrer_zugunsten_eingegangene_haftungsverhaeltnisse",
+      "label_de": "Geschäftsführer zugunsten eingegangene haftungsverhältniße",
+      "category": "anlage_2",
+      "extra_categories": [
+        "zusatzangaben_mikro_ag"
+      ],
+      "hgb_codes": [
+        "HGB_Form_242_1_2_a_5",
+        "HGB_Form_3_17_a_5"
+      ],
+      "v4_elements": [
+        "GESCHAEFTSFUEHRER_ZUGUNSTEN_EINGEGANGENE_HAFTUNGSVERHAELTNISSE"
+      ]
+    },
+    {
+      "canonical": "haftsumme_der_kommanditisten",
+      "label_de": "Haftsumme der kommanditisten",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_25_2"
+      ],
+      "v4_elements": [
+        "HAFTSUMME_DER_KOMMANDITISTEN"
+      ]
+    },
+    {
+      "canonical": "inlaendische_firmenbuchnummer_des_mutterunternehmens",
+      "label_de": "Inländische firmenbuchnummer des mutterunternehmens",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "INLAENDISCHE_FIRMENBUCHNUMMER_DES_MUTTERUNTERNEHMENS"
+      ]
+    },
+    {
+      "canonical": "inlaendischer_sitz_des_mutterunternehmens",
+      "label_de": "Inländischer sitz des mutterunternehmens",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "INLAENDISCHER_SITZ_DES_MUTTERUNTERNEHMENS"
+      ]
+    },
+    {
+      "canonical": "inlaendisches_mutterunternehmen",
+      "label_de": "entweder oder",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "INLAENDISCHES_MUTTERUNTERNEHMEN"
+      ]
+    },
+    {
+      "canonical": "legal_entity_identifier_des_mutterunternehmens",
+      "label_de": "Legal entity identifier des mutterunternehmens",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "LEGAL_ENTITY_IDENTIFIER_DES_MUTTERUNTERNEHMENS"
+      ]
+    },
+    {
+      "canonical": "mutterunternehmen_name_und_sitz",
+      "label_de": "Mutterunternehmen name und sitz",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_13"
+      ],
+      "v4_elements": [
+        "MUTTERUNTERNEHMEN_NAME_UND_SITZ"
+      ]
+    },
+    {
+      "canonical": "name_des_mutterunternehmens",
+      "label_de": "Name des mutterunternehmens",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "NAME_DES_MUTTERUNTERNEHMENS"
+      ]
+    },
+    {
+      "canonical": "ob_reiner_arbeitsgesellschafter_und_verbundene_vereinbarung",
+      "label_de": "Ob reiner arbeitsgesellschafter und verbundene vereinbarung",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_25_1"
+      ],
+      "v4_elements": [
+        "OB_REINER_ARBEITSGESELLSCHAFTER_UND_VERBUNDENE_VEREINBARUNG"
+      ]
+    },
+    {
+      "canonical": "posten_v_ausgewiesener_verlust_und_aufteilung_auf_gesellschafter",
+      "label_de": "Posten v ausgewiesener verlust und aufteilung auf gesellschafter",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_25_3"
+      ],
+      "v4_elements": [
+        "POSTEN_V_AUSGEWIESENER_VERLUST_UND_AUFTEILUNG_AUF_GESELLSCHAFTER"
+      ]
+    },
+    {
+      "canonical": "sitzland_des_mutterunternehmens",
+      "label_de": "Sitzland des mutterunternehmens",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "SITZLAND_DES_MUTTERUNTERNEHMENS"
+      ]
+    },
+    {
+      "canonical": "uebereinstimmung_der_bilanzierungs_und_bewertungsmethoden",
+      "label_de": "Übereinstimmung der bilanzierungs und bewertungsmethoden",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_6_4"
+      ],
+      "v4_elements": [
+        "UEBEREINSTIMMUNG_DER_BILANZIERUNGS_UND_BEWERTUNGSMETHODEN"
+      ]
+    },
+    {
+      "canonical": "unverrechnete_belastungen",
+      "label_de": "Unverrechnete belastungen",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_26_1"
+      ],
+      "v4_elements": [
+        "UNVERRECHNETE_BELASTUNGEN"
+      ]
+    },
+    {
+      "canonical": "unverrechnete_entlastungen",
+      "label_de": "Unverrechnete entlastungen",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_26_2"
+      ],
+      "v4_elements": [
+        "UNVERRECHNETE_ENTLASTUNGEN"
+      ]
+    },
+    {
+      "canonical": "vergleichbarkeit_form_der_darstellung",
+      "label_de": "Vergleichbarkeit form der darstellung",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_1"
+      ],
+      "v4_elements": [
+        "VERGLEICHBARKEIT_FORM_DER_DARSTELLUNG"
+      ]
+    },
+    {
+      "canonical": "vergleichbarkeit_vorjahreswerte",
+      "label_de": "Vergleichbarkeit vorjahreswerte",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_2"
+      ],
+      "v4_elements": [
+        "VERGLEICHBARKEIT_VORJAHRESWERTE"
+      ]
+    },
+    {
+      "canonical": "verwaltungs_und_vertriebskosten_aktiviert",
+      "label_de": "Verwaltungs und vertriebskosten aktiviert",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_8"
+      ],
+      "v4_elements": [
+        "VERWALTUNGS_UND_VERTRIEBSKOSTEN_AKTIVIERT"
+      ]
+    },
+    {
+      "canonical": "verwaltungs_und_vertriebskosten_begruendung_dafuer",
+      "label_de": "Verwaltungs und vertriebskosten begründung dafür",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_8_1"
+      ],
+      "v4_elements": [
+        "VERWALTUNGS_UND_VERTRIEBSKOSTEN_BEGRUENDUNG_DAFUER"
+      ]
+    },
+    {
+      "canonical": "vorschuesse_kredite_und_haftungsverhaeltnisse",
+      "label_de": "Vorschüße kredite und haftungsverhältniße",
+      "category": "anlage_2",
+      "extra_categories": [
+        "zusatzangaben_mikro_ag"
+      ],
+      "hgb_codes": [
+        "HGB_Form_242_1_2",
+        "HGB_Form_3_17"
+      ],
+      "v4_elements": [
+        "VORSCHUESSE_KREDITE_UND_HAFTUNGSVERHAELTNISSE"
+      ]
+    },
+    {
+      "canonical": "zinsen_fuer_fremdfinanzierung_aktiviert",
+      "label_de": "Zinsen für fremdfinanzierung aktiviert",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_7"
+      ],
+      "v4_elements": [
+        "ZINSEN_FUER_FREMDFINANZIERUNG_AKTIVIERT"
+      ]
+    },
+    {
+      "canonical": "zugehoerigkeit_posten",
+      "label_de": "Zugehörigkeit posten",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_4"
+      ],
+      "v4_elements": [
+        "ZUGEHOERIGKEIT_POSTEN"
+      ]
+    },
+    {
+      "canonical": "zusaetzliche_angaben_der_vermoegens_finanz_ertragslage",
+      "label_de": "Zusätzliche angaben der vermögens finanz ertragslage",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_21"
+      ],
+      "v4_elements": [
+        "ZUSAETZLICHE_ANGABEN_DER_VERMOEGENS_FINANZ_ERTRAGSLAGE"
+      ]
+    },
+    {
+      "canonical": "zusammenfassung_verbindlichkeiten",
+      "label_de": "Zusammenfaßung verbindlichkeiten",
+      "category": "anlage_2",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_3_9"
+      ],
+      "v4_elements": [
+        "ZUSAMMENFASSUNG_VERBINDLICHKEITEN"
+      ]
+    },
+    {
+      "canonical": "anlage3_auszug_aus_der_bilanz",
+      "label_de": "Auszug aus der Bilanz (Anlage 3 für GmbH & Co KG und sonstige kleine kapitalistische Personengesellschaften (§ 221 Abs. 5 UGB))",
+      "category": "anlage_3",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_2"
+      ],
+      "v4_elements": [
+        "ANLAGE3_AUSZUG_AUS_DER_BILANZ"
+      ]
+    },
+    {
+      "canonical": "eingeforderte_einlage_og",
+      "label_de": "oder",
+      "category": "anlage_3",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "XXX_224_3_A_I_T"
+      ],
+      "v4_elements": [
+        "EINGEFORDERTE_EINLAGE_OG"
+      ]
+    },
+    {
+      "canonical": "eingefordertes_komplementaerkapital",
+      "label_de": "entweder",
+      "category": "anlage_3",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "XXX_224_3_A_I_X"
+      ],
+      "v4_elements": [
+        "EINGEFORDERTES_KOMPLEMENTAERKAPITAL"
+      ]
+    },
+    {
+      "canonical": "kommanditkapital",
+      "label_de": "Kommanditkapital",
+      "category": "anlage_3",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "XXX_224_3_A_I_Y"
+      ],
+      "v4_elements": [
+        "KOMMANDITKAPITAL"
+      ]
+    },
+    {
+      "canonical": "abschreibungen des geschäftsjahres, die abschreibung muss im laufenden geschäftsjahr erfolgt sein.",
+      "label_de": "Abschreibungen des geschäftsjahres, die abschreibung muss im laufenden geschäftsjahr erfolgt sein.",
+      "category": "anlagenspiegel",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "Abschreibungen des Geschäftsjahres, die Abschreibung muss im laufenden Geschäftsjahr erfolgt sein."
+      ]
+    },
+    {
+      "canonical": "andere_anlagen_betriebs_und_geschaeftsausstattung",
+      "label_de": "Andere anlagen betriebs und geschäftsaußtattung",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_II_3"
+      ],
+      "v4_elements": [
+        "ANDERE_ANLAGEN_BETRIEBS_UND_GESCHAEFTSAUSSTATTUNG"
+      ]
+    },
+    {
+      "canonical": "anlagenspiegel",
+      "label_de": "Anlagenspiegel",
+      "category": "anlagenspiegel",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "ANLAGENSPIEGEL"
+      ]
+    },
+    {
+      "canonical": "ausleihungen_an_unternehmen_mit_beteiligungsverhaeltnis",
+      "label_de": "Ausleihungen an unternehmen mit beteiligungsverhältnis",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_III_4"
+      ],
+      "v4_elements": [
+        "AUSLEIHUNGEN_AN_UNTERNEHMEN_MIT_BETEILIGUNGSVERHAELTNIS"
+      ]
+    },
+    {
+      "canonical": "ausleihungen_an_verbundene_unternehmen",
+      "label_de": "Ausleihungen an verbundene unternehmen",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_III_2"
+      ],
+      "v4_elements": [
+        "AUSLEIHUNGEN_AN_VERBUNDENE_UNTERNEHMEN"
+      ]
+    },
+    {
+      "canonical": "beteiligungen",
+      "label_de": "Beteiligungen",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_III_3"
+      ],
+      "v4_elements": [
+        "BETEILIGUNGEN"
+      ]
+    },
+    {
+      "canonical": "davon_anteile_an_mutterunternehmen",
+      "label_de": "Davon anteile an mutterunternehmen",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_III_5_HGB_225",
+        "HGB_224_2_B_III_2_HGB_225"
+      ],
+      "v4_elements": [
+        "DAVON_ANTEILE_AN_MUTTERUNTERNEHMEN"
+      ]
+    },
+    {
+      "canonical": "davon_grundwert",
+      "label_de": "Davon grundwert",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_II_1_HGB_225"
+      ],
+      "v4_elements": [
+        "DAVON_GRUNDWERT"
+      ]
+    },
+    {
+      "canonical": "davon_restlaufzeit_bis_zu_einem_jahr",
+      "label_de": "Davon restlaufzeit bis zu einem jahr",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_III_6_HGB_227",
+        "HGB_224_3_D_1_HGB_225a",
+        "HGB_224_3_D_2_HGB_225a",
+        "HGB_224_3_D_3_HGB_225a",
+        "HGB_224_3_D_4_HGB_225a",
+        "HGB_224_3_D_5_HGB_225a",
+        "HGB_224_3_D_6_HGB_225a",
+        "HGB_224_3_D_7_HGB_225a",
+        "HGB_224_3_D_8_HGB_225a",
+        "HGB_224_3_D_HGB_225a"
+      ],
+      "v4_elements": [
+        "DAVON_RESTLAUFZEIT_BIS_ZU_EINEM_JAHR"
+      ]
+    },
+    {
+      "canonical": "finanzanlagen_anteile_an_verbundenen_unternehmen",
+      "label_de": "Finanzanlagen anteile an verbundenen unternehmen",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_III_1"
+      ],
+      "v4_elements": [
+        "FINANZANLAGEN_ANTEILE_AN_VERBUNDENEN_UNTERNEHMEN"
+      ]
+    },
+    {
+      "canonical": "finanzanlagen_freier_posten_1",
+      "label_de": "Finanzanlagen freier posten 1",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "FINANZANLAGEN_FREIER_POSTEN_1"
+      ]
+    },
+    {
+      "canonical": "finanzanlagen_freier_posten_2",
+      "label_de": "Finanzanlagen freier posten 2",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "FINANZANLAGEN_FREIER_POSTEN_2"
+      ]
+    },
+    {
+      "canonical": "finanzanlagen_freier_posten_3",
+      "label_de": "Finanzanlagen freier posten 3",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "FINANZANLAGEN_FREIER_POSTEN_3"
+      ]
+    },
+    {
+      "canonical": "finanzanlagen_freier_posten_4",
+      "label_de": "Finanzanlagen freier posten 4",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "FINANZANLAGEN_FREIER_POSTEN_4"
+      ]
+    },
+    {
+      "canonical": "finanzanlagen_freier_posten_5",
+      "label_de": "Finanzanlagen freier posten 5",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "FINANZANLAGEN_FREIER_POSTEN_5"
+      ]
+    },
+    {
+      "canonical": "finanzanlagen_nicht_ausweispflichtiger_rest",
+      "label_de": "Finanzanlagen nicht ausweispflichtiger rest",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_III_HGB_279"
+      ],
+      "v4_elements": [
+        "FINANZANLAGEN_NICHT_AUSWEISPFLICHTIGER_REST"
+      ]
+    },
+    {
+      "canonical": "geleistete_anzahlungen",
+      "label_de": "Geleistete anzahlungen",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_I_3",
+        "HGB_224_2_B_I_5"
+      ],
+      "v4_elements": [
+        "GELEISTETE_ANZAHLUNGEN"
+      ]
+    },
+    {
+      "canonical": "geleistete_anzahlungen_und_anlagen_im_bau",
+      "label_de": "Geleistete anzahlungen und anlagen im bau",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_II_4"
+      ],
+      "v4_elements": [
+        "GELEISTETE_ANZAHLUNGEN_UND_ANLAGEN_IM_BAU"
+      ]
+    },
+    {
+      "canonical": "geschaeftswert_firmenwert",
+      "label_de": "Geschäftswert firmenwert",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_I_2"
+      ],
+      "v4_elements": [
+        "GESCHAEFTSWERT_FIRMENWERT"
+      ]
+    },
+    {
+      "canonical": "grundstuecke_grundstuecksgleiche_rechte_und_bauten",
+      "label_de": "Grundstücke grundstücksgleiche rechte und bauten",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_II_1"
+      ],
+      "v4_elements": [
+        "GRUNDSTUECKE_GRUNDSTUECKSGLEICHE_RECHTE_UND_BAUTEN"
+      ]
+    },
+    {
+      "canonical": "hier sind die kumulierten wertberichtigungen einzutragen, die zu beginn des geschäftsjahres bestanden haben. der begriff „wertberichtigung“ (art 2 z 8 bilanz-rl 2013/34) umfasst alle wertanpassungen von vermögensgegenständen, die zur berücksichtigung am bilanzstichtag festgestellter, endgültiger oder nicht endgültiger wertänderungen dienen. es sind daher die ab- und zuschreibungen zusammenzufassen, weil zuschreibungen sonst in gesonderten posten zu berücksichtigen wären, was den anlagespiegel unübersichtlich machen würde.",
+      "label_de": "Hier sind die kumulierten wertberichtigungen einzutragen, die zu beginn des geschäftsjahres bestanden haben. der begriff „wertberichtigung“ (art 2 z 8 bilanz-rl 2013/34) umfasst alle wertanpassungen von vermögensgegenständen, die zur berücksichtigung am bilanzstichtag festgestellter, endgültiger oder nicht endgültiger wertänderungen dienen. es sind daher die ab- und zuschreibungen zusammenzufassen, weil zuschreibungen sonst in gesonderten posten zu berücksichtigen wären, was den anlagespiegel unübersichtlich machen würde.",
+      "category": "anlagenspiegel",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "Hier sind die kumulierten Wertberichtigungen einzutragen, die zu Beginn des Geschäftsjahres bestanden haben. Der Begriff „Wertberichtigung“ (Art 2 Z 8 Bilanz-RL 2013/34) umfasst alle Wertanpassungen von Vermögensgegenständen, die zur Berücksichtigung am Bilanzstichtag festgestellter, endgültiger oder nicht endgültiger Wertänderungen dienen. Es sind daher die Ab- und Zuschreibungen zusammenzufassen, weil Zuschreibungen sonst in gesonderten Posten zu berücksichtigen wären, was den Anlagespiegel unübersichtlich machen würde."
+      ]
+    },
+    {
+      "canonical": "immaterielle_vermoegensgegenstaende_freier_posten_1",
+      "label_de": "Immaterielle vermögensgegenstände freier posten 1",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "IMMATERIELLE_VERMOEGENSGEGENSTAENDE_FREIER_POSTEN_1"
+      ]
+    },
+    {
+      "canonical": "immaterielle_vermoegensgegenstaende_freier_posten_2",
+      "label_de": "Immaterielle vermögensgegenstände freier posten 2",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "IMMATERIELLE_VERMOEGENSGEGENSTAENDE_FREIER_POSTEN_2"
+      ]
+    },
+    {
+      "canonical": "immaterielle_vermoegensgegenstaende_freier_posten_3",
+      "label_de": "Immaterielle vermögensgegenstände freier posten 3",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "IMMATERIELLE_VERMOEGENSGEGENSTAENDE_FREIER_POSTEN_3"
+      ]
+    },
+    {
+      "canonical": "immaterielle_vermoegensgegenstaende_freier_posten_4",
+      "label_de": "Immaterielle vermögensgegenstände freier posten 4",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "IMMATERIELLE_VERMOEGENSGEGENSTAENDE_FREIER_POSTEN_4"
+      ]
+    },
+    {
+      "canonical": "immaterielle_vermoegensgegenstaende_nicht_ausweispflichtiger_rest",
+      "label_de": "Immaterielle vermögensgegenstände nicht ausweispflichtiger rest",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_I_HGB_279"
+      ],
+      "v4_elements": [
+        "IMMATERIELLE_VERMOEGENSGEGENSTAENDE_NICHT_AUSWEISPFLICHTIGER_REST"
+      ]
+    },
+    {
+      "canonical": "konzessionen_gewerbliche_schutzrechte_und_lizenzen",
+      "label_de": "Konzeßionen gewerbliche schutzrechte und lizenzen",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_I_1"
+      ],
+      "v4_elements": [
+        "KONZESSIONEN_GEWERBLICHE_SCHUTZRECHTE_UND_LIZENZEN"
+      ]
+    },
+    {
+      "canonical": "kumulierte ab- und zuschreibung jener gegenstände, die im laufenden geschäftsjahr zugegangen sind.\nlaut art. 17 abs. 1 lit. a z v bilanz-rl sind bewegungen in den akkumulierten wertberichtigungen im zusammenhang mit zu- und abgängen sowie umbuchungen im laufe des geschäftsjahres darzustellen. in diesem zusammenhang wird angenommen, dass es bei den „zugängen“ um solche „im klassischen sinn“, also anlagenzugänge handelt. ein in diesem zusammenhang oft zitierter anwendungsfall sind z. b. umgründungen (wenn gegenstände, denen kumulierte abschreibungen anhaften, in das anlagevermögen übernommen werden; diese abschreibungen sind also nicht im stand zu beginn des geschäftsjahres enthalten und auch nicht im laufenden geschäftsjahr entstanden und dürfen daher auch nicht in der spalte „laufende abschreibungen“ ausgewiesen werden). die in den laufenden abschreibungen (punkt 2.) enthaltenen abschreibungen auf neuzugänge des anlagevermögens sind hier nicht erneut anzuführen.",
+      "label_de": "Kumulierte ab- und zuschreibung jener gegenstände, die im laufenden geschäftsjahr zugegangen sind.\nlaut art. 17 abs. 1 lit. a z v bilanz-rl sind bewegungen in den akkumulierten wertberichtigungen im zusammenhang mit zu- und abgängen sowie umbuchungen im laufe des geschäftsjahres darzustellen. in diesem zusammenhang wird angenommen, dass es bei den „zugängen“ um solche „im klassischen sinn“, also anlagenzugänge handelt. ein in diesem zusammenhang oft zitierter anwendungsfall sind z. b. umgründungen (wenn gegenstände, denen kumulierte abschreibungen anhaften, in das anlagevermögen übernommen werden; diese abschreibungen sind also nicht im stand zu beginn des geschäftsjahres enthalten und auch nicht im laufenden geschäftsjahr entstanden und dürfen daher auch nicht in der spalte „laufende abschreibungen“ ausgewiesen werden). die in den laufenden abschreibungen (punkt 2.) enthaltenen abschreibungen auf neuzugänge des anlagevermögens sind hier nicht erneut anzuführen.",
+      "category": "anlagenspiegel",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "Kumulierte Ab- und Zuschreibung jener Gegenstände, die im laufenden Geschäftsjahr zugegangen sind.\nLaut Art. 17 Abs. 1 lit. a Z v Bilanz-RL sind Bewegungen in den akkumulierten Wertberichtigungen im Zusammenhang mit Zu- und Abgängen sowie Umbuchungen im Laufe des Geschäftsjahres darzustellen. In diesem Zusammenhang wird angenommen, dass es bei den „Zugängen“ um solche „im klassischen Sinn“, also Anlagenzugänge handelt. Ein in diesem Zusammenhang oft zitierter Anwendungsfall sind z. B. Umgründungen (wenn Gegenstände, denen kumulierte Abschreibungen anhaften, in das Anlagevermögen übernommen werden; diese Abschreibungen sind also nicht im Stand zu Beginn des Geschäftsjahres enthalten und auch nicht im laufenden Geschäftsjahr entstanden und dürfen daher auch nicht in der Spalte „laufende Abschreibungen“ ausgewiesen werden). Die in den laufenden Abschreibungen (Punkt 2.) enthaltenen Abschreibungen auf Neuzugänge des Anlagevermögens sind hier nicht erneut anzuführen."
+      ]
+    },
+    {
+      "canonical": "kumulierte wertberichtigungen (ab- und zuschreibungen saldiert), wie sie am ende des geschäftsjahres bestanden haben.",
+      "label_de": "Kumulierte wertberichtigungen (ab- und zuschreibungen saldiert), wie sie am ende des geschäftsjahres bestanden haben.",
+      "category": "anlagenspiegel",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "Kumulierte Wertberichtigungen (Ab- und Zuschreibungen saldiert), wie sie am Ende des Geschäftsjahres bestanden haben."
+      ]
+    },
+    {
+      "canonical": "sachanlagen_freier_posten_1",
+      "label_de": "Sachanlagen freier posten 1",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "SACHANLAGEN_FREIER_POSTEN_1"
+      ]
+    },
+    {
+      "canonical": "sachanlagen_freier_posten_2",
+      "label_de": "Sachanlagen freier posten 2",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "SACHANLAGEN_FREIER_POSTEN_2"
+      ]
+    },
+    {
+      "canonical": "sachanlagen_freier_posten_3",
+      "label_de": "Sachanlagen freier posten 3",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "SACHANLAGEN_FREIER_POSTEN_3"
+      ]
+    },
+    {
+      "canonical": "sachanlagen_freier_posten_4",
+      "label_de": "Sachanlagen freier posten 4",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "SACHANLAGEN_FREIER_POSTEN_4"
+      ]
+    },
+    {
+      "canonical": "saldierte ab- und zuschreibung jener gegenstände, die im laufenden geschäftsjahr abgegangen sind.",
+      "label_de": "Saldierte ab- und zuschreibung jener gegenstände, die im laufenden geschäftsjahr abgegangen sind.",
+      "category": "anlagenspiegel",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "Saldierte Ab- und Zuschreibung jener Gegenstände, die im laufenden Geschäftsjahr abgegangen sind."
+      ]
+    },
+    {
+      "canonical": "saldierte ab- und zuschreibungen jener gegenstände, die im laufenden geschäftsjahr umgebucht worden sind.",
+      "label_de": "Saldierte ab- und zuschreibungen jener gegenstände, die im laufenden geschäftsjahr umgebucht worden sind.",
+      "category": "anlagenspiegel",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "Saldierte Ab- und Zuschreibungen jener Gegenstände, die im laufenden Geschäftsjahr umgebucht worden sind."
+      ]
+    },
+    {
+      "canonical": "sonstige_ausleihungen",
+      "label_de": "Sonstige ausleihungen",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_III_6"
+      ],
+      "v4_elements": [
+        "SONSTIGE_AUSLEIHUNGEN"
+      ]
+    },
+    {
+      "canonical": "technische_anlagen_und_maschinen",
+      "label_de": "Technische anlagen und maschinen",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_II_2"
+      ],
+      "v4_elements": [
+        "TECHNISCHE_ANLAGEN_UND_MASCHINEN"
+      ]
+    },
+    {
+      "canonical": "umgruendungsmehrwert_ausgleichsposten",
+      "label_de": "Umgründungsmehrwert ausgleichsposten",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "XXX_224_2_A_I_X"
+      ],
+      "v4_elements": [
+        "UMGRUENDUNGSMEHRWERT_AUSGLEICHSPOSTEN"
+      ]
+    },
+    {
+      "canonical": "wertpapiere_wertrechte_des_anlagevermoegens",
+      "label_de": "Wertpapiere wertrechte des anlagevermögens",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "bilanz"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_A_III_5"
+      ],
+      "v4_elements": [
+        "WERTPAPIERE_WERTRECHTE_DES_ANLAGEVERMOEGENS"
+      ]
+    },
+    {
+      "canonical": "xml tag id (jab 4.0)",
+      "label_de": "Xml tag id (jab 4.0)",
+      "category": "anlagenspiegel",
+      "extra_categories": [
+        "forderungenspiegel",
+        "guv_gesamtkostenverfahren",
+        "guv_umsatzkostenverfahren",
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [
+        "XML TAG ID (JAb 3.32)"
+      ],
+      "v4_elements": [
+        "XML TAG ID (JAb 4.0)"
+      ]
+    },
+    {
+      "canonical": "zuschreibungen des geschäftsjahres, die zuschreibung muss im laufenden geschäftsjahr erfolgt sein.",
+      "label_de": "Zuschreibungen des geschäftsjahres, die zuschreibung muss im laufenden geschäftsjahr erfolgt sein.",
+      "category": "anlagenspiegel",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "Zuschreibungen des Geschäftsjahres, die Zuschreibung muss im laufenden Geschäftsjahr erfolgt sein."
+      ]
+    },
+    {
+      "canonical": "andere_ruecklagen_freie_ruecklagen",
+      "label_de": "Andere rücklagen freie rücklagen",
+      "category": "bilanz",
+      "extra_categories": [
+        "ruecklagenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_A_III_3"
+      ],
+      "v4_elements": [
+        "ANDERE_RUECKLAGEN_FREIE_RUECKLAGEN"
+      ]
+    },
+    {
+      "canonical": "anleihen",
+      "label_de": "Anleihen",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_D_1"
+      ],
+      "v4_elements": [
+        "ANLEIHEN"
+      ]
+    },
+    {
+      "canonical": "bedungene_einlagen",
+      "label_de": "Bedungene einlagen",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "XXX_224_3_A_I_Y_x"
+      ],
+      "v4_elements": [
+        "BEDUNGENE_EINLAGEN"
+      ]
+    },
+    {
+      "canonical": "bilanz",
+      "label_de": "Bilanz",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "BILANZ"
+      ],
+      "v4_elements": [
+        "BILANZ"
+      ]
+    },
+    {
+      "canonical": "davon",
+      "label_de": "davon",
+      "category": "bilanz",
+      "extra_categories": [
+        "forderungenspiegel",
+        "guv_gesamtkostenverfahren",
+        "guv_umsatzkostenverfahren",
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_B_II_1_HGB_225a",
+        "HGB_224_2_B_I_1_HGB_225",
+        "HGB_224_2_B_I_2_HGB_225",
+        "HGB_224_2_B_I_3_HGB_225",
+        "HGB_224_2_B_I_4_HGB_225",
+        "HGB_224_2_B_I_5_HGB_225b",
+        "HGB_224_3_D_3_HGB_225",
+        "HGB_224_3_D_4_HGB_225",
+        "HGB_224_3_D_5_HGB_225"
+      ],
+      "v4_elements": [
+        "DAVON"
+      ]
+    },
+    {
+      "canonical": "davon_an_verbundene_unternehmen",
+      "label_de": "Davon an verbundene unternehmen",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_224_2_B_I_5_HGB_225a"
+      ],
+      "v4_elements": [
+        "DAVON_AN_VERBUNDENE_UNTERNEHMEN"
+      ]
+    },
+    {
+      "canonical": "davon_aus_steuern",
+      "label_de": "davon aus Steuern",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_D_8_x"
+      ],
+      "v4_elements": [
+        "DAVON_AUS_STEUERN"
+      ]
+    },
+    {
+      "canonical": "davon_ausschuettung_hybride_finanzinstrumente_vorgesehen",
+      "label_de": "Davon außchüttung hybride finanzinstrumente vorgesehen",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "DAVON_AUSSCHUETTUNG_HYBRIDE_FINANZINSTRUMENTE_VORGESEHEN"
+      ]
+    },
+    {
+      "canonical": "davon_festkapital",
+      "label_de": "Davon festkapital",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "DAVON_FESTKAPITAL"
+      ]
+    },
+    {
+      "canonical": "davon_fuer_anteile_an_mutterunternehmen",
+      "label_de": "davon für Anteile an Mutterunternehmen",
+      "category": "bilanz",
+      "extra_categories": [
+        "ruecklagenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_A_II_1_HGB_225"
+      ],
+      "v4_elements": [
+        "DAVON_FUER_ANTEILE_AN_MUTTERUNTERNEHMEN"
+      ]
+    },
+    {
+      "canonical": "davon_im_rahmen_der_sozialen_sicherheit",
+      "label_de": "davon im Rahmen der sozialen Sicherheit",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_D_8_y"
+      ],
+      "v4_elements": [
+        "DAVON_IM_RAHMEN_DER_SOZIALEN_SICHERHEIT"
+      ]
+    },
+    {
+      "canonical": "davon_konvertibel",
+      "label_de": "davon konvertibel",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_D_1_x"
+      ],
+      "v4_elements": [
+        "DAVON_KONVERTIBEL"
+      ]
+    },
+    {
+      "canonical": "davon_variables_kapital",
+      "label_de": "Davon variables kapital",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "DAVON_VARIABLES_KAPITAL"
+      ]
+    },
+    {
+      "canonical": "eigenkapital_freier_posten_1",
+      "label_de": "Eigenkapital freier posten 1",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "EIGENKAPITAL_FREIER_POSTEN_1"
+      ]
+    },
+    {
+      "canonical": "eingefordertes_grundkapital",
+      "label_de": "Eingefordertes grundkapital",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_229_1_A_II"
+      ],
+      "v4_elements": [
+        "EINGEFORDERTES_GRUNDKAPITAL"
+      ]
+    },
+    {
+      "canonical": "einlage_og_abzueglich_nicht_eingeforderte_einlagen_und_genehmigte_entnahmen",
+      "label_de": "Einlage og abzüglich nicht eingeforderte einlagen und genehmigte entnahmen",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "XXX_224_3_A_I_T_v"
+      ],
+      "v4_elements": [
+        "EINLAGE_OG_ABZUEGLICH_NICHT_EINGEFORDERTE_EINLAGEN_UND_GENEHMIGTE_ENTNAHMEN"
+      ]
+    },
+    {
+      "canonical": "einlage_og_abzueglich_verlustanteile_aus_vorjahren",
+      "label_de": "Einlage og abzüglich verlustanteile aus vorjahren",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "XXX_224_3_A_I_T_w"
+      ],
+      "v4_elements": [
+        "EINLAGE_OG_ABZUEGLICH_VERLUSTANTEILE_AUS_VORJAHREN"
+      ]
+    },
+    {
+      "canonical": "einlage_og_vereinbarte_einlagen",
+      "label_de": "Einlage og vereinbarte einlagen",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "XXX_224_3_A_I_T_u"
+      ],
+      "v4_elements": [
+        "EINLAGE_OG_VEREINBARTE_EINLAGEN"
+      ]
+    },
+    {
+      "canonical": "erhaltene_anzahlungen_auf_bestellungen",
+      "label_de": "Erhaltene anzahlungen auf bestellungen",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_D_3"
+      ],
+      "v4_elements": [
+        "ERHALTENE_ANZAHLUNGEN_AUF_BESTELLUNGEN"
+      ]
+    },
+    {
+      "canonical": "fertige_erzeugnisse_und_waren",
+      "label_de": "Fertige erzeugniße und waren",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_224_2_B_I_3"
+      ],
+      "v4_elements": [
+        "FERTIGE_ERZEUGNISSE_UND_WAREN"
+      ]
+    },
+    {
+      "canonical": "forderungen_aus_lieferungen_und_leistungen",
+      "label_de": "Forderungen aus lieferungen und leistungen",
+      "category": "bilanz",
+      "extra_categories": [
+        "forderungenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_B_II_1"
+      ],
+      "v4_elements": [
+        "FORDERUNGEN_AUS_LIEFERUNGEN_UND_LEISTUNGEN"
+      ]
+    },
+    {
+      "canonical": "forderungen_freier_posten_1",
+      "label_de": "Forderungen freier posten 1",
+      "category": "bilanz",
+      "extra_categories": [
+        "forderungenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "FORDERUNGEN_FREIER_POSTEN_1"
+      ]
+    },
+    {
+      "canonical": "forderungen_freier_posten_2",
+      "label_de": "Forderungen freier posten 2",
+      "category": "bilanz",
+      "extra_categories": [
+        "forderungenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "FORDERUNGEN_FREIER_POSTEN_2"
+      ]
+    },
+    {
+      "canonical": "forderungen_freier_posten_3",
+      "label_de": "Forderungen freier posten 3",
+      "category": "bilanz",
+      "extra_categories": [
+        "forderungenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "FORDERUNGEN_FREIER_POSTEN_3"
+      ]
+    },
+    {
+      "canonical": "forderungen_freier_posten_4",
+      "label_de": "Forderungen freier posten 4",
+      "category": "bilanz",
+      "extra_categories": [
+        "forderungenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "FORDERUNGEN_FREIER_POSTEN_4"
+      ]
+    },
+    {
+      "canonical": "forderungen_gegenueber_gesellschaftern",
+      "label_de": "Forderungen gegenüber gesellschaftern",
+      "category": "bilanz",
+      "extra_categories": [
+        "forderungenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "FORDERUNGEN_GEGENUEBER_GESELLSCHAFTERN"
+      ]
+    },
+    {
+      "canonical": "forderungen_gegenueber_unternehmen_mit_beteiligungsverhaeltnis",
+      "label_de": "Forderungen gegenüber unternehmen mit beteiligungsverhältnis",
+      "category": "bilanz",
+      "extra_categories": [
+        "forderungenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_B_II_3"
+      ],
+      "v4_elements": [
+        "FORDERUNGEN_GEGENUEBER_UNTERNEHMEN_MIT_BETEILIGUNGSVERHAELTNIS"
+      ]
+    },
+    {
+      "canonical": "forderungen_gegenueber_verbundenen_unternehmen",
+      "label_de": "Forderungen gegenüber verbundenen unternehmen",
+      "category": "bilanz",
+      "extra_categories": [
+        "forderungenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_B_II_2"
+      ],
+      "v4_elements": [
+        "FORDERUNGEN_GEGENUEBER_VERBUNDENEN_UNTERNEHMEN"
+      ]
+    },
+    {
+      "canonical": "forderungen_nicht_ausweispflichtiger_rest",
+      "label_de": "Forderungen nicht ausweispflichtiger rest",
+      "category": "bilanz",
+      "extra_categories": [
+        "forderungenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_B_II_HGB_279"
+      ],
+      "v4_elements": [
+        "FORDERUNGEN_NICHT_AUSWEISPFLICHTIGER_REST"
+      ]
+    },
+    {
+      "canonical": "gebundene",
+      "label_de": "Gebundene",
+      "category": "bilanz",
+      "extra_categories": [
+        "ruecklagenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_A_II_1"
+      ],
+      "v4_elements": [
+        "GEBUNDENE"
+      ]
+    },
+    {
+      "canonical": "gesamtnennbetrag_der_geschaeftsanteile",
+      "label_de": "Gesamtnennbetrag der geschäftsanteile",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_224_3_A_I"
+      ],
+      "v4_elements": [
+        "GESAMTNENNBETRAG_DER_GESCHAEFTSANTEILE"
+      ]
+    },
+    {
+      "canonical": "gesetzliche_ruecklage",
+      "label_de": "Gesetzliche rücklage",
+      "category": "bilanz",
+      "extra_categories": [
+        "ruecklagenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_A_III_1"
+      ],
+      "v4_elements": [
+        "GESETZLICHE_RUECKLAGE"
+      ]
+    },
+    {
+      "canonical": "gewinn_oder_verlust",
+      "label_de": "Gewinn oder verlust",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "XXX_224_3_A_I_V"
+      ],
+      "v4_elements": [
+        "GEWINN_ODER_VERLUST"
+      ]
+    },
+    {
+      "canonical": "gewinnruecklagen_freier_posten_1",
+      "label_de": "Gewinnrücklagen freier posten 1",
+      "category": "bilanz",
+      "extra_categories": [
+        "ruecklagenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "GEWINNRUECKLAGEN_FREIER_POSTEN_1"
+      ]
+    },
+    {
+      "canonical": "gewinnruecklagen_freier_posten_2",
+      "label_de": "Gewinnrücklagen freier posten 2",
+      "category": "bilanz",
+      "extra_categories": [
+        "ruecklagenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "GEWINNRUECKLAGEN_FREIER_POSTEN_2"
+      ]
+    },
+    {
+      "canonical": "gewinnruecklagen_freier_posten_3",
+      "label_de": "Gewinnrücklagen freier posten 3",
+      "category": "bilanz",
+      "extra_categories": [
+        "ruecklagenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "GEWINNRUECKLAGEN_FREIER_POSTEN_3"
+      ]
+    },
+    {
+      "canonical": "grundkapital",
+      "label_de": "Grundkapital",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_224_3_A_I_b"
+      ],
+      "v4_elements": [
+        "GRUNDKAPITAL"
+      ]
+    },
+    {
+      "canonical": "kapital_zu_beginn_des_wirtschaftsjahres",
+      "label_de": "Kapital zu beginn des wirtschaftsjahres",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "XXX_224_3_A_I_U"
+      ],
+      "v4_elements": [
+        "KAPITAL_ZU_BEGINN_DES_WIRTSCHAFTSJAHRES"
+      ]
+    },
+    {
+      "canonical": "kapitalruecklagen_freier_posten",
+      "label_de": "Kapitalrücklagen freier posten",
+      "category": "bilanz",
+      "extra_categories": [
+        "ruecklagenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "KAPITALRUECKLAGEN_FREIER_POSTEN"
+      ]
+    },
+    {
+      "canonical": "kommanditkapital_abzueglich_nicht_eingeforderte_einlagen_und_genehmigte_entnahmen",
+      "label_de": "Kommanditkapital abzüglich nicht eingeforderte einlagen und genehmigte entnahmen",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "XXX_224_3_A_I_Y_y"
+      ],
+      "v4_elements": [
+        "KOMMANDITKAPITAL_ABZUEGLICH_NICHT_EINGEFORDERTE_EINLAGEN_UND_GENEHMIGTE_ENTNAHMEN"
+      ]
+    },
+    {
+      "canonical": "kommanditkapital_abzueglich_verlustanteile_aus_vorjahren",
+      "label_de": "Kommanditkapital abzüglich verlustanteile aus vorjahren",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "XXX_224_3_A_I_Y_z"
+      ],
+      "v4_elements": [
+        "KOMMANDITKAPITAL_ABZUEGLICH_VERLUSTANTEILE_AUS_VORJAHREN"
+      ]
+    },
+    {
+      "canonical": "kommanditkapital_freier_posten_1",
+      "label_de": "Kommanditkapital freier posten 1",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "KOMMANDITKAPITAL_FREIER_POSTEN_1"
+      ]
+    },
+    {
+      "canonical": "kommanditkapital_freier_posten_2",
+      "label_de": "Kommanditkapital freier posten 2",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "KOMMANDITKAPITAL_FREIER_POSTEN_2"
+      ]
+    },
+    {
+      "canonical": "kommanditkapital_freier_posten_3",
+      "label_de": "Kommanditkapital freier posten 3",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "KOMMANDITKAPITAL_FREIER_POSTEN_3"
+      ]
+    },
+    {
+      "canonical": "komplementaerkapital_abzueglich_nicht_eingeforderte_einlagen_und_genehmigte_entnahmen",
+      "label_de": "Komplementärkapital abzüglich nicht eingeforderte einlagen und genehmigte entnahmen",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "XXX_224_3_A_I_X_v"
+      ],
+      "v4_elements": [
+        "KOMPLEMENTAERKAPITAL_ABZUEGLICH_NICHT_EINGEFORDERTE_EINLAGEN_UND_GENEHMIGTE_ENTNAHMEN"
+      ]
+    },
+    {
+      "canonical": "komplementaerkapital_abzueglich_verlustanteile_aus_vorjahren",
+      "label_de": "Komplementärkapital abzüglich verlustanteile aus vorjahren",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "XXX_224_3_A_I_X_w"
+      ],
+      "v4_elements": [
+        "KOMPLEMENTAERKAPITAL_ABZUEGLICH_VERLUSTANTEILE_AUS_VORJAHREN"
+      ]
+    },
+    {
+      "canonical": "komplementaerkapital_freier_posten",
+      "label_de": "Komplementärkapital freier posten",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "KOMPLEMENTAERKAPITAL_FREIER_POSTEN"
+      ]
+    },
+    {
+      "canonical": "komplementaerkapital_vereinbarte_einlagen",
+      "label_de": "Komplementärkapital vereinbarte einlagen",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "XXX_224_3_A_I_X_u"
+      ],
+      "v4_elements": [
+        "KOMPLEMENTAERKAPITAL_VEREINBARTE_EINLAGEN"
+      ]
+    },
+    {
+      "canonical": "nachrangige_verbindlichkeiten",
+      "label_de": "Nachrangige verbindlichkeiten",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "NACHRANGIGE_VERBINDLICHKEITEN"
+      ]
+    },
+    {
+      "canonical": "nennbetrag_eigener_aktien",
+      "label_de": "Nennbetrag eigener aktien",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_229_1_A_II_b"
+      ],
+      "v4_elements": [
+        "NENNBETRAG_EIGENER_AKTIEN"
+      ]
+    },
+    {
+      "canonical": "nicht_beherrschende_anteile",
+      "label_de": "Nicht beherrschende anteile",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "NICHT_BEHERRSCHENDE_ANTEILE"
+      ]
+    },
+    {
+      "canonical": "nicht_gebundene",
+      "label_de": "Nicht gebundene",
+      "category": "bilanz",
+      "extra_categories": [
+        "ruecklagenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_A_II_2"
+      ],
+      "v4_elements": [
+        "NICHT_GEBUNDENE"
+      ]
+    },
+    {
+      "canonical": "noch_nicht_abrechenbare_leistungen",
+      "label_de": "Noch nicht abrechenbare leistungen",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_224_2_B_I_4"
+      ],
+      "v4_elements": [
+        "NOCH_NICHT_ABRECHENBARE_LEISTUNGEN"
+      ]
+    },
+    {
+      "canonical": "privateinlage_privatentnahme",
+      "label_de": "Privateinlage privatentnahme",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "XXX_224_3_A_I_W"
+      ],
+      "v4_elements": [
+        "PRIVATEINLAGE_PRIVATENTNAHME"
+      ]
+    },
+    {
+      "canonical": "roh_hilfs_und_betriebsstoffe",
+      "label_de": "Roh hilfs und betriebßtoffe",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_224_2_B_I_1"
+      ],
+      "v4_elements": [
+        "ROH_HILFS_UND_BETRIEBSSTOFFE"
+      ]
+    },
+    {
+      "canonical": "rueckstellungen_freier_posten_1",
+      "label_de": "Rückstellungen freier posten 1",
+      "category": "bilanz",
+      "extra_categories": [
+        "rueckstellungenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "RUECKSTELLUNGEN_FREIER_POSTEN_1"
+      ]
+    },
+    {
+      "canonical": "rueckstellungen_freier_posten_2",
+      "label_de": "Rückstellungen freier posten 2",
+      "category": "bilanz",
+      "extra_categories": [
+        "rueckstellungenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "RUECKSTELLUNGEN_FREIER_POSTEN_2"
+      ]
+    },
+    {
+      "canonical": "rueckstellungen_freier_posten_3",
+      "label_de": "Rückstellungen freier posten 3",
+      "category": "bilanz",
+      "extra_categories": [
+        "rueckstellungenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "RUECKSTELLUNGEN_FREIER_POSTEN_3"
+      ]
+    },
+    {
+      "canonical": "rueckstellungen_freier_posten_4",
+      "label_de": "Rückstellungen freier posten 4",
+      "category": "bilanz",
+      "extra_categories": [
+        "rueckstellungenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "RUECKSTELLUNGEN_FREIER_POSTEN_4"
+      ]
+    },
+    {
+      "canonical": "rueckstellungen_fuer_abfertigungen",
+      "label_de": "Rückstellungen für abfertigungen",
+      "category": "bilanz",
+      "extra_categories": [
+        "rueckstellungenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_C_1"
+      ],
+      "v4_elements": [
+        "RUECKSTELLUNGEN_FUER_ABFERTIGUNGEN"
+      ]
+    },
+    {
+      "canonical": "rueckstellungen_fuer_pensionen",
+      "label_de": "Rückstellungen für pensionen",
+      "category": "bilanz",
+      "extra_categories": [
+        "rueckstellungenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_C_2"
+      ],
+      "v4_elements": [
+        "RUECKSTELLUNGEN_FUER_PENSIONEN"
+      ]
+    },
+    {
+      "canonical": "rueckstellungen_nicht_ausweispflichtiger_rest",
+      "label_de": "Rückstellungen nicht ausweispflichtiger rest",
+      "category": "bilanz",
+      "extra_categories": [
+        "rueckstellungenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_C_HGB_279"
+      ],
+      "v4_elements": [
+        "RUECKSTELLUNGEN_NICHT_AUSWEISPFLICHTIGER_REST"
+      ]
+    },
+    {
+      "canonical": "satzungsmaessige_ruecklagen",
+      "label_de": "Satzungsmäßige rücklagen",
+      "category": "bilanz",
+      "extra_categories": [
+        "ruecklagenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_A_III_2"
+      ],
+      "v4_elements": [
+        "SATZUNGSMAESSIGE_RUECKLAGEN"
+      ]
+    },
+    {
+      "canonical": "sonstige_forderungen_und_vermoegensgegenstaende",
+      "label_de": "Sonstige forderungen und vermögensgegenstände",
+      "category": "bilanz",
+      "extra_categories": [
+        "forderungenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_2_B_II_4"
+      ],
+      "v4_elements": [
+        "SONSTIGE_FORDERUNGEN_UND_VERMOEGENSGEGENSTAENDE"
+      ]
+    },
+    {
+      "canonical": "sonstige_rueckstellungen",
+      "label_de": "Sonstige rückstellungen",
+      "category": "bilanz",
+      "extra_categories": [
+        "rueckstellungenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_C_4"
+      ],
+      "v4_elements": [
+        "SONSTIGE_RUECKSTELLUNGEN"
+      ]
+    },
+    {
+      "canonical": "sonstige_verbindlichkeiten",
+      "label_de": "Sonstige verbindlichkeiten",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_D_8"
+      ],
+      "v4_elements": [
+        "SONSTIGE_VERBINDLICHKEITEN"
+      ]
+    },
+    {
+      "canonical": "sonstige_wertpapiere_und_anteile",
+      "label_de": "Sonstige wertpapiere und anteile",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_224_2_B_III_2"
+      ],
+      "v4_elements": [
+        "SONSTIGE_WERTPAPIERE_UND_ANTEILE"
+      ]
+    },
+    {
+      "canonical": "steuerrueckstellungen",
+      "label_de": "Steürrückstellungen",
+      "category": "bilanz",
+      "extra_categories": [
+        "rueckstellungenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_C_3"
+      ],
+      "v4_elements": [
+        "STEUERRUECKSTELLUNGEN"
+      ]
+    },
+    {
+      "canonical": "unfertige_erzeugnisse",
+      "label_de": "Unfertige erzeugniße",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_224_2_B_I_2"
+      ],
+      "v4_elements": [
+        "UNFERTIGE_ERZEUGNISSE"
+      ]
+    },
+    {
+      "canonical": "unterschiedsbetrag_aus_der_kapitalkonsolidierung",
+      "label_de": "Unterschiedsbetrag aus der kapitalkonsolidierung",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "UNTERSCHIEDSBETRAG_AUS_DER_KAPITALKONSOLIDIERUNG"
+      ]
+    },
+    {
+      "canonical": "verbindlichkeiten_aus_annahme_und_ausstellung_von_wechsel",
+      "label_de": "Verbindlichkeiten aus annahme und außtellung von wechsel",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_D_5"
+      ],
+      "v4_elements": [
+        "VERBINDLICHKEITEN_AUS_ANNAHME_UND_AUSSTELLUNG_VON_WECHSEL"
+      ]
+    },
+    {
+      "canonical": "verbindlichkeiten_aus_lieferungen_und_leistungen",
+      "label_de": "Verbindlichkeiten aus lieferungen und leistungen",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_D_4"
+      ],
+      "v4_elements": [
+        "VERBINDLICHKEITEN_AUS_LIEFERUNGEN_UND_LEISTUNGEN"
+      ]
+    },
+    {
+      "canonical": "verbindlichkeiten_freier_posten_1",
+      "label_de": "Verbindlichkeiten freier posten 1",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "VERBINDLICHKEITEN_FREIER_POSTEN_1"
+      ]
+    },
+    {
+      "canonical": "verbindlichkeiten_freier_posten_2",
+      "label_de": "Verbindlichkeiten freier posten 2",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "VERBINDLICHKEITEN_FREIER_POSTEN_2"
+      ]
+    },
+    {
+      "canonical": "verbindlichkeiten_freier_posten_3",
+      "label_de": "Verbindlichkeiten freier posten 3",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "VERBINDLICHKEITEN_FREIER_POSTEN_3"
+      ]
+    },
+    {
+      "canonical": "verbindlichkeiten_freier_posten_4",
+      "label_de": "Verbindlichkeiten freier posten 4",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "VERBINDLICHKEITEN_FREIER_POSTEN_4"
+      ]
+    },
+    {
+      "canonical": "verbindlichkeiten_freier_posten_5",
+      "label_de": "Verbindlichkeiten freier posten 5",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "VERBINDLICHKEITEN_FREIER_POSTEN_5"
+      ]
+    },
+    {
+      "canonical": "verbindlichkeiten_freier_posten_6",
+      "label_de": "Verbindlichkeiten freier posten 6",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "VERBINDLICHKEITEN_FREIER_POSTEN_6"
+      ]
+    },
+    {
+      "canonical": "verbindlichkeiten_freier_posten_7",
+      "label_de": "Verbindlichkeiten freier posten 7",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "VERBINDLICHKEITEN_FREIER_POSTEN_7"
+      ]
+    },
+    {
+      "canonical": "verbindlichkeiten_freier_posten_8",
+      "label_de": "Verbindlichkeiten freier posten 8",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "VERBINDLICHKEITEN_FREIER_POSTEN_8"
+      ]
+    },
+    {
+      "canonical": "verbindlichkeiten_gegenueber_gesellschaftern",
+      "label_de": "Verbindlichkeiten gegenüber gesellschaftern",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "VERBINDLICHKEITEN_GEGENUEBER_GESELLSCHAFTERN"
+      ]
+    },
+    {
+      "canonical": "verbindlichkeiten_gegenueber_kreditinstituten",
+      "label_de": "Verbindlichkeiten gegenüber kreditinstituten",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_D_2"
+      ],
+      "v4_elements": [
+        "VERBINDLICHKEITEN_GEGENUEBER_KREDITINSTITUTEN"
+      ]
+    },
+    {
+      "canonical": "verbindlichkeiten_gegenueber_unternehmen_mit_beteiligungsverhaeltnis",
+      "label_de": "Verbindlichkeiten gegenüber unternehmen mit beteiligungsverhältnis",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_D_7"
+      ],
+      "v4_elements": [
+        "VERBINDLICHKEITEN_GEGENUEBER_UNTERNEHMEN_MIT_BETEILIGUNGSVERHAELTNIS"
+      ]
+    },
+    {
+      "canonical": "verbindlichkeiten_gegenueber_verbundenen_unternehmen",
+      "label_de": "Verbindlichkeiten gegenüber verbundenen unternehmen",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_D_6"
+      ],
+      "v4_elements": [
+        "VERBINDLICHKEITEN_GEGENUEBER_VERBUNDENEN_UNTERNEHMEN"
+      ]
+    },
+    {
+      "canonical": "verbindlichkeiten_nicht_ausweispflichtiger_rest",
+      "label_de": "Verbindlichkeiten nicht ausweispflichtiger rest",
+      "category": "bilanz",
+      "extra_categories": [
+        "verbindlichkeitenspiegel"
+      ],
+      "hgb_codes": [
+        "HGB_224_3_D_HGB_279"
+      ],
+      "v4_elements": [
+        "VERBINDLICHKEITEN_NICHT_AUSWEISPFLICHTIGER_REST"
+      ]
+    },
+    {
+      "canonical": "vorraete_freier_posten_1",
+      "label_de": "Vorräte freier posten 1",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "VORRAETE_FREIER_POSTEN_1"
+      ]
+    },
+    {
+      "canonical": "vorraete_freier_posten_2",
+      "label_de": "Vorräte freier posten 2",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "VORRAETE_FREIER_POSTEN_2"
+      ]
+    },
+    {
+      "canonical": "vorraete_freier_posten_3",
+      "label_de": "Vorräte freier posten 3",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "VORRAETE_FREIER_POSTEN_3"
+      ]
+    },
+    {
+      "canonical": "vorraete_freier_posten_4",
+      "label_de": "Vorräte freier posten 4",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "VORRAETE_FREIER_POSTEN_4"
+      ]
+    },
+    {
+      "canonical": "vorraete_freier_posten_5",
+      "label_de": "Vorräte freier posten 5",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "VORRAETE_FREIER_POSTEN_5"
+      ]
+    },
+    {
+      "canonical": "wertpapiere_und_anteile_anteile_an_verbundenen_unternehmen",
+      "label_de": "Wertpapiere und anteile anteile an verbundenen unternehmen",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_224_2_B_III_1"
+      ],
+      "v4_elements": [
+        "WERTPAPIERE_UND_ANTEILE_ANTEILE_AN_VERBUNDENEN_UNTERNEHMEN"
+      ]
+    },
+    {
+      "canonical": "wertpapiere_und_anteile_freier_posten_1",
+      "label_de": "Wertpapiere und anteile freier posten 1",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "WERTPAPIERE_UND_ANTEILE_FREIER_POSTEN_1"
+      ]
+    },
+    {
+      "canonical": "wertpapiere_und_anteile_freier_posten_2",
+      "label_de": "Wertpapiere und anteile freier posten 2",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "WERTPAPIERE_UND_ANTEILE_FREIER_POSTEN_2"
+      ]
+    },
+    {
+      "canonical": "wertpapiere_und_anteile_nicht_ausweispflichtiger_rest",
+      "label_de": "Wertpapiere und anteile nicht ausweispflichtiger rest",
+      "category": "bilanz",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_224_2_B_III_HGB_279"
+      ],
+      "v4_elements": [
+        "WERTPAPIERE_UND_ANTEILE_NICHT_AUSWEISPFLICHTIGER_REST"
+      ]
+    },
+    {
+      "canonical": "forderungenspiegel",
+      "label_de": "Forderungenspiegel",
+      "category": "forderungenspiegel",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "FORDERUNGENSPIEGEL"
+      ]
+    },
+    {
+      "canonical": "abschreibungen",
+      "label_de": "Abschreibungen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_2_7"
+      ],
+      "v4_elements": [
+        "ABSCHREIBUNGEN"
+      ]
+    },
+    {
+      "canonical": "abschreibungen_freier_posten",
+      "label_de": "Abschreibungen freier posten",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "ABSCHREIBUNGEN_FREIER_POSTEN"
+      ]
+    },
+    {
+      "canonical": "andere_aktivierte_eigenleistungen",
+      "label_de": "andere aktivierte Eigenleistungen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_2_3"
+      ],
+      "v4_elements": [
+        "ANDERE_AKTIVIERTE_EIGENLEISTUNGEN"
+      ]
+    },
+    {
+      "canonical": "anteile_anderer_gesellschafter",
+      "label_de": "Anteile anderer gesellschafter",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "ANTEILE_ANDERER_GESELLSCHAFTER"
+      ]
+    },
+    {
+      "canonical": "aufloesung_von_gewinnruecklagen",
+      "label_de": "Auflösung von gewinnrücklagen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_25",
+        "HGB_231_3_24"
+      ],
+      "v4_elements": [
+        "AUFLOESUNG_VON_GEWINNRUECKLAGEN"
+      ]
+    },
+    {
+      "canonical": "aufloesung_von_kapitalruecklagen",
+      "label_de": "Auflösung von kapitalrücklagen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_24",
+        "HGB_231_3_23"
+      ],
+      "v4_elements": [
+        "AUFLOESUNG_VON_KAPITALRUECKLAGEN"
+      ]
+    },
+    {
+      "canonical": "aufloesung_von_zweckgewidmeten_ruecklagen",
+      "label_de": "Auflösung von zweckgewidmeten rücklagen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "AUFLOESUNG_VON_ZWECKGEWIDMETEN_RUECKLAGEN"
+      ]
+    },
+    {
+      "canonical": "aufwendungen_aus_finanzanlagen_und_wertpapieren",
+      "label_de": "Aufwendungen aus Finanzanlagen und aus Wertpapieren des Umlaufvermögens",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_14",
+        "HGB_231_3_13"
+      ],
+      "v4_elements": [
+        "AUFWENDUNGEN_AUS_FINANZANLAGEN_UND_WERTPAPIEREN"
+      ]
+    },
+    {
+      "canonical": "aufwendungen_fuer_bezogene_leistungen",
+      "label_de": "Aufwendungen für bezogene leistungen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_2_5_b"
+      ],
+      "v4_elements": [
+        "AUFWENDUNGEN_FUER_BEZOGENE_LEISTUNGEN"
+      ]
+    },
+    {
+      "canonical": "aufwendungen_fuer_herstellungsleistungen",
+      "label_de": "Aufwendungen für Material und sonstige bezogene Herstellungsleistungen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_2_5"
+      ],
+      "v4_elements": [
+        "AUFWENDUNGEN_FUER_HERSTELLUNGSLEISTUNGEN"
+      ]
+    },
+    {
+      "canonical": "bilanz_gewinn_verlust",
+      "label_de": "Bilanz gewinn verlust",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_29",
+        "HGB_231_3_28"
+      ],
+      "v4_elements": [
+        "BILANZ_GEWINN_VERLUST"
+      ]
+    },
+    {
+      "canonical": "buchwert_abgegangener_anlagen",
+      "label_de": "Buchwert abgegangener anlagen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_4_y",
+        "HGB_231_3_4_y"
+      ],
+      "v4_elements": [
+        "BUCHWERT_ABGEGANGENER_ANLAGEN"
+      ]
+    },
+    {
+      "canonical": "davon_abschreibungen",
+      "label_de": "davon Abschreibungen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_14_a",
+        "HGB_231_3_13_a"
+      ],
+      "v4_elements": [
+        "DAVON_ABSCHREIBUNGEN"
+      ]
+    },
+    {
+      "canonical": "davon_aufloesung_verwendeter_steuerrueckstellungen",
+      "label_de": "Davon auflösung verwendeter steürrückstellungen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_21_HGB_234_y",
+        "HGB_231_3_20_HGB_234_y"
+      ],
+      "v4_elements": [
+        "DAVON_AUFLOESUNG_VERWENDETER_STEUERRUECKSTELLUNGEN"
+      ]
+    },
+    {
+      "canonical": "davon_aufwendungen_aus_verbundenen_unternehmen",
+      "label_de": "davon Aufwendungen aus verbundenen Unternehmen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_14_b",
+        "HGB_231_3_13_b"
+      ],
+      "v4_elements": [
+        "DAVON_AUFWENDUNGEN_AUS_VERBUNDENEN_UNTERNEHMEN"
+      ]
+    },
+    {
+      "canonical": "davon_aufwendungen_fuer_altersversorgung",
+      "label_de": "Davon aufwendungen für altersversorgung",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_2_6_d"
+      ],
+      "v4_elements": [
+        "DAVON_AUFWENDUNGEN_FUER_ALTERSVERSORGUNG"
+      ]
+    },
+    {
+      "canonical": "davon_aufwendungen_fuer_leistungen_an_mitarbeitervorsorgekassen",
+      "label_de": "Davon aufwendungen für leistungen an mitarbeitervorsorgekaßen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_2_6_c"
+      ],
+      "v4_elements": [
+        "DAVON_AUFWENDUNGEN_FUER_LEISTUNGEN_AN_MITARBEITERVORSORGEKASSEN"
+      ]
+    },
+    {
+      "canonical": "davon_aufwendungen_fuer_sozialabgaben",
+      "label_de": "Davon aufwendungen für sozialabgaben",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_2_6_e"
+      ],
+      "v4_elements": [
+        "DAVON_AUFWENDUNGEN_FUER_SOZIALABGABEN"
+      ]
+    },
+    {
+      "canonical": "davon_aus_verbundenen_unternehmen",
+      "label_de": "davon aus verbundenen Unternehmen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_10_x",
+        "HGB_231_2_11_x",
+        "HGB_231_2_12_x",
+        "HGB_231_3_10_a",
+        "HGB_231_3_11_a",
+        "HGB_231_3_9_a"
+      ],
+      "v4_elements": [
+        "DAVON_AUS_VERBUNDENEN_UNTERNEHMEN"
+      ]
+    },
+    {
+      "canonical": "davon_ausserplanmaessige_abschreibung",
+      "label_de": "Davon außerplanmäßige abschreibung",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_2_7_a_HGB_232"
+      ],
+      "v4_elements": [
+        "DAVON_AUSSERPLANMAESSIGE_ABSCHREIBUNG"
+      ]
+    },
+    {
+      "canonical": "davon_betreffend_verbundene_unternehmen",
+      "label_de": "davon betreffend verbundene Unternehmen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_15_x",
+        "HGB_231_3_14_a"
+      ],
+      "v4_elements": [
+        "DAVON_BETREFFEND_VERBUNDENE_UNTERNEHMEN"
+      ]
+    },
+    {
+      "canonical": "davon_latente_steuern",
+      "label_de": "Davon latente steürn",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "UGB_198_10"
+      ],
+      "v4_elements": [
+        "DAVON_LATENTE_STEUERN"
+      ]
+    },
+    {
+      "canonical": "davon_steuergutschriften",
+      "label_de": "Davon steürgutschriften",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_21_HGB_234_x",
+        "HGB_231_3_20_HGB_234_x"
+      ],
+      "v4_elements": [
+        "DAVON_STEUERGUTSCHRIFTEN"
+      ]
+    },
+    {
+      "canonical": "davon_steuern",
+      "label_de": "davon Steuern, soweit sie nicht unter \\\"Steuern vom Einkommen und vom Ertrag\\\" fallen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_8_a",
+        "HGB_231_3_8_a"
+      ],
+      "v4_elements": [
+        "DAVON_STEUERN"
+      ]
+    },
+    {
+      "canonical": "ergebnis_nach_steuern",
+      "label_de": "Ergebnis nach steürn",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_30",
+        "HGB_231_3_30"
+      ],
+      "v4_elements": [
+        "ERGEBNIS_NACH_STEUERN"
+      ]
+    },
+    {
+      "canonical": "ergebnis_vor_steuern",
+      "label_de": "Ergebnis vor steürn",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_17",
+        "HGB_231_3_16"
+      ],
+      "v4_elements": [
+        "ERGEBNIS_VOR_STEUERN"
+      ]
+    },
+    {
+      "canonical": "erloese_aus_abgang_von_anlagevermoegen",
+      "label_de": "Erlöse aus abgang von anlagevermögen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_4_x",
+        "HGB_231_3_4_x"
+      ],
+      "v4_elements": [
+        "ERLOESE_AUS_ABGANG_VON_ANLAGEVERMOEGEN"
+      ]
+    },
+    {
+      "canonical": "ertraege_aus_abgang_und_zuschreibung_zum_anlagevermoegen",
+      "label_de": "Erträge aus dem Abgang vom und der Zuschreibung zum Anlagevermögen mit Ausnahme der Finanzanlagen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_4_a",
+        "HGB_231_3_4_a"
+      ],
+      "v4_elements": [
+        "ERTRAEGE_AUS_ABGANG_UND_ZUSCHREIBUNG_ZUM_ANLAGEVERMOEGEN"
+      ]
+    },
+    {
+      "canonical": "ertraege_aus_abgang_von_und_zuschreibung_zu_finanzanlagen",
+      "label_de": "Erträge aus dem Abgang von und der Zuschreibung zu Finanzanlagen und Wertpapieren des Umlaufvermögens",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_13",
+        "HGB_231_3_12"
+      ],
+      "v4_elements": [
+        "ERTRAEGE_AUS_ABGANG_VON_UND_ZUSCHREIBUNG_ZU_FINANZANLAGEN"
+      ]
+    },
+    {
+      "canonical": "ertraege_aus_aufloesung_von_rueckstellungen",
+      "label_de": "Erträge aus der Auflösung von Rückstellungen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_4_b",
+        "HGB_231_3_4_b"
+      ],
+      "v4_elements": [
+        "ERTRAEGE_AUS_AUFLOESUNG_VON_RUECKSTELLUNGEN"
+      ]
+    },
+    {
+      "canonical": "ertraege_aus_beteiligungen",
+      "label_de": "Erträge aus Beteiligungen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_10",
+        "HGB_231_3_9"
+      ],
+      "v4_elements": [
+        "ERTRAEGE_AUS_BETEILIGUNGEN"
+      ]
+    },
+    {
+      "canonical": "ertraege_aus_wertpapieren_und_ausleihungen",
+      "label_de": "Erträge aus anderen Wertpapieren und Ausleihungen des Finanzanlagevermögens",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_11",
+        "HGB_231_3_10"
+      ],
+      "v4_elements": [
+        "ERTRAEGE_AUS_WERTPAPIEREN_UND_AUSLEIHUNGEN"
+      ]
+    },
+    {
+      "canonical": "finanzerfolg_freier_posten",
+      "label_de": "Finanzerfolg freier posten",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "FINANZERFOLG_FREIER_POSTEN"
+      ]
+    },
+    {
+      "canonical": "freier_posten_zu_umsatzerloese",
+      "label_de": "Freier posten zu umsatzerlöse",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "FREIER_POSTEN_ZU_UMSATZERLOESE"
+      ]
+    },
+    {
+      "canonical": "gegenstaende_des_anlagevermoegens_und_sachanlagen",
+      "label_de": "Gegenstände des anlagevermögens und sachanlagen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_2_7_a"
+      ],
+      "v4_elements": [
+        "GEGENSTAENDE_DES_ANLAGEVERMOEGENS_UND_SACHANLAGEN"
+      ]
+    },
+    {
+      "canonical": "gegenstaende_des_umlaufvermoegens",
+      "label_de": "Gegenstände des umlaufvermögens",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_2_7_b"
+      ],
+      "v4_elements": [
+        "GEGENSTAENDE_DES_UMLAUFVERMOEGENS"
+      ]
+    },
+    {
+      "canonical": "gehaelter",
+      "label_de": "Gehälter",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_2_6_b"
+      ],
+      "v4_elements": [
+        "GEHAELTER"
+      ]
+    },
+    {
+      "canonical": "gewinn_verlustueberrechnung",
+      "label_de": "Gewinn verlustüberrechnung",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_232_3"
+      ],
+      "v4_elements": [
+        "GEWINN_VERLUSTUEBERRECHNUNG"
+      ]
+    },
+    {
+      "canonical": "gewinn_verlustvortrag_aus_dem_vorjahr",
+      "label_de": "Gewinn verlustvortrag aus dem vorjahr",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_28",
+        "HGB_231_3_27"
+      ],
+      "v4_elements": [
+        "GEWINN_VERLUSTVORTRAG_AUS_DEM_VORJAHR"
+      ]
+    },
+    {
+      "canonical": "guv_freier_posten",
+      "label_de": "Guv freier posten",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "GUV_FREIER_POSTEN"
+      ]
+    },
+    {
+      "canonical": "guv_gkv",
+      "label_de": "Guv gkv",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "GUV (HGB_231_1)"
+      ],
+      "v4_elements": [
+        "GUV_GKV"
+      ]
+    },
+    {
+      "canonical": "jahresueberschuss_jahresfehlbetrag",
+      "label_de": "Jahresüberschuß jahresfehlbetrag",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_22",
+        "HGB_231_3_21"
+      ],
+      "v4_elements": [
+        "JAHRESUEBERSCHUSS_JAHRESFEHLBETRAG"
+      ]
+    },
+    {
+      "canonical": "loehne",
+      "label_de": "Löhne",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_2_6_a"
+      ],
+      "v4_elements": [
+        "LOEHNE"
+      ]
+    },
+    {
+      "canonical": "loehne_und_gehaelter",
+      "label_de": "Löhne und gehälter",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_2_6_h"
+      ],
+      "v4_elements": [
+        "LOEHNE_UND_GEHAELTER"
+      ]
+    },
+    {
+      "canonical": "materialaufwand",
+      "label_de": "Materialaufwand",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_2_5_a"
+      ],
+      "v4_elements": [
+        "MATERIALAUFWAND"
+      ]
+    },
+    {
+      "canonical": "personalaufwand",
+      "label_de": "Personalaufwand",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_2_6"
+      ],
+      "v4_elements": [
+        "PERSONALAUFWAND"
+      ]
+    },
+    {
+      "canonical": "personalaufwand_freier_posten",
+      "label_de": "Personalaufwand freier posten",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "PERSONALAUFWAND_FREIER_POSTEN"
+      ]
+    },
+    {
+      "canonical": "reinvermoegensmehrung_minderung_durch_umgruendung",
+      "label_de": "Reinvermögensmehrung minderung durch umgründung",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "REINVERMOEGENSMEHRUNG_MINDERUNG_DURCH_UMGRUENDUNG"
+      ]
+    },
+    {
+      "canonical": "rohergebnis",
+      "label_de": "Rohergebnis",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_HGB_279",
+        "HGB_231_3_HGB_279"
+      ],
+      "v4_elements": [
+        "ROHERGEBNIS"
+      ]
+    },
+    {
+      "canonical": "sonstige_betriebliche_aufwendungen",
+      "label_de": "sonstige betriebliche Aufwendungen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_8",
+        "HGB_231_3_7"
+      ],
+      "v4_elements": [
+        "SONSTIGE_BETRIEBLICHE_AUFWENDUNGEN"
+      ]
+    },
+    {
+      "canonical": "sonstige_betriebliche_aufwendungen_freier_posten",
+      "label_de": "Sonstige betriebliche aufwendungen freier posten",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "SONSTIGE_BETRIEBLICHE_AUFWENDUNGEN_FREIER_POSTEN"
+      ]
+    },
+    {
+      "canonical": "sonstige_betriebliche_ertraege_zu_rohergebnis",
+      "label_de": "sonstige betriebliche Erträge",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_2_4"
+      ],
+      "v4_elements": [
+        "SONSTIGE_BETRIEBLICHE_ERTRAEGE_ZU_ROHERGEBNIS"
+      ]
+    },
+    {
+      "canonical": "sonstige_betriebliche_ertraege_zu_umsatzerloese",
+      "label_de": "sonstige betriebliche Erträge",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_2_4"
+      ],
+      "v4_elements": [
+        "SONSTIGE_BETRIEBLICHE_ERTRAEGE_ZU_UMSATZERLOESE"
+      ]
+    },
+    {
+      "canonical": "sonstige_steuern",
+      "label_de": "Sonstige steürn",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_31",
+        "HGB_231_3_31"
+      ],
+      "v4_elements": [
+        "SONSTIGE_STEUERN"
+      ]
+    },
+    {
+      "canonical": "sonstige_zinsen_und_aehnliche_ertraege",
+      "label_de": "sonstige Zinsen und ähnliche Erträge",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_12",
+        "HGB_231_3_11"
+      ],
+      "v4_elements": [
+        "SONSTIGE_ZINSEN_UND_AEHNLICHE_ERTRAEGE"
+      ]
+    },
+    {
+      "canonical": "soziale_aufwendungen",
+      "label_de": "Soziale aufwendungen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_2_6_g"
+      ],
+      "v4_elements": [
+        "SOZIALE_AUFWENDUNGEN"
+      ]
+    },
+    {
+      "canonical": "steuern_vom_einkommen_und_ertrag",
+      "label_de": "Steürn vom einkommen und ertrag",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_21",
+        "HGB_231_3_20"
+      ],
+      "v4_elements": [
+        "STEUERN_VOM_EINKOMMEN_UND_ERTRAG"
+      ]
+    },
+    {
+      "canonical": "uebernahme_eines_ergebnisses_aus_vorperioden",
+      "label_de": "Übernahme eines ergebnißes aus vorperioden",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "UEBERNAHME_EINES_ERGEBNISSES_AUS_VORPERIODEN"
+      ]
+    },
+    {
+      "canonical": "uebrige",
+      "label_de": "übrige",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_4_c",
+        "HGB_231_3_4_c"
+      ],
+      "v4_elements": [
+        "UEBRIGE"
+      ]
+    },
+    {
+      "canonical": "umsatzerloese",
+      "label_de": "Umsatzerlöse",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_1",
+        "HGB_231_3_1"
+      ],
+      "v4_elements": [
+        "UMSATZERLOESE"
+      ]
+    },
+    {
+      "canonical": "veraenderung_des_bestands_an_erzeugnissen_und_leistungen",
+      "label_de": "Veränderung des Bestands an fertigen und unfertigen Erzeugnissen sowie an noch nicht abrechenbaren Leistungen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_2_2"
+      ],
+      "v4_elements": [
+        "VERAENDERUNG_DES_BESTANDS_AN_ERZEUGNISSEN_UND_LEISTUNGEN"
+      ]
+    },
+    {
+      "canonical": "verguetung_fuer_hybride_finanzinstrumente",
+      "label_de": "Vergütung für hybride finanzinstrumente",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "VERGUETUNG_FUER_HYBRIDE_FINANZINSTRUMENTE"
+      ]
+    },
+    {
+      "canonical": "zinsen_und_aehnliche_aufwendungen",
+      "label_de": "Zinsen und ähnliche Aufwendungen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_15",
+        "HGB_231_3_14"
+      ],
+      "v4_elements": [
+        "ZINSEN_UND_AEHNLICHE_AUFWENDUNGEN"
+      ]
+    },
+    {
+      "canonical": "zuweisung_zu_gewinnruecklagen",
+      "label_de": "Zuweisung zu gewinnrücklagen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_27",
+        "HGB_231_3_26"
+      ],
+      "v4_elements": [
+        "ZUWEISUNG_ZU_GEWINNRUECKLAGEN"
+      ]
+    },
+    {
+      "canonical": "zuweisung_zu_zweckgewidmeten_ruecklagen",
+      "label_de": "Zuweisung zu zweckgewidmeten rücklagen",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [],
+      "v4_elements": [
+        "ZUWEISUNG_ZU_ZWECKGEWIDMETEN_RUECKLAGEN"
+      ]
+    },
+    {
+      "canonical": "zwischensumme_betriebserfolg",
+      "label_de": "Zwischensumme betriebserfolg",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_9",
+        "HGB_231_3_8"
+      ],
+      "v4_elements": [
+        "ZWISCHENSUMME_BETRIEBSERFOLG"
+      ]
+    },
+    {
+      "canonical": "zwischensumme_finanzerfolg",
+      "label_de": "Zwischensumme finanzerfolg",
+      "category": "guv_gesamtkostenverfahren",
+      "extra_categories": [
+        "guv_umsatzkostenverfahren"
+      ],
+      "hgb_codes": [
+        "HGB_231_2_16",
+        "HGB_231_3_15"
+      ],
+      "v4_elements": [
+        "ZWISCHENSUMME_FINANZERFOLG"
+      ]
+    },
+    {
+      "canonical": "allgemeine_verwaltungskosten",
+      "label_de": "Allgemeine verwaltungskosten",
+      "category": "guv_umsatzkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_3_6"
+      ],
+      "v4_elements": [
+        "ALLGEMEINE_VERWALTUNGSKOSTEN"
+      ]
+    },
+    {
+      "canonical": "bruttoergebnis_vom_umsatz",
+      "label_de": "Bruttörgebnis vom umsatz",
+      "category": "guv_umsatzkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_3_3"
+      ],
+      "v4_elements": [
+        "BRUTTOERGEBNIS_VOM_UMSATZ"
+      ]
+    },
+    {
+      "canonical": "guv_ukv",
+      "label_de": "Guv ukv",
+      "category": "guv_umsatzkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "GUV_U (HGB_231_1_U)"
+      ],
+      "v4_elements": [
+        "GUV_UKV"
+      ]
+    },
+    {
+      "canonical": "herstellungskosten_der_leistungen",
+      "label_de": "Herstellungskosten der zur Erzielung der Umsatzerlöse erbrachten Leistungen",
+      "category": "guv_umsatzkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_3_2"
+      ],
+      "v4_elements": [
+        "HERSTELLUNGSKOSTEN_DER_LEISTUNGEN"
+      ]
+    },
+    {
+      "canonical": "sonstige_betriebliche_ertraege",
+      "label_de": "Sonstige betriebliche erträge",
+      "category": "guv_umsatzkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_3_4"
+      ],
+      "v4_elements": [
+        "SONSTIGE_BETRIEBLICHE_ERTRAEGE"
+      ]
+    },
+    {
+      "canonical": "vertriebskosten",
+      "label_de": "Vertriebskosten",
+      "category": "guv_umsatzkostenverfahren",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_231_3_5"
+      ],
+      "v4_elements": [
+        "VERTRIEBSKOSTEN"
+      ]
+    },
+    {
+      "canonical": "ruecklagenspiegel",
+      "label_de": "Rücklagenspiegel",
+      "category": "ruecklagenspiegel",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "RUECKLAGENSPIEGEL"
+      ]
+    },
+    {
+      "canonical": "entwicklung_der_rueckstellungen",
+      "label_de": "Entwicklung der Rückstellungen",
+      "category": "rueckstellungenspiegel",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "ENTWICKLUNG_DER_RUECKSTELLUNGEN"
+      ]
+    },
+    {
+      "canonical": "verbindlichkeitenspiegel",
+      "label_de": "Verbindlichkeitenspiegel",
+      "category": "verbindlichkeitenspiegel",
+      "extra_categories": [],
+      "hgb_codes": [],
+      "v4_elements": [
+        "VERBINDLICHKEITENSPIEGEL"
+      ]
+    },
+    {
+      "canonical": "zusatzangaben_mikro_ag",
+      "label_de": "Zusatzangaben für Mikro-AGs",
+      "category": "zusatzangaben_mikro_ag",
+      "extra_categories": [],
+      "hgb_codes": [
+        "HGB_Form_242_1"
+      ],
+      "v4_elements": [
+        "ZUSATZANGABEN_MIKRO_AG"
+      ]
+    }
+  ]
+}
