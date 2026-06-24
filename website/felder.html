@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="mask-icon" href="favicon.svg" color="#19C37D" />
+<title>Datenfelder-Referenz – Agentic-Firmenbuch.at</title>
+<meta name="description" content="Alle Felder, die der Agentic-Firmenbuch-MCP-Server liefert: Suchkarte, vollständiges Profil und voller Datensatz – mit Typ, Bedeutung und wann ein Feld leer ist." />
+<link rel="canonical" href="https://www.agentic-firmenbuch.at/felder.html" />
+<meta name="robots" content="index,follow" />
+<meta name="theme-color" content="#0A0B0E" />
+<meta name="color-scheme" content="dark" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#0A0B0E;--surface:#14161B;--surface-2:#181B22;
+    --line:rgba(255,255,255,.08);--line-2:rgba(255,255,255,.13);
+    --text:#EDEFF3;--dim:#9AA2AF;--faint:#6B7280;--accent:#19C37D;--mint:#19C37D;
+    --r-sm:10px;--r-md:14px;--r-lg:20px;--maxw:880px;
+    --font-d:"Bricolage Grotesque",system-ui,sans-serif;
+    --font-b:"IBM Plex Sans",system-ui,sans-serif;
+    --font-m:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{font-family:var(--font-b);background:var(--ink);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(55% 35% at 50% -10%,rgba(25,195,125,.13),transparent 70%)}
+  a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+  .wrap{width:100%;max-width:1200px;margin-inline:auto;padding-inline:24px}
+  @media(max-width:560px){.wrap{padding-inline:18px}}
+  header{position:sticky;top:0;z-index:60;backdrop-filter:saturate(160%) blur(14px);background:rgba(10,11,14,.72);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:20px}
+  .brand{display:inline-flex;align-items:center;gap:11px;font-family:var(--font-d);font-weight:700;font-size:18px;letter-spacing:-.02em;color:var(--text)}
+  .mark{width:30px;height:30px;flex:none}
+  .back{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;font-weight:500;color:var(--dim);padding:9px 15px;border:1px solid var(--line-2);border-radius:var(--r-md);background:rgba(255,255,255,.04)}
+  .back:hover{color:var(--text);background:rgba(255,255,255,.08);text-decoration:none}.back svg{width:16px;height:16px}
+  main{padding-block:clamp(48px,8vw,92px) clamp(60px,9vw,110px)}
+  .doc{max-width:var(--maxw);margin-inline:auto}
+  .eyebrow{font-family:var(--font-m);font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  h1{font-family:var(--font-d);font-weight:700;font-size:clamp(2rem,5vw,3rem);letter-spacing:-.03em;line-height:1.05;margin:14px 0 12px}
+  .sub{color:var(--dim);font-size:1.05rem;max-width:68ch}
+  section.block{margin-top:44px}
+  h2{font-family:var(--font-d);font-weight:600;font-size:1.32rem;letter-spacing:-.02em;margin-bottom:13px;display:flex;align-items:baseline;gap:12px;scroll-margin-top:88px}
+  h2 .n{font-family:var(--font-m);font-size:.92rem;color:var(--accent);font-weight:500}
+  h3{font-family:var(--font-d);font-weight:600;font-size:1.02rem;letter-spacing:-.01em;margin:22px 0 8px;color:var(--text)}
+  h3 code{font-size:.92em}
+  p{color:var(--dim);margin-bottom:12px}p strong{color:var(--text);font-weight:600}
+  ul{list-style:none;margin:6px 0 12px;display:flex;flex-direction:column;gap:9px}
+  li{color:var(--dim);padding-left:18px;position:relative}
+  li::before{content:"";position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.7}
+  code{font-family:var(--font-m);font-size:.9em;color:#cfe9dc;background:rgba(25,195,125,.07);border:1px solid rgba(25,195,125,.18);border-radius:5px;padding:1px 6px}
+  .tablewrap{overflow-x:auto;margin:10px 0 6px;border:1px solid var(--line);border-radius:var(--r-md)}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:14px}
+  th,td{text-align:left;padding:9px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{color:var(--text);font-weight:600;background:var(--surface-2);font-size:12.5px;letter-spacing:.02em}
+  tbody tr:last-child td{border-bottom:none}
+  td{color:var(--dim)}td code{white-space:nowrap}
+  td:first-child{white-space:nowrap}
+  tbody tr.grp td{background:rgba(25,195,125,.06);font-family:var(--font-d);font-weight:600;font-size:12px;color:var(--accent);letter-spacing:.04em;text-transform:uppercase}
+  h4{font-family:var(--font-d);font-weight:600;font-size:.98rem;letter-spacing:-.01em;margin:22px 0 7px;color:var(--text)}
+  h4 .muted{color:var(--faint);font-weight:400;font-family:var(--font-b);font-size:.84em;letter-spacing:0}
+  .note{border:1px solid rgba(25,195,125,.22);background:rgba(25,195,125,.06);border-radius:var(--r-md);padding:14px 16px;margin:14px 0;color:var(--dim)}
+  .note strong{color:var(--text)}
+  .toc{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 6px}
+  .toc a{font-family:var(--font-m);font-size:12.5px;color:var(--dim);border:1px solid var(--line-2);border-radius:999px;padding:5px 12px;background:rgba(255,255,255,.03)}
+  .toc a:hover{color:var(--text);text-decoration:none;border-color:var(--accent)}
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+  @media(max-width:680px){.tiers{grid-template-columns:1fr}}
+  .tier{border:1px solid var(--line);border-radius:var(--r-md);padding:14px 15px;background:var(--surface)}
+  .tier b{font-family:var(--font-m);font-size:13px;color:var(--accent)}
+  .tier p{margin:6px 0 0;font-size:13.5px}
+  footer{border-top:1px solid var(--line);padding-block:34px 40px;margin-top:60px}
+  .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:center}
+  .foot-links{display:flex;gap:22px;flex-wrap:wrap}.foot-links a{color:var(--dim);font-size:14px}.foot-links a:hover{color:var(--text)}
+  .foot small{color:var(--faint);font-size:12.5px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html" aria-label="Agentic-Firmenbuch.at – Startseite">
+      <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="1" y="1" width="30" height="30" rx="9" fill="#14161B" stroke="#19C37D" stroke-opacity=".5"/>
+        <rect x="8" y="8" width="7" height="7" rx="2" fill="#19C37D"/>
+        <rect x="17" y="8" width="7" height="7" rx="2" fill="#19C37D" fill-opacity=".4"/>
+        <rect x="8" y="17" width="7" height="7" rx="2" fill="#19C37D" fill-opacity=".4"/>
+        <rect x="17" y="17" width="7" height="7" rx="2" fill="#19C37D"/>
+      </svg>
+      <span><span style="color:#19C37D">Agentic</span>-Firmenbuch.at</span>
+    </a>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+      Zurück zur Startseite
+    </a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap doc">
+    <span class="eyebrow">Referenz</span>
+    <h1>Datenfelder</h1>
+    <p class="sub">Alle Felder, die der MCP-Server liefert – pro Werkzeug, mit Typ, Bedeutung
+       und der Regel, <strong>wann ein Feld leer (<code>null</code>) ist</strong>.</p>
+
+    <div class="note">
+      <strong>Die Suche liefert bewusst nur eine kompakte Übersichtskarte</strong> je Treffer –
+      nicht alle Daten. Das ist Absicht (schnell &amp; sparsam). Den vollständigen Datensatz holt
+      der Agent gezielt über <code>get_company_details</code> oder <code>get_full_record</code>.
+    </div>
+
+    <div class="tiers">
+      <div class="tier"><b>search_companies</b><p>10-Feld-Karte je Treffer – zum Suchen, Ranken, Überblicken.</p></div>
+      <div class="tier"><b>get_company_details</b><p>Vollständiges Profil eines Unternehmens (alle Abschnitte unten).</p></div>
+      <div class="tier"><b>get_full_record</b><p>Obermenge des Profils: volle Taxonomie + Lineage.</p></div>
+    </div>
+
+    <div class="toc">
+      <a href="#suche">1 · Suchkarte</a>
+      <a href="#profil">2 · Profil</a>
+      <a href="#voll">3 · Voller Datensatz</a>
+      <a href="#filter">4 · Filter &amp; Sortierung</a>
+      <a href="#codes">5 · Code-Tabellen</a>
+      <a href="#stand">6 · Stand &amp; Gewähr</a>
+    </div>
+
+    <section class="block" id="suche">
+      <h2><span class="n">1</span> <code>search_companies</code> → Karte</h2>
+      <p>Kompakter Auszug. <strong>Codes sind hier bereits als Labels ausgegeben</strong>
+         (z. B. <code>GmbH</code>, <code>Oberösterreich</code>).</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Feld</th><th>Typ</th><th>Bedeutung</th><th><code>null</code>, wenn …</th></tr></thead>
+        <tbody>
+          <tr><td><code>fnr</code></td><td>string</td><td>Firmenbuchnummer (z. B. <code>078052h</code>)</td><td>nie</td></tr>
+          <tr><td><code>name</code></td><td>string</td><td>Firmenwortlaut</td><td>nie</td></tr>
+          <tr><td><code>legal_form</code></td><td>string</td><td>Rechtsform-Label (z. B. <code>GmbH</code>)</td><td>unbekannt</td></tr>
+          <tr><td><code>bundesland</code></td><td>string</td><td>Bundesland-Label (z. B. <code>Wien</code>)</td><td>unbekannt</td></tr>
+          <tr><td><code>size_gkl</code></td><td>string</td><td>UGB-<strong>Einreichklasse</strong>: <code>W</code> Kleinst, <code>K</code> Klein, <code>M</code> Mittel, <code>G</code> Groß (≠ Bilanzgröße – Holdings reichen oft klein ein)</td><td>unbekannt</td></tr>
+          <tr><td><code>bilanzsumme_band</code></td><td>string</td><td>ehrliches Größenband nach Bilanzsumme</td><td>kein Abschluss</td></tr>
+          <tr><td><code>bilanzsumme_latest</code></td><td>number €</td><td>Bilanzsumme des jüngsten Abschlusses</td><td>kein Abschluss</td></tr>
+          <tr><td><code>manager_name</code></td><td>string</td><td>Name der primären vertretungsbefugten Person (öffentliche Firmenbuchdaten; Geburtsjahr ja, kein Tag/Monat)</td><td>keine Angabe</td></tr>
+          <tr><td><code>equity_ratio_latest</code></td><td>0–1</td><td>Eigenkapitalquote (jüngstes Jahr)</td><td>nicht berechenbar</td></tr>
+          <tr><td><code>revenue_latest</code></td><td>number €</td><td>Umsatzerlöse (jüngstes Jahr)</td><td><strong>kein GuV</strong> im jüngsten Abschluss</td></tr>
+          <tr><td><code>growth_profile</code></td><td>string</td><td><code>shrinking/stable/growing/fast_growing</code></td><td>&lt; 2 vergleichbare Jahre</td></tr>
+          <tr><td><code>has_guv_latest</code></td><td>bool</td><td>hat der jüngste Abschluss eine GuV?</td><td>– (immer gesetzt)</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section class="block" id="profil">
+      <h2><span class="n">2</span> <code>get_company_details</code> → Profil</h2>
+      <p>Das Unternehmen liegt unter <code>result</code>. <strong>Hier stehen die Roh-Codes</strong>
+         (z. B. <code>legal_form: "GES"</code> = GmbH, <code>bundesland: "O"</code> = Oberösterreich).
+         Die vollständigen Code-Tabellen stehen weiter unten unter
+         <a href="#codes">Code-Tabellen</a>.</p>
+
+      <h3><code>identity</code> · Stammdaten</h3>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Feld</th><th>Typ</th><th>Bedeutung</th></tr></thead>
+        <tbody>
+          <tr><td><code>fnr</code></td><td>string</td><td>Firmenbuchnummer</td></tr>
+          <tr><td><code>register_id</code></td><td>string</td><td>technische ID, Form <code>AT_&lt;fnr&gt;</code></td></tr>
+          <tr><td><code>name</code></td><td>string</td><td>Firmenwortlaut</td></tr>
+          <tr><td><code>legal_form</code></td><td>string</td><td>Rechtsform als Code (<code>GES</code> = GmbH-Familie; <a href="#codes">alle Codes</a>)</td></tr>
+          <tr><td><code>status</code></td><td>string</td><td><code>active</code> / <code>historical</code> / <code>deleted</code></td></tr>
+          <tr><td><code>court</code></td><td>string | null</td><td>zuständiges Firmenbuchgericht (oft leer)</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3><code>location</code> · Sitz</h3>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Feld</th><th>Typ</th><th>Bedeutung</th></tr></thead>
+        <tbody>
+          <tr><td><code>country</code></td><td>string</td><td>Land, immer <code>AUT</code></td></tr>
+          <tr><td><code>bundesland</code></td><td>string</td><td>Bundesland als Code, z. B. <code>W</code> Wien, <code>O</code> Oberösterreich (<a href="#codes">alle Codes</a>)</td></tr>
+          <tr><td><code>city</code></td><td>string</td><td>Ort</td></tr>
+          <tr><td><code>postal_code</code></td><td>string</td><td>Postleitzahl</td></tr>
+          <tr><td><code>street</code></td><td>string | null</td><td>Straße (oft leer)</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3><code>company</code> · Eckdaten</h3>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Feld</th><th>Typ</th><th>Bedeutung</th></tr></thead>
+        <tbody>
+          <tr><td><code>stammkapital</code></td><td>number | null</td><td>Stammkapital in € (oft leer)</td></tr>
+          <tr><td><code>first_filing_year</code></td><td>int</td><td>erstes verfügbares Abschlussjahr</td></tr>
+          <tr><td><code>last_filing_year</code></td><td>int</td><td>letztes verfügbares Abschlussjahr</td></tr>
+          <tr><td><code>filing_years_available</code></td><td>int</td><td>Anzahl vorhandener Abschlussjahre</td></tr>
+          <tr><td><code>founded_year</code></td><td>int | null</td><td>Gründungsjahr, sofern ableitbar</td></tr>
+          <tr><td><code>founded_source</code></td><td>string | null</td><td>Herkunft des Gründungsjahrs</td></tr>
+          <tr><td><code>description</code></td><td>null</td><td>in V1 nicht befüllt</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3><code>size</code> · Größeneinordnung</h3>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Feld</th><th>Typ</th><th>Bedeutung</th></tr></thead>
+        <tbody>
+          <tr><td><code>gkl</code></td><td>string</td><td>Größenklasse: <code>W</code> Kleinst, <code>K</code> Klein, <code>M</code> Mittel, <code>G</code> Groß</td></tr>
+          <tr><td><code>bilanzsumme_band</code></td><td>string</td><td>Bilanzsummen-Band, <code>small</code> bis <code>very_large</code></td></tr>
+          <tr><td><code>peer_percentiles</code></td><td>object</td><td>Perzentilrang je Kennzahl <strong>innerhalb der eigenen Größenklasse</strong> (z. B. <code>bilanzsumme: 99.3</code> = größer als 99,3 %)</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3><code>financials</code> · Finanzdaten</h3>
+      <p>Zuerst die Kopf-Felder, danach die Positionen – jede als Zeitreihe (Jahr → Wert).</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Feld</th><th>Typ</th><th>Bedeutung</th></tr></thead>
+        <tbody>
+          <tr><td><code>latest_year</code></td><td>int</td><td>jüngstes Abschlussjahr</td></tr>
+          <tr><td><code>has_guv_latest</code></td><td>bool</td><td>hat das jüngste Jahr eine GuV?</td></tr>
+          <tr><td><code>revenue_basis</code></td><td>string | null</td><td>Herkunft des Umsatzwerts</td></tr>
+          <tr><td><code>latest</code></td><td>object</td><td>Kennwerte des jüngsten Jahres (Teilmenge)</td></tr>
+          <tr><td><code>bilanz</code></td><td>object</td><td>Bilanzpositionen (siehe unten)</td></tr>
+          <tr><td><code>guv</code></td><td>object</td><td>GuV-Positionen (siehe unten; leer <code>{}</code> ohne GuV)</td></tr>
+        </tbody>
+      </table></div>
+
+      <h4>Bilanz-Positionen <span class="muted">in <code>financials.bilanz</code></span></h4>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Position</th><th>Bedeutung</th></tr></thead>
+        <tbody>
+          <tr class="grp"><td colspan="2">Summe</td></tr>
+          <tr><td><code>bilanzsumme</code></td><td>Bilanzsumme (Summe aller Aktiva bzw. Passiva)</td></tr>
+          <tr class="grp"><td colspan="2">Aktiva · Vermögen</td></tr>
+          <tr><td><code>anlagevermoegen</code></td><td>Anlagevermögen (langfristig gebundenes Vermögen)</td></tr>
+          <tr><td><code>sachanlagen</code></td><td>Sachanlagen (Grundstücke, Gebäude, Maschinen)</td></tr>
+          <tr><td><code>finanzanlagen</code></td><td>Finanzanlagen (Beteiligungen, Wertpapiere)</td></tr>
+          <tr><td><code>umlaufvermoegen</code></td><td>Umlaufvermögen (kurzfristig gebundenes Vermögen)</td></tr>
+          <tr><td><code>vorraete</code></td><td>Vorräte (Lagerbestände)</td></tr>
+          <tr><td><code>forderungen</code></td><td>Forderungen (z. B. aus Lieferungen und Leistungen)</td></tr>
+          <tr><td><code>cash</code></td><td>Liquide Mittel (Kassa, Bankguthaben)</td></tr>
+          <tr class="grp"><td colspan="2">Passiva · Kapital</td></tr>
+          <tr><td><code>eigenkapital</code></td><td>Eigenkapital</td></tr>
+          <tr><td><code>stammkapital</code></td><td>Stammkapital (gezeichnetes Kapital)</td></tr>
+          <tr><td><code>kapitalruecklagen</code></td><td>Kapitalrücklagen</td></tr>
+          <tr><td><code>gewinnruecklagen</code></td><td>Gewinnrücklagen</td></tr>
+          <tr><td><code>bilanzgewinn_verlust</code></td><td>Bilanzgewinn / -verlust</td></tr>
+          <tr><td><code>rueckstellungen</code></td><td>Rückstellungen</td></tr>
+          <tr><td><code>verbindlichkeiten</code></td><td>Verbindlichkeiten (Fremdkapital / Schulden)</td></tr>
+        </tbody>
+      </table></div>
+
+      <h4>GuV-Positionen <span class="muted">in <code>financials.guv</code> · nur bei <code>has_guv</code></span></h4>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Position</th><th>Bedeutung</th></tr></thead>
+        <tbody>
+          <tr><td><code>umsatzerloese</code></td><td>Umsatzerlöse</td></tr>
+          <tr><td><code>materialaufwand</code></td><td>Materialaufwand</td></tr>
+          <tr><td><code>personalaufwand</code></td><td>Personalaufwand</td></tr>
+          <tr><td><code>abschreibungen</code></td><td>Abschreibungen</td></tr>
+          <tr><td><code>ebit</code></td><td>Betriebserfolg (operatives Ergebnis vor Finanzergebnis und Steuern) – siehe Hinweis</td></tr>
+          <tr><td><code>ebitda</code></td><td>Betriebserfolg zzgl. Abschreibungen – siehe Hinweis</td></tr>
+          <tr><td><code>jahresueberschuss</code></td><td>Jahresüberschuss / -fehlbetrag</td></tr>
+        </tbody>
+      </table></div>
+      <div class="note"><strong>Hinweis zu EBIT/EBITDA:</strong> Der österreichische UGB-Abschluss
+        (§ 231 Abs 2, Gesamtkostenverfahren) weist weder EBIT noch EBITDA aus. Als <code>ebit</code>
+        verwenden wir den ausgewiesenen <strong>Betriebserfolg</strong> (operatives Ergebnis vor
+        Finanzergebnis und Steuern), als <code>ebitda</code> den Betriebserfolg zzgl. Abschreibungen.
+        Das entspricht <strong>nicht</strong> der strengen EBIT-Definition
+        (Ergebnis vor Zinsen und Steuern inklusive Finanzergebnis), sondern ist als vereinfachte
+        Näherung zu verstehen. Bei Gesellschaften mit wesentlichem Finanz- oder Beteiligungsergebnis
+        (etwa Holdings) können die Werte spürbar abweichen.</div>
+      <div class="note"><strong>Nur Bilanz, ohne GuV:</strong> Kleine Gesellschaften reichen oft nur
+        eine Bilanz ein. Dann ist <code>guv = {}</code>, <code>revenue_latest = null</code>, und
+        margenbasierte Kennzahlen bleiben ohne Wert. Gezielt filtern mit <code>has_guv</code> /
+        <code>has_guv_latest</code>.</div>
+
+      <h3><code>ratios</code> · Kennzahlen</h3>
+      <p>13 Kennzahlen, jede als Zeitreihen-Objekt. Margen- und Renditekennzahlen brauchen eine
+         GuV und bleiben sonst leer.</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Kennzahl</th><th>Bedeutung</th></tr></thead>
+        <tbody>
+          <tr><td><code>equity_ratio</code></td><td>Eigenkapitalquote (EK / Bilanzsumme)</td></tr>
+          <tr><td><code>debt_ratio</code></td><td>Fremdkapitalquote (FK / Bilanzsumme)</td></tr>
+          <tr><td><code>debt_to_equity</code></td><td>Verschuldungsgrad (FK / EK)</td></tr>
+          <tr><td><code>working_capital_ratio</code></td><td>Working-Capital-Quote</td></tr>
+          <tr><td><code>anlagedeckungsgrad_1</code></td><td>Anlagedeckungsgrad I (EK / Anlagevermögen)</td></tr>
+          <tr><td><code>ebit_margin</code></td><td>EBIT-Marge (EBIT / Umsatz) – EBIT = Betriebserfolg, siehe Hinweis oben</td></tr>
+          <tr><td><code>ebitda_margin</code></td><td>EBITDA-Marge (EBITDA / Umsatz)</td></tr>
+          <tr><td><code>net_margin</code></td><td>Nettomarge (Jahresüberschuss / Umsatz)</td></tr>
+          <tr><td><code>personalkostenquote</code></td><td>Personalkostenquote (Personalaufwand / Umsatz)</td></tr>
+          <tr><td><code>materialaufwandsquote</code></td><td>Materialaufwandsquote (Materialaufwand / Umsatz)</td></tr>
+          <tr><td><code>roa</code></td><td>Gesamtkapitalrendite (ROA)</td></tr>
+          <tr><td><code>roe</code></td><td>Eigenkapitalrendite (ROE)</td></tr>
+          <tr><td><code>capital_profile</code></td><td>qualitatives Kapitalstruktur-Profil</td></tr>
+        </tbody>
+      </table></div>
+      <p style="font-size:.92em">Jedes Kennzahl-Objekt enthält u. a. <code>latest</code>,
+         <code>latest_year</code>, <code>history</code> (Jahr → Wert), <code>avg_3y</code>/<code>avg_5y</code>,
+         <code>min_5y</code>/<code>max_5y</code>, <code>volatility</code>, <code>trend</code> sowie
+         Wachstumsmaße.</p>
+
+      <h3><code>growth</code> · Wachstum</h3>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Feld</th><th>Typ</th><th>Bedeutung</th></tr></thead>
+        <tbody>
+          <tr><td><code>profile</code></td><td>string | null</td><td><code>shrinking</code> / <code>stable</code> / <code>growing</code> / <code>fast_growing</code> (leer bei &lt; 2 vergleichbaren Jahren)</td></tr>
+          <tr><td><code>method</code></td><td>string | null</td><td>Berechnungsbasis des Profils</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3><code>employees</code> · Beschäftigte</h3>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Feld</th><th>Typ</th><th>Bedeutung</th></tr></thead>
+        <tbody>
+          <tr><td><code>latest</code> / <code>latest_year</code> / <code>history</code></td><td>object | null</td><td>Beschäftigtenzahl je Jahr – <strong>oft leer</strong>, da das Firmenbuch Beschäftigtenzahlen nur lückenhaft führt</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3><code>filings</code> · Eingereichte Abschlüsse <span class="muted" style="font-weight:400">+ <code>events</code></span></h3>
+      <div class="tablewrap"><table>
+        <thead><tr><th>filings[]-Feld</th><th>Typ</th><th>Bedeutung</th></tr></thead>
+        <tbody>
+          <tr><td><code>stichtag</code></td><td>string</td><td>Bilanzstichtag des Abschlusses</td></tr>
+          <tr><td><code>format</code></td><td>string</td><td>Quellformat (z. B. <code>legacy_finanzonline</code>, <code>jab_4_0</code>)</td></tr>
+          <tr><td><code>parsed</code></td><td>bool</td><td>maschinell ausgewertet?</td></tr>
+          <tr><td><code>gkl</code></td><td>string</td><td>Größenklasse zum Abschluss</td></tr>
+          <tr><td><code>doc_key</code> · <code>document_url</code> · <code>pdf_doc_key</code></td><td>string | null</td><td>Dokument-Verweise (teils leer)</td></tr>
+        </tbody>
+      </table></div>
+      <p style="font-size:.92em"><code>events[]</code> – Registerereignisse; in V1 meist leer.</p>
+
+      <h3><code>management</code> · Geschäftsführung</h3>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Feld</th><th>Typ</th><th>Bedeutung</th></tr></thead>
+        <tbody>
+          <tr><td><code>n_signatories_latest</code></td><td>int</td><td>Anzahl Zeichnungsberechtigter (jüngstes Jahr)</td></tr>
+          <tr><td><code>signatories_stable_years</code></td><td>int</td><td>Jahre konstanter Geschäftsführung</td></tr>
+          <tr><td><code>primary_manager.age</code></td><td>int</td><td>aktuelles Alter des primären GF (jahresbasiert)</td></tr>
+          <tr><td><code>primary_manager.birth_year</code></td><td>int</td><td>Geburtsjahr (nur Jahr)</td></tr>
+          <tr><td><code>primary_manager.role_label</code></td><td>string</td><td>Funktion (z. B. Geschäftsführer/in)</td></tr>
+          <tr><td><code>primary_manager.vertretung</code></td><td>string | null</td><td>Vertretungsart (Einzel- / Gemeinschaftsvertretung)</td></tr>
+        </tbody>
+      </table></div>
+      <div class="note"><strong>Datenschutz (DSGVO):</strong> Personennamen werden <strong>nicht</strong>
+        ausgeliefert. Verfügbar sind nur <strong>Alter</strong> und <strong>Geburtsjahr</strong> (Jahr,
+        ohne Tag/Monat) sowie Funktion und Vertretung – genug für Nachfolge-Screenings, ohne die
+        Person zu identifizieren.</div>
+    </section>
+
+    <section class="block" id="voll">
+      <h2><span class="n">3</span> <code>get_full_record</code> → voller Datensatz</h2>
+      <p>Enthält <strong>alles</strong> aus dem Profil <strong>plus</strong>:</p>
+      <ul>
+        <li><code>financials.positions</code> – vollständige <strong>317-Positionen-Taxonomie</strong> (jede UGB-Position)</li>
+        <li><code>financials.passthrough</code> – unbekannte Quell-Codes inkl. Historie (verlustfrei)</li>
+        <li><code>financials.completeness</code> – Qualitätsmaß (Positionsanzahl je Jahr)</li>
+        <li><code>financials.guv_years</code> – Liste der Jahre mit GuV</li>
+        <li><code>management.signatories_history</code> – Zeichnungsberechtigte je Jahr</li>
+        <li><code>derivations</code> – <code>metrics_version</code> + Formel-Registry der Kennzahlen</li>
+      </ul>
+      <p>Auch hier gilt: <strong>Namen bleiben ausgeblendet</strong> (DSGVO).</p>
+    </section>
+
+    <section class="block" id="filter">
+      <h2><span class="n">4</span> Filter, Sortierung, Seiten</h2>
+      <p>Argumente von <code>search_companies</code>.</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Filter</th><th>Bedeutung</th></tr></thead>
+        <tbody>
+          <tr><td><code>name</code></td><td>Teilstring im Firmennamen</td></tr>
+          <tr><td><code>legal_form</code></td><td>Rechtsform, z. B. <code>GmbH</code></td></tr>
+          <tr><td><code>bundesland</code></td><td>Klarname, z. B. <code>Wien</code></td></tr>
+          <tr><td><code>size_gkl</code></td><td>Größenklasse <code>W/K/M/G</code></td></tr>
+          <tr><td><code>bilanzsumme_min</code> / <code>_max</code></td><td>Bilanzsumme von / bis (€)</td></tr>
+          <tr><td><code>equity_ratio_min</code> / <code>_max</code></td><td>Eigenkapitalquote von / bis (0–1)</td></tr>
+          <tr><td><code>revenue_min</code> / <code>_max</code></td><td>Umsatz von / bis (€)</td></tr>
+          <tr><td><code>employees_min</code> / <code>_max</code></td><td>Beschäftigte von / bis</td></tr>
+          <tr><td><code>growth_profile</code></td><td><code>shrinking</code> / <code>stable</code> / <code>growing</code> / <code>fast_growing</code></td></tr>
+          <tr><td><code>has_guv</code> · <code>has_guv_latest</code></td><td>nur Firmen mit GuV (je / im jüngsten Jahr)</td></tr>
+          <tr><td><code>last_filing_year_min</code></td><td>jüngster Abschluss mindestens aus diesem Jahr</td></tr>
+          <tr><td><code>founded_year_min</code> / <code>_max</code></td><td>Gründungsjahr von / bis</td></tr>
+          <tr><td><code>gf_age_min</code></td><td>primärer GF mindestens X Jahre (Nachfolge-Screen)</td></tr>
+          <tr><td><code>manager_name</code></td><td>Teilstring im Namen der vertretungsbefugten Person (öffentliche Firmenbuchdaten)</td></tr>
+          <tr><td><code>status</code></td><td><code>active</code> / <code>inactive</code> / <code>all</code></td></tr>
+        </tbody>
+      </table></div>
+      <p><strong>Sortierung:</strong> <code>sort = { field, descending }</code> über u. a.
+         <code>bilanzsumme</code>, <code>equity_ratio</code>, <code>revenue</code>.
+         <strong>Seiten:</strong> <code>page</code> (ab 1), <code>page_size</code> (Standard 25).</p>
+    </section>
+
+    <section class="block" id="codes">
+      <h2><span class="n">5</span> Code-Tabellen</h2>
+      <p><strong>Bundesland</strong> (Code → Klarname): <code>B</code> Burgenland · <code>K</code> Kärnten ·
+         <code>N</code> Niederösterreich · <code>O</code> Oberösterreich · <code>S</code> Salzburg ·
+         <code>St</code> Steiermark · <code>T</code> Tirol · <code>V</code> Vorarlberg · <code>W</code> Wien.</p>
+      <p><strong>Rechtsform:</strong> Der granulare Firmenbuch-Code steht im Profil
+         (<code>legal_form</code>). Die GmbH-Familie ist das Präfix <code>GE…</code>
+         (<code>GES</code> ≈ 99,7 %); die Suchkarte labelt das als <code>GmbH</code>.</p>
+      <p><strong>Größenklasse <code>gkl</code>:</strong> <code>W</code> Kleinst/Mikro · <code>K</code> Klein ·
+         <code>M</code> Mittel · <code>G</code> Groß.</p>
+    </section>
+
+    <section class="block" id="stand">
+      <h2><span class="n">6</span> Stand &amp; Gewähr</h2>
+      <p>Jede Antwort trägt <code>provenance.data_version</code> und <code>built_at</code>
+         (Erstellungszeit der ausgelieferten Daten). Die Daten stammen aus dem
+         <strong>österreichischen Firmenbuch</strong> (BMJ – Justiz, EU High Value Dataset,
+         CC BY 4.0), werden automatisiert verarbeitet und <strong>ohne Gewähr</strong> auf
+         Richtigkeit, Vollständigkeit und Aktualität bereitgestellt. Maßgeblich ist stets der
+         amtliche Firmenbuchauszug.</p>
+      <p style="font-size:.92em">Entwickler-Variante dieser Seite:
+         <a href="https://github.com/jkbngb/agentic-firmenbuch/blob/main/docs/FIELD_REFERENCE.md">FIELD_REFERENCE.md</a> im Repo.</p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="foot-links">
+      <a href="index.html">Start</a>
+      <a href="playground.html">Playground</a>
+      <a href="onboarding.html">Anleitung</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+      <a href="nutzungsbedingungen.html">Nutzungsbedingungen</a>
+    </div>
+    <small>© <span id="y"></span> Agentic-Firmenbuch.at · Österreichisches Firmenbuch / BMJ – Justiz, CC BY 4.0</small>
+  </div>
+</footer>
+<script>document.getElementById("y").textContent=new Date().getFullYear();</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "COSMOS_ENDPOINT": "https://cosmos-firmenbuch-xbjux2hw.documents.azure.com:443/",
+    "COSMOS_DATABASE": "firmenbuch",
+    "ACS_CONNECTION_STRING": "",
+    "ACS_SENDER_ADDRESS": "DoNotReply@agentic-firmenbuch.at",
+    "TURNSTILE_SECRET": "",
+    "SITE_BASE_URL": "https://agentic-firmenbuch.at",
+    "VERIFY_TOKEN_TTL_HOURS": "24",
+    "SIGNUP_IP_LIMIT_PER_MIN": "5",
+    "AZURE_CLIENT_ID": ""
+  }
+}

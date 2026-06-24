@@ -1,0 +1,3415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ns://justiz.gv.at/Bilanzierung/v4.0/Bilanz" targetNamespace="ns://justiz.gv.at/Bilanzierung/v4.0/Bilanz" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<!-- ///////////////////////////////////////////////////////// -->
+	<!-- JAb 4.0 - XSD - Spezifikation in der Version 11           -->
+	<!-- ///////////////////////////////////////////////////////// -->
+
+	<!-- ///////////////////////////////////////////////////////// -->
+	<!-- JAb 4.0 - HAUPTSTRUKTUR                                   -->
+	<!-- ///////////////////////////////////////////////////////// -->
+
+	<xs:element name="UEBERMITTLUNG">
+		<xs:annotation>
+			<xs:documentation>JAb 4.0 - Hauptstruktur</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ALLGEMEINE_ANGABEN" type="ALLGEMEINE_ANGABEN" minOccurs="1" maxOccurs="1"/>
+
+				<xs:choice minOccurs="1" maxOccurs="1">
+					<xs:sequence>
+						<xs:element name="BILANZ" type="BILANZ" minOccurs="1" maxOccurs="1"/>
+						<xs:choice minOccurs="0" maxOccurs="1">
+							<xs:element name="GUV_GKV" type="GUV_GKV" minOccurs="1" maxOccurs="1"/>
+							<xs:element name="GUV_UKV" type="GUV_UKV" minOccurs="1" maxOccurs="1"/>
+						</xs:choice>
+						<xs:element name="ZUSATZANGABEN_MIKRO_AG" type="ZUSATZANGABEN_MIKRO_AG" minOccurs="0" maxOccurs="1"/>
+					</xs:sequence>
+					<xs:sequence>
+						<xs:choice minOccurs="1" maxOccurs="1">
+							<xs:element name="ANLAGE1_AUSZUG_AUS_DER_BILANZ" type="ANLAGE1" minOccurs="1" maxOccurs="1"/>
+							<xs:element name="ANLAGE3_AUSZUG_AUS_DER_BILANZ" type="ANLAGE3" minOccurs="1" maxOccurs="1"/>
+						</xs:choice>
+						<xs:element name="ANLAGE2_OFFENZULEGENDER_ANHANG" type="ANLAGE2" minOccurs="0" maxOccurs="1"/>
+					</xs:sequence>
+				</xs:choice>
+
+				<xs:element name="ANLAGENSPIEGEL" type="SPIEGEL_ANLAGEN" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="VERBINDLICHKEITENSPIEGEL" type="SPIEGEL_VERBINDLICHKEITEN" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="FORDERUNGENSPIEGEL" type="SPIEGEL_FORDERUNGEN" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="ENTWICKLUNG_DER_RUECKSTELLUNGEN" type="SPIEGEL_RUECKSTELLUNGEN" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="RUECKLAGENSPIEGEL" type="SPIEGEL_RUECKLAGEN" minOccurs="0" maxOccurs="1"/>
+
+				<xs:element name="ANHANG" type="PDF_DATEN" minOccurs="0" maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- ///////////////////////////////////////////////////////// -->
+	<!-- ALLGEMEINE ANGABEN - DATENTYPEN UND STANDARD - DATENTYPEN -->
+	<!-- ///////////////////////////////////////////////////////// -->
+
+	<xs:complexType name="ALLGEMEINE_ANGABEN">
+		<xs:annotation>
+			<xs:documentation>Datentyp für Allgemeine Angaben zur JAb-Übermittlung</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BILANZ_VERSION" type="BILANZ_VERSION" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="PRUEFSUMME" type="PRUEFSUMME" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="SOFTWARE_HERSTELLER" type="SOFTWARE_HERSTELLER" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="BESTAETIGUNG_UEBEREINSTIMMUNG_ORIGINAL" type="BESTAETIGUNG_UEBEREINSTIMMUNG_ORIGINAL" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="JAHRESABSCHLUSS_KONZERNABSCHLUSS" type="JAHRESABSCHLUSS_KONZERNABSCHLUSS" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="UEBERSCHRIFT_DER_VISUALISIERUNG" type="UEBERSCHRIFT_DER_VISUALISIERUNG" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="GUV_AUSWEISART" type="GUV_AUSWEISART" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="FIRMENDATEN" type="FIRMENDATEN" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="GESCHAEFTSJAHR" type="GESCHAEFTSJAHR" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="GESCHAEFTSJAHR_VORANGEGANGEN" type="GESCHAEFTSJAHR_VORANGEGANGEN" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BILANZ_WAEHRUNG" type="BILANZ_WAEHRUNG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="AUFSTELLENDE_PERSONEN" type="PERSON_AUFSTELLENDE" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:simpleType name="BILANZ_VERSION">
+		<xs:annotation>
+			<xs:documentation>Datentyp für die Jahresabschlussübermittlungsversion</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="5"/>
+			<xs:maxLength value="5"/>
+			<xs:pattern value="04\.[0-9]{2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="PRUEFSUMME">
+		<xs:annotation>
+			<xs:documentation>Datentyp für die Prüfsumme (SHA-256-Checksum)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="64"/>
+			<xs:maxLength value="64"/>
+			<xs:pattern value="[A-Za-z0-9]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="SOFTWARE_HERSTELLER">
+		<xs:annotation>
+			<xs:documentation>Datentyp für Bezeichnung des Software-Herstellers und der Software</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="HERSTELLER_BEZEICHNUNG" type="HERSTELLER_BEZEICHNUNG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SOFTWARE_BEZEICHNUNG" type="SOFTWARE_BEZEICHNUNG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="SOFTWARE_VERSION" type="SOFTWARE_VERSION" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="BESTAETIGUNG_UEBEREINSTIMMUNG_ORIGINAL">
+		<xs:annotation>
+			<xs:documentation>Datentyp für die Bestätigung der einreichenden Person</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1"/>
+			<xs:pattern value="[JN]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="HERSTELLER_BEZEICHNUNG">
+		<xs:annotation>
+			<xs:documentation>Datentyp für die Bezeichnung des Software-Herstellers</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="ZEICHENFOLGE">
+			<xs:minLength value="3"/>
+			<xs:maxLength value="25"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="SOFTWARE_BEZEICHNUNG">
+		<xs:annotation>
+			<xs:documentation>Datentyp für die Software-Bezeichnung</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="ZEICHENFOLGE">
+			<xs:minLength value="3"/>
+			<xs:maxLength value="25"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="SOFTWARE_VERSION">
+		<xs:annotation>
+			<xs:documentation>Software-Version des Software-Herstellers</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="ZEICHENFOLGE">
+			<xs:minLength value="3"/>
+			<xs:maxLength value="25"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="JAHRESABSCHLUSS_KONZERNABSCHLUSS">
+		<xs:annotation>
+			<xs:documentation>Datentyp für Art und Aufbau des Jahresabschlusses, oder Angabe des Konzernabschlusses</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="JAB"/>
+			<xs:enumeration value="JAB-ANLAGE12"/>
+			<xs:enumeration value="JAB-ANLAGE32"/>
+			<xs:enumeration value="KAB"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="UEBERSCHRIFT_DER_VISUALISIERUNG">
+		<xs:annotation>
+			<xs:documentation>Datentyp für die (optionale) Angabe der Überschriftsformulierung</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="A"/>
+			<xs:enumeration value="B"/>
+			<xs:enumeration value="V"/>
+			<xs:enumeration value="L"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="GUV_AUSWEISART">
+		<xs:annotation>
+			<xs:documentation>Datentyp für GUV-Ausweisart</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="G"/>
+			<xs:enumeration value="R"/>
+			<xs:enumeration value="A"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="FIRMENDATEN">
+		<xs:annotation>
+			<xs:documentation>Datentyp für Firmen-Details</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FIRMENBUCHNUMMER" type="FIRMENBUCHNUMMER" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="FIRMENWORTLAUT" type="FIRMENWORTLAUT" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:simpleType name="FIRMENBUCHNUMMER">
+		<xs:annotation>
+			<xs:documentation>Datentyp für Firmenbuchnummer</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{6}[a-z]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="FIRMENWORTLAUT">
+		<xs:annotation>
+			<xs:documentation>Datentyp für Firmwortlaut</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ZEILE" minOccurs="1" maxOccurs="11">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="ZEICHENFOLGE_OHNE_RAUTEUNTERSTRICH_38">
+							<xs:attribute name="SORTIERUNG" use="required">
+								<xs:simpleType>
+									<xs:restriction base="xs:integer">
+										<xs:minInclusive value="1"/>
+										<xs:maxInclusive value="11"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="GESCHAEFTSJAHR">
+		<xs:annotation>
+			<xs:documentation>Datentyp für Informationen zum Geschäftsjahr</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DATUM_DER_AUFSTELLUNG" type="xs:date" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="BEGINN" type="xs:date" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="ENDE" type="xs:date" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="RECHTSFORM" type="RECHTSFORM" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="GROESSENKLASSE" type="GROESSENKLASSE" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="EINGABEDARSTELLUNG" type="EINGABEDARSTELLUNG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="ZIELDARSTELLUNG" type="ZIELDARSTELLUNG" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="GESCHAEFTSJAHR_VORANGEGANGEN">
+		<xs:annotation>
+			<xs:documentation>Datentyp für die Informationen zum vorangegangenen Geschäftsjahr</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BEGINN" type="xs:date" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="ENDE" type="xs:date" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="RECHTSFORM" type="RECHTSFORM" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:simpleType name="BILANZ_WAEHRUNG">
+		<xs:annotation>
+			<xs:documentation>Datentyp für die Bilanz-Währung</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="EUR"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="PERSON_AUFSTELLENDE">
+		<xs:annotation>
+			<xs:documentation>Datentyp für Liste der aufstellenden Personen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PERSON" type="PERSON" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PERSON">
+		<xs:annotation>
+			<xs:documentation>Datentyp für aufstellende Personen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PERSONENKENNUNG" type="PERSONENKENNUNG" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="GEBURTSDATUM" type="xs:date" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="TITEL" type="ZEICHENFOLGE_OHNE_RAUTEUNTERSTRICH_40" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="VORNAME" type="ZEICHENFOLGE_OHNE_RAUTEUNTERSTRICH_80" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="NACHNAME" type="ZEICHENFOLGE_OHNE_RAUTEUNTERSTRICH_80" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="TITEL_NACH" type="ZEICHENFOLGE_OHNE_RAUTEUNTERSTRICH_40" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="DATUM_UNTERSCHRIFT" type="xs:date" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="REGISTERBEZEICHNUNG" type="REGISTERBEZEICHNUNG" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="FIRMENBUCHNUMMER_REGISTERNUMMER" type="FIRMENBUCHNUMMER_REGISTERNUMMER" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="FIRMENWORTLAUT_BEZEICHNUNG" type="FIRMENWORTLAUT" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="RECHTSFORM">
+		<xs:annotation>
+			<xs:documentation>Datentyp für Rechtsform</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AG"/>
+			<xs:enumeration value="EU"/>
+			<xs:enumeration value="SCE"/>
+			<xs:enumeration value="SE"/>
+			<xs:enumeration value="EWI"/>
+			<xs:enumeration value="GEN"/>
+			<xs:enumeration value="GES"/>
+			<xs:enumeration value="KG"/>
+			<xs:enumeration value="OG"/>
+			<xs:enumeration value="PST"/>
+			<xs:enumeration value="SON"/>
+			<xs:enumeration value="SPA"/>
+			<xs:enumeration value="VER"/>
+			<xs:enumeration value="FKG"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="GROESSENKLASSE">
+		<xs:annotation>
+			<xs:documentation>Datentyp für Größenklasse</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="W"/>
+			<xs:enumeration value="K"/>
+			<xs:enumeration value="M"/>
+			<xs:enumeration value="G"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="EINGABEDARSTELLUNG">
+		<xs:annotation>
+			<xs:documentation>Datentyp für die Eingabedarstellung der Bilanz</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DARSTELLUNG_EINGEREICHT" type="DARSTELLUNG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="DARSTELLUNG_VORHERGEHEND" type="DARSTELLUNG" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="ZIELDARSTELLUNG">
+		<xs:annotation>
+			<xs:documentation>Datentyp für die Zieldarstellung der Bilanz</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DARSTELLUNG_EINGEREICHT" type="DARSTELLUNG" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="DARSTELLUNG_VORHERGEHEND" type="DARSTELLUNG" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="DARSTELLUNG">
+		<xs:annotation>
+			<xs:documentation>Datentyp für die Eingabe- und Zieldarstellung</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="EINHEIT" type="DARSTELLUNG_EINHEIT" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="NACHKOMMASTELLEN" type="DARSTELLUNG_NACHKOMMASTELLEN" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:simpleType name="PERSONENKENNUNG">
+		<xs:annotation>
+			<xs:documentation>Datentyp für Personenkennung</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="3"/>
+			<xs:maxLength value="3"/>
+			<xs:pattern value="[ ]*[A-Z]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="REGISTERBEZEICHNUNG">
+		<xs:annotation>
+			<xs:documentation>Datentyp für Registerbezeichnungen</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="F"/>
+			<xs:enumeration value="V"/>
+			<xs:enumeration value="E"/>
+			<xs:enumeration value="S"/>
+			<xs:enumeration value="K"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="FIRMENBUCHNUMMER_REGISTERNUMMER">
+		<xs:annotation>
+			<xs:documentation>Spezialdatentyp für alternative Angabe von Firmenbuchnummer 7-stellig oder sonstige Registernummer 20-stellig</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="ZEICHENFOLGE">
+			<xs:minLength value="7"/>
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PDF_DATEN">
+		<xs:annotation>
+			<xs:documentation>Datentyp für den PDF - Anhang (20 Megabyte)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:base64Binary">
+			<xs:maxLength value="20000000"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- //////////////////////////////////////// -->
+	<!-- DARSTELLUNG / BETRÄGE - DATENTYPEN       -->
+	<!-- //////////////////////////////////////// -->
+	
+	<xs:simpleType name="DARSTELLUNG_EINHEIT">
+		<xs:annotation>
+			<xs:documentation>Datentyp für die Darstellungseinheiten</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="E"/>
+			<xs:enumeration value="HE"/>
+			<xs:enumeration value="TE"/>
+			<xs:enumeration value="ZTE"/>
+			<xs:enumeration value="HTE"/>
+			<xs:enumeration value="ME"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="DARSTELLUNG_NACHKOMMASTELLEN">
+		<xs:annotation>
+			<xs:documentation>Datentyp für die Nachkommastellendarstellung</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="G"/>
+			<xs:enumeration value="N"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="BETRAG">
+		<xs:annotation>
+			<xs:documentation>Datentyp für den Betrag (optionales Vorzeichen positiv/negativ, 12-stelliger Betrag mit optionalen 2 Nachkommastellen</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="16"/>
+			<xs:pattern value="(\+|-)?(([0-9]{1,12}(\.[0-9]{2})?)|[0-9]{1,12})" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ANZAHL">
+		<xs:annotation>
+			<xs:documentation>Datentyp für die Verwendung bei Anzahlen (keine Vorzeichen, 12-stelliger Wert mit optionalen 2 Nachkommastellen</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="15"/>
+			<xs:pattern value="(([0-9]{1,12}(\.[0-9]{2})?)|[0-9]{1,12})" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- //////////////////////////////////////// -->
+	<!-- STRING / ZEICHENFOLGEN - DATENTYPEN      -->
+	<!-- //////////////////////////////////////// -->
+
+	<xs:simpleType name="ZEICHENFOLGE">
+		<xs:annotation>
+			<xs:documentation>Datentyp für Zeichenfolge mit Firmenbuch-Sonderzeichen (Raute, Unterstrich)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9a-zA-Z ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįİıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžſƀƁƂƃƄƅƆƇƈƉƊƋƌƍƎƏƐƑƒƓƔƕƖƗƘƙƚƛƜƝƞƟƠơƢƣƤƥƦƧƨƩƪƫƬƭƮƯưƱƲƳƴƵƶƷƸƹƺƻƼƽƾƿǀǁǂǃǄǅǆǇǈǉǊǋǌǍǎǏǐǑǒǓǔǕǖǗǘǙǚǛǜǝǞǟǠǡǢǣǤǥǦǧǨǩǪǫǬǭǮǯǰǱǲǳǴǵǶǷǸǹǺǻǼǽǾǿȀȁȂȃȄȅȆȇȈȉȊȋȌȍȎȏȐȑȒȓȔȕȖȗȘșȚțȜȝȞȟȠȡȢȣȤȥȦȧȨȩȪȫȬȭȮȯȰȱȲȳȴȵȶȷȸȹȺȻȼȽȾȿɀɁɂɃɄɅɆɇɈɉɊɋɌɍɎɏḀḁḂḃḄḅḆḇḈḉḊḋḌḍḎḏḐḑḒḓḔḕḖḗḘḙḚḛḜḝḞḟḠḡḢḣḤḥḦḧḨḩḪḫḬḭḮḯḰḱḲḳḴḵḶḷḸḹḺḻḼḽḾḿṀṁṂṃṄṅṆṇṈṉṊṋṌṍṎṏṐṑṒṓṔṕṖṗṘṙṚṛṜṝṞṟṠṡṢṣṤṥṦṧṨṩṪṫṬṭṮṯṰṱṲṳṴṵṶṷṸṹṺṻṼṽṾṿẀẁẂẃẄẅẆẇẈẉẊẋẌẍẎẏẐẑẒẓẔẕẖẗẘẙẚẛẜẝẞẟẠạẢảẤấẦầẨẩẪẫẬậẮắẰằẲẳẴẵẶặẸẹẺẻẼẽẾếỀềỂểỄễỆệỈỉỊịỌọỎỏỐốỒồỔổỖỗỘộỚớỜờỞởỠỡỢợỤụỦủỨứỪừỬửỮữỰựỲỳỴỵỶỷỸỹỺỻỼỽỾỿɐɑɒɓɔɕɖɗɘəɚɛɜɝɞɟɠɡɢɣɤɥɦɧɨɩɪɫɬɭɮɯɰɱɲɳɴɵɶɷɸɹɺɻɼɽɾɿʀʁʂʃʄʅʆʇʈʉʊʋʌʍʎʏʐʑʒʓʔʕʖʗʘʙʚʛʜʝʞʟʠʡʢʣʤʥʦʧʨʩʪʫʬʭʮʯ€!$&amp;&quot;\(\),;\[%&apos;\]\{\}\*\+\-\./:=\?@|\\\^`~¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿×÷€™&lt;&gt;_#]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ZEICHENFOLGE_255">
+		<xs:annotation>
+			<xs:documentation>Datentyp für Zeichenfolge ohne Firmenbuch-Sonderzeichen (Raute, Unterstrich) beschränkt auf 255 Zeichen</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="ZEICHENFOLGE_OHNE_RAUTEUNTERSTRICH">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="255"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ZEICHENFOLGE_OHNE_RAUTEUNTERSTRICH">
+		<xs:annotation>
+			<xs:documentation>Datentyp für Zeichenfolge ohne Firmenbuch-Sonderzeichen (Raute, Unterstrich)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9a-zA-Z ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįİıĲĳĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŒœŔŕŖŗŘřŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžſƀƁƂƃƄƅƆƇƈƉƊƋƌƍƎƏƐƑƒƓƔƕƖƗƘƙƚƛƜƝƞƟƠơƢƣƤƥƦƧƨƩƪƫƬƭƮƯưƱƲƳƴƵƶƷƸƹƺƻƼƽƾƿǀǁǂǃǄǅǆǇǈǉǊǋǌǍǎǏǐǑǒǓǔǕǖǗǘǙǚǛǜǝǞǟǠǡǢǣǤǥǦǧǨǩǪǫǬǭǮǯǰǱǲǳǴǵǶǷǸǹǺǻǼǽǾǿȀȁȂȃȄȅȆȇȈȉȊȋȌȍȎȏȐȑȒȓȔȕȖȗȘșȚțȜȝȞȟȠȡȢȣȤȥȦȧȨȩȪȫȬȭȮȯȰȱȲȳȴȵȶȷȸȹȺȻȼȽȾȿɀɁɂɃɄɅɆɇɈɉɊɋɌɍɎɏḀḁḂḃḄḅḆḇḈḉḊḋḌḍḎḏḐḑḒḓḔḕḖḗḘḙḚḛḜḝḞḟḠḡḢḣḤḥḦḧḨḩḪḫḬḭḮḯḰḱḲḳḴḵḶḷḸḹḺḻḼḽḾḿṀṁṂṃṄṅṆṇṈṉṊṋṌṍṎṏṐṑṒṓṔṕṖṗṘṙṚṛṜṝṞṟṠṡṢṣṤṥṦṧṨṩṪṫṬṭṮṯṰṱṲṳṴṵṶṷṸṹṺṻṼṽṾṿẀẁẂẃẄẅẆẇẈẉẊẋẌẍẎẏẐẑẒẓẔẕẖẗẘẙẚẛẜẝẞẟẠạẢảẤấẦầẨẩẪẫẬậẮắẰằẲẳẴẵẶặẸẹẺẻẼẽẾếỀềỂểỄễỆệỈỉỊịỌọỎỏỐốỒồỔổỖỗỘộỚớỜờỞởỠỡỢợỤụỦủỨứỪừỬửỮữỰựỲỳỴỵỶỷỸỹỺỻỼỽỾỿɐɑɒɓɔɕɖɗɘəɚɛɜɝɞɟɠɡɢɣɤɥɦɧɨɩɪɫɬɭɮɯɰɱɲɳɴɵɶɷɸɹɺɻɼɽɾɿʀʁʂʃʄʅʆʇʈʉʊʋʌʍʎʏʐʑʒʓʔʕʖʗʘʙʚʛʜʝʞʟʠʡʢʣʤʥʦʧʨʩʪʫʬʭʮʯ€!$&amp;&quot;\(\),;\[%&apos;\]\{\}\*\+\-\./:=\?@|\\\^`~¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿×÷€™&lt;&gt;]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ZEICHENFOLGE_OHNE_RAUTEUNTERSTRICH_38">
+		<xs:annotation>
+			<xs:documentation>Datentyp für Zeichenfolge ohne Firmenbuch-Sonderzeichen mit der Länge 38</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="ZEICHENFOLGE_OHNE_RAUTEUNTERSTRICH">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="38"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="ZEICHENFOLGE_OHNE_RAUTEUNTERSTRICH_40">
+		<xs:annotation>
+			<xs:documentation>Datentyp für Zeichenfolge ohne Firmenbuch-Sonderzeichen mit der Länge 40</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="ZEICHENFOLGE_OHNE_RAUTEUNTERSTRICH">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="40"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="ZEICHENFOLGE_OHNE_RAUTEUNTERSTRICH_80">
+		<xs:annotation>
+			<xs:documentation>Datentyp für Zeichenfolge ohne Firmenbuch-Sonderzeichen mit der Länge 80</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="ZEICHENFOLGE_OHNE_RAUTEUNTERSTRICH">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- //////////////////////////////////////// -->
+	<!-- POSTEN: DATENTYPEN                       -->
+	<!-- //////////////////////////////////////// -->
+
+	<xs:complexType name="POSTENZEILE">
+		<xs:annotation>
+			<xs:documentation>Datentyp für die Bilanz-Postenzeile</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BETRAG_GJ" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="BETRAG_VJ" type="BETRAG" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BEZEICHNUNG" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="POSTEN">
+		<xs:annotation>
+			<xs:documentation>Datentyp für die Posten der Bilanz, für die Anlage 1, Anlage 3, und die zwei GuV-Varianten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="POSTENZEILE" type="POSTENZEILE" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="summieren" type="xs:boolean" use="optional"/>
+		<xs:attribute name="visualisieren" type="xs:boolean" use="optional"/>
+		<xs:attribute name="davon" type="xs:boolean" use="optional"/>
+	</xs:complexType>
+	
+	<xs:complexType name="FREIER_POSTEN">
+		<xs:annotation>
+			<xs:documentation>Datentyp für freie Posten (mit Sortierung)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:attribute name="SORTIERUNG" use="required">
+					<xs:simpleType>
+						<xs:restriction base="xs:integer">
+							<xs:minInclusive value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="POSTEN_MIT_FREIEN_POSTEN">
+		<xs:annotation>
+			<xs:documentation>Datentyp für Posten mit freien Posten</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="FREIER_POSTEN_MIT_FREIEN_POSTEN">
+		<xs:complexContent>
+			<xs:extension base="FREIER_POSTEN">
+				<xs:sequence>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- //////////////////////////////////////// -->
+	<!-- BILANZ: BILANZ - STRUKTUR                -->
+	<!-- //////////////////////////////////////// -->
+
+	<xs:complexType name="BILANZ">
+		<xs:annotation>
+			<xs:documentation>Ankerdatentyp für die Bilanzdaten</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AKTIVA" type="BILANZ_AKTIVA" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="PASSIVA" type="BILANZ_PASSIVA" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="BILANZ_AKTIVA">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="ANLAGEVERMOEGEN" type="BILANZ_ANLAGEVERMOEGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="UMLAUFVERMOEGEN" type="BILANZ_UMLAUFVERMOEGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="AKTIVA_FREIER_POSTEN" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AKTIVA_RECHNUNGSABGRENZUNGSPOSTEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="AKTIVE_LATENTE_STEUERN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="BILANZ_PASSIVA">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="EIGENKAPITAL" type="BILANZ_EIGENKAPITAL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="INVESTITIONSZUSCHUESSE" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="PASSIVA_FREIER_POSTEN_1" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="UNTERSCHIEDSBETRAG_AUS_DER_KAPITALKONSOLIDIERUNG" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="RUECKSTELLUNGEN" type="BILANZ_RUECKSTELLUNGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN" type="BILANZ_VERBINDLICHKEITEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="PASSIVA_FREIER_POSTEN_2" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="PASSIVA_RECHNUNGSABGRENZUNGSPOSTEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- //////////////////////////////////////// -->
+	<!-- BILANZ: AKTIVA - DETAILS                 -->
+	<!-- //////////////////////////////////////// -->
+
+	<xs:complexType name="BILANZ_ANLAGEVERMOEGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="IMMATERIELLE_VERMOEGENSGEGENSTAENDE" type="BILANZ_IMMATERIELLE_VERMOEGENSGEGENSTAENDE" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SACHANLAGEN" type="BILANZ_SACHANLAGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FINANZANLAGEN" type="BILANZ_FINANZANLAGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ANLAGEVERMOEGEN_FREIER_POSTEN" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für Bilanz - Umlaufvermögen -->
+	<xs:complexType name="BILANZ_UMLAUFVERMOEGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="VORRAETE" type="BILANZ_VORRAETE" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FORDERUNGEN_UND_SONSTIGE_VERMOEGENSGEGENSTAENDE" type="BILANZ_FORDERUNGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="WERTPAPIERE_UND_ANTEILE" type="BILANZ_WERTPAPIERE_UND_ANTEILE" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="KASSENBESTAND_SCHECKS_GUTHABEN_BEI_KREDITINSTITUTEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="UMLAUFVERMOEGEN_FREIER_POSTEN" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für die Bilanz - Immaterielle Vermögensgegenstände -->
+	<xs:complexType name="BILANZ_IMMATERIELLE_VERMOEGENSGEGENSTAENDE">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="KONZESSIONEN_GEWERBLICHE_SCHUTZRECHTE_UND_LIZENZEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="IMMATERIELLE_VERMOEGENSGEGENSTAENDE_FREIER_POSTEN_1" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="GESCHAEFTSWERT_FIRMENWERT" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="IMMATERIELLE_VERMOEGENSGEGENSTAENDE_FREIER_POSTEN_2" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="UMGRUENDUNGSMEHRWERT_AUSGLEICHSPOSTEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="IMMATERIELLE_VERMOEGENSGEGENSTAENDE_FREIER_POSTEN_3" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="GELEISTETE_ANZAHLUNGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="IMMATERIELLE_VERMOEGENSGEGENSTAENDE_FREIER_POSTEN_4" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="IMMATERIELLE_VERMOEGENSGEGENSTAENDE_NICHT_AUSWEISPFLICHTIGER_REST" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für die Bilanz - Sachanlagen -->
+	<xs:complexType name="BILANZ_SACHANLAGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="GRUNDSTUECKE_GRUNDSTUECKSGLEICHE_RECHTE_UND_BAUTEN" type="BILANZ_GRUNDSTUECKE_GRUNDSTUECKSGLEICHE_RECHTE_UND_BAUTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SACHANLAGEN_FREIER_POSTEN_1" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="TECHNISCHE_ANLAGEN_UND_MASCHINEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SACHANLAGEN_FREIER_POSTEN_2" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ANDERE_ANLAGEN_BETRIEBS_UND_GESCHAEFTSAUSSTATTUNG" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SACHANLAGEN_FREIER_POSTEN_3" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="GELEISTETE_ANZAHLUNGEN_UND_ANLAGEN_IM_BAU" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SACHANLAGEN_FREIER_POSTEN_4" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für die Bilanz - Finanzanlagen -->
+	<xs:complexType name="BILANZ_FINANZANLAGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="FINANZANLAGEN_ANTEILE_AN_VERBUNDENEN_UNTERNEHMEN" type="BILANZ_FINANZANLAGEN_ANTEILE_AN_VERBUNDENEN_UNTERNEHMEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FINANZANLAGEN_FREIER_POSTEN_1" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AUSLEIHUNGEN_AN_VERBUNDENE_UNTERNEHMEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FINANZANLAGEN_FREIER_POSTEN_2" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="BETEILIGUNGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FINANZANLAGEN_FREIER_POSTEN_3" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AUSLEIHUNGEN_AN_UNTERNEHMEN_MIT_BETEILIGUNGSVERHAELTNIS" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FINANZANLAGEN_FREIER_POSTEN_4" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="WERTPAPIERE_WERTRECHTE_DES_ANLAGEVERMOEGENS" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SONSTIGE_AUSLEIHUNGEN" type="BILANZ_SONSTIGE_AUSLEIHUNGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FINANZANLAGEN_FREIER_POSTEN_5" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="FINANZANLAGEN_NICHT_AUSWEISPFLICHTIGER_REST" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für die Bilanz - Vorräte -->
+	<xs:complexType name="BILANZ_VORRAETE">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="ROH_HILFS_UND_BETRIEBSSTOFFE" type="BILANZ_ROH_HILFS_UND_BETRIEBSSTOFFE" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VORRAETE_FREIER_POSTEN_1" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="UNFERTIGE_ERZEUGNISSE" type="BILANZ_UNFERTIGE_ERZEUGNISSE" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VORRAETE_FREIER_POSTEN_2" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="FERTIGE_ERZEUGNISSE_UND_WAREN" type="BILANZ_FERTIGE_ERZEUGNISSE_UND_WAREN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VORRAETE_FREIER_POSTEN_3" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="NOCH_NICHT_ABRECHENBARE_LEISTUNGEN" type="BILANZ_NOCH_NICHT_ABRECHENBARE_LEISTUNGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VORRAETE_FREIER_POSTEN_4" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="GELEISTETE_ANZAHLUNGEN" type="BILANZ_GELEISTETE_ANZAHLUNGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VORRAETE_FREIER_POSTEN_5" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für die Bilanz - Forderungen -->
+	<xs:complexType name="BILANZ_FORDERUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="FORDERUNGEN_AUS_LIEFERUNGEN_UND_LEISTUNGEN" type="BILANZ_FORDERUNGEN_AUS_LIEFERUNGEN_UND_LEISTUNGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FORDERUNGEN_FREIER_POSTEN_1" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="FORDERUNGEN_GEGENUEBER_VERBUNDENEN_UNTERNEHMEN" type="BILANZ_FORDERUNGEN_GEGENUEBER_VERBUNDENEN_UNTERNEHMEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FORDERUNGEN_FREIER_POSTEN_2" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="FORDERUNGEN_GEGENUEBER_UNTERNEHMEN_MIT_BETEILIGUNGSVERHAELTNIS" type="BILANZ_FORDERUNGEN_GEGENUEBER_UNTERNEHMEN_MIT_BETEILIGUNGSVERHAELTNIS" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FORDERUNGEN_FREIER_POSTEN_3" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="FORDERUNGEN_GEGENUEBER_GESELLSCHAFTERN" type="BILANZ_FORDERUNGEN_GEGENUEBER_GESELLSCHAFTERN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FORDERUNGEN_FREIER_POSTEN_4" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="SONSTIGE_FORDERUNGEN_UND_VERMOEGENSGEGENSTAENDE" type="BILANZ_SONSTIGE_FORDERUNGEN_UND_VERMOEGENSGEGENSTAENDE" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FORDERUNGEN_NICHT_AUSWEISPFLICHTIGER_REST" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für die Bilanz - Wertpapiere und Anteile -->
+	<xs:complexType name="BILANZ_WERTPAPIERE_UND_ANTEILE">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="WERTPAPIERE_UND_ANTEILE_ANTEILE_AN_VERBUNDENEN_UNTERNEHMEN" type="BILANZ_WERTPAPIERE_UND_ANTEILE_ANTEILE_AN_VERBUNDENEN_UNTERNEHMEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="WERTPAPIERE_UND_ANTEILE_FREIER_POSTEN_1" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="SONSTIGE_WERTPAPIERE_UND_ANTEILE" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="WERTPAPIERE_UND_ANTEILE_FREIER_POSTEN_2" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="WERTPAPIERE_UND_ANTEILE_NICHT_AUSWEISPFLICHTIGER_REST" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- //////////////////////////////////////// -->
+	<!-- BILANZ: AKTIVA - UNTERPOSTEN             -->
+	<!-- //////////////////////////////////////// -->
+	
+	<!-- Datentyp für die Bilanz - Grundstücke, grundstücksgleiche Rechte und Bauten, einschließlich der Bauten auf fremdem Grund -->
+	<xs:complexType name="BILANZ_GRUNDSTUECKE_GRUNDSTUECKSGLEICHE_RECHTE_UND_BAUTEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_GRUNDWERT" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für die Bilanz - Anteile an verbundenen Unternehmen -->
+	<xs:complexType name="BILANZ_FINANZANLAGEN_ANTEILE_AN_VERBUNDENEN_UNTERNEHMEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_ANTEILE_AN_MUTTERUNTERNEHMEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Bilanz - sonstige Ausleihungen -->
+	<xs:complexType name="BILANZ_SONSTIGE_AUSLEIHUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_RESTLAUFZEIT_BIS_ZU_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Bilanz - Roh-, Hilfs- und Betriebsstoffe -->
+	<xs:complexType name="BILANZ_ROH_HILFS_UND_BETRIEBSSTOFFE">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Bilanz - unfertige Erzeugnisse -->
+	<xs:complexType name="BILANZ_UNFERTIGE_ERZEUGNISSE">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Bilanz - fertige Erzeugnisse und Waren -->
+	<xs:complexType name="BILANZ_FERTIGE_ERZEUGNISSE_UND_WAREN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Bilanz - noch nicht abrechenbare Leistungen -->
+	<xs:complexType name="BILANZ_NOCH_NICHT_ABRECHENBARE_LEISTUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Bilanz - geleistete Anzahlungen -->
+	<xs:complexType name="BILANZ_GELEISTETE_ANZAHLUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_AN_VERBUNDENE_UNTERNEHMEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Bilanz - Forderungen aus Lieferungen und Leistungen -->
+	<xs:complexType name="BILANZ_FORDERUNGEN_AUS_LIEFERUNGEN_UND_LEISTUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Bilanz - Forderungen gegenüber verbundenen Unternehmen -->
+	<xs:complexType name="BILANZ_FORDERUNGEN_GEGENUEBER_VERBUNDENEN_UNTERNEHMEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Bilanz - Forderungen gegenüber Unternehmen, mit denen ein Beteiligungsverhältnis besteht -->
+	<xs:complexType name="BILANZ_FORDERUNGEN_GEGENUEBER_UNTERNEHMEN_MIT_BETEILIGUNGSVERHAELTNIS">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Bilanz - Forderungen gegenüber Gesellschaftern -->
+	<xs:complexType name="BILANZ_FORDERUNGEN_GEGENUEBER_GESELLSCHAFTERN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Bilanz - sonstige Forderungen und Vermögensgegenstände -->
+	<xs:complexType name="BILANZ_SONSTIGE_FORDERUNGEN_UND_VERMOEGENSGEGENSTAENDE">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_EINGEFORDERTE_ABER_NOCH_NICHT_EINGEZAHLTE_BETRAEGE_VON_GESELLSCHAFTERN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Bilanz - Anteile an verbundenen Unternehmen -->
+	<xs:complexType name="BILANZ_WERTPAPIERE_UND_ANTEILE_ANTEILE_AN_VERBUNDENEN_UNTERNEHMEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_ANTEILE_AN_MUTTERUNTERNEHMEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- //////////////////////////////////////// -->
+	<!-- BILANZ: PASSIVA - DETAILS                -->
+	<!-- //////////////////////////////////////// -->
+
+	<!-- Datentyp für Bilanz - Eigenkapital -->
+	<xs:complexType name="BILANZ_EIGENKAPITAL">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_FESTKAPITAL" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_VARIABLES_KAPITAL" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:choice minOccurs="1" maxOccurs="1">
+						<!-- GMBH - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+						<xs:element name="EINGEFORDERTES_STAMMKAPITAL" type="BILANZ_EINGEFORDERTES_STAMMKAPITAL" minOccurs="1" maxOccurs="1"/>
+						<!-- AG - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+						<xs:element name="EINGEFORDERTES_GRUNDKAPITAL" type="BILANZ_EINGEFORDERTES_GRUNDKAPITAL" minOccurs="1" maxOccurs="1"/>
+						<!-- Genossenschaft - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+						<xs:element name="GESAMTNENNBETRAG_DER_GESCHAEFTSANTEILE" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="1" maxOccurs="1"/>
+						<!-- KG - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+						<xs:sequence>
+							<xs:element name="EINGEFORDERTES_KOMPLEMENTAERKAPITAL" type="BILANZ_EINGEFORDERTES_KOMPLEMENTAERKAPITAL" minOccurs="1" maxOccurs="1"/>
+							<xs:element name="KOMMANDITKAPITAL" type="BILANZ_KOMMANDITKAPITAL" minOccurs="1" maxOccurs="1"/>
+						</xs:sequence>
+						<!-- OG - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+						<xs:element name="EINGEFORDERTE_EINLAGE_OG" type="BILANZ_EINGEFORDERTE_EINLAGE_OG" minOccurs="1" maxOccurs="1"/>
+						<!-- Einzelunternehmer  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+						<xs:sequence>
+							<xs:element name="KAPITAL_ZU_BEGINN_DES_WIRTSCHAFTSJAHRES" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+							<xs:element name="GEWINN_ODER_VERLUST" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+							<xs:element name="PRIVATEINLAGE_PRIVATENTNAHME" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+						</xs:sequence>
+					</xs:choice>
+					<xs:element name="EIGENKAPITAL_FREIER_POSTEN_1" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="KAPITALRUECKLAGEN" type="BILANZ_KAPITALRUECKLAGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="HYBRIDE_FINANZINSTRUMENTE" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="EIGENKAPITAL_FREIER_POSTEN_2" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="GEWINNRUECKLAGEN" type="BILANZ_GEWINNRUECKLAGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="BILANZGEWINN_BILANZVERLUST" type="BILANZ_GEWINN_ODER_VERLUST" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="NICHT_BEHERRSCHENDE_ANTEILE" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="EIGENKAPITAL_FREIER_POSTEN_3" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Bilanz - Rückstellungen -->
+	<xs:complexType name="BILANZ_RUECKSTELLUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="RUECKSTELLUNGEN_FUER_ABFERTIGUNGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="RUECKSTELLUNGEN_FREIER_POSTEN_1" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="RUECKSTELLUNGEN_FUER_PENSIONEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="RUECKSTELLUNGEN_FREIER_POSTEN_2" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="STEUERRUECKSTELLUNGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="RUECKSTELLUNGEN_FREIER_POSTEN_3" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="SONSTIGE_RUECKSTELLUNGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="RUECKSTELLUNGEN_FREIER_POSTEN_4" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="RUECKSTELLUNGEN_NICHT_AUSWEISPFLICHTIGER_REST" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Bilanz - Verbindlichkeiten -->
+	<xs:complexType name="BILANZ_VERBINDLICHKEITEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_RESTLAUFZEIT_BIS_ZU_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ANLEIHEN" type="BILANZ_ANLEIHEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN_FREIER_POSTEN_1" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="VERBINDLICHKEITEN_GEGENUEBER_KREDITINSTITUTEN" type="BILANZ_VERBINDLICHKEITEN_GEGENUEBER_KREDITINSTITUTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN_FREIER_POSTEN_2" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ERHALTENE_ANZAHLUNGEN_AUF_BESTELLUNGEN" type="BILANZ_VERBINDLICHKEITEN_ERHALTENE_ANZAHLUNGEN_AUF_BESTELLUNGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN_FREIER_POSTEN_3" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="VERBINDLICHKEITEN_AUS_LIEFERUNGEN_UND_LEISTUNGEN" type="BILANZ_VERBINDLICHKEITEN_AUS_LIEFERUNGEN_UND_LEISTUNGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN_FREIER_POSTEN_4" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="VERBINDLICHKEITEN_AUS_ANNAHME_UND_AUSSTELLUNG_VON_WECHSEL" type="BILANZ_VERBINDLICHKEITEN_AUS_ANNAHME_UND_AUSSTELLUNG_VON_WECHSEL" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN_FREIER_POSTEN_5" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="VERBINDLICHKEITEN_GEGENUEBER_VERBUNDENEN_UNTERNEHMEN" type="BILANZ_VERBINDLICHKEITEN_GEGENUEBER_VERBUNDENEN_UNTERNEHMEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN_FREIER_POSTEN_6" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="VERBINDLICHKEITEN_GEGENUEBER_UNTERNEHMEN_MIT_BETEILIGUNGSVERHAELTNIS" type="BILANZ_VERBINDLICHKEITEN_GEGENUEBER_UNTERNEHMEN_MIT_BETEILIGUNGSVERHAELTNIS" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN_FREIER_POSTEN_7" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="VERBINDLICHKEITEN_GEGENUEBER_GESELLSCHAFTERN" type="BILANZ_VERBINDLICHKEITEN_GEGENUEBER_GESELLSCHAFTERN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN_FREIER_POSTEN_8" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="NACHRANGIGE_VERBINDLICHKEITEN" type="BILANZ_NACHRANGIGE_VERBINDLICHKEITEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SONSTIGE_VERBINDLICHKEITEN" type="BILANZ_SONSTIGE_VERBINDLICHKEITEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN_NICHT_AUSWEISPFLICHTIGER_REST" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- //////////////////////////////////////// -->
+	<!-- BILANZ: PASSIVA - UNTERPOSTEN            -->
+	<!-- //////////////////////////////////////// -->
+	
+	<!-- Datentyp für die Bilanz - eingefordertes Stammkapital -->
+	<xs:complexType name="BILANZ_EINGEFORDERTES_STAMMKAPITAL">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="STAMMKAPITAL" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="DERZEIT_NICHT_EINFORDERBARE_EINLAGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SONSTIGE_NICHT_EINGEFORDERTE_AUSSTEHENDE_EINLAGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="NENNBETRAG_RECHNERISCHER_WERT_EIGENER_ANTEILE" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_EINGEZAHLT" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für die Bilanz - eingefordertes Grundkapital -->
+	<xs:complexType name="BILANZ_EINGEFORDERTES_GRUNDKAPITAL">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="GRUNDKAPITAL" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="NENNBETRAG_EIGENER_AKTIEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SONSTIGE_NICHT_EINGEFORDERTE_AUSSTEHENDE_EINLAGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_EINGEZAHLT" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für die Bilanz - eingefordertes Komplementärkapital -->
+	<xs:complexType name="BILANZ_EINGEFORDERTES_KOMPLEMENTAERKAPITAL">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="KOMPLEMENTAERKAPITAL_VEREINBARTE_EINLAGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="KOMPLEMENTAERKAPITAL_ABZUEGLICH_NICHT_EINGEFORDERTE_EINLAGEN_UND_GENEHMIGTE_ENTNAHMEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="KOMPLEMENTAERKAPITAL_ABZUEGLICH_VERLUSTANTEILE_AUS_VORJAHREN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="KOMPLEMENTAERKAPITAL_FREIER_POSTEN" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für die Bilanz - Kommanditkapital -->
+	<xs:complexType name="BILANZ_KOMMANDITKAPITAL">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="BEDUNGENE_EINLAGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="KOMMANDITKAPITAL_FREIER_POSTEN_1" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="KOMMANDITKAPITAL_ABZUEGLICH_NICHT_EINGEFORDERTE_EINLAGEN_UND_GENEHMIGTE_ENTNAHMEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="KOMMANDITKAPITAL_FREIER_POSTEN_2" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="KOMMANDITKAPITAL_ABZUEGLICH_VERLUSTANTEILE_AUS_VORJAHREN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="KOMMANDITKAPITAL_FREIER_POSTEN_3" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für die Bilanz - eingeforderte Einlage (OG) -->
+	<xs:complexType name="BILANZ_EINGEFORDERTE_EINLAGE_OG">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="EINLAGE_OG_VEREINBARTE_EINLAGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="EINLAGE_OG_ABZUEGLICH_NICHT_EINGEFORDERTE_EINLAGEN_UND_GENEHMIGTE_ENTNAHMEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="EINLAGE_OG_ABZUEGLICH_VERLUSTANTEILE_AUS_VORJAHREN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Bilanz - Kapitalrücklagen -->
+	<xs:complexType name="BILANZ_KAPITALRUECKLAGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="GEBUNDENE" type="BILANZ_KAPITALRUECKLAGEN_GEBUNDENE" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="NICHT_GEBUNDENE" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="KAPITALRUECKLAGEN_FREIER_POSTEN" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="BILANZ_KAPITALRUECKLAGEN_GEBUNDENE">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_FUER_ANTEILE_AN_MUTTERUNTERNEHMEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Bilanz - Gewinnrücklagen -->
+	<xs:complexType name="BILANZ_GEWINNRUECKLAGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="GESETZLICHE_RUECKLAGE" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="GEWINNRUECKLAGEN_FREIER_POSTEN_1" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="SATZUNGSMAESSIGE_RUECKLAGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="GEWINNRUECKLAGEN_FREIER_POSTEN_2" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ANDERE_RUECKLAGEN_FREIE_RUECKLAGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="GEWINNRUECKLAGEN_FREIER_POSTEN_3" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="RUECKLAGE_FUER_EIGENE_ANTEILE" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Bilanz - Bilanzgewinn / Bilanzverlust -->
+	<xs:complexType name="BILANZ_GEWINN_ODER_VERLUST">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_GEWINNVORTRAG_VERLUSTVORTRAG" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_AUSSCHUETTUNG_HYBRIDE_FINANZINSTRUMENTE_VORGESEHEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Bilanz - Anleihen -->
+	<xs:complexType name="BILANZ_ANLEIHEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_KONVERTIBEL" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_BIS_ZU_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für die Bilanz - Verbindlichkeiten gegenüber Kreditinstituten -->
+	<xs:complexType name="BILANZ_VERBINDLICHKEITEN_GEGENUEBER_KREDITINSTITUTEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_RESTLAUFZEIT_BIS_ZU_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für die Bilanz - Verbindlichkeiten gegenüber verbundenen Unternehmen -->
+	<xs:complexType name="BILANZ_VERBINDLICHKEITEN_GEGENUEBER_VERBUNDENEN_UNTERNEHMEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_RESTLAUFZEIT_BIS_ZU_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für die Bilanz - Verbindlichkeiten gegenüber Unternehmen, mit denen ein Beteiligungsverhältnis besteht -->
+	<xs:complexType name="BILANZ_VERBINDLICHKEITEN_GEGENUEBER_UNTERNEHMEN_MIT_BETEILIGUNGSVERHAELTNIS">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_RESTLAUFZEIT_BIS_ZU_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für die Bilanz - Verbindlichkeiten gegenüber Gesellschaftern -->
+	<xs:complexType name="BILANZ_VERBINDLICHKEITEN_GEGENUEBER_GESELLSCHAFTERN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_RESTLAUFZEIT_BIS_ZU_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für die Bilanz - Nachrangige Verbindlichkeiten -->
+	<xs:complexType name="BILANZ_NACHRANGIGE_VERBINDLICHKEITEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_RESTLAUFZEIT_BIS_ZU_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für die Bilanz - Erhaltene Anzahlungen auf Bestellungen -->
+	<xs:complexType name="BILANZ_VERBINDLICHKEITEN_ERHALTENE_ANZAHLUNGEN_AUF_BESTELLUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_BIS_ZU_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für die Bilanz - Verbindlichkeiten aus Lieferungen und Leistungen -->
+	<xs:complexType name="BILANZ_VERBINDLICHKEITEN_AUS_LIEFERUNGEN_UND_LEISTUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_BIS_ZU_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für die Bilanz - Verbindlichkeiten aus der Annahme gezogener Wechsel und der Ausstellung eigener Wechsel -->	
+	<xs:complexType name="BILANZ_VERBINDLICHKEITEN_AUS_ANNAHME_UND_AUSSTELLUNG_VON_WECHSEL">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_BIS_ZU_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- Datentyp für die Bilanz - Sonstige Verbindlichkeiten -->
+	<xs:complexType name="BILANZ_SONSTIGE_VERBINDLICHKEITEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_AUS_STEUERN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_IM_RAHMEN_DER_SOZIALEN_SICHERHEIT" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_BIS_ZU_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- //////////////////////////////////////// -->
+	<!-- GUV: GKV - STRUKTUR                      -->
+	<!-- //////////////////////////////////////// -->
+
+	<xs:complexType name="GUV_GKV">
+		<xs:annotation>
+			<xs:documentation>Ankerdatentyp für die GUV-GKV</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="1" maxOccurs="1">
+			<xs:element name="BILANZ_GEWINN_VERLUST" type="GUV_GKV_BILANZ_GEWINN_VERLUST" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="JAHRESUEBERSCHUSS_JAHRESFEHLBETRAG" type="GUV_GKV_JAHRESUEBERSCHUSS_JAHRESFEHLBETRAG" minOccurs="1" maxOccurs="1"/>
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="GUV_GKV_BILANZ_GEWINN_VERLUST">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="JAHRESUEBERSCHUSS_JAHRESFEHLBETRAG" type="GUV_GKV_JAHRESUEBERSCHUSS_JAHRESFEHLBETRAG" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="REINVERMOEGENSMEHRUNG_MINDERUNG_DURCH_UMGRUENDUNG" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="AUFLOESUNG_VON_KAPITALRUECKLAGEN" type="GUV_GKV_AUFLOESUNG_VON_KAPITALRUECKLAGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="AUFLOESUNG_VON_GEWINNRUECKLAGEN" type="GUV_GKV_AUFLOESUNG_VON_GEWINNREUCKLAGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ZUWEISUNG_ZU_GEWINNRUECKLAGEN" type="GUV_GKV_ZUWEISUNG_ZU_GEWINNRUECKLAGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ZUWEISUNG_ZU_ZWECKGEWIDMETEN_RUECKLAGEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="AUFLOESUNG_VON_ZWECKGEWIDMETEN_RUECKLAGEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="GEWINN_VERLUSTUEBERRECHNUNG" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERGUETUNG_FUER_HYBRIDE_FINANZINSTRUMENTE" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ANTEILE_ANDERER_GESELLSCHAFTER" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="GEWINN_VERLUSTVORTRAG_AUS_DEM_VORJAHR" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="GUV_FREIER_POSTEN" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - Auflösung von Kapitalrücklagen -->
+	<xs:complexType name="GUV_GKV_AUFLOESUNG_VON_KAPITALRUECKLAGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - Auflösung von Gewinnrücklagen -->
+	<xs:complexType name="GUV_GKV_AUFLOESUNG_VON_GEWINNREUCKLAGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - Zuweisung zu Gewinnrücklagen  -->
+	<xs:complexType name="GUV_GKV_ZUWEISUNG_ZU_GEWINNRUECKLAGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - Jahresüberschuss/Jahresfehlbetrag -->
+	<xs:complexType name="GUV_GKV_JAHRESUEBERSCHUSS_JAHRESFEHLBETRAG">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="ERGEBNIS_NACH_STEUERN" type="GUV_GKV_ERGEBNIS_NACH_STEUERN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="SONSTIGE_STEUERN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="UEBERNAHME_EINES_ERGEBNISSES_AUS_VORPERIODEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="REINVERMOEGENSMEHRUNG_MINDERUNG_DURCH_UMGRUENDUNG" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - Ergebnis nach Steuern -->
+	<xs:complexType name="GUV_GKV_ERGEBNIS_NACH_STEUERN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="ERGEBNIS_VOR_STEUERN" type="GUV_GKV_ERGEBNIS_VOR_STEUERN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="STEUERN_VOM_EINKOMMEN_UND_ERTRAG" type="GUV_GKV_STEUERN_VOM_EINKOMMEN_UND_ERTRAG" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - Ergebnis vor Steuern -->
+	<xs:complexType name="GUV_GKV_ERGEBNIS_VOR_STEUERN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="ZWISCHENSUMME_BETRIEBSERFOLG" type="GUV_GKV_ZWISCHENSUMME_BETRIEBSERFOLG" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ZWISCHENSUMME_FINANZERFOLG" type="GUV_GKV_ZWISCHENSUMME_FINANZERFOLG" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - Steuern vom Einkommen und vom Ertrag -->
+	<xs:complexType name="GUV_GKV_STEUERN_VOM_EINKOMMEN_UND_ERTRAG">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_STEUERGUTSCHRIFTEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_AUFLOESUNG_VERWENDETER_STEUERRUECKSTELLUNGEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_LATENTE_STEUERN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - Zwischensumme - Betriebserfolg -->
+	<xs:complexType name="GUV_GKV_ZWISCHENSUMME_BETRIEBSERFOLG">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:choice minOccurs="1" maxOccurs="1">
+						<xs:sequence>
+							<xs:element name="UMSATZERLOESE" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="1" maxOccurs="1"/>
+							<xs:element name="VERAENDERUNG_DES_BESTANDS_AN_ERZEUGNISSEN_UND_LEISTUNGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+							<xs:element name="ANDERE_AKTIVIERTE_EIGENLEISTUNGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+							<xs:element name="FREIER_POSTEN_ZU_UMSATZERLOESE" type="FREIER_POSTEN" minOccurs="0" maxOccurs="1"/>
+							<xs:element name="SONSTIGE_BETRIEBLICHE_ERTRAEGE_ZU_UMSATZERLOESE" type="GUV_GKV_SONSTIGE_BETRIEBLICHE_ERTRAEGE" minOccurs="0" maxOccurs="1"/>
+							<xs:element name="AUFWENDUNGEN_FUER_HERSTELLUNGSLEISTUNGEN" type="GUV_GKV_AUFWENDUNGEN_FUER_HERSTELLUNGSLEISTUNGEN" minOccurs="0" maxOccurs="1"/>
+						</xs:sequence>
+						<xs:sequence>
+							<xs:element name="ROHERGEBNIS" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="1" maxOccurs="1"/>
+							<xs:element name="SONSTIGE_BETRIEBLICHE_ERTRAEGE_ZU_ROHERGEBNIS" type="GUV_GKV_SONSTIGE_BETRIEBLICHE_ERTRAEGE" minOccurs="0" maxOccurs="1"/>
+						</xs:sequence>
+					</xs:choice>
+					<xs:element name="PERSONALAUFWAND" type="GUV_GKV_PERSONALAUFWAND" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ABSCHREIBUNGEN" type="GUV_GKV_ABSCHREIBUNGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SONSTIGE_BETRIEBLICHE_AUFWENDUNGEN" type="GUV_GKV_SONSTIGE_BETRIEBLICHE_AUFWENDUNGEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - Zwischensumme - Finanzerfolg -->
+	<xs:complexType name="GUV_GKV_ZWISCHENSUMME_FINANZERFOLG">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="ERTRAEGE_AUS_BETEILIGUNGEN" type="GUV_GKV_ERTRAEGE_AUS_BETEILIGUNGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ERTRAEGE_AUS_WERTPAPIEREN_UND_AUSLEIHUNGEN" type="GUV_GKV_ERTRAEGE_AUS_WERTPAPIEREN_UND_AUSLEIHUNGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SONSTIGE_ZINSEN_UND_AEHNLICHE_ERTRAEGE" type="GUV_GKV_SONSTIGE_ZINSEN_UND_AEHNLICHE_ERTRAEGE" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ERTRAEGE_AUS_ABGANG_VON_UND_ZUSCHREIBUNG_ZU_FINANZANLAGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="AUFWENDUNGEN_AUS_FINANZANLAGEN_UND_WERTPAPIEREN" type="GUV_GKV_AUFWENDUNGEN_AUS_FINANZANLAGEN_UND_WERTPAPIEREN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ZINSEN_UND_AEHNLICHE_AUFWENDUNGEN" type="GUV_GKV_ZINSEN_UND_AEHNLICHE_AUFWENDUNGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FINANZERFOLG_FREIER_POSTEN" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - Aufwendungen für Material und sonstige bezogene Herstellungsleistungen -->
+	<xs:complexType name="GUV_GKV_AUFWENDUNGEN_FUER_HERSTELLUNGSLEISTUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="MATERIALAUFWAND" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="AUFWENDUNGEN_FUER_BEZOGENE_LEISTUNGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - sonstige betriebliche Erträge -->
+	<xs:complexType name="GUV_GKV_SONSTIGE_BETRIEBLICHE_ERTRAEGE">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ERTRAEGE_AUS_ABGANG_UND_ZUSCHREIBUNG_ZUM_ANLAGEVERMOEGEN" type="GUV_GKV_ERTRAEGE_AUS_ABGANG_UND_ZUSCHREIBUNG_ZUM_ANLAGEVERMOEGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ERTRAEGE_AUS_AUFLOESUNG_VON_RUECKSTELLUNGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="UEBRIGE" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - Personalaufwand -->
+	<xs:complexType name="GUV_GKV_PERSONALAUFWAND">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:choice>
+						<xs:sequence>
+							<xs:element name="LOEHNE" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+							<xs:element name="GEHAELTER" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+						</xs:sequence>
+						<xs:element name="LOEHNE_UND_GEHAELTER" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					</xs:choice>
+					<xs:element name="SOZIALE_AUFWENDUNGEN" type="GUV_GKV_SOZIALE_AUFWENDUNGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="PERSONALAUFWAND_FREIER_POSTEN" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - Abschreibungen -->
+	<xs:complexType name="GUV_GKV_ABSCHREIBUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="GEGENSTAENDE_DES_ANLAGEVERMOEGENS_UND_SACHANLAGEN" type="GUV_GKV_GEGENSTAENDE_DES_ANLAGEVERMOEGENS_UND_SACHANLAGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="GEGENSTAENDE_DES_UMLAUFVERMOEGENS" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ABSCHREIBUNGEN_FREIER_POSTEN" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - sonstige betriebliche Aufwendungen -->
+	<xs:complexType name="GUV_GKV_SONSTIGE_BETRIEBLICHE_AUFWENDUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_STEUERN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SONSTIGE_BETRIEBLICHE_AUFWENDUNGEN_FREIER_POSTEN" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - Erträge aus Beteiligungen -->
+	<xs:complexType name="GUV_GKV_ERTRAEGE_AUS_BETEILIGUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_AUS_VERBUNDENEN_UNTERNEHMEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - Erträge aus anderen Wertpapieren und Ausleihungen des Finanzanlagevermögens -->
+	<xs:complexType name="GUV_GKV_ERTRAEGE_AUS_WERTPAPIEREN_UND_AUSLEIHUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_AUS_VERBUNDENEN_UNTERNEHMEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - sonstige Zinsen und ähnliche Erträge -->
+	<xs:complexType name="GUV_GKV_SONSTIGE_ZINSEN_UND_AEHNLICHE_ERTRAEGE">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_AUS_VERBUNDENEN_UNTERNEHMEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - Aufwendungen aus Finanzanlagen und aus Wertpapieren des Umlaufvermögens -->
+	<xs:complexType name="GUV_GKV_AUFWENDUNGEN_AUS_FINANZANLAGEN_UND_WERTPAPIEREN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_ABSCHREIBUNGEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_AUFWENDUNGEN_AUS_VERBUNDENEN_UNTERNEHMEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - Zinsen und ähnliche Aufwendungen -->
+	<xs:complexType name="GUV_GKV_ZINSEN_UND_AEHNLICHE_AUFWENDUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_BETREFFEND_VERBUNDENE_UNTERNEHMEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - Erträge aus dem Abgang vom und der Zuschreibung zum Anlagevermögen mit Ausnahme der Finanzanlagen -->
+	<xs:complexType name="GUV_GKV_ERTRAEGE_AUS_ABGANG_UND_ZUSCHREIBUNG_ZUM_ANLAGEVERMOEGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="ERLOESE_AUS_ABGANG_VON_ANLAGEVERMOEGEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="BUCHWERT_ABGEGANGENER_ANLAGEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - soziale Aufwendungen -->
+	<xs:complexType name="GUV_GKV_SOZIALE_AUFWENDUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_AUFWENDUNGEN_FUER_ALTERSVERSORGUNG" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_AUFWENDUNGEN_FUER_LEISTUNGEN_AN_MITARBEITERVORSORGEKASSEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_AUFWENDUNGEN_FUER_SOZIALABGABEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-GKV - immaterielle Gegenstände des Anlagevermögens und Sachanlagen -->
+	<xs:complexType name="GUV_GKV_GEGENSTAENDE_DES_ANLAGEVERMOEGENS_UND_SACHANLAGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_AUSSERPLANMAESSIGE_ABSCHREIBUNG" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- //////////////////////////////////////// -->
+	<!-- GUV: UKV-DATENTYPEN                      -->
+	<!-- //////////////////////////////////////// -->
+
+	<!-- Datentyp für die GUV-UKV -->
+	<xs:complexType name="GUV_UKV">
+		<xs:annotation>
+			<xs:documentation>Ankerdatentyp für die GUV-UKV</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="BILANZ_GEWINN_VERLUST" type="GUV_UKV_BILANZ_GEWINN_VERLUST" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="JAHRESUEBERSCHUSS_JAHRESFEHLBETRAG" type="GUV_UKV_JAHRESUEBERSCHUSS_JAHRESFEHLBETRAG" minOccurs="1" maxOccurs="1"/>
+		</xs:choice>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-UKV -->
+	<xs:complexType name="GUV_UKV_BILANZ_GEWINN_VERLUST">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="JAHRESUEBERSCHUSS_JAHRESFEHLBETRAG" type="GUV_UKV_JAHRESUEBERSCHUSS_JAHRESFEHLBETRAG" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="REINVERMOEGENSMEHRUNG_MINDERUNG_DURCH_UMGRUENDUNG" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="AUFLOESUNG_VON_KAPITALRUECKLAGEN" type="GUV_UKV_AUFLOESUNG_VON_KAPITALRUECKLAGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="AUFLOESUNG_VON_GEWINNRUECKLAGEN" type="GUV_UKV_AUFLOESUNG_VON_GEWINNREUCKLAGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ZUWEISUNG_ZU_GEWINNRUECKLAGEN" type="GUV_UKV_ZUWEISUNG_ZU_GEWINNRUECKLAGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ZUWEISUNG_ZU_ZWECKGEWIDMETEN_RUECKLAGEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="AUFLOESUNG_VON_ZWECKGEWIDMETEN_RUECKLAGEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="GEWINN_VERLUSTUEBERRECHNUNG" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERGUETUNG_FUER_HYBRIDE_FINANZINSTRUMENTE" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ANTEILE_ANDERER_GESELLSCHAFTER" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="GEWINN_VERLUSTVORTRAG_AUS_DEM_VORJAHR" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="GUV_FREIER_POSTEN" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-UKV - Auflösung von Kapitalrücklagen -->
+	<xs:complexType name="GUV_UKV_AUFLOESUNG_VON_KAPITALRUECKLAGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-UKV - Auflösung von Gewinnrücklagen -->
+	<xs:complexType name="GUV_UKV_AUFLOESUNG_VON_GEWINNREUCKLAGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-UKV - Zuweisung zu Gewinnrücklagen  -->
+	<xs:complexType name="GUV_UKV_ZUWEISUNG_ZU_GEWINNRUECKLAGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-UKV - Jahresüberschuss/Jahresfehlbetrag -->
+	<xs:complexType name="GUV_UKV_JAHRESUEBERSCHUSS_JAHRESFEHLBETRAG">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="ERGEBNIS_NACH_STEUERN" type="GUV_UKV_ERGEBNIS_NACH_STEUERN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="SONSTIGE_STEUERN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="UEBERNAHME_EINES_ERGEBNISSES_AUS_VORPERIODEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="REINVERMOEGENSMEHRUNG_MINDERUNG_DURCH_UMGRUENDUNG" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-UKV - Ergebnis nach Steuern -->
+	<xs:complexType name="GUV_UKV_ERGEBNIS_NACH_STEUERN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="ERGEBNIS_VOR_STEUERN" type="GUV_UKV_ERGEBNIS_VOR_STEUERN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="STEUERN_VOM_EINKOMMEN_UND_ERTRAG" type="GUV_UKV_STEUERN_VOM_EINKOMMEN_UND_ERTRAG" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-UKV - Ergebnis vor Steuern -->
+	<xs:complexType name="GUV_UKV_ERGEBNIS_VOR_STEUERN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="ZWISCHENSUMME_BETRIEBSERFOLG" type="GUV_UKV_ZWISCHENSUMME_BETRIEBSERFOLG" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ZWISCHENSUMME_FINANZERFOLG" type="GUV_UKV_ZWISCHENSUMME_FINANZERFOLG" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-UKV - Steuern vom Einkommen und vom Ertrag -->
+	<xs:complexType name="GUV_UKV_STEUERN_VOM_EINKOMMEN_UND_ERTRAG">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_STEUERGUTSCHRIFTEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_AUFLOESUNG_VERWENDETER_STEUERRUECKSTELLUNGEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_LATENTE_STEUERN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="GUV_UKV_BRUTTOERGEBNIS_VOM_UMSATZ">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="UMSATZERLOESE" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN_ZU_UMSATZERLOESE" type="FREIER_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="HERSTELLUNGSKOSTEN_DER_LEISTUNGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-UKV - Zwischensumme - Betriebserfolg -->
+	<xs:complexType name="GUV_UKV_ZWISCHENSUMME_BETRIEBSERFOLG">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:choice>
+						<xs:element name="BRUTTOERGEBNIS_VOM_UMSATZ" type="GUV_UKV_BRUTTOERGEBNIS_VOM_UMSATZ" minOccurs="0" maxOccurs="1"/>
+						<xs:element name="ROHERGEBNIS" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					</xs:choice>
+					<xs:element name="VERTRIEBSKOSTEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ALLGEMEINE_VERWALTUNGSKOSTEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SONSTIGE_BETRIEBLICHE_ERTRAEGE" type="GUV_UKV_SONSTIGE_BETRIEBLICHE_ERTRAEGE" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SONSTIGE_BETRIEBLICHE_AUFWENDUNGEN" type="GUV_UKV_SONSTIGE_BETRIEBLICHE_AUFWENDUNGEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-UKV - Zwischensumme - Finanzerfolg -->
+	<xs:complexType name="GUV_UKV_ZWISCHENSUMME_FINANZERFOLG">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="ERTRAEGE_AUS_BETEILIGUNGEN" type="GUV_UKV_ERTRAEGE_AUS_BETEILIGUNGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ERTRAEGE_AUS_WERTPAPIEREN_UND_AUSLEIHUNGEN" type="GUV_UKV_ERTRAEGE_AUS_WERTPAPIEREN_UND_AUSLEIHUNGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SONSTIGE_ZINSEN_UND_AEHNLICHE_ERTRAEGE" type="GUV_UKV_SONSTIGE_ZINSEN_UND_AEHNLICHE_ERTRAEGE" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ERTRAEGE_AUS_ABGANG_VON_UND_ZUSCHREIBUNG_ZU_FINANZANLAGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="AUFWENDUNGEN_AUS_FINANZANLAGEN_UND_WERTPAPIEREN" type="GUV_UKV_AUFWENDUNGEN_AUS_FINANZANLAGEN_UND_WERTPAPIEREN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ZINSEN_UND_AEHNLICHE_AUFWENDUNGEN" type="GUV_UKV_ZINSEN_UND_AEHNLICHE_AUFWENDUNGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FINANZERFOLG_FREIER_POSTEN" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-UKV - sonstige betriebliche Erträge -->
+	<xs:complexType name="GUV_UKV_SONSTIGE_BETRIEBLICHE_ERTRAEGE">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ERTRAEGE_AUS_ABGANG_UND_ZUSCHREIBUNG_ZUM_ANLAGEVERMOEGEN" type="GUV_UKV_ERTRAEGE_AUS_ABGANG_UND_ZUSCHREIBUNG_ZUM_ANLAGEVERMOEGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ERTRAEGE_AUS_AUFLOESUNG_VON_RUECKSTELLUNGEN" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="UEBRIGE" type="POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-UKV - sonstige betriebliche Aufwendungen -->
+	<xs:complexType name="GUV_UKV_SONSTIGE_BETRIEBLICHE_AUFWENDUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_STEUERN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SONSTIGE_BETRIEBLICHE_AUFWENDUNGEN_FREIER_POSTEN" type="FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-UKV - Erträge aus Beteiligungen -->
+	<xs:complexType name="GUV_UKV_ERTRAEGE_AUS_BETEILIGUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_AUS_VERBUNDENEN_UNTERNEHMEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-UKV - Erträge aus anderen Wertpapieren und Ausleihungen des Finanzanlagevermögens -->
+	<xs:complexType name="GUV_UKV_ERTRAEGE_AUS_WERTPAPIEREN_UND_AUSLEIHUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_AUS_VERBUNDENEN_UNTERNEHMEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-UKV - sonstige Zinsen und ähnliche Erträge -->
+	<xs:complexType name="GUV_UKV_SONSTIGE_ZINSEN_UND_AEHNLICHE_ERTRAEGE">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_AUS_VERBUNDENEN_UNTERNEHMEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-UKV - Aufwendungen aus Finanzanlagen und aus Wertpapieren des Umlaufvermögens -->
+	<xs:complexType name="GUV_UKV_AUFWENDUNGEN_AUS_FINANZANLAGEN_UND_WERTPAPIEREN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_ABSCHREIBUNGEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_AUFWENDUNGEN_AUS_VERBUNDENEN_UNTERNEHMEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-UKV - Zinsen und ähnliche Aufwendungen -->
+	<xs:complexType name="GUV_UKV_ZINSEN_UND_AEHNLICHE_AUFWENDUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_BETREFFEND_VERBUNDENE_UNTERNEHMEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die GUV-UKV - Erträge aus dem Abgang vom und der Zuschreibung zum Anlagevermögen mit Ausnahme der Finanzanlagen -->
+	<xs:complexType name="GUV_UKV_ERTRAEGE_AUS_ABGANG_UND_ZUSCHREIBUNG_ZUM_ANLAGEVERMOEGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="ERLOESE_AUS_ABGANG_VON_ANLAGEVERMOEGEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="BUCHWERT_ABGEGANGENER_ANLAGEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- //////////////////////////////////////// -->
+	<!-- ZUSATZANGABEN_MIKRO_AG: DATENTYPEN       -->
+	<!-- //////////////////////////////////////// -->
+
+	<!-- Datentyp für die Zussatzangaben für Mikro-AGs -->
+	<xs:complexType name="ZUSATZANGABEN_MIKRO_AG">
+		<xs:annotation>
+			<xs:documentation>Ankerdatentyp für die Zusatzangaben für Mikro-AGs</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="GESAMTBETRAG_DER_HAFTUNGSVERHAELTNISSE_UND_VERPFLICHTUNGEN" type="ZUSATZANGABEN_MIKRO_AG_GESAMTBETRAG_DER_HAFTUNGSVERHAELTNISSE" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="VORSCHUESSE_KREDITE_UND_HAFTUNGSVERHAELTNISSE" type="ZUSATZANGABEN_MIKRO_AG_VORSCHUESSE_KREDITE_UND_HAFTUNGSVERHAELTNISSE" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ZUSATZANGABEN_MIKRO_AG_POSTEN">
+		<xs:annotation>
+			<xs:documentation>Datentyp für die Zusatzangaben für Mikro-AGs</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+
+	<xs:complexType name="ZUSATZANGABEN_MIKRO_AG_POSTEN_BT_MO">
+		<xs:complexContent>
+			<xs:extension base="ZUSATZANGABEN_MIKRO_AG_POSTEN">
+				<xs:sequence>
+					<xs:element name="BETRAG" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="TEXT" type="ZEICHENFOLGE" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ZUSATZANGABEN_MIKRO_AG_POSTEN_B_M">
+		<xs:complexContent>
+			<xs:extension base="ZUSATZANGABEN_MIKRO_AG_POSTEN">
+				<xs:sequence>
+					<xs:element name="BETRAG" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ZUSATZANGABEN_MIKRO_AG_POSTEN_BT_OO">
+		<xs:complexContent>
+			<xs:extension base="ZUSATZANGABEN_MIKRO_AG_POSTEN">
+				<xs:sequence>
+					<xs:element name="BETRAG" type="BETRAG" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="TEXT" type="ZEICHENFOLGE" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ZUSATZANGABEN_MIKRO_AG_POSTEN_T_M">
+		<xs:complexContent>
+			<xs:extension base="ZUSATZANGABEN_MIKRO_AG_POSTEN">
+				<xs:sequence>
+					<xs:element name="TEXT" type="ZEICHENFOLGE" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Zussatzangaben für Mikro-AGs - Gesamtbetrag der Haftungsverhältnisse und sonstiger wesentlicher finanzieller Verpflichtungen, die nicht auf der Passivseite auszuweisen sind (§ 237 Abs 1 Z 2 UGB): -->
+	<xs:complexType name="ZUSATZANGABEN_MIKRO_AG_GESAMTBETRAG_DER_HAFTUNGSVERHAELTNISSE">
+		<xs:complexContent>
+			<xs:extension base="ZUSATZANGABEN_MIKRO_AG_POSTEN_BT_MO">
+				<xs:sequence>
+					<xs:element name="DAVON_PENSIONSVERPFLICHTUNGEN" type="ZUSATZANGABEN_MIKRO_AG_POSTEN_B_M" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_VERPFLICHTUNGEN_GEGENUEBER_UNTERNEHMEN" type="ZUSATZANGABEN_MIKRO_AG_POSTEN_B_M" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ART_UND_FORM_JEDER_DINGLICHEN_SICHERHEIT" type="ZUSATZANGABEN_MIKRO_AG_POSTEN_BT_OO" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Zussatzangaben für Mikro-AGs - Vorschüsse, Kredite und eingegangene Haftungsverhältnisse (§ 237 Abs. 1 Z 3 UGB) an bzw. für -->
+	<xs:complexType name="ZUSATZANGABEN_MIKRO_AG_VORSCHUESSE_KREDITE_UND_HAFTUNGSVERHAELTNISSE">
+		<xs:complexContent>
+			<xs:extension base="ZUSATZANGABEN_MIKRO_AG_POSTEN">
+				<xs:sequence>
+					<xs:element name="GESCHAEFTSFUEHRER" type="ZUSATZANGABEN_MIKRO_AG_GESCHAEFTSFUEHRER" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="AUFSICHTSRATSMITGLIEDER" type="ZUSATZANGABEN_MIKRO_AG_AUFSICHTSRATSMITGLIEDER" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Zussatzangaben für Mikro-AGs - a) Geschäftsführer/innen -->
+	<xs:complexType name="ZUSATZANGABEN_MIKRO_AG_GESCHAEFTSFUEHRER">
+		<xs:complexContent>
+			<xs:extension base="ZUSATZANGABEN_MIKRO_AG_POSTEN">
+				<xs:sequence>
+					<xs:element name="GESCHAEFTSFUEHRER_BETRAG_DER_VORSCHUESSE" type="ZUSATZANGABEN_MIKRO_AG_POSTEN_B_M" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="GESCHAEFTSFUEHRER_ZINSEN_DAFUER" type="ZUSATZANGABEN_MIKRO_AG_POSTEN_BT_MO" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="GESCHAEFTSFUEHRER_WESENTLICHE_BEDINGUNGEN" type="ZUSATZANGABEN_MIKRO_AG_POSTEN_T_M" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="GESCHAEFTSFUEHRER_IM_GESCHAEFTSJAHR_ERLASSENE_BETRAEGE" type="ZUSATZANGABEN_MIKRO_AG_POSTEN_B_M" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="GESCHAEFTSFUEHRER_ZUGUNSTEN_EINGEGANGENE_HAFTUNGSVERHAELTNISSE" type="ZUSATZANGABEN_MIKRO_AG_POSTEN_T_M" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Zussatzangaben für Mikro-AGs - b) Aufsichtsratsmitglieder -->
+	<xs:complexType name="ZUSATZANGABEN_MIKRO_AG_AUFSICHTSRATSMITGLIEDER">
+		<xs:complexContent>
+			<xs:extension base="ZUSATZANGABEN_MIKRO_AG_POSTEN">
+				<xs:sequence>
+					<xs:element name="AUFSICHTSRATSMITGLIEDER_BETRAG_DER_VORSCHUESSE" type="ZUSATZANGABEN_MIKRO_AG_POSTEN_B_M" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="AUFSICHTSRATSMITGLIEDER_ZINSEN_DAFUER" type="ZUSATZANGABEN_MIKRO_AG_POSTEN_BT_MO" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="AUFSICHTSRATSMITGLIEDER_WESENTLICHE_BEDINGUNGEN" type="ZUSATZANGABEN_MIKRO_AG_POSTEN_T_M" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="AUFSICHTSRATSMITGLIEDER_IM_GESCHAEFTSJAHR_ERLASSENE_BETRAEGE" type="ZUSATZANGABEN_MIKRO_AG_POSTEN_B_M" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="AUFSICHTSRATSMITGLIEDER_ZUGUNSTEN_EINGEGANGENE_HAFTUNGSVERHAELTNISSE" type="ZUSATZANGABEN_MIKRO_AG_POSTEN_T_M" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- //////////////////////////////////////// -->
+	<!-- ANLAGE1: DATENTYPEN                      -->
+	<!-- //////////////////////////////////////// -->
+	
+	<xs:complexType name="ANLAGE1">
+		<xs:annotation>
+			<xs:documentation>Ankerdatentyp für die Anlage 1 (offenzulegender Auszug aus Bilanz)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AKTIVA" type="ANLAGE1_AKTIVA" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="PASSIVA" type="ANLAGE1_PASSIVA" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE1_AKTIVA">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="ANLAGEVERMOEGEN" type="ANLAGE1_ANLAGEVERMOEGEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="UMLAUFVERMOEGEN" type="ANLAGE1_UMLAUFVERMOEGEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="AKTIVA_FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="AKTIVA_RECHNUNGSABGRENZUNGSPOSTEN" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="AKTIVE_LATENTE_STEUERN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE1_PASSIVA">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="EIGENKAPITAL" type="ANLAGE1_EIGENKAPITAL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="INVESTITIONSZUSCHUESSE" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="PASSIVA_FREIER_POSTEN_1" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="RUECKSTELLUNGEN" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN" type="ANLAGE1_VERBINDLICHKEITEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="PASSIVA_FREIER_POSTEN_2" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="PASSIVA_RECHNUNGSABGRENZUNGSPOSTEN" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE1_ANLAGEVERMOEGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="IMMATERIELLE_VERMOEGENSGEGENSTAENDE" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="SACHANLAGEN" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="FINANZANLAGEN" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="ANLAGEVERMOEGEN_FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE1_UMLAUFVERMOEGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="VORRAETE" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="FORDERUNGEN_UND_SONSTIGE_VERMOEGENSGEGENSTAENDE" type="ANLAGE1_FORDERUNGEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="WERTPAPIERE_UND_ANTEILE" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="KASSENBESTAND_SCHECKS_GUTHABEN_BEI_KREDITINSTITUTEN" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="UMLAUFVERMOEGEN_FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE1_EIGENKAPITAL">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="EINGEFORDERTES_STAMMKAPITAL" type="ANLAGE1_EINGEFORDERTES_STAMMKAPITAL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="KAPITALRUECKLAGEN" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="HYBRIDE_FINANZINSTRUMENTE" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="EIGENKAPITAL_FREIER_POSTEN_2" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="GEWINNRUECKLAGEN" type="ANLAGE1_GEWINNRUECKLAGEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="BILANZGEWINN_BILANZVERLUST" type="ANLAGE1_GEWINN_ODER_VERLUST" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="EIGENKAPITAL_FREIER_POSTEN_3" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE1_GEWINNRUECKLAGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="RUECKLAGE_FUER_EIGENE_ANTEILE" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE1_EINGEFORDERTES_STAMMKAPITAL">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="STAMMKAPITAL" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="DERZEIT_NICHT_EINFORDERBARE_EINLAGEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SONSTIGE_NICHT_EINGEFORDERTE_AUSSTEHENDE_EINLAGEN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="NENNBETRAG_RECHNERISCHER_WERT_EIGENER_ANTEILE" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_EINGEZAHLT" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE1_GEWINN_ODER_VERLUST">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_GEWINNVORTRAG_VERLUSTVORTRAG" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE1_FORDERUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_EINGEFORDERTE_ABER_NOCH_NICHT_EINGEZAHLTE_BETRAEGE_VON_GESELLSCHAFTERN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE1_VERBINDLICHKEITEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- //////////////////////////////////////// -->
+	<!-- ANLAGE3: DATENTYPEN                      -->
+	<!-- //////////////////////////////////////// -->
+
+	<xs:complexType name="ANLAGE3">
+		<xs:annotation>
+			<xs:documentation>Ankerdatentyp für die Anlage 3 (offenzulegender Auszug aus Bilanz der GmbH und Co KG und sonstiger Personengesellschaften (§ 221 Abs. 5 UGB))</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AKTIVA" type="ANLAGE3_AKTIVA" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="PASSIVA" type="ANLAGE3_PASSIVA" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE3_AKTIVA">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="ANLAGEVERMOEGEN" type="ANLAGE3_ANLAGEVERMOEGEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="UMLAUFVERMOEGEN" type="ANLAGE3_UMLAUFVERMOEGEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="AKTIVA_FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="AKTIVA_RECHNUNGSABGRENZUNGSPOSTEN" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE3_PASSIVA">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="EIGENKAPITAL" type="ANLAGE3_EIGENKAPITAL" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="INVESTITIONSZUSCHUESSE" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="PASSIVA_FREIER_POSTEN_1" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="RUECKSTELLUNGEN" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN" type="ANLAGE3_VERBINDLICHKEITEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="PASSIVA_FREIER_POSTEN_2" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="PASSIVA_RECHNUNGSABGRENZUNGSPOSTEN" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE3_EIGENKAPITAL">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:choice minOccurs="1" maxOccurs="1">
+						<!-- KG - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+						<xs:sequence>
+							<xs:element name="EINGEFORDERTES_KOMPLEMENTAERKAPITAL" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+							<xs:element name="KOMMANDITKAPITAL" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+						</xs:sequence>
+						<!-- OG - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+						<xs:element name="EINGEFORDERTE_EINLAGE_OG" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+					</xs:choice>
+					<xs:element name="KAPITALRUECKLAGEN" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="HYBRIDE_FINANZINSTRUMENTE" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="EIGENKAPITAL_FREIER_POSTEN_2" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="GEWINNRUECKLAGEN" type="ANLAGE3_GEWINNRUECKLAGEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="BILANZGEWINN_BILANZVERLUST" type="ANLAGE3_GEWINN_ODER_VERLUST" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="EIGENKAPITAL_FREIER_POSTEN_3" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE3_GEWINNRUECKLAGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="RUECKLAGE_FUER_EIGENE_ANTEILE" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE3_ANLAGEVERMOEGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="IMMATERIELLE_VERMOEGENSGEGENSTAENDE" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="SACHANLAGEN" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="FINANZANLAGEN" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="ANLAGEVERMOEGEN_FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE3_UMLAUFVERMOEGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="VORRAETE" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="FORDERUNGEN_UND_SONSTIGE_VERMOEGENSGEGENSTAENDE" type="ANLAGE3_FORDERUNGEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="WERTPAPIERE_UND_ANTEILE" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="KASSENBESTAND_SCHECKS_GUTHABEN_BEI_KREDITINSTITUTEN" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="UMLAUFVERMOEGEN_FREIER_POSTEN" type="FREIER_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE3_FORDERUNGEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_EINGEFORDERTE_ABER_NOCH_NICHT_EINGEZAHLTE_BETRAEGE_VON_GESELLSCHAFTERN" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE3_VERBINDLICHKEITEN">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_RESTLAUFZEIT_VON_MEHR_ALS_EINEM_JAHR" type="POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE3_GEWINN_ODER_VERLUST">
+		<xs:complexContent>
+			<xs:extension base="POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_GEWINNVORTRAG_VERLUSTVORTRAG" type="POSTEN" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- //////////////////////////////////////// -->
+	<!-- ANLAGE2: DATENTYPEN                      -->
+	<!-- //////////////////////////////////////// -->
+
+	<xs:complexType name="ANLAGE2">
+		<xs:annotation>
+			<xs:documentation>Ankerdatentyp für die Anlage 2 (offenzulegender Anhang)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="VERGLEICHBARKEIT_FORM_DER_DARSTELLUNG" type="ANLAGE2_FORM_DER_DARSTELLUNG" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="VERGLEICHBARKEIT_VORJAHRESWERTE" type="ANLAGE2_POSTEN_T_M" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ZUGEHOERIGKEIT_POSTEN" type="ANLAGE2_POSTEN_T_M" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ERLAEUTERUNG_NEGATIVES_EIGENKAPITAL" type="ANLAGE2_POSTEN_T_M" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BILANZIERUNGS_UND_BEWERTUNGSMETHODEN" type="ANLAGE2_BILANZIERUNGS_UND_BEWERTUNGSMETHODEN" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ERLAEUTERUNG_DES_ZEITRAUMS" type="ANLAGE2_POSTEN_T_M" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ZINSEN_FUER_FREMDFINANZIERUNG_AKTIVIERT" type="ANLAGE2_POSTEN_T_M" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="VERWALTUNGS_UND_VERTRIEBSKOSTEN_AKTIVIERT" type="ANLAGE2_VERWALTUNGS_UND_VERTRIEBSKOSTEN" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="GESAMTBETRAG_DER_HAFTUNGSVERHAELTNISSE_UND_VERPFLICHTUNGEN" type="ANLAGE2_GESAMTBETRAG_DER_HAFTUNGSVERHAELTNISSE" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="VORSCHUESSE_KREDITE_UND_HAFTUNGSVERHAELTNISSE" type="ANLAGE2_VORSCHUESSE" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BETRAG_UND_WESENSART_DER_ERTRAGS_UND_AUFWANDSPOSTEN" type="ANLAGE2_POSTEN_BT_MM" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ZUSAMMENFASSUNG_VERBINDLICHKEITEN" type="ANLAGE2_ZUSAMMENFASSUNG_VERBINDLICHKEITEN" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="DURCHSCHNITTLICHE_ANZAHL_ARBEITNEHMER" type="ANLAGE2_POSTEN_Z_M" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="MUTTERUNTERNEHMEN_NAME_UND_SITZ" type="ANLAGE2_MUTTERUNTERNEHMEN" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ENTWICKLUNG_DES_ANLAGEVERMOEGENS" type="ANLAGE2_POSTEN" minOccurs="0" maxOccurs="0"/>
+			<xs:element name="AKTIVE_LATENTE_STEUERN" type="ANLAGE2_AKTIVE_LATENTE_STEUERN" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ZUSAETZLICHE_ANGABEN_DER_VERMOEGENS_FINANZ_ERTRAGSLAGE" type="ANLAGE2_POSTEN_T_M" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="EIGENKAPITAL_ERFORDERLICHE_INFORMATIONEN_FUER_PERSONENGESELLSCHAFTEN" type="ANLAGE2_EIGENKAPITAL" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE2_POSTEN">
+		<xs:annotation>
+			<xs:documentation>Datentyp für die Posten der Anlage 2</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+	
+	<xs:complexType name="ANLAGE2_POSTEN_B_M">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN">
+				<xs:sequence>
+					<xs:element name="BETRAG" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE2_POSTEN_Z_M">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN">
+				<xs:sequence>
+					<xs:element name="ANZAHL" type="ANZAHL" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE2_POSTEN_T_M">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN">
+				<xs:sequence>
+					<xs:element name="TEXT" type="ZEICHENFOLGE" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE2_POSTEN_T_O">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN">
+				<xs:sequence>
+					<xs:element name="TEXT" type="ZEICHENFOLGE" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE2_POSTEN_BT_OO">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN">
+				<xs:sequence>
+					<xs:element name="BETRAG" type="BETRAG" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="TEXT" type="ZEICHENFOLGE" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE2_POSTEN_BT_MO">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN">
+				<xs:sequence>
+					<xs:element name="BETRAG" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="TEXT" type="ZEICHENFOLGE" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ANLAGE2_POSTEN_BT_MM">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN">
+				<xs:sequence>
+					<xs:element name="BETRAG" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="TEXT" type="ZEICHENFOLGE" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Anlage 2 - Angabe, wenn die einmal gewählte Form der Darstellung, insbesondere der Gliederung der Bilanz, nicht beibehalten wurde (§ 223 Abs. 1 UGB):	 -->
+	<xs:complexType name="ANLAGE2_FORM_DER_DARSTELLUNG">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN_T_O">
+				<xs:sequence>
+					<xs:element name="FORM_DER_DARSTELLUNG_BEGRUENDUNG_DAFUER" type="ANLAGE2_POSTEN_T_M" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Anlage 2 - Angabe, wenn die einmal gewählte Form der Darstellung, insbesondere der Gliederung der Bilanz, nicht beibehalten wurde (§ 223 Abs. 1 UGB):	 -->
+	<xs:complexType name="ANLAGE2_BILANZIERUNGS_UND_BEWERTUNGSMETHODEN">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN_T_M">
+				<xs:sequence>
+					<xs:element name="BEWERTUNGSGRUNDLAGEN_FUER_POSTEN" type="ANLAGE2_POSTEN_T_M" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="UEBEREINSTIMMUNG_DER_BILANZIERUNGS_UND_BEWERTUNGSMETHODEN" type="ANLAGE2_POSTEN_T_M" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="AENDERUNG_DER_BILANZIERUNGS_UND_BEWERTUNGSMETHODEN" type="ANLAGE2_AENDERUNG_DER_BILANZIERUNGS_UND_BEWERTUNGSMETHODEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREMDWAEHRUNG_UMRECHNUNGSGRUNDLAGEN" type="ANLAGE2_POSTEN_T_M" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Anlage 2 - Angabe, ob Verwaltungs- und Vertriebskosten im Sinn des § 206 Abs. 3 UGB aktiviert wurden: -->
+	<xs:complexType name="ANLAGE2_VERWALTUNGS_UND_VERTRIEBSKOSTEN">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN_T_M">
+				<xs:sequence>
+					<xs:element name="VERWALTUNGS_UND_VERTRIEBSKOSTEN_BEGRUENDUNG_DAFUER" type="ANLAGE2_POSTEN_T_M" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="EINFLUSS_AUF_DIE_ERTRAGSLAGE" type="ANLAGE2_POSTEN_T_M" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="BETRAG_UEBER_DIE_HERSTELLUNGSKOSTEN" type="ANLAGE2_POSTEN_BT_MO" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Anlage 2 - Gesamtbetrag der Haftungsverhältnisse und sonstiger wesentlicher finanzieller Verpflichtungen, die nicht auf der Passivseite auszuweisen sind (§237 Abs 1 Z 2 UGB): -->
+	<xs:complexType name="ANLAGE2_GESAMTBETRAG_DER_HAFTUNGSVERHAELTNISSE">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN_BT_MO">
+				<xs:sequence>
+					<xs:element name="DAVON_PENSIONSVERPFLICHTUNGEN" type="ANLAGE2_POSTEN_B_M" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_VERPFLICHTUNGEN_GEGENUEBER_UNTERNEHMEN" type="ANLAGE2_POSTEN_B_M" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ART_UND_FORM_JEDER_DINGLICHEN_SICHERHEIT" type="ANLAGE2_POSTEN_BT_OO" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Anlage 2 - Vorschüsse, Kredite und eingegangene Haftungsverhältnisse (§ 237 Abs. 1 Z 3 UGB) an bzw. für -->
+	<xs:complexType name="ANLAGE2_VORSCHUESSE">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN">
+				<xs:sequence>
+					<xs:element name="GESCHAEFTSFUEHRER" type="ANLAGE2_GESCHAEFTSFUEHRER" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="AUFSICHTSRATSMITGLIEDER" type="ANLAGE2_AUFSICHTSRATSMITGLIEDER" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Anlage 2 - jeweils zusammengefasst für alle Posten der Verbindlichkeiten (§ 237 Abs. 1 Z 5 UGB): -->
+	<xs:complexType name="ANLAGE2_ZUSAMMENFASSUNG_VERBINDLICHKEITEN">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN">
+				<xs:sequence>
+					<xs:element name="BETRAG_VERBINDLICHKEITEN_RESTLAUFZEIT_MEHR_ALS_FUENF_JAHRE" type="ANLAGE2_POSTEN_B_M" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="BETRAG_VERBINDLICHKEITEN_DINGLICHE_SICHERHEITEN" type="ANLAGE2_POSTEN_B_M" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="ART_UND_FORM_DIESER_SICHERHEITEN" type="ANLAGE2_POSTEN_T_M" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Anlage 2 - Name und Sitz des Mutterunternehmens der Gesellschaft, das den Konzernabschluss für den kleinsten Kreis von Unternehmen aufstellt, (§ 237 Abs. 1 Z 7 UGB): -->
+	<xs:complexType name="ANLAGE2_MUTTERUNTERNEHMEN">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN">
+				<xs:sequence>
+					<xs:element name="NAME_DES_MUTTERUNTERNEHMENS" type="ANLAGE2_POSTEN_T_M" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="SITZLAND_DES_MUTTERUNTERNEHMENS" type="ANLAGE2_POSTEN_T_M" minOccurs="1" maxOccurs="1"/>
+					<xs:choice>
+						<xs:element name="INLAENDISCHES_MUTTERUNTERNEHMEN" type="ANLAGE2_INLAENDISCHES_MUTTERUNTERNEHMEN" minOccurs="0" maxOccurs="1"/>
+						<xs:element name="AUSLAENDISCHES_MUTTERUNTERNEHMEN" type="ANLAGE2_AUSLAENDISCHES_MUTTERUNTERNEHMEN" minOccurs="0" maxOccurs="1"/>
+					</xs:choice>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Anlage 2 - Falls aktive latente Steuern gebildet werden: -->
+	<xs:complexType name="ANLAGE2_AKTIVE_LATENTE_STEUERN">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN_T_M">
+				<xs:sequence>
+					<xs:element name="UNVERRECHNETE_BELASTUNGEN" type="ANLAGE2_POSTEN_B_M" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="UNVERRECHNETE_ENTLASTUNGEN" type="ANLAGE2_POSTEN_B_M" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Anlage 2 - Zur Darstellung des Eigenkapitals erforderliche Informationen für Personengesellschaften im Sinne des § 189 Abs. 1 Z 2 UGB: -->
+	<xs:complexType name="ANLAGE2_EIGENKAPITAL">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN">
+				<xs:sequence>
+					<xs:element name="OB_REINER_ARBEITSGESELLSCHAFTER_UND_VERBUNDENE_VEREINBARUNG" type="ANLAGE2_POSTEN_T_M" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="HAFTSUMME_DER_KOMMANDITISTEN" type="ANLAGE2_POSTEN_B_M" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="POSTEN_V_AUSGEWIESENER_VERLUST_UND_AUFTEILUNG_AUF_GESELLSCHAFTER" type="ANLAGE2_POSTEN_T_M" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Anlage 2 - wesentliche Änderungen der Bilanzierungs- und Bewertungsmethoden: -->
+	<xs:complexType name="ANLAGE2_AENDERUNG_DER_BILANZIERUNGS_UND_BEWERTUNGSMETHODEN">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN_T_M">
+				<xs:sequence>
+					<xs:element name="BILANZIERUNGS_UND_BEWERTUNGSMETHODEN_BEGRUENDUNG_DAFUER" type="ANLAGE2_POSTEN_T_M" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="BILANZIERUNGS_UND_BEWERTUNGSMETHODEN_EINFLUSS_AUF_DIE_ERTRAGSLAGE" type="ANLAGE2_POSTEN_T_M" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Anlage 2 - a) Geschäftsführer/innen -->
+	<xs:complexType name="ANLAGE2_GESCHAEFTSFUEHRER">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN">
+				<xs:sequence>
+					<xs:element name="GESCHAEFTSFUEHRER_BETRAG_DER_VORSCHUESSE" type="ANLAGE2_POSTEN_B_M" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="GESCHAEFTSFUEHRER_ZINSEN_DAFUER" type="ANLAGE2_POSTEN_BT_MO" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="GESCHAEFTSFUEHRER_WESENTLICHE_BEDINGUNGEN" type="ANLAGE2_POSTEN_T_M" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="GESCHAEFTSFUEHRER_IM_GESCHAEFTSJAHR_ERLASSENE_BETRAEGE" type="ANLAGE2_POSTEN_B_M" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="GESCHAEFTSFUEHRER_ZUGUNSTEN_EINGEGANGENE_HAFTUNGSVERHAELTNISSE" type="ANLAGE2_POSTEN_T_M" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Anlage 2 - b) Aufsichtsratsmitglieder -->
+	<xs:complexType name="ANLAGE2_AUFSICHTSRATSMITGLIEDER">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN">
+				<xs:sequence>
+					<xs:element name="AUFSICHTSRATSMITGLIEDER_BETRAG_DER_VORSCHUESSE" type="ANLAGE2_POSTEN_B_M" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="AUFSICHTSRATSMITGLIEDER_ZINSEN_DAFUER" type="ANLAGE2_POSTEN_BT_MO" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="AUFSICHTSRATSMITGLIEDER_WESENTLICHE_BEDINGUNGEN" type="ANLAGE2_POSTEN_T_M" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="AUFSICHTSRATSMITGLIEDER_IM_GESCHAEFTSJAHR_ERLASSENE_BETRAEGE" type="ANLAGE2_POSTEN_B_M" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="AUFSICHTSRATSMITGLIEDER_ZUGUNSTEN_EINGEGANGENE_HAFTUNGSVERHAELTNISSE" type="ANLAGE2_POSTEN_T_M" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Anlage 2 - inländisches Mutterunternehmen -->
+	<xs:complexType name="ANLAGE2_INLAENDISCHES_MUTTERUNTERNEHMEN">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN">
+				<xs:sequence>
+					<xs:element name="INLAENDISCHE_FIRMENBUCHNUMMER_DES_MUTTERUNTERNEHMENS" type="ANLAGE2_POSTEN_T_M" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="INLAENDISCHER_SITZ_DES_MUTTERUNTERNEHMENS" type="ANLAGE2_POSTEN_T_M" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Anlage 2 - ausländisches Mutterunternehmen -->
+	<xs:complexType name="ANLAGE2_AUSLAENDISCHES_MUTTERUNTERNEHMEN">
+		<xs:complexContent>
+			<xs:extension base="ANLAGE2_POSTEN">
+				<xs:sequence>
+					<xs:element name="AUSLAENDISCHE_REGISTERNUMMER_DES_MUTTERUNTERNEHMENS" type="ANLAGE2_POSTEN_T_O" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="AUSLAENDISCHER_SITZ_DES_MUTTERUNTERNEHMENS" type="ANLAGE2_POSTEN_T_O" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="LEGAL_ENTITY_IDENTIFIER_DES_MUTTERUNTERNEHMENS" type="ANLAGE2_POSTEN_T_O" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- //////////////////////////////////////// -->
+	<!-- SPIEGEL: Anlagenspiegel                  -->
+	<!-- //////////////////////////////////////// -->
+
+	<!-- Datentyp für die Anlagenspiegel-Postenzeile -->
+	<xs:complexType name="SPIEGEL_ANLAGEN_POSTENZEILE">
+		<xs:annotation>
+			<xs:documentation>
+				Anschaffungs- und Herstellungskosten
+				------------------------------------------------------------
+				M | Stand 1.1.
+				M | Zugänge
+				M | davon aktivierte Zinsen für Fremdkapital
+				M | Umbuchungen
+				M | Abgänge
+				M | Zugänge/Abgänge durch Umgründung (KFS/RL 25, Rz 37, 80)
+				M | Stand 31.12.
+				
+				Kumulierte Wertberichtigungen (Abschreibungen)
+				------------------------------------------------------------
+				M | Kumulierte Wertberichtigungen 1.1.
+				M | laufende Abschreibungen
+				M | laufende Zuschreibungen
+				M | Wertberichtigungen auf Zugänge
+				M | Wertberichtigungen auf Umbuchungen
+				M | Wertberichtigungen auf Abgänge
+				M | Zugänge/Abgänge durch Umgründung (KFS/RL 25, Rz 81)
+				M | Kumulierte Wertberichtigungen 31.12.
+				
+				Nettobuchwerte
+				------------------------------------------------------------
+				M | Buchwert 1.1.
+				M | Buchwert 31.12.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="STAND_01_01" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="ZUGAENGE" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="DAVON_AKTIVIERTE_ZINSEN_FUER_FREMDKAPITAL" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="UMBUCHUNGEN" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="ABGAENGE" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="ZUGAENGE_ABGAENGE_DURCH_UMGRUENDUNG" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="STAND_31_12" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			
+			<xs:element name="KUMULIERTE_WERTBERICHTIGUNGEN_01_01" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="LAUFENDE_ABSCHREIBUNGEN" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="LAUFENDE_ZUSCHREIBUNGEN" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="WERTBERICHTIGUNGEN_AUF_ZUGAENGE" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="WERTBERICHTIGUNGEN_AUF_UMBUCHUNGEN" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="WERTBERICHTIGUNGEN_AUF_ABGAENGE" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="WERTBERICHTIGUNGEN_ZUGAENGE_ABGAENGE_DURCH_UMGRUENDUNG" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="KUMULIERTE_WERTBERICHTIGUNGEN_31_12" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			
+			<xs:element name="BUCHWERT_01_01" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="BUCHWERT_31_12" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+
+			<xs:element name="BEZEICHNUNG" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Datentyp für den Anlagenspiegel-Posten -->
+	<xs:complexType name="SPIEGEL_ANLAGEN_POSTEN">
+		<xs:sequence>
+			<xs:element name="POSTENZEILE" type="SPIEGEL_ANLAGEN_POSTENZEILE" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="summieren" type="xs:boolean" use="optional"/>
+		<xs:attribute name="visualisieren" type="xs:boolean" use="optional"/>
+		<xs:attribute name="davon" type="xs:boolean" use="optional"/>
+	</xs:complexType>
+	
+	<xs:complexType name="SPIEGEL_ANLAGEN_FREIER_POSTEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_ANLAGEN_POSTEN">
+				<xs:attribute name="SORTIERUNG" use="required">
+					<xs:simpleType>
+						<xs:restriction base="xs:integer">
+							<xs:minInclusive value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SPIEGEL_ANLAGEN_POSTEN_MIT_FREIEN_POSTEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_ANLAGEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_ANLAGEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SPIEGEL_ANLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_ANLAGEN_FREIER_POSTEN">
+				<xs:sequence>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_ANLAGEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für den Anlagenspiegel -->
+	<xs:complexType name="SPIEGEL_ANLAGEN">
+		<xs:annotation>
+			<xs:documentation>Ankerdatentyp für den Anlagenspiegel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ANLAGEVERMOEGEN" type="SPIEGEL_ANLAGEN_ANLAGEVERMOEGEN" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Datentyp für den Anlagenspiegel - Anlagevermögen-->
+	<xs:complexType name="SPIEGEL_ANLAGEN_ANLAGEVERMOEGEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_ANLAGEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="IMMATERIELLE_VERMOEGENSGEGENSTAENDE" type="SPIEGEL_ANLAGEN_IMMATERIELLE_VERMOEGENSGEGENSTAENDE" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SACHANLAGEN" type="SPIEGEL_ANLAGEN_SACHANLAGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FINANZANLAGEN" type="SPIEGEL_ANLAGEN_FINANZANLAGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="ANLAGEVERMOEGEN_FREIER_POSTEN" type="SPIEGEL_ANLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für den Anlagenspiegel - Immaterielle Vermögensgegenstände-->
+	<xs:complexType name="SPIEGEL_ANLAGEN_IMMATERIELLE_VERMOEGENSGEGENSTAENDE">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_ANLAGEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="KONZESSIONEN_GEWERBLICHE_SCHUTZRECHTE_UND_LIZENZEN" type="SPIEGEL_ANLAGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="IMMATERIELLE_VERMOEGENSGEGENSTAENDE_FREIER_POSTEN_1" type="SPIEGEL_ANLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="GESCHAEFTSWERT_FIRMENWERT" type="SPIEGEL_ANLAGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="IMMATERIELLE_VERMOEGENSGEGENSTAENDE_FREIER_POSTEN_2" type="SPIEGEL_ANLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="UMGRUENDUNGSMEHRWERT_AUSGLEICHSPOSTEN" type="SPIEGEL_ANLAGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="IMMATERIELLE_VERMOEGENSGEGENSTAENDE_FREIER_POSTEN_3" type="SPIEGEL_ANLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="GELEISTETE_ANZAHLUNGEN" type="SPIEGEL_ANLAGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="IMMATERIELLE_VERMOEGENSGEGENSTAENDE_FREIER_POSTEN_4" type="SPIEGEL_ANLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="IMMATERIELLE_VERMOEGENSGEGENSTAENDE_NICHT_AUSWEISPFLICHTIGER_REST" type="SPIEGEL_ANLAGEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für den Anlagenspiegel - Sachanlagen -->
+	<xs:complexType name="SPIEGEL_ANLAGEN_SACHANLAGEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_ANLAGEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="GRUNDSTUECKE_GRUNDSTUECKSGLEICHE_RECHTE_UND_BAUTEN" type="SPIEGEL_ANLAGEN_GRUNDSTUECKE_GRUNDSTUECKSGLEICHE_RECHTE_UND_BAUTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SACHANLAGEN_FREIER_POSTEN_1" type="SPIEGEL_ANLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="TECHNISCHE_ANLAGEN_UND_MASCHINEN" type="SPIEGEL_ANLAGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SACHANLAGEN_FREIER_POSTEN_2" type="SPIEGEL_ANLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ANDERE_ANLAGEN_BETRIEBS_UND_GESCHAEFTSAUSSTATTUNG" type="SPIEGEL_ANLAGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SACHANLAGEN_FREIER_POSTEN_3" type="SPIEGEL_ANLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="GELEISTETE_ANZAHLUNGEN_UND_ANLAGEN_IM_BAU" type="SPIEGEL_ANLAGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SACHANLAGEN_FREIER_POSTEN_4" type="SPIEGEL_ANLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für den Anlagenspiegel - Finanzanlagen -->
+	<xs:complexType name="SPIEGEL_ANLAGEN_FINANZANLAGEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_ANLAGEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="FINANZANLAGEN_ANTEILE_AN_VERBUNDENEN_UNTERNEHMEN" type="SPIEGEL_ANLAGEN_FINANZANLAGEN_ANTEILE_AN_VERBUNDENEN_UNTERNEHMEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FINANZANLAGEN_FREIER_POSTEN_1" type="SPIEGEL_ANLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AUSLEIHUNGEN_AN_VERBUNDENE_UNTERNEHMEN" type="SPIEGEL_ANLAGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FINANZANLAGEN_FREIER_POSTEN_2" type="SPIEGEL_ANLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="BETEILIGUNGEN" type="SPIEGEL_ANLAGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FINANZANLAGEN_FREIER_POSTEN_3" type="SPIEGEL_ANLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AUSLEIHUNGEN_AN_UNTERNEHMEN_MIT_BETEILIGUNGSVERHAELTNIS" type="SPIEGEL_ANLAGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FINANZANLAGEN_FREIER_POSTEN_4" type="SPIEGEL_ANLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="WERTPAPIERE_WERTRECHTE_DES_ANLAGEVERMOEGENS" type="SPIEGEL_ANLAGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SONSTIGE_AUSLEIHUNGEN" type="SPIEGEL_ANLAGEN_SONSTIGE_AUSLEIHUNGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FINANZANLAGEN_FREIER_POSTEN_5" type="SPIEGEL_ANLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="FINANZANLAGEN_NICHT_AUSWEISPFLICHTIGER_REST" type="SPIEGEL_ANLAGEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für den Anlagenspiegel - Grundstücke, grundstücksgleiche Rechte und Bauten, einschließlich der Bauten auf fremdem Grund -->
+	<xs:complexType name="SPIEGEL_ANLAGEN_GRUNDSTUECKE_GRUNDSTUECKSGLEICHE_RECHTE_UND_BAUTEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_ANLAGEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_GRUNDWERT" type="SPIEGEL_ANLAGEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_ANLAGEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für den Anlagenspiegel - Anteile an verbundenen Unternehmen -->
+	<xs:complexType name="SPIEGEL_ANLAGEN_FINANZANLAGEN_ANTEILE_AN_VERBUNDENEN_UNTERNEHMEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_ANLAGEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_ANTEILE_AN_MUTTERUNTERNEHMEN" type="SPIEGEL_ANLAGEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_ANLAGEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für den Anlagenspiegel - sonstige Ausleihungen -->
+	<xs:complexType name="SPIEGEL_ANLAGEN_SONSTIGE_AUSLEIHUNGEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_ANLAGEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_RESTLAUFZEIT_BIS_ZU_EINEM_JAHR" type="SPIEGEL_ANLAGEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_ANLAGEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- //////////////////////////////////////// -->
+	<!-- SPIEGEL: Verbindlichkeitenspiegel        -->
+	<!-- //////////////////////////////////////// -->
+
+	<!-- Datentyp für die Verbindlichkeitenspiegel - Postenzeile -->
+	<xs:complexType name="SPIEGEL_VERBINDLICHKEITEN_POSTENZEILE">
+		<xs:annotation>
+			<xs:documentation>
+				M | Gesamt
+
+				Restlaufzeit
+				------------------------------------------------------------
+				O | bis zu 1 Jahr
+				M | zwischen 1 und 5 Jahren
+				M | Über 5 Jahre
+
+				M | dinglich gesicherter Betrag
+				M | Art und Form der Sicherung (Textfeld)
+				M | Passivierte Antizipationen
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="VERBINDLICHKEITEN_GESAMT" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+
+			<xs:element name="RESTLAUFZEIT_BIS_ZU_1_JAHR" type="BETRAG" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="RESTLAUFZEIT_ZWISCHEN_1_UND_5_JAHREN" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="RESTLAUFZEIT_UEBER_5_JAHRE" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+
+			<xs:element name="DINGLICH_GESICHERTER_BETRAG" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="ART_UND_FORM_DER_SICHERUNG" type="ZEICHENFOLGE_255" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="PASSIVIERTE_ANTIZIPATIONEN" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+
+			<xs:element name="BEZEICHNUNG" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Datentyp für die Verbindlichkeitenspiegel - Posten -->
+	<xs:complexType name="SPIEGEL_VERBINDLICHKEITEN_POSTEN">
+		<xs:sequence>
+			<xs:element name="POSTENZEILE" type="SPIEGEL_VERBINDLICHKEITEN_POSTENZEILE" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="summieren" type="xs:boolean" use="optional"/>
+		<xs:attribute name="visualisieren" type="xs:boolean" use="optional"/>
+		<xs:attribute name="davon" type="xs:boolean" use="optional"/>
+	</xs:complexType>
+
+	<xs:complexType name="SPIEGEL_VERBINDLICHKEITEN_FREIER_POSTEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_VERBINDLICHKEITEN_POSTEN">
+				<xs:attribute name="SORTIERUNG" use="required">
+					<xs:simpleType>
+						<xs:restriction base="xs:integer">
+							<xs:minInclusive value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SPIEGEL_VERBINDLICHKEITEN_POSTEN_MIT_FREIEN_POSTEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_VERBINDLICHKEITEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_VERBINDLICHKEITEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SPIEGEL_VERBINDLICHKEITEN_FREIER_POSTEN_MIT_FREIEN_POSTEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_VERBINDLICHKEITEN_FREIER_POSTEN">
+				<xs:sequence>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_VERBINDLICHKEITEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für den Verbindlichkeitenspiegel -->
+	<xs:complexType name="SPIEGEL_VERBINDLICHKEITEN">
+		<xs:annotation>
+			<xs:documentation>
+				Ankerdatentyp für den Verbindlichkeitenspiegel
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="VERBINDLICHKEITEN" type="SPIEGEL_VERBINDLICHKEITEN_VERBINDLICHKEITEN" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Datentyp für den Verbindlichkeitenspiegel - Verbindlichkeiten -->
+	<xs:complexType name="SPIEGEL_VERBINDLICHKEITEN_VERBINDLICHKEITEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_VERBINDLICHKEITEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="ANLEIHEN" type="SPIEGEL_VERBINDLICHKEITEN_ANLEIHEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN_FREIER_POSTEN_1" type="SPIEGEL_VERBINDLICHKEITEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="VERBINDLICHKEITEN_GEGENUEBER_KREDITINSTITUTEN" type="SPIEGEL_VERBINDLICHKEITEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN_FREIER_POSTEN_2" type="SPIEGEL_VERBINDLICHKEITEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ERHALTENE_ANZAHLUNGEN_AUF_BESTELLUNGEN" type="SPIEGEL_VERBINDLICHKEITEN_ERHALTENE_ANZAHLUNGEN_AUF_BESTELLUNGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN_FREIER_POSTEN_3" type="SPIEGEL_VERBINDLICHKEITEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="VERBINDLICHKEITEN_AUS_LIEFERUNGEN_UND_LEISTUNGEN" type="SPIEGEL_VERBINDLICHKEITEN_VERBINDLICHKEITEN_AUS_LIEFERUNGEN_UND_LEISTUNGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN_FREIER_POSTEN_4" type="SPIEGEL_VERBINDLICHKEITEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="VERBINDLICHKEITEN_AUS_ANNAHME_UND_AUSSTELLUNG_VON_WECHSEL" type="SPIEGEL_VERBINDLICHKEITEN_VERBINDLICHKEITEN_AUS_ANNAHME_UND_AUSSTELLUNG_VON_WECHSEL" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN_FREIER_POSTEN_5" type="SPIEGEL_VERBINDLICHKEITEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="VERBINDLICHKEITEN_GEGENUEBER_VERBUNDENEN_UNTERNEHMEN" type="SPIEGEL_VERBINDLICHKEITEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN_FREIER_POSTEN_6" type="SPIEGEL_VERBINDLICHKEITEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="VERBINDLICHKEITEN_GEGENUEBER_UNTERNEHMEN_MIT_BETEILIGUNGSVERHAELTNIS" type="SPIEGEL_VERBINDLICHKEITEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN_FREIER_POSTEN_7" type="SPIEGEL_VERBINDLICHKEITEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="VERBINDLICHKEITEN_GEGENUEBER_GESELLSCHAFTERN" type="SPIEGEL_VERBINDLICHKEITEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN_FREIER_POSTEN_8" type="SPIEGEL_VERBINDLICHKEITEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="NACHRANGIGE_VERBINDLICHKEITEN" type="SPIEGEL_VERBINDLICHKEITEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="SONSTIGE_VERBINDLICHKEITEN" type="SPIEGEL_VERBINDLICHKEITEN_SONSTIGE_VERBINDLICHKEITEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="VERBINDLICHKEITEN_NICHT_AUSWEISPFLICHTIGER_REST" type="SPIEGEL_VERBINDLICHKEITEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für den Verbindlichkeitenspiegel - Anleihen -->
+	<xs:complexType name="SPIEGEL_VERBINDLICHKEITEN_ANLEIHEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_VERBINDLICHKEITEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_KONVERTIBEL" type="SPIEGEL_VERBINDLICHKEITEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_VERBINDLICHKEITEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für den Verbindlichkeitenspiegel - erhaltene Anzahlungen auf Bestellungen -->
+	<xs:complexType name="SPIEGEL_VERBINDLICHKEITEN_ERHALTENE_ANZAHLUNGEN_AUF_BESTELLUNGEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_VERBINDLICHKEITEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON" type="SPIEGEL_VERBINDLICHKEITEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_VERBINDLICHKEITEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für den Verbindlichkeitenspiegel - Verbindlichkeiten aus Lieferungen und Leistungen -->
+	<xs:complexType name="SPIEGEL_VERBINDLICHKEITEN_VERBINDLICHKEITEN_AUS_LIEFERUNGEN_UND_LEISTUNGEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_VERBINDLICHKEITEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON" type="SPIEGEL_VERBINDLICHKEITEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_VERBINDLICHKEITEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für den Verbindlichkeitenspiegel - Verbindlichkeiten aus der Annahme gezogener Wechsel und der Ausstellung eigener Wechsel -->
+	<xs:complexType name="SPIEGEL_VERBINDLICHKEITEN_VERBINDLICHKEITEN_AUS_ANNAHME_UND_AUSSTELLUNG_VON_WECHSEL">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_VERBINDLICHKEITEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON" type="SPIEGEL_VERBINDLICHKEITEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_VERBINDLICHKEITEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für den Verbindlichkeitenspiegel - sonstige Verbindlichkeiten -->
+	<xs:complexType name="SPIEGEL_VERBINDLICHKEITEN_SONSTIGE_VERBINDLICHKEITEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_VERBINDLICHKEITEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_AUS_STEUERN" type="SPIEGEL_VERBINDLICHKEITEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="DAVON_IM_RAHMEN_DER_SOZIALEN_SICHERHEIT" type="SPIEGEL_VERBINDLICHKEITEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_VERBINDLICHKEITEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>				
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- //////////////////////////////////////// -->
+	<!-- SPIEGEL: Forderungenspiegel              -->
+	<!-- //////////////////////////////////////// -->
+
+	<!-- Datentyp für die Forderungenspiegel - Postenzeile -->
+	<xs:complexType name="SPIEGEL_FORDERUNGEN_POSTENZEILE">
+		<xs:annotation>
+			<xs:documentation>
+				M | Gesamt
+				O | Restlaufzeit bis zu 1 Jahr
+				O | Restlaufzeit über 1 Jahr
+				M | wechselmäßig verbrieft
+
+				M | aktivierte Antizipationen
+				M | Pauschalwert- berichtigung
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="GESAMT" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="RESTLAUFZEIT_BIS_ZU_1_JAHR" type="BETRAG" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="RESTLAUFZEIT_UEBER_1_JAHR" type="BETRAG" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="WECHSELMAESSIG_VERBRIEFT" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+
+			<xs:element name="AKTIVIERTE_ANTIZIPATIONEN" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="PAUSCHALWERT_BERICHTIGUNG" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+
+			<xs:element name="BEZEICHNUNG" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Datentyp für die Forderungenspiegel - Posten -->
+	<xs:complexType name="SPIEGEL_FORDERUNGEN_POSTEN">
+		<xs:sequence>
+			<xs:element name="POSTENZEILE" type="SPIEGEL_FORDERUNGEN_POSTENZEILE" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="summieren" type="xs:boolean" use="optional"/>
+		<xs:attribute name="visualisieren" type="xs:boolean" use="optional"/>
+		<xs:attribute name="davon" type="xs:boolean" use="optional"/>
+	</xs:complexType>
+
+	<xs:complexType name="SPIEGEL_FORDERUNGEN_FREIER_POSTEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_FORDERUNGEN_POSTEN">
+				<xs:attribute name="SORTIERUNG" use="required">
+					<xs:simpleType>
+						<xs:restriction base="xs:integer">
+							<xs:minInclusive value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SPIEGEL_FORDERUNGEN_POSTEN_MIT_FREIEN_POSTEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_FORDERUNGEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_FORDERUNGEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SPIEGEL_FORDERUNGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_FORDERUNGEN_FREIER_POSTEN">
+				<xs:sequence>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_FORDERUNGEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für den Forderungenspiegel -->
+	<xs:complexType name="SPIEGEL_FORDERUNGEN">
+		<xs:annotation>
+			<xs:documentation>Ankerdatentyp für den Forderungenspiegel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FORDERUNGEN_UND_SONSTIGE_VERMOEGENSGEGENSTAENDE" type="SPIEGEL_FORDERUNGEN_FORDERUNGEN_UND_SONSTIGE_VERMOEGENSGEGENSTAENDE" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Datentyp für den Forderungenspiegel - Forderungen und sonstige Vermögensgegenstände -->
+	<xs:complexType name="SPIEGEL_FORDERUNGEN_FORDERUNGEN_UND_SONSTIGE_VERMOEGENSGEGENSTAENDE">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_FORDERUNGEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="FORDERUNGEN_AUS_LIEFERUNGEN_UND_LEISTUNGEN" type="SPIEGEL_FORDERUNGEN_FORDERUNGEN_AUS_LIEFERUNGEN_UND_LEISTUNGEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FORDERUNGEN_FREIER_POSTEN_1" type="SPIEGEL_FORDERUNGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="FORDERUNGEN_GEGENUEBER_VERBUNDENEN_UNTERNEHMEN" type="SPIEGEL_FORDERUNGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FORDERUNGEN_FREIER_POSTEN_2" type="SPIEGEL_FORDERUNGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="FORDERUNGEN_GEGENUEBER_UNTERNEHMEN_MIT_BETEILIGUNGSVERHAELTNIS" type="SPIEGEL_FORDERUNGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FORDERUNGEN_FREIER_POSTEN_3" type="SPIEGEL_FORDERUNGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="FORDERUNGEN_GEGENUEBER_GESELLSCHAFTERN" type="SPIEGEL_FORDERUNGEN_FORDERUNGEN_GEGENUEBER_GESELLSCHAFTERN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FORDERUNGEN_FREIER_POSTEN_4" type="SPIEGEL_FORDERUNGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="SONSTIGE_FORDERUNGEN_UND_VERMOEGENSGEGENSTAENDE" type="SPIEGEL_FORDERUNGEN_SONSTIGE_FORDERUNGEN_UND_VERMOEGENSGEGENSTAENDE" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FORDERUNGEN_NICHT_AUSWEISPFLICHTIGER_REST" type="SPIEGEL_FORDERUNGEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für den Forderungenspiegel - Forderungen aus Lieferungen und Leistungen -->
+	<xs:complexType name="SPIEGEL_FORDERUNGEN_FORDERUNGEN_AUS_LIEFERUNGEN_UND_LEISTUNGEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_FORDERUNGEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON" type="SPIEGEL_FORDERUNGEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_FORDERUNGEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für den Forderungenspiegel - Forderungen gegenüber Gesellschaftern -->
+	<xs:complexType name="SPIEGEL_FORDERUNGEN_FORDERUNGEN_GEGENUEBER_GESELLSCHAFTERN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_FORDERUNGEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON" type="SPIEGEL_FORDERUNGEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_FORDERUNGEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für den Forderungenspiegel - sonstige Forderungen und Vermögensgegenstände -->
+	<xs:complexType name="SPIEGEL_FORDERUNGEN_SONSTIGE_FORDERUNGEN_UND_VERMOEGENSGEGENSTAENDE">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_FORDERUNGEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_EINGEFORDERTE_ABER_NOCH_NICHT_EINGEZAHLTE_BETRAEGE_VON_GESELLSCHAFTERN" type="SPIEGEL_FORDERUNGEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_FORDERUNGEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- //////////////////////////////////////// -->
+	<!-- SPIEGEL: Rückstellungenspiegel           -->
+	<!-- //////////////////////////////////////// -->
+
+	<!-- Datentyp für die Rückstellungenspiegel - Postenzeile -->
+	<xs:complexType name="SPIEGEL_RUECKSTELLUNGEN_POSTENZEILE">
+		<xs:annotation>
+			<xs:documentation>
+				M | Stand 1.1.
+				O | Dotierung
+				O | Verwendung
+				O | Auflösung
+				M | Stand 31.12.
+
+				O | frei
+				O | frei
+				O | frei
+				O | frei
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="STAND_01_01" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="DOTIERUNG" type="BETRAG" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="VERWENDUNG" type="BETRAG" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="AUFLOESUNG" type="BETRAG" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="STAND_31_12" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+
+			<xs:element name="FREI_1" type="BETRAG" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="FREI_2" type="BETRAG" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="FREI_3" type="BETRAG" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="FREI_4" type="BETRAG" minOccurs="0" maxOccurs="1"/>
+
+			<xs:element name="BEZEICHNUNG" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Datentyp für die Rückstellungenspiegel - Posten -->
+	<xs:complexType name="SPIEGEL_RUECKSTELLUNGEN_POSTEN">
+		<xs:sequence>
+			<xs:element name="POSTENZEILE" type="SPIEGEL_RUECKSTELLUNGEN_POSTENZEILE" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="summieren" type="xs:boolean" use="optional"/>
+		<xs:attribute name="visualisieren" type="xs:boolean" use="optional"/>
+		<xs:attribute name="davon" type="xs:boolean" use="optional"/>
+	</xs:complexType>
+
+	<xs:complexType name="SPIEGEL_RUECKSTELLUNGEN_FREIER_POSTEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_RUECKSTELLUNGEN_POSTEN">
+				<xs:attribute name="SORTIERUNG" use="required">
+					<xs:simpleType>
+						<xs:restriction base="xs:integer">
+							<xs:minInclusive value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SPIEGEL_RUECKSTELLUNGEN_POSTEN_MIT_FREIEN_POSTEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_RUECKSTELLUNGEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_RUECKSTELLUNGEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SPIEGEL_RUECKSTELLUNGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_RUECKSTELLUNGEN_FREIER_POSTEN">
+				<xs:sequence>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_RUECKSTELLUNGEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die freien Spalten-Bezeichnungen -->
+	<xs:complexType name="SPIEGEL_RUECKSTELLUNGEN_BEZEICHNUNGEN_SPALTEN">
+		<xs:sequence>
+			<xs:element name="BEZEICHNUNG_STAND_01_01" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BEZEICHNUNG_DOTIERUNG" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BEZEICHNUNG_VERWENDUNG" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BEZEICHNUNG_AUFLOESUNG" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BEZEICHNUNG_STAND_31_12" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+
+			<xs:element name="BEZEICHNUNG_FREI_1" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BEZEICHNUNG_FREI_2" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BEZEICHNUNG_FREI_3" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BEZEICHNUNG_FREI_4" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Datentyp für die Rückstellungenspiegel -->
+	<xs:complexType name="SPIEGEL_RUECKSTELLUNGEN">
+		<xs:annotation>
+			<xs:documentation>Ankerdatentyp für den Rückstellungenspiegel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RUECKSTELLUNGEN" type="SPIEGEL_RUECKSTELLUNGEN_RUECKSTELLUNGEN" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BEZEICHNUNGEN_SPALTEN" type="SPIEGEL_RUECKSTELLUNGEN_BEZEICHNUNGEN_SPALTEN" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Datentyp für die Rückstellungenspiegel - Rückstellungen -->
+	<xs:complexType name="SPIEGEL_RUECKSTELLUNGEN_RUECKSTELLUNGEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_RUECKSTELLUNGEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="RUECKSTELLUNGEN_FUER_ABFERTIGUNGEN" type="SPIEGEL_RUECKSTELLUNGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="RUECKSTELLUNGEN_FREIER_POSTEN_1" type="SPIEGEL_RUECKSTELLUNGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="RUECKSTELLUNGEN_FUER_PENSIONEN" type="SPIEGEL_RUECKSTELLUNGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="RUECKSTELLUNGEN_FREIER_POSTEN_2" type="SPIEGEL_RUECKSTELLUNGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="STEUERRUECKSTELLUNGEN" type="SPIEGEL_RUECKSTELLUNGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="RUECKSTELLUNGEN_FREIER_POSTEN_3" type="SPIEGEL_RUECKSTELLUNGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="SONSTIGE_RUECKSTELLUNGEN" type="SPIEGEL_RUECKSTELLUNGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="RUECKSTELLUNGEN_FREIER_POSTEN_4" type="SPIEGEL_RUECKSTELLUNGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="RUECKSTELLUNGEN_NICHT_AUSWEISPFLICHTIGER_REST" type="SPIEGEL_RUECKSTELLUNGEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!-- //////////////////////////////////////// -->
+	<!-- SPIEGEL: Rücklagenspiegel                -->
+	<!-- //////////////////////////////////////// -->
+
+	<!-- Datentyp für die Rücklagenspiegel - Postenzeile -->
+	<xs:complexType name="SPIEGEL_RUECKLAGEN_POSTENZEILE">
+		<xs:annotation>
+			<xs:documentation>
+				M | Stand 1.1.
+				M | Zuführung
+				M | Verwendung
+				M | Auflösung
+				M | Stand 31.12
+
+				O | frei
+				O | frei
+				O | frei
+				O | frei
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="STAND_01_01" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="ZUFUEHRUNG" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="VERWENDUNG" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="AUFLOESUNG" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="STAND_31_12" type="BETRAG" minOccurs="1" maxOccurs="1"/>
+
+			<xs:element name="FREI_1" type="BETRAG" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="FREI_2" type="BETRAG" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="FREI_3" type="BETRAG" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="FREI_4" type="BETRAG" minOccurs="0" maxOccurs="1"/>
+
+			<xs:element name="BEZEICHNUNG" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Datentyp für die Rücklagenspiegel - Postenzeile -->
+	<xs:complexType name="SPIEGEL_RUECKLAGEN_POSTEN">
+		<xs:sequence>
+			<xs:element name="POSTENZEILE" type="SPIEGEL_RUECKLAGEN_POSTENZEILE" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="summieren" type="xs:boolean" use="optional"/>
+		<xs:attribute name="visualisieren" type="xs:boolean" use="optional"/>
+		<xs:attribute name="davon" type="xs:boolean" use="optional"/>
+	</xs:complexType>
+
+	<xs:complexType name="SPIEGEL_RUECKLAGEN_FREIER_POSTEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_RUECKLAGEN_POSTEN">
+				<xs:attribute name="SORTIERUNG" use="required">
+					<xs:simpleType>
+						<xs:restriction base="xs:integer">
+							<xs:minInclusive value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SPIEGEL_RUECKLAGEN_POSTEN_MIT_FREIEN_POSTEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_RUECKLAGEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_RUECKLAGEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SPIEGEL_RUECKLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_RUECKLAGEN_FREIER_POSTEN">
+				<xs:sequence>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_RUECKLAGEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die freien Spalten-Bezeichnungen -->
+	<xs:complexType name="SPIEGEL_RUECKLAGEN_BEZEICHNUNGEN_SPALTEN">
+		<xs:sequence>
+			<xs:element name="BEZEICHNUNG_STAND_01_01" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BEZEICHNUNG_ZUFUEHRUNG" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BEZEICHNUNG_VERWENDUNG" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BEZEICHNUNG_AUFLOESUNG" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BEZEICHNUNG_STAND_31_12" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+
+			<xs:element name="BEZEICHNUNG_FREI_1" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BEZEICHNUNG_FREI_2" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BEZEICHNUNG_FREI_3" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BEZEICHNUNG_FREI_4" type="ZEICHENFOLGE_255" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Datentyp für die Rücklagenspiegel -->
+	<xs:complexType name="SPIEGEL_RUECKLAGEN">
+		<xs:annotation>
+			<xs:documentation>Ankerdatentyp für den Rücklagenspiegel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="KAPITALRUECKLAGEN" type="SPIEGEL_RUECKLAGEN_KAPITALRUECKLAGEN" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="EIGENKAPITAL_FREIER_POSTEN_2" type="SPIEGEL_RUECKLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="GEWINNRUECKLAGEN" type="SPIEGEL_RUECKLAGEN_GEWINNRUECKLAGEN" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BEZEICHNUNGEN_SPALTEN" type="SPIEGEL_RUECKLAGEN_BEZEICHNUNGEN_SPALTEN" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Datentyp für die Rücklagenspiegel - Kapitalrücklagen -->
+	<xs:complexType name="SPIEGEL_RUECKLAGEN_KAPITALRUECKLAGEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_RUECKLAGEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="GEBUNDENE" type="SPIEGEL_RUECKLAGEN_KAPITALRUECKLAGEN_GEBUNDENE" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="NICHT_GEBUNDENE" type="SPIEGEL_RUECKLAGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="KAPITALRUECKLAGEN_FREIER_POSTEN" type="SPIEGEL_RUECKLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Rücklagenspiegel - Gewinnrücklagen -->
+	<xs:complexType name="SPIEGEL_RUECKLAGEN_GEWINNRUECKLAGEN">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_RUECKLAGEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="GESETZLICHE_RUECKLAGE" type="SPIEGEL_RUECKLAGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="GEWINNRUECKLAGEN_FREIER_POSTEN_1" type="SPIEGEL_RUECKLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="SATZUNGSMAESSIGE_RUECKLAGEN" type="SPIEGEL_RUECKLAGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="GEWINNRUECKLAGEN_FREIER_POSTEN_2" type="SPIEGEL_RUECKLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ANDERE_RUECKLAGEN_FREIE_RUECKLAGEN" type="SPIEGEL_RUECKLAGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="GEWINNRUECKLAGEN_FREIER_POSTEN_3" type="SPIEGEL_RUECKLAGEN_FREIER_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="RUECKLAGE_FUER_EIGENE_ANTEILE" type="SPIEGEL_RUECKLAGEN_POSTEN_MIT_FREIEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Datentyp für die Rücklagenspiegel - gebundene -->
+	<xs:complexType name="SPIEGEL_RUECKLAGEN_KAPITALRUECKLAGEN_GEBUNDENE">
+		<xs:complexContent>
+			<xs:extension base="SPIEGEL_RUECKLAGEN_POSTEN">
+				<xs:sequence>
+					<xs:element name="DAVON_FUER_ANTEILE_AN_MUTTERUNTERNEHMEN" type="SPIEGEL_RUECKLAGEN_POSTEN" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="FREIER_POSTEN" type="SPIEGEL_RUECKLAGEN_FREIER_POSTEN" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

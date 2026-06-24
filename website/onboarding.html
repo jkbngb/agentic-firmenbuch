@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="mask-icon" href="favicon.svg" color="#19C37D" />
+<title>Verbindung einrichten – Agentic-Firmenbuch.at</title>
+<meta name="description" content="In wenigen Minuten verbunden: Agentic-Firmenbuch.at als MCP-Server in Claude Code, VS Code (Copilot Chat) oder Cursor einrichten. Claude Cowork per Klick (OAuth-Connector, kein Key)." />
+<link rel="canonical" href="https://www.agentic-firmenbuch.at/onboarding.html" />
+<meta name="robots" content="index,follow" />
+<meta name="theme-color" content="#0A0B0E" />
+<meta name="color-scheme" content="dark" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#0A0B0E;--surface:#14161B;--surface-2:#181B22;
+    --line:rgba(255,255,255,.08);--line-2:rgba(255,255,255,.13);
+    --text:#EDEFF3;--dim:#9AA2AF;--faint:#6B7280;--accent:#19C37D;--mint:#19C37D;
+    --r-sm:10px;--r-md:14px;--r-lg:20px;--maxw:820px;
+    --font-d:"Bricolage Grotesque",system-ui,sans-serif;
+    --font-b:"IBM Plex Sans",system-ui,sans-serif;
+    --font-m:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{font-family:var(--font-b);background:var(--ink);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(55% 35% at 50% -10%,rgba(25,195,125,.13),transparent 70%)}
+  a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+  .wrap{width:100%;max-width:1200px;margin-inline:auto;padding-inline:24px}
+  @media(max-width:560px){.wrap{padding-inline:18px}}
+  header{position:sticky;top:0;z-index:60;backdrop-filter:saturate(160%) blur(14px);background:rgba(10,11,14,.72);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:20px}
+  .brand{display:inline-flex;align-items:center;gap:11px;font-family:var(--font-d);font-weight:700;font-size:18px;letter-spacing:-.02em;color:var(--text)}
+  .mark{width:30px;height:30px;flex:none}
+  .back{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;font-weight:500;color:var(--dim);padding:9px 15px;border:1px solid var(--line-2);border-radius:var(--r-md);background:rgba(255,255,255,.04)}
+  .back:hover{color:var(--text);background:rgba(255,255,255,.08);text-decoration:none}.back svg{width:16px;height:16px}
+  main{padding-block:clamp(48px,8vw,92px) clamp(60px,9vw,110px)}
+  .doc{max-width:var(--maxw);margin-inline:auto}
+  .eyebrow{font-family:var(--font-m);font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  h1{font-family:var(--font-d);font-weight:700;font-size:clamp(2rem,5vw,3rem);letter-spacing:-.03em;line-height:1.05;margin:14px 0 12px}
+  .sub{color:var(--dim);font-size:1.05rem;max-width:64ch}
+  section.block{margin-top:40px}
+  h2{font-family:var(--font-d);font-weight:600;font-size:1.32rem;letter-spacing:-.02em;margin-bottom:13px;display:flex;align-items:baseline;gap:12px}
+  h2 .n{font-family:var(--font-m);font-size:.92rem;color:var(--accent);font-weight:500}
+  p{color:var(--dim);margin-bottom:12px}p strong{color:var(--text);font-weight:600}
+  ul{list-style:none;margin:6px 0 12px;display:flex;flex-direction:column;gap:9px}
+  li{color:var(--dim);padding-left:18px;position:relative}
+  li::before{content:"";position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.7}
+  .ph{font-family:var(--font-m);font-size:.92em;color:var(--mint);background:rgba(25,195,125,.08);border:1px solid rgba(25,195,125,.22);border-radius:6px;padding:1px 7px}
+  .codewrap{position:relative;margin:10px 0 4px}
+  pre{background:#0d0f14;border:1px solid var(--line);border-radius:var(--r-md);padding:16px 18px;overflow-x:auto}
+  code{font-family:var(--font-m);font-size:13px;color:#cfe9dc;line-height:1.7;white-space:pre}
+  .copy{position:absolute;top:9px;right:9px;font-family:var(--font-m);font-size:11px;color:var(--dim);background:var(--surface-2);
+    border:1px solid var(--line-2);border-radius:8px;padding:5px 9px;cursor:pointer}
+  .copy:hover{color:var(--text)}
+  .pill{font-family:var(--font-m);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);
+    border:1px solid var(--line-2);border-radius:999px;padding:3px 9px;background:rgba(25,195,125,.1)}
+  .soon{color:var(--faint);border-color:var(--line);background:transparent}
+  footer{border-top:1px solid var(--line);padding-block:34px 40px;margin-top:56px}
+  .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:center}
+  .foot-links{display:flex;gap:22px;flex-wrap:wrap}.foot-links a{color:var(--dim);font-size:14px}.foot-links a:hover{color:var(--text)}
+  .foot small{color:var(--faint);font-size:12.5px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html" aria-label="Agentic-Firmenbuch.at – Startseite">
+      <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="1" y="1" width="30" height="30" rx="9" fill="#14161B" stroke="#19C37D" stroke-opacity=".5"/>
+        <rect x="8" y="8" width="7" height="7" rx="2" fill="#19C37D"/>
+        <rect x="17" y="8" width="7" height="7" rx="2" fill="#19C37D" fill-opacity=".4"/>
+        <rect x="8" y="17" width="7" height="7" rx="2" fill="#19C37D" fill-opacity=".4"/>
+        <rect x="17" y="17" width="7" height="7" rx="2" fill="#19C37D"/>
+      </svg>
+      <span><span style="color:#19C37D">Agentic</span>-Firmenbuch.at</span>
+    </a>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+      Zurück zur Startseite
+    </a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap doc">
+    <span class="eyebrow">Anleitung</span>
+    <h1>Verbindung einrichten</h1>
+    <p class="sub">Mit einem per E-Mail erhaltenen API-Key ist Agentic-Firmenbuch.at in wenigen
+       Minuten im KI-Tool verbunden. In allen Beispielen
+       <span class="ph">DEIN_API_KEY</span> durch den eigenen Schlüssel ersetzen.</p>
+
+    <section class="block">
+      <h2><span class="n">0</span> Voraussetzung</h2>
+      <ul>
+        <li>Ein <strong>API-Key</strong> aus der Bestätigungs-E-Mail. Noch keiner?
+            <a href="index.html#start">Hier kostenlos anfordern</a>.</li>
+        <li>Server-Adresse: <span class="ph">https://mcp.agentic-firmenbuch.at/mcp</span></li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">1</span> Claude Code <span class="pill">Terminal</span></h2>
+      <p>Nur für Claude <strong>Code</strong> (das Terminal-Tool). Für die <strong>Desktop-App</strong>
+         gilt stattdessen <strong>Schritt&nbsp;2</strong>. Ein Befehl, <strong>als eine Zeile</strong>
+         einfügen (macOS, Linux, Windows/PowerShell identisch):</p>
+      <p style="font-size:.92em">Terminal öffnen: <strong>macOS</strong> → ⌘ + Leertaste, „Terminal" tippen · <strong>Windows</strong> → Startmenü, „PowerShell" · <strong>Linux</strong> → das jeweilige Terminal-Programm.</p>
+      <div class="codewrap">
+        <button class="copy" type="button">Kopieren</button>
+        <pre><code>claude mcp add --scope user --transport http agentic-firmenbuch https://mcp.agentic-firmenbuch.at/mcp --header "X-API-Key: DEIN_API_KEY"</code></pre>
+      </div>
+      <p><strong>Verbindung testen:</strong> einen neuen Chat öffnen und z. B. fragen: <em>„Bist du mit dem Agentic-Firmenbuch-Server verbunden, und welche Werkzeuge stellt er bereit?"</em> – nennt der Agent die Firmenbuch-Werkzeuge (Unternehmen suchen, Kennzahlen, Historie …), ist die Verbindung aktiv.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">2</span> Weitere MCP-Clients <span class="pill">VS Code · Cursor · …</span></h2>
+      <p>Jeder MCP-Client, der entfernte HTTP-Server mit Header-Authentifizierung unterstützt –
+         <strong>VS Code</strong> (GitHub Copilot), <strong>Cursor</strong> und weitere – verbindet sich
+         mit denselben zwei Angaben:</p>
+      <ul>
+        <li>Adresse: <span class="ph">https://mcp.agentic-firmenbuch.at/mcp</span> · Typ <code>http</code></li>
+        <li>Header: <span class="ph">X-API-Key: DEIN_API_KEY</span></li>
+      </ul>
+      <p>Die genauen Schritte stehen in der offiziellen Doku des Tools:
+         <a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers" target="_blank" rel="noopener">VS Code (MCP)</a>
+         · <a href="https://cursor.com/docs/mcp" target="_blank" rel="noopener">Cursor (MCP)</a>. Üblicherweise als
+         <code>mcp.json</code>-Eintrag:</p>
+      <div class="codewrap">
+        <button class="copy" type="button">Kopieren</button>
+        <pre><code>{
+  "mcpServers": {
+    "agentic-firmenbuch": {
+      "type": "http",
+      "url": "https://mcp.agentic-firmenbuch.at/mcp",
+      "headers": { "X-API-Key": "DEIN_API_KEY" }
+    }
+  }
+}</code></pre>
+      </div>
+      <p style="font-size:.92em;color:var(--faint)">Hinweis: Diese Clients sind MCP-konform; die genaue
+         Bedienung folgt der jeweiligen Hersteller-Doku.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">3</span> Claude Cowork &amp; Desktop-App <span class="pill">per Klick · kein Key</span></h2>
+      <p>Für die <strong>Claude Desktop-App</strong> (Tabs Chat &amp; Cowork) ist kein API-Key nötig –
+         die Verbindung erfolgt per Connector mit einmaliger Anmeldung per E-Mail. Die bebilderte
+         Schritt-für-Schritt-Anleitung (Einstellungen → Konnektoren → Connector mit der Adresse
+         <span class="ph">https://mcp.agentic-firmenbuch.at/mcp</span>):</p>
+      <p><a class="back" href="cowork.html" style="color:var(--accent)">Detaillierte Anleitung mit Screenshots →</a></p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">4</span> Loslegen</h2>
+      <p>Beispiel-Fragen, die sich direkt stellen lassen:</p>
+      <ul>
+        <li>„Zeig mir aktive GmbHs in der Steiermark mit Bilanzsumme über 5 Mio. Euro."</li>
+        <li>„Welche Unternehmen wachsen seit Jahren und haben eine hohe Eigenkapitalquote?"</li>
+        <li>„Hol mir die Bilanzkennzahlen und den letzten Jahresabschluss von Firma XY."</li>
+      </ul>
+      <p>Zum Ausprobieren ohne Einrichtung: <a href="playground.html">Playground</a>
+      und <a href="felder.html">Datenfelder</a>.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">5</span> Verfügbare Werkzeuge (MCP-Tools)</h2>
+      <p>Der Server stellt dem KI-Tool diese Werkzeuge bereit. Der Agent wählt sie selbst
+         passend zur Frage – ein direkter Aufruf ist nicht nötig.</p>
+      <ul>
+        <li><strong>search_companies</strong> – Unternehmen filtern (Region, Rechtsform, Größenklasse,
+            Bilanzsumme, Eigenkapitalquote, Umsatz, Mitarbeiter, Wachstum, <strong>GF-Alter</strong>) →
+            Liste kompakter Treffer-Karten.</li>
+        <li><strong>get_company_details</strong> – kuratiertes Firmenprofil zu einer Firmenbuchnummer.</li>
+        <li><strong>get_company_history</strong> – Mehrjahres-Zeitreihen je Kennzahl (Bilanzsumme,
+            Eigenkapitalquote …).</li>
+        <li><strong>get_full_record</strong> – vollständiger Datensatz inkl. aller Bilanzpositionen
+            samt offizieller UGB-Codes.</li>
+        <li><strong>get_document</strong> – Referenz/Link zum Original-Jahresabschluss.</li>
+        <li><strong>list_sectors</strong> – Branchen-/Größen-Übersichten mit Anzahl.</li>
+        <li><strong>get_cohort_summary</strong> – Aggregat-Kennzahlen einer Kohorte (z.&nbsp;B. alle
+            GmbHs in der Steiermark).</li>
+        <li><strong>find_peers</strong> – vergleichbare Unternehmen nach Größenklasse und Bilanzsumme.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">6</span> Welche Daten geliefert werden</h2>
+      <p>Pro Unternehmen, strukturiert und mit Herkunftsnachweis:</p>
+      <ul>
+        <li><strong>Identität</strong> – Firmenname, Firmenbuchnummer, Rechtsform, Status
+            (aktiv/historisch/gelöscht).</li>
+        <li><strong>Standort</strong> – Bundesland, Sitz, Firmenbuchgericht.</li>
+        <li><strong>Größe</strong> – Größenklasse (Kleinst/Klein/Mittel/Groß), Bilanzsummen-Band.</li>
+        <li><strong>Finanzen</strong> – Bilanz- und (wo veröffentlicht) GuV-Werte, mehrjährig; jede
+            Position mit ihrem <strong>offiziellen UGB-Code</strong> (z.&nbsp;B. „§&nbsp;224 Abs&nbsp;2 A&nbsp;II").</li>
+        <li><strong>Kennzahlen</strong> – Eigenkapitalquote, Verschuldung, Deckungsgrade, EBIT/EBITDA,
+            Margen, ROE/ROA – berechnet, mit Verlauf.</li>
+        <li><strong>Wachstum</strong> – Profil (schrumpfend/stabil/wachsend/stark wachsend) + Raten.</li>
+        <li><strong>Mitarbeiter</strong> – wo veröffentlicht.</li>
+        <li><strong>Geschäftsführung</strong> – <strong>ohne Namen</strong> (Datenschutz): nur
+            Alter bzw. Geburtsjahr, Funktion und Vertretungsart.</li>
+        <li><strong>Originaldokumente &amp; Herkunft</strong> – Liste der Jahresabschlüsse + Quelle und
+            Lizenz (CC&nbsp;BY&nbsp;4.0).</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">7</span> Datenquelle, Aktualität &amp; Datenschutz</h2>
+      <ul>
+        <li><strong>Quelle</strong> – Österreichisches Firmenbuch / JustizOnline (BMJ – Justiz),
+            genutzt unter <strong>CC&nbsp;BY&nbsp;4.0</strong>. Daten ohne Gewähr.</li>
+        <li><strong>Aktualität</strong> – laufend aktualisiert über die offiziellen Änderungs-Feeds.</li>
+        <li><strong>Datenschutz</strong> – es werden <strong>keine personenbezogenen Namen</strong>
+            ausgeliefert; zu Personen nur Alter/Geburtsjahr (Jahr), Funktion und Vertretungsart.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">8</span> Fair-Use &amp; Key verwalten</h2>
+      <ul>
+        <li>Kostenlos mit großzügigem <strong>Rate-Limit</strong> pro Key; mehr Volumen auf Anfrage.</li>
+        <li>Key verloren oder kompromittiert? <a href="index.html#start">Neuen Key anfordern</a> –
+            der alte wird sofort ungültig.</li>
+        <li>Der Key ist wie ein Passwort zu behandeln und nicht weiterzugeben
+            (<a href="nutzungsbedingungen.html">Nutzungsbedingungen</a>).</li>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="foot-links">
+      <a href="index.html">Start</a>
+      <a href="playground.html">Playground</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+      <a href="nutzungsbedingungen.html">Nutzungsbedingungen</a>
+    </div>
+    <small>© <span id="y"></span> Agentic-Firmenbuch.at · Österreichisches Firmenbuch / BMJ – Justiz, CC BY 4.0</small>
+  </div>
+</footer>
+<script>
+  document.getElementById("y").textContent=new Date().getFullYear();
+  document.querySelectorAll(".copy").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      var code=btn.parentElement.querySelector("code").innerText;
+      var ok=function(){btn.textContent="Kopiert";setTimeout(function(){btn.textContent="Kopieren";},1600);};
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(ok,ok);}
+      else{try{var t=document.createElement("textarea");t.value=code;document.body.appendChild(t);t.select();document.execCommand("copy");document.body.removeChild(t);ok();}catch(e){}}
+    });
+  });
+</script>
+</body>
+</html>

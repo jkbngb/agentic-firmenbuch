@@ -1,0 +1,20 @@
+# Keep the build context tiny: the runtime image only needs the workspace source.
+# (A 170 MB .venv / mypy cache in the upload is what caused acr-build upload timeouts.)
+.git
+.git/**
+.venv
+.venv/**
+.mypy_cache
+.mypy_cache/**
+.pytest_cache
+.pytest_cache/**
+.ruff_cache
+.ruff_cache/**
+**/__pycache__
+**/*.pyc
+htmlcov
+.coverage
+.env
+.env.*
+*.pem
+*.key

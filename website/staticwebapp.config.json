@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json.schemas.azure.com/staticwebapp.config.json",
+  "routes": [
+    { "route": "/api/*", "allowedRoles": ["anonymous"] }
+  ],
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": [
+      "/api/*",
+      "/*.{css,js,json,png,svg,jpg,jpeg,ico,webp,xml,txt,woff,woff2}"
+    ]
+  },
+  "responseOverrides": {
+    "404": { "rewrite": "/index.html" }
+  },
+  "mimeTypes": {
+    ".json": "application/json",
+    ".webmanifest": "application/manifest+json"
+  },
+  "globalHeaders": {
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy": "geolocation=(), microphone=(), camera=()",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://app-firmenbuch-signup.calmtree-c1f09e1d.germanywestcentral.azurecontainerapps.io https://api.agentic-firmenbuch.at https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; base-uri 'self'; form-action 'self'"
+  }
+}

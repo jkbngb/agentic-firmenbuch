@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ns://firmenbuch.justiz.gv.at/Bilanzierung/BilanzierungsResponse"
+           targetNamespace="ns://firmenbuch.justiz.gv.at/Bilanzierung/BilanzierungsResponse"
+           elementFormDefault="qualified" attributeFormDefault="qualified">
+    <xs:element name="BilanzResponse">
+        <xs:annotation>
+            <xs:documentation>
+                JAb 4.0 - Webservice - Responsestruktur der Validierung/Visualisierung von JAb 4.0 - Übermittlungen
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="BilanzErgebnis"/>
+                <xs:element name="Pruefsumme" type="xs:string" minOccurs="0"/>
+                <xs:element name="xml" type="xs:base64Binary" minOccurs="0"/>
+                <xs:element name="pdf" type="xs:base64Binary" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="BilanzErgebnis">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Ok" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="Meldung" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Kategorie" type="xs:string"/>
+                            <xs:element name="Id" type="xs:string"/>
+                            <xs:element name="Text" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
