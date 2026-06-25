@@ -187,7 +187,11 @@ resource mcpApp 'Microsoft.App/containerApps@2024-03-01' = {
         }
       ]
       scale: {
-        minReplicas: 0
+        // min=1: MCP streamable-HTTP holds persistent sessions per connector.
+        // Scale-to-zero kills live Cowork/Code/Cursor connections mid-conversation
+        // (observed 2026-06-25 around 19:59 UTC) — "Tool not found" + connector
+        // vanishing from registry. Keep one warm replica.
+        minReplicas: 1
         maxReplicas: 3
       }
     }
