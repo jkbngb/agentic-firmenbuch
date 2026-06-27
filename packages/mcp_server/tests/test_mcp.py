@@ -117,6 +117,31 @@ def _svc() -> tuple[McpService, str]:
     return svc, token
 
 
+def test_tool_calls_are_metered_and_get_my_usage_reports_them() -> None:
+    cosmos = _store()
+    token = signup("user@example.test", cosmos).token
+    svc = McpService(cosmos, Settings(rate_limit_per_min=1000, rate_limit_per_day=10000))
+
+    svc.search_companies(token)  # 1 unit
+    svc.get_company_details(token, "030435h")  # 2 units
+    svc.get_company_details(token, "093450b")  # 2 units
+
+    usage = svc.get_my_usage(token, "today")
+    # 3 data calls + the get_my_usage call itself (0 units) = 4 calls, 5 units
+    assert usage["totals"]["calls"] == 4
+    assert usage["totals"]["compute_units"] == 1 + 2 + 2 + 0
+    assert usage["by_tool"]["get_company_details"] == {"calls": 2, "compute_units": 4}
+    assert usage["tier"] == "free"
+    # privacy: no e-mail leaks through the usage view
+    assert "example.test" not in str(usage)
+
+
+def test_get_my_usage_requires_auth() -> None:
+    svc, _token = _svc()
+    with pytest.raises(Unauthorized):
+        svc.get_my_usage("not-a-real-token", "today")
+
+
 def test_search_all() -> None:
     svc, token = _svc()
     resp = svc.search_companies(token)

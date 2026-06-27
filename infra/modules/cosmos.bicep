@@ -131,6 +131,26 @@ resource oauthTokensContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabase
   }
 }
 
+// 00_usage — per-user daily consumption rollup (V2 §8). One doc per (key_hash, day),
+// partitioned by /id (id = u_<keyhash16>_<day>). 365-day TTL: usage history
+// garbage-collects automatically.
+resource usageContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2024-11-15' = {
+  parent: database
+  name: '00_usage'
+  properties: {
+    resource: {
+      id: '00_usage'
+      partitionKey: { paths: ['/id'], kind: 'Hash' }
+      defaultTtl: 31536000
+      indexingPolicy: {
+        indexingMode: 'consistent'
+        includedPaths: [{ path: '/key_hash/?' }, { path: '/day_utc/?' }]
+        excludedPaths: [{ path: '/*' }]
+      }
+    }
+  }
+}
+
 // 10_presentation is the serving container: index only the fields search_companies
 // filters/sorts on; exclude large nested histories to control RU (§4.1).
 resource presentedContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2024-11-15' = {
