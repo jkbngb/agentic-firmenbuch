@@ -212,7 +212,7 @@
   .skip{position:fixed;top:10px;left:10px;z-index:200;background:var(--accent);color:#08130D;font-weight:600;font-size:14px;padding:11px 16px;border-radius:10px;transform:translateY(-160%);transition:transform .2s var(--ease)}
   .skip:focus{transform:none}
 
-  .lang-toggle{display:inline-flex;align-items:center;padding:7px 10px;border-radius:8px;font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--faint);border:1px solid var(--line);margin-right:8px;text-decoration:none}
+  .lang-toggle{display:inline-flex;align-items:center;padding:7px 10px;border-radius:8px;font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--faint);border:1px solid var(--line);text-decoration:none}
   .lang-toggle:hover{color:var(--text);background:rgba(255,255,255,.05)}
 </style>
 </head>
@@ -232,12 +232,14 @@
       <span><span style="color:#19C37D">Agentic</span>-Firmenbuch.at</span>
     </a>
     <div class="nav-r">
-    <a class="lang-toggle" href="playground.en.html" hreflang="en" lang="en" aria-label="View in English">EN</a>
-
-      <a class="back" href="index.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
-        <span>Zur Startseite</span>
-      </a>
+    <div class="nav-r">
+      <a class="lang-toggle" href="playground.en.html" hreflang="en" lang="en" aria-label="View in English">EN</a>
+  
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+      Zur Startseite
+    </a>
+    </div>
       <a class="btn btn-primary" href="index.html#start">Kostenlos starten</a>
     </div>
   </div>
