@@ -648,7 +648,7 @@ class SearchFilters(BaseModel):
 
 # IMPLEMENTATION (service.search_companies): filtering/sorting/paging run **server-side** in
 # Cosmos — a parameterized `WHERE … ORDER BY … OFFSET/LIMIT` query touches only one page, never
-# the whole ~200k-doc container (a full scan measured ~437s; a server-side page ~0.2s). The
+# the whole ~341k-doc container (a full scan measured ~437s; a server-side page ~0.2s). The
 # in-memory test store ignores SQL and returns every doc, so the same predicate is also applied
 # in Python (branch on whether COUNT(1) came back an int). Sort field ∈ {bilanzsumme, revenue,
 # equity_ratio, employees, last_filing_year}; default bilanzsumme desc.
