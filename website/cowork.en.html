@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="mask-icon" href="favicon.svg" color="#19C37D" />
-<title>Claude Cowork verbinden (per Klick) – Agentic-Firmenbuch.at</title>
-<meta name="description" content="Schritt-für-Schritt mit Screenshots: Agentic-Firmenbuch.at in der Claude Desktop-App (Cowork) per Connector verbinden – ohne API-Key, nur mit E-Mail-Login (OAuth)." />
-<link rel="canonical" href="https://www.agentic-firmenbuch.at/cowork.html" />
+<title>Connect Claude Cowork (one click) – Agentic-Firmenbuch.at</title>
+<meta name="description" content="Step-by-step with screenshots: connect Agentic-Firmenbuch.at in the Claude desktop app (Cowork) via connector – no API key, just email login (OAuth)." />
+<link rel="canonical" href="https://www.agentic-firmenbuch.at/cowork.en.html" />
 <link rel="alternate" hreflang="de" href="https://www.agentic-firmenbuch.at/cowork.html" />
 <link rel="alternate" hreflang="en" href="https://www.agentic-firmenbuch.at/cowork.en.html" />
-<link rel="alternate" hreflang="x-default" href="https://www.agentic-firmenbuch.at/cowork.html" />
 <meta name="robots" content="index,follow" />
 <meta name="theme-color" content="#0A0B0E" />
 <meta name="color-scheme" content="dark" />
@@ -69,7 +68,7 @@
 <body>
 <header>
   <div class="wrap nav">
-    <a class="brand" href="index.html" aria-label="Agentic-Firmenbuch.at – Startseite">
+    <a class="brand" href="en.html" aria-label="Agentic-Firmenbuch.at – Home">
       <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
         <rect x="1" y="1" width="30" height="30" rx="9" fill="#14161B" stroke="#19C37D" stroke-opacity=".5"/>
         <rect x="8" y="8" width="7" height="7" rx="2" fill="#19C37D"/>
@@ -79,84 +78,82 @@
       </svg>
       <span><span style="color:#19C37D">Agentic</span>-Firmenbuch.at</span>
     </a>
-    <a class="lang-toggle" href="cowork.en.html" hreflang="en" lang="en" aria-label="View in English">EN</a>
+    <a class="lang-toggle" href="cowork.html" hreflang="de" lang="de" aria-label="Auf Deutsch ansehen">DE</a>
 
-    <a class="back" href="onboarding.html">
+    <a class="back" href="onboarding.en.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
-      Alle Verbindungswege
+      All connection methods
     </a>
   </div>
 </header>
 
 <main>
   <div class="wrap doc">
-    <span class="eyebrow">Anleitung · Claude Cowork</span>
-    <h1>In Claude verbinden – per Klick, kein API-Key</h1>
-    <p class="sub">Für die <strong>Claude Desktop-App</strong> (Tabs <em>Chat</em> und <em>Cowork</em>)
-       ist <strong>kein API-Key erforderlich</strong>. Es wird ein Connector hinzugefügt, die
-       Anmeldung erfolgt einmalig per E-Mail.</p>
+    <span class="eyebrow">Guide · Claude Cowork</span>
+    <h1>Connect inside Claude – one click, no API key</h1>
+    <p class="sub">For the <strong>Claude desktop app</strong> (the <em>Chat</em> and <em>Cowork</em> tabs)
+       <strong>no API key is required</strong>. You add a connector and sign in once by email.</p>
 
     <section class="step">
-      <h2><span class="n">1</span> Einstellungen öffnen</h2>
-      <p>Unten links auf den eigenen Namen und anschließend auf <strong>Einstellungen</strong> klicken.</p>
+      <h2><span class="n">1</span> Open Settings</h2>
+      <p>Click your name in the bottom left, then click <strong>Settings</strong>.</p>
       <figure>
-        <img class="shot" src="cowork-1-einstellungen.png" alt="Claude Desktop-App: Menü unten links geöffnet, Eintrag Einstellungen" loading="lazy">
-        <figcaption>Menü unten links → Einstellungen.</figcaption>
+        <img class="shot" src="cowork-1-einstellungen.png" alt="Claude desktop app: bottom-left menu open, Settings entry" loading="lazy">
+        <figcaption>Bottom-left menu → Settings.</figcaption>
       </figure>
     </section>
 
     <section class="step">
-      <h2><span class="n">2</span> Connector hinzufügen</h2>
-      <p>Links <strong>Konnektoren</strong> öffnen, oben rechts auf <strong>Hinzufügen</strong>
-         und dann auf <strong>Benutzerdefinierten Connector hinzufügen</strong> klicken.</p>
+      <h2><span class="n">2</span> Add a connector</h2>
+      <p>Open <strong>Connectors</strong> on the left, click <strong>Add</strong> at the top right,
+         then click <strong>Add custom connector</strong>.</p>
       <figure>
-        <img class="shot" src="cowork-2-konnektoren-hinzufuegen.png" alt="Einstellungen → Konnektoren, Menü Hinzufügen mit Benutzerdefinierten Connector hinzufügen" loading="lazy">
-        <figcaption>Konnektoren → Hinzufügen → Benutzerdefinierten Connector hinzufügen.</figcaption>
+        <img class="shot" src="cowork-2-konnektoren-hinzufuegen.png" alt="Settings → Connectors, Add menu with Add custom connector" loading="lazy">
+        <figcaption>Connectors → Add → Add custom connector.</figcaption>
       </figure>
     </section>
 
     <section class="step">
-      <h2><span class="n">3</span> Name &amp; Adresse eintragen</h2>
-      <p>Als Name <span class="ph">Agentic-Firmenbuch</span> und als Adresse
-         <span class="ph">https://mcp.agentic-firmenbuch.at/mcp</span> eintragen, dann
-         <strong>Hinzufügen</strong> wählen. Die OAuth-Felder bleiben leer.</p>
+      <h2><span class="n">3</span> Enter name &amp; address</h2>
+      <p>Set the name to <span class="ph">Agentic-Firmenbuch</span> and the address to
+         <span class="ph">https://mcp.agentic-firmenbuch.at/mcp</span>, then choose
+         <strong>Add</strong>. Leave the OAuth fields empty.</p>
       <figure>
-        <img class="shot" src="cowork-3-connector-daten.png" alt="Dialog Benutzerdefinierten Connector hinzufügen mit Name Agentic-Firmenbuch und URL https://mcp.agentic-firmenbuch.at/mcp" loading="lazy">
-        <figcaption>Name + URL eintragen, dann „Hinzufügen“.</figcaption>
+        <img class="shot" src="cowork-3-connector-daten.png" alt="Add custom connector dialog with name Agentic-Firmenbuch and URL https://mcp.agentic-firmenbuch.at/mcp" loading="lazy">
+        <figcaption>Enter name + URL, then click "Add".</figcaption>
       </figure>
     </section>
 
     <section class="step">
-      <h2><span class="n">4</span> Verbinden</h2>
-      <p>Beim neuen Connector auf <strong>Verbinden</strong> klicken – es öffnet sich ein Browser-Tab
-         für die Anmeldung.</p>
+      <h2><span class="n">4</span> Connect</h2>
+      <p>On the new connector, click <strong>Connect</strong> – a browser tab opens for sign-in.</p>
       <figure>
-        <img class="shot" src="cowork-4-verbinden.png" alt="Connector-Seite: „Du bist noch nicht mit Agentic-Firmenbuch verbunden“ mit Button Verbinden" loading="lazy">
-        <figcaption>„Verbinden“ – danach öffnet sich der Browser.</figcaption>
+        <img class="shot" src="cowork-4-verbinden.png" alt="Connector page: 'You are not yet connected to Agentic-Firmenbuch' with a Connect button" loading="lazy">
+        <figcaption>"Connect" – the browser opens next.</figcaption>
       </figure>
     </section>
 
     <section class="step">
-      <h2><span class="n">5</span> E-Mail bestätigen</h2>
-      <p>Im Browser die <strong>E-Mail-Adresse</strong> eingeben und
-         <strong>Bestätigungslink senden</strong> wählen. Den Link in der E-Mail öffnen (15 Minuten
-         gültig) – die Verbindung ist hergestellt. <strong>Kein API-Key, kein Passwort.</strong></p>
+      <h2><span class="n">5</span> Confirm your email</h2>
+      <p>In the browser, enter your <strong>email address</strong> and choose
+         <strong>Send confirmation link</strong>. Open the link in the email (valid for 15 minutes)
+         – the connection is established. <strong>No API key, no password.</strong></p>
       <figure>
-        <img class="shot" src="cowork-5-login-email.png" alt="Login-Seite von Agentic-Firmenbuch.at: E-Mail-Feld und Button Bestätigungslink senden" loading="lazy">
-        <figcaption>E-Mail eingeben → Bestätigungslink senden → Link in der E-Mail klicken.</figcaption>
+        <img class="shot" src="cowork-5-login-email.png" alt="Agentic-Firmenbuch.at login page: email field and Send confirmation link button" loading="lazy">
+        <figcaption>Enter email → Send confirmation link → click the link in the email.</figcaption>
       </figure>
     </section>
 
     <section class="step">
-      <h2><span class="n">✓</span> Testen</h2>
-      <p>In einem neuen Chat eine Frage stellen, z. B.
-         <em>„Bist du mit Agentic-Firmenbuch verbunden und welche Tools stehen dir zur Verfügung?“</em>
-         Nennt der Agent die Firmenbuch-Werkzeuge (Unternehmen suchen, Kennzahlen, Historie …),
-         ist die Verbindung aktiv.</p>
-      <a class="cta" href="index.html#start">Loslegen</a>
-      <div class="note"><strong>Lieber ein anderes Tool?</strong> Claude Code, VS Code,
-         Cursor &amp; Co. verbinden sich mit einem <strong>API-Key</strong> –
-         <a href="onboarding.html">hier entlang</a>.</div>
+      <h2><span class="n">✓</span> Test it</h2>
+      <p>Start a new chat and ask, for example,
+         <em>"Are you connected to Agentic-Firmenbuch and which tools are available?"</em>
+         If the agent lists the Firmenbuch tools (company search, key figures, history …),
+         the connection is live.</p>
+      <a class="cta" href="en.html#start">Get started</a>
+      <div class="note"><strong>Prefer a different tool?</strong> Claude Code, VS Code,
+         Cursor &amp; co. connect with an <strong>API key</strong> –
+         <a href="onboarding.en.html">this way</a>.</div>
     </section>
   </div>
 </main>
@@ -164,14 +161,15 @@
 <footer>
   <div class="wrap foot">
     <div class="foot-links">
-      <a href="index.html">Start</a>
-      <a href="onboarding.html">Verbinden</a>
-      <a href="felder.html">Datenfelder</a>
-      <a href="impressum.html">Impressum</a>
-      <a href="datenschutz.html">Datenschutz</a>
-      <a href="nutzungsbedingungen.html">Nutzungsbedingungen</a>
+      <a href="en.html">Home</a>
+      <a href="onboarding.en.html">Connect</a>
+      <a href="felder.en.html">Data fields</a>
+      <a href="impressum.en.html">Imprint</a>
+      <a href="datenschutz.en.html">Privacy</a>
+      <a href="nutzungsbedingungen.en.html">Terms of Service</a>
+      <a href="cowork.html" lang="de">DE</a>
     </div>
-    <small>© <span id="y"></span> Agentic-Firmenbuch.at · Österreichisches Firmenbuch / BMJ – Justiz, CC BY 4.0</small>
+    <small>© <span id="y"></span> Agentic-Firmenbuch.at · Austrian Firmenbuch / BMJ – Ministry of Justice, CC BY 4.0</small>
   </div>
 </footer>
 <script>document.getElementById("y").textContent=new Date().getFullYear();</script>

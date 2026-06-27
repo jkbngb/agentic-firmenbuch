@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="mask-icon" href="favicon.svg" color="#19C37D" />
+<title>Set up connection – Agentic-Firmenbuch.at</title>
+<meta name="description" content="Connected in minutes: set up Agentic-Firmenbuch.at as an MCP server in Claude Code, VS Code (Copilot Chat), or Cursor. Claude Cowork via one click (OAuth connector, no key)." />
+<link rel="canonical" href="https://www.agentic-firmenbuch.at/onboarding.en.html" />
+<link rel="alternate" hreflang="de" href="https://www.agentic-firmenbuch.at/onboarding.html" />
+<link rel="alternate" hreflang="en" href="https://www.agentic-firmenbuch.at/onboarding.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.agentic-firmenbuch.at/onboarding.html" />
+<meta name="robots" content="index,follow" />
+<meta name="theme-color" content="#0A0B0E" />
+<meta name="color-scheme" content="dark" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#0A0B0E;--surface:#14161B;--surface-2:#181B22;
+    --line:rgba(255,255,255,.08);--line-2:rgba(255,255,255,.13);
+    --text:#EDEFF3;--dim:#9AA2AF;--faint:#6B7280;--accent:#19C37D;--mint:#19C37D;
+    --r-sm:10px;--r-md:14px;--r-lg:20px;--maxw:820px;
+    --font-d:"Bricolage Grotesque",system-ui,sans-serif;
+    --font-b:"IBM Plex Sans",system-ui,sans-serif;
+    --font-m:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{font-family:var(--font-b);background:var(--ink);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(55% 35% at 50% -10%,rgba(25,195,125,.13),transparent 70%)}
+  a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+  .wrap{width:100%;max-width:1200px;margin-inline:auto;padding-inline:24px}
+  @media(max-width:560px){.wrap{padding-inline:18px}}
+  header{position:sticky;top:0;z-index:60;backdrop-filter:saturate(160%) blur(14px);background:rgba(10,11,14,.72);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:20px}
+  .brand{display:inline-flex;align-items:center;gap:11px;font-family:var(--font-d);font-weight:700;font-size:18px;letter-spacing:-.02em;color:var(--text)}
+  .mark{width:30px;height:30px;flex:none}
+  .back{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;font-weight:500;color:var(--dim);padding:9px 15px;border:1px solid var(--line-2);border-radius:var(--r-md);background:rgba(255,255,255,.04)}
+  .back:hover{color:var(--text);background:rgba(255,255,255,.08);text-decoration:none}.back svg{width:16px;height:16px}
+  main{padding-block:clamp(48px,8vw,92px) clamp(60px,9vw,110px)}
+  .doc{max-width:var(--maxw);margin-inline:auto}
+  .eyebrow{font-family:var(--font-m);font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  h1{font-family:var(--font-d);font-weight:700;font-size:clamp(2rem,5vw,3rem);letter-spacing:-.03em;line-height:1.05;margin:14px 0 12px}
+  .sub{color:var(--dim);font-size:1.05rem;max-width:64ch}
+  section.block{margin-top:40px}
+  h2{font-family:var(--font-d);font-weight:600;font-size:1.32rem;letter-spacing:-.02em;margin-bottom:13px;display:flex;align-items:baseline;gap:12px}
+  h2 .n{font-family:var(--font-m);font-size:.92rem;color:var(--accent);font-weight:500}
+  p{color:var(--dim);margin-bottom:12px}p strong{color:var(--text);font-weight:600}
+  ul{list-style:none;margin:6px 0 12px;display:flex;flex-direction:column;gap:9px}
+  li{color:var(--dim);padding-left:18px;position:relative}
+  li::before{content:"";position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.7}
+  .ph{font-family:var(--font-m);font-size:.92em;color:var(--mint);background:rgba(25,195,125,.08);border:1px solid rgba(25,195,125,.22);border-radius:6px;padding:1px 7px}
+  .codewrap{position:relative;margin:10px 0 4px}
+  pre{background:#0d0f14;border:1px solid var(--line);border-radius:var(--r-md);padding:16px 18px;overflow-x:auto}
+  code{font-family:var(--font-m);font-size:13px;color:#cfe9dc;line-height:1.7;white-space:pre}
+  .copy{position:absolute;top:9px;right:9px;font-family:var(--font-m);font-size:11px;color:var(--dim);background:var(--surface-2);
+    border:1px solid var(--line-2);border-radius:8px;padding:5px 9px;cursor:pointer}
+  .copy:hover{color:var(--text)}
+  .pill{font-family:var(--font-m);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);
+    border:1px solid var(--line-2);border-radius:999px;padding:3px 9px;background:rgba(25,195,125,.1)}
+  .soon{color:var(--faint);border-color:var(--line);background:transparent}
+  footer{border-top:1px solid var(--line);padding-block:34px 40px;margin-top:56px}
+  .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:center}
+  .foot-links{display:flex;gap:22px;flex-wrap:wrap}.foot-links a{color:var(--dim);font-size:14px}.foot-links a:hover{color:var(--text)}
+  .foot small{color:var(--faint);font-size:12.5px}
+
+  .lang-toggle{display:inline-flex;align-items:center;padding:7px 10px;border-radius:8px;font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--faint);border:1px solid var(--line);margin-right:8px;text-decoration:none}
+  .lang-toggle:hover{color:var(--text);background:rgba(255,255,255,.05)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="en.html" aria-label="Agentic-Firmenbuch.at – Home">
+      <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="1" y="1" width="30" height="30" rx="9" fill="#14161B" stroke="#19C37D" stroke-opacity=".5"/>
+        <rect x="8" y="8" width="7" height="7" rx="2" fill="#19C37D"/>
+        <rect x="17" y="8" width="7" height="7" rx="2" fill="#19C37D" fill-opacity=".4"/>
+        <rect x="8" y="17" width="7" height="7" rx="2" fill="#19C37D" fill-opacity=".4"/>
+        <rect x="17" y="17" width="7" height="7" rx="2" fill="#19C37D"/>
+      </svg>
+      <span><span style="color:#19C37D">Agentic</span>-Firmenbuch.at</span>
+    </a>
+    <a class="lang-toggle" href="onboarding.html" hreflang="de" lang="de" aria-label="Auf Deutsch ansehen">DE</a>
+
+    <a class="back" href="en.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+      Back to home
+    </a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap doc">
+    <span class="eyebrow">Guide</span>
+    <h1>Set up connection</h1>
+    <p class="sub">With an API key received by email, Agentic-Firmenbuch.at is connected to your AI tool
+       in minutes. In all examples, replace
+       <span class="ph">YOUR_API_KEY</span> with your own key.</p>
+
+    <section class="block">
+      <h2><span class="n">0</span> Prerequisite</h2>
+      <ul>
+        <li>An <strong>API key</strong> from the confirmation email. Don't have one yet?
+            <a href="en.html#start">Request one free here</a>.</li>
+        <li>Server address: <span class="ph">https://mcp.agentic-firmenbuch.at/mcp</span></li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">1</span> Claude Code <span class="pill">Terminal</span></h2>
+      <p>For Claude <strong>Code</strong> only (the terminal tool). For the <strong>desktop app</strong>,
+         use <strong>step&nbsp;2</strong> instead. One command, paste <strong>as a single line</strong>
+         (identical on macOS, Linux, Windows/PowerShell):</p>
+      <p style="font-size:.92em">Open a terminal: <strong>macOS</strong> → ⌘ + Space, type "Terminal" · <strong>Windows</strong> → Start menu, "PowerShell" · <strong>Linux</strong> → your terminal app.</p>
+      <div class="codewrap">
+        <button class="copy" type="button">Copy</button>
+        <pre><code>claude mcp add --scope user --transport http agentic-firmenbuch https://mcp.agentic-firmenbuch.at/mcp --header "X-API-Key: YOUR_API_KEY"</code></pre>
+      </div>
+      <p><strong>Test the connection:</strong> open a new chat and ask, for example: <em>"Are you connected to the Agentic-Firmenbuch server, and which tools does it expose?"</em> – if the agent lists the Firmenbuch tools (search companies, metrics, history, etc.), the connection is live.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">2</span> Other MCP clients <span class="pill">VS Code · Cursor · …</span></h2>
+      <p>Any MCP client that supports remote HTTP servers with header authentication –
+         <strong>VS Code</strong> (GitHub Copilot), <strong>Cursor</strong>, and others – connects with
+         the same two details:</p>
+      <ul>
+        <li>Address: <span class="ph">https://mcp.agentic-firmenbuch.at/mcp</span> · type <code>http</code></li>
+        <li>Header: <span class="ph">X-API-Key: YOUR_API_KEY</span></li>
+      </ul>
+      <p>The exact steps are in each tool's official docs:
+         <a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers" target="_blank" rel="noopener">VS Code (MCP)</a>
+         · <a href="https://cursor.com/docs/mcp" target="_blank" rel="noopener">Cursor (MCP)</a>. Usually as
+         an <code>mcp.json</code> entry:</p>
+      <div class="codewrap">
+        <button class="copy" type="button">Copy</button>
+        <pre><code>{
+  "mcpServers": {
+    "agentic-firmenbuch": {
+      "type": "http",
+      "url": "https://mcp.agentic-firmenbuch.at/mcp",
+      "headers": { "X-API-Key": "YOUR_API_KEY" }
+    }
+  }
+}</code></pre>
+      </div>
+      <p style="font-size:.92em;color:var(--faint)">Note: these clients are MCP-compliant; the exact
+         workflow follows each vendor's docs.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">3</span> Claude Cowork &amp; desktop app <span class="pill">one click · no key</span></h2>
+      <p>For the <strong>Claude desktop app</strong> (Chat &amp; Cowork tabs) no API key is needed –
+         the connection uses a connector with a one-time email sign-in. Illustrated
+         step-by-step guide (Settings → Connectors → connector with the address
+         <span class="ph">https://mcp.agentic-firmenbuch.at/mcp</span>):</p>
+      <p><a class="back" href="cowork.en.html" style="color:var(--accent)">Detailed guide with screenshots →</a></p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">4</span> Get started</h2>
+      <p>Sample questions you can ask right away:</p>
+      <ul>
+        <li>"Show me active GmbHs in Styria with total assets above 5 million euros."</li>
+        <li>"Which companies have been growing for years and have a high equity ratio?"</li>
+        <li>"Get me the balance-sheet metrics and the latest annual report for company XY."</li>
+      </ul>
+      <p>To try it without setup: <a href="playground.en.html">Playground</a>
+      and <a href="felder.en.html">Data fields</a>.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">5</span> Available tools (MCP tools)</h2>
+      <p>The server exposes these tools to the AI tool. The agent picks them based on the
+         question – you don't need to call them directly.</p>
+      <ul>
+        <li><strong>search_companies</strong> – filter companies (region, legal form, size class,
+            total assets, equity ratio, revenue, employees, growth, <strong>managing-director age</strong>) →
+            list of compact result cards.</li>
+        <li><strong>get_company_details</strong> – curated company profile for a Firmenbuch number.</li>
+        <li><strong>get_company_history</strong> – multi-year time series per metric (total assets,
+            equity ratio, etc.).</li>
+        <li><strong>get_full_record</strong> – full dataset including all balance-sheet positions
+            with their official UGB codes.</li>
+        <li><strong>get_document</strong> – reference/link to the original annual report.</li>
+        <li><strong>list_sectors</strong> – industry/size overviews with counts.</li>
+        <li><strong>get_cohort_summary</strong> – aggregate metrics for a cohort (e.g. all
+            GmbHs in Styria).</li>
+        <li><strong>find_peers</strong> – comparable companies by size class and total assets.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">6</span> What data is delivered</h2>
+      <p>Per company, structured and with provenance:</p>
+      <ul>
+        <li><strong>Identity</strong> – company name, Firmenbuch number, legal form, status
+            (active/historical/deleted).</li>
+        <li><strong>Location</strong> – federal state, registered seat, Firmenbuch court.</li>
+        <li><strong>Size</strong> – size class (micro/small/medium/large), total-assets band.</li>
+        <li><strong>Financials</strong> – balance-sheet and (where published) P&amp;L values, multi-year; each
+            position with its <strong>official UGB code</strong> (e.g. "§&nbsp;224 Abs&nbsp;2 A&nbsp;II").</li>
+        <li><strong>Metrics</strong> – equity ratio, leverage, coverage ratios, EBIT/EBITDA,
+            margins, ROE/ROA – computed, with history.</li>
+        <li><strong>Growth</strong> – profile (shrinking/stable/growing/fast-growing) + rates.</li>
+        <li><strong>Employees</strong> – where published.</li>
+        <li><strong>Management</strong> – name, role, type of representation, plus age
+            and year of birth (year only — no day/month, GDPR).</li>
+        <li><strong>Original documents &amp; provenance</strong> – list of annual reports + source and
+            license (CC&nbsp;BY&nbsp;4.0).</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">7</span> Data source, freshness &amp; privacy</h2>
+      <ul>
+        <li><strong>Source</strong> – Austrian Firmenbuch / JustizOnline (BMJ – Ministry of Justice),
+            used under <strong>CC&nbsp;BY&nbsp;4.0</strong>. Data without warranty.</li>
+        <li><strong>Freshness</strong> – continuously updated via the official change feeds.</li>
+        <li><strong>Privacy</strong> – <strong>no personal names</strong> are
+            delivered; for persons, only age/year of birth (year), role, and type of representation.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">8</span> Fair use &amp; managing your key</h2>
+      <ul>
+        <li>Free with a generous <strong>rate limit</strong> per key; more volume on request.</li>
+        <li>Lost or compromised key? <a href="en.html#start">Request a new key</a> –
+            the old one is invalidated immediately.</li>
+        <li>Treat the key like a password and don't share it
+            (<a href="nutzungsbedingungen.en.html">Terms of Service</a>).</li>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="foot-links">
+      <a href="en.html">Home</a>
+      <a href="playground.en.html">Playground</a>
+      <a href="impressum.en.html">Imprint</a>
+      <a href="datenschutz.en.html">Privacy</a>
+      <a href="nutzungsbedingungen.en.html">Terms of Service</a>
+    </div>
+    <small>© <span id="y"></span> Agentic-Firmenbuch.at · Austrian Firmenbuch / BMJ – Ministry of Justice, CC BY 4.0</small>
+  </div>
+</footer>
+<script>
+  document.getElementById("y").textContent=new Date().getFullYear();
+  document.querySelectorAll(".copy").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      var code=btn.parentElement.querySelector("code").innerText;
+      var ok=function(){btn.textContent="Copied";setTimeout(function(){btn.textContent="Copy";},1600);};
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(ok,ok);}
+      else{try{var t=document.createElement("textarea");t.value=code;document.body.appendChild(t);t.select();document.execCommand("copy");document.body.removeChild(t);ok();}catch(e){}}
+    });
+  });
+</script>
+</body>
+</html>
