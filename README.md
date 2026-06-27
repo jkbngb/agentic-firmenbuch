@@ -4,7 +4,7 @@
 
 **[Try the playground](https://www.agentic-firmenbuch.at/playground.html)** &nbsp;·&nbsp; **[Get a free key](https://www.agentic-firmenbuch.at)** &nbsp;·&nbsp; **[Quickstart ↓](#quickstart)**
 
-A live, automated data product over the Austrian **Firmenbuch** (free EU **HVD** / High Value Datasets), served through a **multi-tenant MCP server**. A deterministic Azure pipeline ingests every Jahresabschluss (annual financial statement) for the whole company universe (~200k+), consolidates per company, computes ratios/growth/trends, and exposes it to MCP clients. **Version 1** = facts + clean derivations only (no scoring, no third-party enrichment, no NACE, no AI summaries).
+A live, automated data product over the Austrian **Firmenbuch** (free EU **HVD** / High Value Datasets), served through a **multi-tenant MCP server**. A deterministic Azure pipeline pulls the published Jahresabschluss (annual financial statement) filings from the official register, parses them, consolidates per company, computes ratios/growth/trends, and serves the result to MCP clients. The whole register holds ~640k legal entities; the served slice is currently ~341k and grows as the backfill progresses. **Version 1** = facts + clean derivations only (no scoring, no third-party enrichment, no NACE, no AI summaries).
 
 ## Quickstart
 
@@ -38,7 +38,7 @@ Prefer to try before signing up? Use the **[playground](https://www.agentic-firm
 | `describe_fields` | Self-describing field dictionary with type + null-rules + EBIT/EBITDA definition. |
 | `get_document` | Fetch the URL/blob key for an original filed annual statement (XML or PDF). |
 
-All tools return data **straight from the official Austrian Firmenbuch** (BMJ – Justiz, CC BY 4.0). No web scraping, no LLM-generated summaries, no third-party enrichment in V1. Every response carries `provenance.data_version` + `built_at` so the agent can cite the source.
+All tools return a **processed derivative of official Austrian Firmenbuch data** (source: BMJ – Justiz, CC BY 4.0). Concretely: we ingest the published filings from the register, parse and consolidate them, compute ratios, and serve that from our own database — no web scraping, no LLM-generated summaries, no third-party data mixed in (V1). Every response carries `provenance.data_version` + `built_at` and names the original source, so the agent can attribute it correctly; for the authoritative record, the official Firmenbuch always governs.
 
 **Currently served**: ~341,000 active legal entities across all Rechtsformen (GmbH, AG, KG, OG, EU, Genossenschaft, Privatstiftung, SE …). The full register has ~640,000 entities; the gap is companies without a published Jahresabschluss plus inactive/deleted entries, which are added step by step.
 
