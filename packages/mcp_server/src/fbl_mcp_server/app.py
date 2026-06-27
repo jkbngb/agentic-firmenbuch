@@ -18,7 +18,9 @@ from mcp.server.fastmcp import Context, FastMCP
 from fbl_auth import (
     Account,
     check_rate_limit,
+    get_usage,
     quota_for,
+    record_metered_usage,
     record_usage,
     validate,
     validate_bearer,
@@ -57,7 +59,11 @@ class McpService:
         decision = check_rate_limit(account, per_min=per_min, per_day=per_day)
         if not decision.allowed:
             raise RateLimited(decision.reason or "rate limited")
-        record_usage(account, tool, self._cosmos)
+        record_usage(account, tool, self._cosmos)  # rolling counters (rate limit)
+        # Persistent daily-rollup meter (V2 §8). Best-effort: a metering write must
+        # never fail a tool call — the rate-limit counters above are authoritative.
+        with contextlib.suppress(Exception):
+            record_metered_usage(account, tool, self._cosmos)
         return account
 
     def search_companies(
@@ -116,6 +122,12 @@ class McpService:
         Served from the precomputed ``__stats__`` doc so it can't full-scan in-request."""
         self._authorize(token, "get_coverage")
         return service.coverage(self._cosmos)
+
+    def get_my_usage(self, token: str, window: str = "today") -> dict[str, Any]:
+        """The caller's own consumption over *window* (V2 §8.5). Reads only the key's
+        own usage docs; never exposes another user's data or the e-mail behind the key."""
+        account = self._authorize(token, "get_my_usage")
+        return dict(get_usage(self._cosmos, account.token_hash, window=window))
 
 
 def _http_credential(ctx: Any) -> tuple[str, str]:
@@ -568,6 +580,13 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
     def get_coverage(ctx: ToolContext) -> dict[str, Any]:
         """Internal coverage dashboard: XML vs PDF-only vs none, by format/status."""
         return svc.get_coverage(_http_token(ctx))
+
+    @mcp.tool()
+    def get_my_usage(ctx: ToolContext, window: str = "today") -> dict[str, Any]:
+        """Your own API-key usage: call count and weighted compute-units, broken down
+        per tool. window ∈ {today, yesterday, month_to_date, last_30_days, all}.
+        Returns only your own key's usage — no other user's data, no e-mail."""
+        return svc.get_my_usage(_http_token(ctx), window)
 
     return mcp
 
