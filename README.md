@@ -8,7 +8,7 @@ A live, automated data product over the Austrian **Firmenbuch** (free EU **HVD**
 
 ## Quickstart
 
-**Use the hosted service** – query official Firmenbuch data from an MCP client that accepts an HTTP header key (Claude Code, Microsoft Copilot in VS Code, Cursor, …):
+**Use the hosted service** – query official Firmenbuch data from an MCP client that accepts an HTTP header key (Claude Code, VS Code with GitHub Copilot, Cursor, …):
 
 1. Get a free API key at **[agentic-firmenbuch.at](https://www.agentic-firmenbuch.at)** – just a verified email.
 2. Add the server. **Claude Code** (terminal), one line:
@@ -23,6 +23,24 @@ A live, automated data product over the Austrian **Firmenbuch** (free EU **HVD**
 Prefer to try before signing up? Use the **[playground](https://www.agentic-firmenbuch.at/playground.html)**.
 
 **Or run the pipeline yourself** – clone, `uv sync`, `uv run pytest` (offline, no Azure). See [Develop](#develop).
+
+## Available MCP tools
+| Tool | Purpose |
+|---|---|
+| `search_companies` | Filter / rank Austrian companies by region, size, balance-sheet total, equity ratio, revenue, growth profile, management age, last filing year, status. Returns a compact result card per match. |
+| `get_company_details` | Full served profile of one company: identity, location, founding/filing years, size class, multi-year balance sheet + P&L, 13 computed ratios, growth, management, list of filings. |
+| `get_full_record` | Superset of `get_company_details`: full 317-position UGB taxonomy, passthrough unknown codes, completeness, GuV-years, signatories history, derivations registry. |
+| `get_company_history` | Filing-by-filing time series of every reported position for one company. |
+| `find_peers` | K-nearest peer set for a company within its size class / region. |
+| `get_cohort_summary` | Aggregate statistics (counts, percentiles, distributions) for a filtered cohort. |
+| `get_coverage` | Per-Bundesland / per-Rechtsform / per-size-class coverage statistics for the served dataset. |
+| `list_sectors` | Available legal-form (`Rechtsform`) and Bundesland codes for use in filters. |
+| `describe_fields` | Self-describing field dictionary with type + null-rules + EBIT/EBITDA definition. |
+| `get_document` | Fetch the URL/blob key for an original filed annual statement (XML or PDF). |
+
+All tools return data **straight from the official Austrian Firmenbuch** (BMJ – Justiz, CC BY 4.0). No web scraping, no LLM-generated summaries, no third-party enrichment in V1. Every response carries `provenance.data_version` + `built_at` so the agent can cite the source.
+
+**Currently served**: ~341,000 active legal entities across all Rechtsformen (GmbH, AG, KG, OG, EU, Genossenschaft, Privatstiftung, SE …). The full register has ~640,000 entities; the gap is companies without a published Jahresabschluss plus inactive/deleted entries, which are added step by step.
 
 ## Documentation
 | Doc | What it is |

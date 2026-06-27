@@ -1,0 +1,25 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.jkbngb/firmenbuch",
+  "title": "Austrian Firmenbuch",
+  "description": "Austria's official company register (Firmenbuch) – master data, financials & ratios for AI agents.",
+  "version": "1.0.0",
+  "repository": {
+    "url": "https://github.com/jkbngb/agentic-firmenbuch",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.agentic-firmenbuch.at/mcp",
+      "headers": [
+        {
+          "name": "X-API-Key",
+          "description": "Free API key from https://www.agentic-firmenbuch.at (request once with a verified email). Optional: clients with OAuth support can authenticate via the server's OAuth-protected-resource metadata instead.",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}
