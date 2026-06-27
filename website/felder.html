@@ -53,6 +53,8 @@
   li{color:var(--dim);padding-left:18px;position:relative}
   li::before{content:"";position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.7}
   code{font-family:var(--font-m);font-size:.9em;color:#cfe9dc;background:rgba(25,195,125,.07);border:1px solid rgba(25,195,125,.18);border-radius:5px;padding:1px 6px}
+  pre{font-family:var(--font-m);font-size:12.5px;line-height:1.55;color:#cfe9dc;background:#0d0f14;border:1px solid var(--line-2);border-radius:var(--r-md);padding:16px 18px;margin:10px 0 6px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  pre .ck{color:#7BE9BD}pre .cs{color:#19C37D}pre .cn{color:#FFB55E}pre .cc{color:#6B7280;font-style:italic}
   .tablewrap{overflow-x:auto;margin:10px 0 6px;border:1px solid var(--line);border-radius:var(--r-md)}
   table{border-collapse:collapse;width:100%;min-width:520px;font-size:14px}
   th,td{text-align:left;padding:9px 14px;border-bottom:1px solid var(--line);vertical-align:top}
@@ -124,7 +126,8 @@
       <a href="#voll">3 · Voller Datensatz</a>
       <a href="#filter">4 · Filter &amp; Sortierung</a>
       <a href="#codes">5 · Code-Tabellen</a>
-      <a href="#stand">6 · Stand &amp; Gewähr</a>
+      <a href="#beispiel">6 · Beispiel-Antwort</a>
+      <a href="#stand">7 · Stand &amp; Gewähr</a>
     </div>
 
     <section class="block" id="suche">
@@ -399,8 +402,141 @@
          <code>M</code> Mittel · <code>G</code> Groß.</p>
     </section>
 
+    <section class="block" id="beispiel">
+      <h2><span class="n">6</span> Beispiel-Antwort</h2>
+      <p>So sieht eine vollständige <code>get_company_details</code>-Antwort für ein fiktives
+         Beispielunternehmen aus (gekürzt; Zeitreihen sind exemplarisch). Felder mit
+         <code>null</code> bzw. leere Objekte/Listen sind ebenfalls Teil der Antwort und werden,
+         wo sinnvoll, mitgesendet, damit der Agent den Unterschied zwischen <em>„nicht
+         vorhanden"</em> und <em>„unbekannt"</em> auswerten kann.</p>
+      <p style="font-size:.94em;color:var(--faint)">Hinweis: alle Werte unten sind <strong>frei
+         erfunden</strong> und dienen ausschließlich der Darstellung der Struktur.</p>
+<pre><span class="cc">// Antwort-Umschlag</span>
+<span class="ck">"schema_version"</span>: <span class="cs">"1.0"</span>,
+<span class="ck">"data_version"</span>: <span class="cs">"2026-06-27"</span>,
+<span class="ck">"provenance"</span>: {
+  <span class="ck">"source"</span>:        <span class="cs">"Österreichisches Firmenbuch / BMJ – Justiz"</span>,
+  <span class="ck">"license"</span>:       <span class="cs">"CC BY 4.0"</span>,
+  <span class="ck">"data_version"</span>:  <span class="cs">"2026-06-27"</span>,
+  <span class="ck">"schema_version"</span>: <span class="cs">"1.0"</span>,
+  <span class="ck">"built_at"</span>:      <span class="cs">"2026-06-27T07:32:14Z"</span>
+},
+<span class="ck">"result"</span>: {
+  <span class="ck">"identity"</span>: {
+    <span class="ck">"fnr"</span>:         <span class="cs">"999999x"</span>,
+    <span class="ck">"register_id"</span>: <span class="cs">"AT_999999x"</span>,
+    <span class="ck">"name"</span>:        <span class="cs">"Beispiel Industrie GmbH"</span>,
+    <span class="ck">"legal_form"</span>:  <span class="cs">"GES"</span>,           <span class="cc">// Code → Label "GmbH" (siehe §5)</span>
+    <span class="ck">"status"</span>:      <span class="cs">"active"</span>,
+    <span class="ck">"court"</span>:       <span class="cn">null</span>
+  },
+  <span class="ck">"location"</span>: {
+    <span class="ck">"country"</span>:     <span class="cs">"AUT"</span>,
+    <span class="ck">"bundesland"</span>:  <span class="cs">"O"</span>,             <span class="cc">// Oberösterreich</span>
+    <span class="ck">"city"</span>:        <span class="cs">"Linz"</span>,
+    <span class="ck">"postal_code"</span>: <span class="cs">"4020"</span>,
+    <span class="ck">"street"</span>:      <span class="cn">null</span>
+  },
+  <span class="ck">"company"</span>: {
+    <span class="ck">"stammkapital"</span>:           <span class="cn">35000</span>,
+    <span class="ck">"first_filing_year"</span>:      <span class="cn">2014</span>,
+    <span class="ck">"last_filing_year"</span>:       <span class="cn">2024</span>,
+    <span class="ck">"filing_years_available"</span>: <span class="cn">11</span>,
+    <span class="ck">"founded_year"</span>:           <span class="cn">2013</span>,
+    <span class="ck">"founded_source"</span>:         <span class="cs">"first_filing-1"</span>,
+    <span class="ck">"description"</span>:            <span class="cn">null</span>
+  },
+  <span class="ck">"size"</span>: {
+    <span class="ck">"gkl"</span>:               <span class="cs">"M"</span>,           <span class="cc">// Mittel</span>
+    <span class="ck">"bilanzsumme_band"</span>:  <span class="cs">"large"</span>,
+    <span class="ck">"peer_percentiles"</span>: {
+      <span class="ck">"bilanzsumme"</span>:    <span class="cn">82.4</span>,
+      <span class="ck">"equity_ratio"</span>:   <span class="cn">71.3</span>,
+      <span class="ck">"revenue"</span>:        <span class="cn">68.9</span>
+    }
+  },
+  <span class="ck">"financials"</span>: {
+    <span class="ck">"latest_year"</span>:     <span class="cn">2024</span>,
+    <span class="ck">"has_guv_latest"</span>:  <span class="cn">true</span>,
+    <span class="ck">"revenue_basis"</span>:   <span class="cs">"umsatzerloese"</span>,
+    <span class="ck">"latest"</span>: {
+      <span class="ck">"bilanzsumme"</span>:    <span class="cn">12450000</span>,
+      <span class="ck">"eigenkapital"</span>:   <span class="cn">5230000</span>,
+      <span class="ck">"umsatzerloese"</span>:  <span class="cn">18900000</span>,
+      <span class="ck">"ebit"</span>:           <span class="cn">1430000</span>,
+      <span class="ck">"ebitda"</span>:         <span class="cn">2210000</span>,
+      <span class="ck">"jahresueberschuss"</span>: <span class="cn">980000</span>
+    },
+    <span class="ck">"bilanz"</span>: {
+      <span class="ck">"bilanzsumme"</span>: {
+        <span class="ck">"latest"</span>:      <span class="cn">12450000</span>,
+        <span class="ck">"latest_year"</span>: <span class="cn">2024</span>,
+        <span class="ck">"history"</span>:     { <span class="cs">"2022"</span>: <span class="cn">10840000</span>, <span class="cs">"2023"</span>: <span class="cn">11620000</span>, <span class="cs">"2024"</span>: <span class="cn">12450000</span> }
+      },
+      <span class="ck">"eigenkapital"</span>:    { <span class="ck">"latest"</span>: <span class="cn">5230000</span>,  <span class="ck">"history"</span>: { <span class="cs">"2022"</span>: <span class="cn">4380000</span>, <span class="cs">"2023"</span>: <span class="cn">4790000</span>, <span class="cs">"2024"</span>: <span class="cn">5230000</span> } }
+      <span class="cc">// … weitere Bilanzpositionen (verbindlichkeiten, anlagevermoegen, vorraete, cash, …)</span>
+    },
+    <span class="ck">"guv"</span>: {
+      <span class="ck">"umsatzerloese"</span>:  { <span class="ck">"latest"</span>: <span class="cn">18900000</span>, <span class="ck">"history"</span>: { <span class="cs">"2022"</span>: <span class="cn">16200000</span>, <span class="cs">"2023"</span>: <span class="cn">17550000</span>, <span class="cs">"2024"</span>: <span class="cn">18900000</span> } },
+      <span class="ck">"ebit"</span>:           { <span class="ck">"latest"</span>: <span class="cn">1430000</span>,  <span class="ck">"history"</span>: { <span class="cs">"2022"</span>: <span class="cn">1180000</span>, <span class="cs">"2023"</span>: <span class="cn">1290000</span>, <span class="cs">"2024"</span>: <span class="cn">1430000</span> } }
+      <span class="cc">// … materialaufwand, personalaufwand, abschreibungen, jahresueberschuss, …</span>
+    }
+  },
+  <span class="ck">"ratios"</span>: {
+    <span class="ck">"equity_ratio"</span>: {
+      <span class="ck">"latest"</span>:        <span class="cn">0.42</span>,
+      <span class="ck">"latest_year"</span>:   <span class="cn">2024</span>,
+      <span class="ck">"history"</span>:       { <span class="cs">"2022"</span>: <span class="cn">0.404</span>, <span class="cs">"2023"</span>: <span class="cn">0.412</span>, <span class="cs">"2024"</span>: <span class="cn">0.42</span> },
+      <span class="ck">"avg_3y"</span>:        <span class="cn">0.412</span>,
+      <span class="ck">"min_5y"</span>:        <span class="cn">0.39</span>,
+      <span class="ck">"max_5y"</span>:        <span class="cn">0.42</span>,
+      <span class="ck">"trend"</span>:         <span class="cs">"rising"</span>,
+      <span class="ck">"growth_1y"</span>:     <span class="cn">0.019</span>,
+      <span class="ck">"growth_3y_cagr"</span>: <span class="cn">0.021</span>
+    },
+    <span class="ck">"ebit_margin"</span>:  { <span class="ck">"latest"</span>: <span class="cn">0.076</span>, <span class="ck">"trend"</span>: <span class="cs">"stable"</span> }
+    <span class="cc">// … debt_ratio, debt_to_equity, working_capital_ratio, anlagedeckungsgrad_1,</span>
+    <span class="cc">//    ebitda_margin, net_margin, personalkostenquote, materialaufwandsquote,</span>
+    <span class="cc">//    roa, roe, capital_profile</span>
+  },
+  <span class="ck">"growth"</span>: {
+    <span class="ck">"profile"</span>: <span class="cs">"growing"</span>,
+    <span class="ck">"method"</span>:  <span class="cs">"revenue_3y_cagr"</span>
+  },
+  <span class="ck">"employees"</span>: <span class="cn">null</span>,                  <span class="cc">// im Firmenbuch nur lückenhaft</span>
+  <span class="ck">"management"</span>: {
+    <span class="ck">"n_signatories_latest"</span>:    <span class="cn">2</span>,
+    <span class="ck">"signatories_stable_years"</span>: <span class="cn">4</span>,
+    <span class="ck">"primary_manager"</span>: {
+      <span class="ck">"age"</span>:         <span class="cn">52</span>,
+      <span class="ck">"birth_year"</span>:  <span class="cn">1974</span>,            <span class="cc">// nur Jahr (DSGVO)</span>
+      <span class="ck">"role_label"</span>:  <span class="cs">"GESCHÄFTSFÜHRER/IN (handelsrechtlich)"</span>,
+      <span class="ck">"vertretung"</span>:  <span class="cs">"selbständig"</span>
+    }
+  },
+  <span class="ck">"filings"</span>: [
+    {
+      <span class="ck">"stichtag"</span>:     <span class="cs">"2024-12-31"</span>,
+      <span class="ck">"format"</span>:       <span class="cs">"jab40_semantic"</span>,
+      <span class="ck">"parsed"</span>:       <span class="cn">true</span>,
+      <span class="ck">"gkl"</span>:          <span class="cs">"M"</span>,
+      <span class="ck">"eingereicht"</span>:  <span class="cs">"2025-08-12"</span>,
+      <span class="ck">"document_url"</span>: <span class="cs">"https://justizonline.gv.at/…"</span>,
+      <span class="ck">"pdf_doc_key"</span>:  <span class="cn">null</span>
+    }
+    <span class="cc">// … ältere Abschlüsse, sortiert nach stichtag absteigend</span>
+  ],
+  <span class="ck">"events"</span>: []
+}</pre>
+      <p style="font-size:.94em;color:var(--faint)">In der Suchkarte (<code>search_companies</code>)
+         sind bereits Codes als Labels aufgelöst (z. B. <code>legal_form: "GmbH"</code>,
+         <code>bundesland: "Oberösterreich"</code>). Im vollständigen Profil und im
+         <code>get_full_record</code> stehen die Roh-Codes — die Tabellen oben in §5 erklären
+         die Auflösung.</p>
+    </section>
+
     <section class="block" id="stand">
-      <h2><span class="n">6</span> Stand &amp; Gewähr</h2>
+      <h2><span class="n">7</span> Stand &amp; Gewähr</h2>
       <p>Jede Antwort trägt <code>provenance.data_version</code> und <code>built_at</code>
          (Erstellungszeit der ausgelieferten Daten). Die Daten stammen aus dem
          <strong>österreichischen Firmenbuch</strong> (BMJ – Justiz, EU High Value Dataset,
