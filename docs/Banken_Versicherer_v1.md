@@ -41,7 +41,57 @@
 
 ---
 
-## 1. Current state (audited 2026-06-27)
+## 1. Current state (audited 2026-06-27, **verified against live JustizOnline API**)
+
+### 1.0 Corrections to earlier "audit"
+
+The first pass of this audit only counted blobs we'd downloaded. That was misleading
+because **we hadn't actually called `sucheUrkunde` for most of the big banks/insurers**
+(see §1.3 below — `last_filing_check_at = None` for Erste / UniCredit / UNIQA Insurance
+Group). The corrected numbers come from a live API call on 2026-06-27:
+
+| Entity | FN | JA filings (live API) | by extension |
+|---|---|---:|---|
+| Erste Group Bank AG | `033209m` | 21 | **pdf=21** |
+| Raiffeisen Bank Intl AG | `122119m` | 21 | pdf=20, **zip=1** (ESEF) |
+| UniCredit Bank Austria AG | `150714p` | 17 | **pdf=17** |
+| Volksbank Wien AG | `211524s` | 16 | pdf=14, **zip=2** (ESEF) |
+| BAWAG Group AG | `269842b` | 29 | pdf=20, **xml=9** |
+| UNIQA Insurance Group AG | `092933t` | 21 | **pdf=21** |
+| UNIQA Österreich Vers. AG | `063197m` | 8 | **pdf=8** |
+| VIENNA INSURANCE GROUP AG | `075687f` | 10 | **pdf=10** |
+| WIENER STÄDTISCHE VAG | `333376i` | 13 | **pdf=13** |
+| DONAU Versicherung AG | `032002m` | 13 | **pdf=13** |
+| Allianz Elementar Vers. AG | `034004g` | 16 | **pdf=16** |
+| Generali Versicherung AG | `038641a` | 20 | pdf=19, **xml=1** |
+
+**Two distinct problems are visible here, not one:**
+
+**Problem A — file format.** Every *currently operating* licensed bank and insurer
+files **PDF only** at the Firmenbuch. The ESEF ZIPs (RBI 2024, Volksbank Wien recent
+years) are the parallel iXBRL filings required of listed issuers under the EU
+Transparency Directive — they exist *in addition* to the PDF, not as a replacement.
+The few XMLs:
+
+- **BAWAG Group AG's 9 XMLs** are 2007-2015 filings from the predecessor entity
+  ("BAWAG Holding GmbH"), back when it was a regular GmbH filing under UGB §231.
+  After the rename to BAWAG Group AG and the change to a banking-group holding,
+  all filings are PDF. Inspection of the 2015 XML confirms `<HGBFORM>UGB23</HGBFORM>`
+  and zero POS/WERT elements (it's an abbreviated UGB filing for a then-small
+  holding company, not BWG schema).
+- **Generali's 2007 XML** is a stub `<HGBFORM>JABPDF</HGBFORM><GRUND>VERS</GRUND>`
+  — the XML is a metadata wrapper around the actual PDF.
+
+So **for operating regulated banks/insurers there is no structured XML alternative
+in the Firmenbuch, full stop**. This is by design (see §2.2).
+
+**Problem B — ingest gap.** The blobs/registry were empty for Erste / UniCredit /
+UNIQA Insurance because **our ingest pipeline never ran `sucheUrkunde` for them**.
+This is a separate bug from §10 below — fixable without any FI-specific work, by
+re-running the per-FN filing-list refresh on these entities. Value of fixing it:
+even with PDF-only filings, we can serve filing dates + the PDF doc_key link
+("Erste Group Bank filed for FY2024, [open PDF on JustizOnline]"), which is real
+value an MCP user wants.
 
 ### 1.1 Registry has all the entities — financials are empty
 
