@@ -23,17 +23,19 @@ def _asgi_client(cosmos: InMemoryCosmosStore | None = None) -> TestClient:
     return TestClient(build_asgi_app(cosmos or InMemoryCosmosStore(), Settings()))
 
 
-def test_unauthenticated_mcp_request_triggers_oauth_discovery() -> None:
-    # The whole reason Cowork/claude.ai couldn't connect: a no-credential /mcp call must
-    # return 401 + WWW-Authenticate pointing at the protected-resource metadata (RFC 9728).
+def test_unauthenticated_data_call_triggers_oauth_discovery() -> None:
+    # A no-credential *data* call (tools/call) must return 401 + WWW-Authenticate pointing at
+    # the protected-resource metadata (RFC 9728) — this is what triggers OAuth discovery for
+    # Cowork/claude.ai. (The challenge is deferred from connect-time to the first real call;
+    # discovery methods like initialize/tools-list are now allowed anonymously, below.)
     r = _asgi_client().post(
         "/mcp",
         content=json.dumps(
             {
                 "jsonrpc": "2.0",
                 "id": 1,
-                "method": "initialize",
-                "params": {"protocolVersion": "2025-03-26", "capabilities": {}, "clientInfo": {}},
+                "method": "tools/call",
+                "params": {"name": "search_companies", "arguments": {}},
             }
         ),
         headers={
@@ -46,6 +48,33 @@ def test_unauthenticated_mcp_request_triggers_oauth_discovery() -> None:
     assert www.startswith("Bearer ")
     assert "resource_metadata=" in www
     assert "/.well-known/oauth-protected-resource/mcp" in www
+
+
+def test_anonymous_discovery_is_allowed() -> None:
+    # Directory health checks (Glama etc.) and "preview the tools before connecting" must
+    # work without a key: a no-credential initialize / tools/list passes the wrapper (the
+    # tool *catalog* is already fully public; only tools/call exposes data and stays gated).
+    for method in ("initialize", "tools/list"):
+        with _asgi_client() as client:
+            r = client.post(
+                "/mcp",
+                content=json.dumps({"jsonrpc": "2.0", "id": 1, "method": method, "params": {}}),
+                headers={
+                    "content-type": "application/json",
+                    "accept": "application/json, text/event-stream",
+                },
+            )
+        assert r.status_code != 401, f"{method} must not be challenged"
+
+
+def test_unauthenticated_malformed_body_is_challenged() -> None:
+    # Safe-by-default: an unparseable / non-discovery no-credential POST is still challenged.
+    r = _asgi_client().post(
+        "/mcp",
+        content=b"not json",
+        headers={"content-type": "application/json", "accept": "application/json"},
+    )
+    assert r.status_code == 401
 
 
 def test_api_key_request_is_not_challenged() -> None:
