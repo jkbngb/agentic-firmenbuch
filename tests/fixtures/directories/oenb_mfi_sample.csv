@@ -1,0 +1,13 @@
+31.05.2026
+;Veränderungen zum Vormonat
+;Neuzugang
+;Institut;RIAD-Code;IdentNr
+;Poso Bank AG;AT0000324647971;32464797
+;Abgang
+;Posojilnica Bank eGen;AT0000001148202;114820
+
+Nr.;Institut;RIAD-Code;OeNB-IdentNr;FB-Nr;E-VGR;Institutsart;MR-Pflichtig;MR-Ausnahme;LEI
+1;BAWAG P.S.K. Bank fuer Arbeit und Wirtschaft AG;AT0000000537678;53767;205340x;1220A;C;Yes;No;529900ICA8XQYGIKR372
+2;Oberbank AG;AT0000000548014;54801;79063w;1220A;C;Yes;No;RRUN0TCQ1K2JDV7MXO75
+3;Schoellerbank Aktiengesellschaft;AT0000000550424;55042;103232m;1220A;C;Yes;No;529900ESWL1AEC189F69
+4;Oesterreichische Nationalbank;AT0000000000001;00001;;1100A;A;No;Yes;
