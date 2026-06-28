@@ -1,47 +1,148 @@
-# Roadmap & backlog
+# Roadmap & Status — agentic-firmenbuch
 
-Public, living backlog for **agentic-firmenbuch**. The core pipeline (ingest → parse →
-consolidate → derive → present) and the MCP serving layer are in production; the items
-below are post-baseline hardening and coverage work. Each line is tracked as a GitHub
-issue — see the [issue tracker](https://github.com/jkbngb/agentic-firmenbuch/issues).
+> Single source of truth for where the product stands and what's next.
+> Last updated: 2026-06-28. Numbers are live from production Cosmos.
 
-## Status
+---
 
-- **Data integrity:** independently audited — nothing lost and every field correctly
-  mapped across ~15k line-item mappings, zero defects. The transform is trustworthy.
-- **Serving layer:** OAuth connect/refresh fixed (expired tokens now trigger a silent
-  refresh instead of a permanent disconnect). All legal forms (GmbH, AG, KG, OG, …) are
-  served with financials.
+## Wo wir stehen (Live-Fakten, 2026-06-28)
 
-## Backlog
+| | Stand |
+|---|---|
+| **Im MCP-Server ausgeliefert (Layer 10)** | **341.196 Firmen** |
+| davon mit Finanzkennzahlen (≥1 Abschluss) | 204.917 |
+| Im Register insgesamt bekannt | 642.588 |
+| Filing-Check gelaufen (Abschlussliste geholt) | 205.298 (32 %) |
+| **Noch nie Filing-Check** | **437.290 (68 %)** |
+| Datenaktualität | **täglich** — Registry gestern gesweept, Filing-Check lief heute 03:50 UTC |
+| MCP-Server | live, OAuth + API-Key, **Usage-Metering aktiv** (pro Key) |
+| Verzeichnisse | offizielles MCP-Registry ✅, mcp.so eingereicht, Glama gelistet |
 
-### Data freshness & coverage
-- **Stabilise the scheduled daily delta run.** The change-feed delta job is enabled
-  (`0 3 * * *`) and succeeds on retry, but the 03:00 scheduled run is flaky and emits
-  failure alerts. Diagnose the scheduled-run failure and make it pass first-try.
-- **Expand served coverage toward the full register.** ~341k of ~640k registered
-  entities are presented; complete the backfill for companies with published accounts
-  that are not yet processed (resumable per-Rechtsform run).
-- **Include inactive/deleted (`gelöscht`) companies** or confirm the active-only scope is
-  intentional; the status-only refresh path is currently unexercised in production.
+**Kurz:** Die Kern-Pipeline läuft und ist aktuell (täglicher Lauf). Das Produkt
+funktioniert. Die größte Lücke ist **Abdeckung**: erst ein Drittel der Firmen hat
+überhaupt einen Filing-Check.
 
-### Pipeline robustness
-- **Harden `urkunde` download for large multi-MB filings.** Large documents return
-  `http 200` then fail after retries, dropping big filers to PDF-only on re-ingest/replay.
-  Add streaming + better retry so completeness doesn't degrade over time.
-- **Verify the `firmenbuch_2025` parse variant on live data.** It passes on fixtures but
-  has not been seen in any live filing — confirm it does not occur, or source a real
-  sample and add it to live validation.
+---
 
-### Metrics
-- **Expose `betriebserfolg` under its own name and (optionally) a strict EBIT.** Today
-  `ebit` is the UGB operating result (Betriebserfolg, excludes the financial result) — a
-  common approximation, documented in the FAQ / Datenfelder / `describe_fields`. Surface
-  the operating result under its correct name and optionally compute strict EBIT
-  (pre-tax result + interest) where the GuV positions allow, so consumers can choose.
+## Sind die Daten aktuell?
 
-### Cleanup (done in the baseline-hardening pass)
-- ✅ Birth-data privacy invariant guarded in CI (year only; never month/day).
-- ✅ Latent `Taxonomy.by_canonical()` crash fixed (`@lru_cache` over a Pydantic model).
-- ✅ The two latent taxonomy code collisions pinned by a regression test (resolution is
-  first-by-appendix-order; the appendix stays byte-identical to the official docs).
+**Ja.** Der Filing-Check-Job lief heute um 03:50 UTC, die Registry-Sweep gestern.
+Neue Abschlüsse fließen täglich nach. **Aber:** „aktuell" heißt nicht „vollständig" —
+68 % der Firmen wurden noch nie auf Abschlüsse geprüft (siehe Ingest-Gap). Eine Firma,
+die du heute abfragst, kann „keine Daten" liefern, obwohl sie Abschlüsse hat — einfach
+weil ihr Filing-Check noch aussteht.
+
+---
+
+## P1 — Ingest-Gap schließen (höchste Priorität, kein neuer Datentyp)
+
+Größter Conversion-Killer: Interessent fragt echte Firma ab → „keine Daten" → springt ab.
+Zwei Teil-Probleme, beide generisch (helfen allen Firmen):
+
+1. **Backfill der 437k „nie geprüft".** Der Filing-Check-Job arbeitet die Warteschlange
+   ab, aber langsam (32 % in mehreren Wochen). → Durchsatz erhöhen / priorisieren
+   (große, aktive, kürzlich gesehene Firmen zuerst).
+2. **Großdatei-Download-Bug** (`urkunde failed … http 200`). 38 % der großen Dateien
+   (Banken/Versicherer-PDFs) scheitern. → Timeout hoch, Streaming, bessere Retry-Logik;
+   danach die ~5.800 dead-letter-Firmen erneut durchschieben. Code:
+   `packages/firmenbuch_client/src/fbl_firmenbuch_client/soap_client.py:_post`.
+
+**Blocker:** keine. Reine Pipeline-Arbeit. **Wirkung:** das Produkt fühlt sich
+„vollständig" an. Größter Hebel überhaupt.
+
+---
+
+## P2 — Banken & Versicherer (eigenes Bilanzschema BWG/VAG)
+
+**Kann man hier schon starten? Nein.** Ehrliche Antwort, zwei Gründe:
+
+### Sind alle Finanzfirmen in Layer 90? Nein.
+
+- Die großen (Erste Group, UniCredit, UNIQA Insurance, Wiener Städtische) wurden
+  **noch nie filing-checked** → **gar nichts in Layer 90**.
+- Andere (RBI, VIG) haben die Abschlussliste, aber der **Download ist gescheitert**
+  (Großdatei-Bug, P1.2) → teilweise/nichts in Layer 90.
+- Praktisch **alle echten Banken/Versicherer** haben entweder gar keine Rohdaten oder
+  nur unvollständige. Sie kommen erst rein, wenn P1 läuft.
+
+### Selbst in Layer 90 — verarbeitbar? Nein.
+
+Aus der 64-Datei-Analyse (`docs/V2_Spezifikation.md` §2):
+- **100 % PDF** (kein strukturiertes BWG/VAG-XML existiert).
+- **71 % der PDFs sind gescannte Bilder** → OCR nötig.
+- Anderes Bilanzschema (BWG §§43-58 / VAG §§136-167) → unsere UGB-Pipeline parst sie nicht.
+
+### Reihenfolge (aus V2-Spec):
+1. **`is_financial_institution`-Flag** (~3 Tage) — Banken/Versicherer markieren, damit der
+   Agent keine UGB-Kennzahlen draufrechnet. **Wertvoll auch ohne Finanzdaten.** Erster Schritt.
+2. ESEF/iXBRL-Parser (börsennotierte, ~12 Firmen) — saubere IFRS-Daten.
+3. EBA Pillar-3 (Banken: CET1/NPL/LCR) + SFCR/QRT (Versicherer: Combined Ratio/SCR).
+4. PDF-Extraktion (BWG/VAG) inkl. OCR für die 71 % gescannten.
+
+**Blocker:** P1 zuerst (sonst sind die Firmen nicht da). Dann ist Schritt 1 schnell;
+2-4 sind echte Wochen-Projekte.
+
+---
+
+## P3 — GISA-Anbindung (Gewerberegister) ← bald gewünscht
+
+**Was ist GISA?** Das österreichische **Gewerbeinformationssystem** (BMAW). Sagt,
+**welche Gewerbeberechtigungen** eine Firma hat (Baumeister, Handel, Gastgewerbe …) —
+faktisch „**was die Firma tun darf**". Der **fehlende Tätigkeits-/Branchen-Datenpunkt**
+(NACE haben wir nicht — Gewerbe ist das österreichische Äquivalent).
+
+**Warum es perfekt passt:** Methode **`SearchPersonJur` sucht nach Firmenbuchnummer** →
+Gewerbe lassen sich **direkt an unsere Firmen anhängen** (Join über FN).
+
+**Technik** (aus den Doku-PDFs, Stand V2/2022):
+- SOAP oder REST/XML: `https://www.gisa.gv.at/gisa-svc-public/GisaPublicV2.svc/xml`
+- Methoden: `SearchPersonJur` (per FN/Name) → `GetGewerbeV2` (Detail-XML + amtssignierter
+  PDF-Auszug) · `GetVKR` (ausländische Versicherungs-/Kreditvermittler) · Katalog-Methoden.
+- Rate-Limit: GetGewerbeV2/GetVKR 200/min pro Key; Auszüge 10/min.
+- **Blocker:** **API-Key per Bürgerkarte beantragen, jährlich verlängern**
+  (https://www.gisa.gv.at/sst-Neuausstellung). **Muss der Inhaber machen.** Einziger
+  echter GISA-Blocker.
+
+**Plan, sobald Key da:**
+- Neuer Adapter `gisa_client` (analog `firmenbuch_client`) + Container `40_gewerbe` (per FN).
+- Im Consolidate per FN joinen → `gewerbe[]` im Datensatz.
+- MCP: Feld `gewerbe` + Suchfilter (z. B. „alle Baumeister-GmbHs in Tirol"), Tool
+  `get_gewerbe(fnr)`.
+- **Wert:** sehr hoch — endlich eine Tätigkeits-/Branchensuche, die das Firmenbuch nicht bietet.
+
+---
+
+## P4 — Ediktsdatei-Anbindung (Insolvenzen & Gerichtsedikte) ← bald gewünscht
+
+**Was ist das?** Die **Ediktsdatei der Justiz** (edikte.justiz.gv.at) — amtliche
+Bekanntmachungen: **Insolvenzen, Konkurse, Sanierungsverfahren, Versteigerungen**. Der
+**Risiko-/Bonitäts-Datenpunkt**: „Ist über diese Firma ein Insolvenzverfahren offen?"
+
+**Status:** Noch nicht recherchiert. Vor dem Bau braucht es einen Recherche-Durchgang
+(offene API/HVD? oder nur Web-Suche/Scraping? Format? Join über FN?). **To-do:** kurze
+technische Recherche, dann Bau-Spec. **Wert:** sehr hoch für M&A/KYC/Vertrieb.
+
+---
+
+## P5 — Kleinere offene Punkte
+
+- Großdatei-`urkunde`-Download härten (= P1.2).
+- Geplanten 03:00-Delta-Lauf stabilisieren (läuft auf Retry, erste Ausführung flaky).
+- Inaktive/gelöschte Firmen aufnehmen oder „nur aktiv" bewusst bestätigen.
+- `betriebserfolg` unter eigenem Namen ausweisen (+ optional striktes EBIT).
+- `__stats__`-Refresh automatisieren (materialisierte Sicht für `get_coverage`).
+- `firmenbuch_2025`-Parse-Variante an Live-Daten bestätigen.
+
+---
+
+## Empfohlene Reihenfolge
+
+1. **P1 Ingest-Gap** — größter Hebel, kein Blocker, sofort. (Durchsatz: Tage–Wochen.)
+2. **P2 Schritt 1: FI-Flag** — schnell (~3 Tage), verhindert Blamage bei Banken.
+3. **P3 GISA** — sobald der Bürgerkarte-Key da ist (→ jetzt beantragen anstoßen!).
+4. **P4 Ediktsdatei** — erst Recherche, dann Bau.
+5. P2 Schritt 2-4 (echte Bank/Versicherer-Finanzdaten) — größtes Projekt, später.
+6. P5 Kleinkram nebenbei.
+
+**Dein einziger Hand-Blocker:** den **GISA-API-Key per Bürgerkarte beantragen**
+(https://www.gisa.gv.at/sst-Neuausstellung) — nur der Inhaber kann das. Alles andere baue ich.
