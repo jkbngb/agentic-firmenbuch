@@ -216,15 +216,28 @@ def test_financial_institution_flag_and_caveat() -> None:
     cosmos.upsert(
         PRESENTED,
         _presented(
-            "012345a", name="Volksbank Niederösterreich AG", legal_form="AG", bundesland="N",
-            gkl="K", bilanzsumme=0.0, has_guv_latest=False, equity_ratio=0.0, profile="stable",
+            "012345a",
+            name="Volksbank Niederösterreich AG",
+            legal_form="AG",
+            bundesland="N",
+            gkl="K",
+            bilanzsumme=0.0,
+            has_guv_latest=False,
+            equity_ratio=0.0,
+            profile="stable",
         ),
     )
     cosmos.upsert(
         PRESENTED,
         _presented(
-            "067890b", name="Tischlerei Huber GmbH", bundesland="W", gkl="K",
-            bilanzsumme=500000.0, has_guv_latest=True, equity_ratio=0.4, profile="growing",
+            "067890b",
+            name="Tischlerei Huber GmbH",
+            bundesland="W",
+            gkl="K",
+            bilanzsumme=500000.0,
+            has_guv_latest=True,
+            equity_ratio=0.4,
+            profile="growing",
         ),
     )
     token = signup("u@example.test", cosmos).token
