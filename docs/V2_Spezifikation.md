@@ -1,13 +1,22 @@
-# Version 2 — Technical & Functional Specification
+# Version 2 — Design & Build Spec (forward-looking)
 
-> One consolidated build spec for the next iteration. Each chapter is a
-> self-contained, buildable work-package. Supporting deep-dive research (with
-> external-source citations) lives in [`docs/research/`](research/).
+> The detailed design record for the next iteration, backing the
+> [root `ROADMAP.md`](../ROADMAP.md) (which is the lightweight, prioritised
+> index). Each chapter is a self-contained, buildable work-package. Supporting
+> deep-dive research (with external-source citations) lives in
+> [`docs/research/`](research/).
 >
-> Status: **design + evidence**, not implemented. Everything here is backed by
-> a live audit of the production Azure data and a hands-on analysis of **64
-> real bank/insurer filings** pulled from the JustizOnline API on 2026-06-27
-> (into scratchpad, never written to Azure — production data untouched).
+> **Versioning convention:** the three `*_Spezifikation_v1.md` documents are the
+> stable record of the **shipped V1** system; this document is the **forward
+> plan**. As a V2 chapter ships, it moves from "planned" to "done" in `ROADMAP.md`.
+>
+> Status: **design + evidence**. Everything here is backed by a live audit of the
+> production Azure data and a hands-on analysis of **64 real bank/insurer
+> filings** pulled from the JustizOnline API on 2026-06-27 (into scratchpad, never
+> written to Azure — production data untouched). **§8 (per-user usage metering)
+> phase 1 is already shipped** (the `00_usage` container, `metered()` decorator
+> and `get_my_usage` MCP tool are live); the remaining phases and all other
+> chapters are not yet implemented.
 
 ## Chapters
 
