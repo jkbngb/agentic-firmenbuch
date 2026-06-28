@@ -9,10 +9,23 @@ from __future__ import annotations
 
 from typing import Any
 
+from fbl_core.financial_institution import classify_financial_institution
 from fbl_core.models import CompanyCard, PublicProvenance, SearchFilters, SearchResponse, Sort
 from fbl_core.storage import CosmosStoreLike
 
 from .errors import NotFound
+
+
+def _financial_institution(doc: dict[str, Any]) -> dict[str, Any] | None:
+    """Heuristic bank/insurer classification for *doc*, applied at serve time so it covers
+    every already-presented document without a re-grind (ROADMAP P2.1). Returns the served
+    ``financial_institution`` block, or ``None`` for an ordinary company."""
+    fi = classify_financial_institution(
+        _g(doc, "identity", "legal_form"), _g(doc, "identity", "name")
+    )
+    if fi is None:
+        return None
+    return {"kind": fi.kind, "source": fi.source, "caveat": fi.caveat}
 
 PRESENTED = "10_presentation"
 CONSOLIDATED = "50_consolidated"
@@ -53,6 +66,7 @@ def _card(doc: dict[str, Any]) -> CompanyCard:
         growth_profile=_g(doc, "growth", "profile"),
         has_guv_latest=bool(_g(doc, "financials", "has_guv_latest")),
         manager_name=_g(doc, "management", "primary_manager_name"),
+        is_financial_institution=_financial_institution(doc) is not None,
     )
 
 
@@ -312,10 +326,16 @@ def _strip_internal(doc: dict[str, Any]) -> dict[str, Any]:
 def get_company_details(cosmos: CosmosStoreLike, fnr: str) -> dict[str, Any]:
     """Full served document for one company (internal hash chain omitted, §8.7)."""
     doc = _require(cosmos, fnr)
+    result = _strip_internal(doc)
+    fi = _financial_institution(doc)
+    if fi is not None:
+        # Surface the flag at the top of the record so an agent reads it before the (absent)
+        # UGB figures, and doesn't mistake "no Bilanz" for "no data" (ROADMAP P2.1).
+        result["financial_institution"] = fi
     return {
         "schema_version": doc.get("schema_version", "1.0"),
         "data_version": _g(doc, "provenance", "data_version"),
-        "result": _strip_internal(doc),
+        "result": result,
         "provenance": _provenance(doc).model_dump(mode="json"),
     }
 
