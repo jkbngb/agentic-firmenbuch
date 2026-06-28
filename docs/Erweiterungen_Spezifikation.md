@@ -196,21 +196,53 @@ class PresentedIdentity(BaseModel):
     fi_license_id: str | None = None            # OeNB BLZ (banks) / FMA Konz-# (insurers)
 ```
 
-### 3.2 Detection sources (strongest first)
+### 3.2 Detection sources — VERIFIED 2026-06-28 (deep-research, 24 sources)
 
-**Banks:**
-1. **OeNB Bankstellenverzeichnis** — daily CSV, has BLZ ↔ Firmenbuch-Nr. ~440-460 Hauptanstalten.
-2. **FMA Konzessionsregister "Bankenkonzessionen"** — every licensed KI.
-3. Rechtsform `eGen` + name match (Raiffeisen/Volksbank locals) — secondary.
-4. Name regex (`Bank|Sparkasse|Raiffeisen|Volksbank|Hypo|Bausparkasse`) — last resort, high false-positive (leasing/IT subsidiaries).
+> **Status:** shipped today = ONLY the name heuristic below (the "last resort"). The
+> register-based, FN-keyed sources are the upgrade tracked in the FI-detection issue. The
+> name heuristic is provably lossy (live recall test: missed BAWAG Group AG, Oberbank AG,
+> VIG Holding AG — acronym/compound names) and over-captures subsidiaries → it must NOT
+> remain the source of truth.
 
-**Insurers:**
-1. **FMA Konzessionsregister "Versicherungsunternehmen"** — every VU + VVaG, with Sparte.
-2. **ECB / Banco de España Register of Insurance Corporations** — EU CSV, ~130 AT entries with LEI; join LEI→FN via GLEIF.
-3. Rechtsform `VER` (VVaG) — strong positive signal.
-4. Name regex (`Versicherung|Vers.-AG|Rückversicherung`) with broker exclusion (`Versicherungsmakler` = broker, NOT a VU) — last resort.
+**Banks — authoritative, free, FN-keyed (deterministic):**
+1. **OeNB lists carry the Firmenbuchnummer directly** — free CC-BY bulk CSV, no key:
+   - `https://www.oenb.at/docroot/downloads_observ/MFI.csv` (monthly) — header
+     `Nr;Institut;RIAD-Code;OeNB-IdentNr;FB-Nr;E-VGR;Institutsart;…;LEI` → **`FB-Nr` = Firmenbuchnummer**, plus `Institutsart` (type) + LEI.
+   - `…/sepa-zv-vz_gesamt.csv` (daily, semicolon-delimited, 5 disclaimer lines first) — 22 cols incl. **`Firmenbuchnummer`**, `Bankleitzahl`, `LEI`, name. Verified row: „UniCredit Bank Austria AG = 150714p".
+   - `…/NMFI.csv` — non-MFI BWG credit institutions.
+   → **Direct FN join. No name matching.**
+
+**Insurers — authoritative, free, but FN via LEI bridge:**
+1. **EIOPA Register of Insurance Undertakings** — free public CSV/Excel export (weekly Fri),
+   `register.eiopa.europa.eu`. Carries **LEI** + national identification code + names. **No FN**
+   (the national code is the FMA-side id, ≠ FN reliably) → bridge **LEI→FN via GLEIF**.
+2. **GLEIF** — free, keyless: REST `https://api.gleif.org/api/v1/lei-records/{LEI}` or the CC0
+   Golden Copy bulk; field **`entity.registeredAs` = Firmenbuchnummer** for AT entities.
+3. Rechtsform `VER` (VVaG) — strong positive signal, no lookup needed.
+
+**Not usable for bulk:** the **FMA Unternehmensdatenbank** is authoritative for *licences* but is
+**web-search-form only — no CSV/API**, and exposes no FN/LEI. The **ECB MFI list** is free but
+carries only RIAD_CODE + LEI, **no FN** → use OeNB instead for AT banks.
+
+**Name regex** (`Bank|Sparkasse|Raiffeisen|Volksbank|Hypo|Versicherung|…`) — **demoted to a soft
+candidate hint only** (flag unmatched name-hits for review), NEVER the authoritative source.
 
 Estimated populations: ~440-460 banks, ~75-95 insurers.
+
+### 3.2a Reconcile cadence + the additive principle (do not gate the pipeline)
+
+- **Weekly full reconcile** (a scheduled job, like the Firmenbuch sync): download the current
+  OeNB + EIOPA lists, build the authoritative `FN → {bank|insurer}` set, then **set the flag on
+  matches AND clear it on companies no longer in the lists**. One mechanism covers both
+  directions — **licence lost → unflagged, new licence → flagged** — self-correcting, no special
+  case (OeNB refreshes monthly, EIOPA weekly, so weekly is ample).
+- **The flag is ADDITIVE CONTEXT — it must NEVER suppress XML ingestion or parsing.** A flagged
+  FI that *does* file a usable UGB-XML Jahresabschluss (e.g. a small institution, a holding, or a
+  given year) is parsed and served with full numbers exactly like any company; the flag only
+  explains *absent* UGB figures (BWG/VAG) and points to the official PDF. So the pipeline keeps
+  pulling + parsing XML for everyone (`include_pdf=True` for FIs gets XML **and** PDF, never
+  PDF-only). The flag drives presentation/caveat + which firms also need the PDF, not a switch
+  that turns XML off.
 
 ### 3.3 New container `00_directories`
 
