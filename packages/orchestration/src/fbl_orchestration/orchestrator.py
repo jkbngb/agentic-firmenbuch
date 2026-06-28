@@ -273,10 +273,22 @@ def run(
             # FI-targeted PDF ingest (ROADMAP P2.2): banks (BWG) / insurers (VAG) file their
             # Jahresabschluss as a PDF, which the general backfill skips (include_pdf=False) to
             # spare storage across all 340k companies. Here we DO pull the official PDF abschlüsse
-            # for the few hundred regulated FIs — the same set the serve-time FI flag recognises —
-            # so the MCP's get_document can hand out a signed link to the real document. Its own
-            # checkpoint blob keeps this run's done-set separate from the XML-only backfill.
-            fnrs = ctx.registry.financial_institution_fnrs()
+            # for the regulated FIs so the MCP's get_document can hand out a signed link to the
+            # real document. Its own checkpoint blob keeps this run's done-set separate from the
+            # XML-only backfill.
+            #
+            # The worklist is the UNION of two sources (issue #15): the authoritative OeNB
+            # register (00_directories — every licensed bank/Vorsorgekasse, FN-keyed, incl. ones
+            # the name heuristic missed like Oberbank), plus the name heuristic — which still
+            # carries insurers (VAG), since insurers are NOT in the OeNB MFI/NMFI bank lists and
+            # the EIOPA/GLEIF bridge isn't wired yet. Union → no regulated FI is left without its
+            # PDF abschluss, and a register bank that was never even in the serving layer gets
+            # pulled by FN directly from the HVD API.
+            from fbl_ingest import load_fi_directory
+
+            fnrs_heuristic = set(ctx.registry.financial_institution_fnrs())
+            fnrs_register = set(load_fi_directory(ctx.cosmos))
+            fnrs = sorted(fnrs_heuristic | fnrs_register)
             workers = int(os.environ.get("INGEST_WORKERS", "8"))
             max_minutes = int(os.environ.get("INGEST_MAX_MINUTES", "50"))
             log.info(
@@ -284,6 +296,9 @@ def run(
                 extra={
                     "context": {
                         "financial_institutions": len(fnrs),
+                        "from_register": len(fnrs_register),
+                        "from_heuristic": len(fnrs_heuristic),
+                        "register_only": len(fnrs_register - fnrs_heuristic),
                         "workers": workers,
                         "max_minutes": max_minutes,
                     }

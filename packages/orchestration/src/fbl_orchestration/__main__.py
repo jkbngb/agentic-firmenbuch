@@ -26,13 +26,17 @@ def _build_context(
     *,
     capture_raw: bool = True,
     max_retries: int = 4,
+    need_api: bool = True,
 ) -> PipelineContext:
     s = settings  # pydantic Settings
     if s.cosmos_endpoint is None or s.blob_account_url is None:  # type: ignore[attr-defined]
         raise SystemExit("COSMOS_ENDPOINT and BLOB_ACCOUNT_URL must be set")
     cosmos = CosmosStore(s.cosmos_endpoint, s.cosmos_database)  # type: ignore[attr-defined]
     blob = BlobStore(s.blob_account_url)  # type: ignore[attr-defined]
-    if s.firmenbuch_api_key is None:  # type: ignore[attr-defined]
+    # The OeNB directory sync (mode=directories) touches only Blob + Cosmos + the public OeNB
+    # CSVs — never the HVD API — so it needs no FIRMENBUCH_API_KEY. We still build a client to
+    # satisfy the context type; it is simply never called in that mode (need_api=False).
+    if need_api and s.firmenbuch_api_key is None:  # type: ignore[attr-defined]
         raise SystemExit("FIRMENBUCH_API_KEY must be set")
     # capture_raw must be OFF for the parallel backfill — one shared _raw buffer can't
     # attribute interleaved responses across concurrent companies (see run_ingest).
@@ -74,6 +78,7 @@ def cli(argv: list[str] | None = None) -> int:
         settings,
         capture_raw=not fanout_ingest,
         max_retries=2 if fanout_ingest else 4,
+        need_api=args.mode != "directories",
     )
     code = run(args.mode, ctx, run_id=run_id)
     log.info("pipeline done", extra={"context": {"run_id": run_id, "exit": code}})
