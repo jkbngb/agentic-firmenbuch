@@ -25,5 +25,5 @@ API (the Starlette app in [`../api/`](../api/README.md)) and points users at the
 
 ## Deploy
 Deployed via the SWA CLI: `swa deploy ./website --deployment-token <token> --env production`.
-See the [root README](../README.md) and the Distribution spec (`../docs/Distribution_Spezifikation_v1.md`)
+See the [root README](../README.md) and the Distribution spec (`../docs/Distribution_Spezifikation.md`)
 for the full go-live checklist.

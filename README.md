@@ -50,12 +50,12 @@ The headline documents:
 
 | Doc | What it is |
 |---|---|
-| [docs/Technische_Spezifikation_v1.md](docs/Technische_Spezifikation_v1.md) | The HOW – architecture, modules, schemas, runbook, edge cases, build order. **Primary.** |
-| [docs/Fachliche_Spezifikation_v1.md](docs/Fachliche_Spezifikation_v1.md) | The WHAT/WHY – scope and business rules. |
-| [docs/Distribution_Spezifikation_v1.md](docs/Distribution_Spezifikation_v1.md) | Go-to-market layer – site, email signup, API-key delivery, legal. |
+| [docs/Technische_Spezifikation.md](docs/Technische_Spezifikation.md) | The HOW – architecture, modules, schemas, runbook, edge cases, build order. **Primary.** |
+| [docs/Fachliche_Spezifikation.md](docs/Fachliche_Spezifikation.md) | The WHAT/WHY – scope and business rules. |
+| [docs/Distribution_Spezifikation.md](docs/Distribution_Spezifikation.md) | Go-to-market layer – site, email signup, API-key delivery, legal. |
 | [docs/pipeline-step-samples.md](docs/pipeline-step-samples.md) | File format + golden sample for every pipeline stage. |
 | [docs/FIELD_REFERENCE.md](docs/FIELD_REFERENCE.md) | **Served field dictionary** – every field each MCP tool returns, with type + null rules. Public page: [felder.html](https://www.agentic-firmenbuch.at/felder.html). |
-| [ROADMAP.md](ROADMAP.md) + [docs/V2_Spezifikation.md](docs/V2_Spezifikation.md) | Forward plan – status/priorities + the V2 design (banks/insurers, GISA, Ediktsdatei). |
+| [ROADMAP.md](ROADMAP.md) + [docs/Erweiterungen_Spezifikation.md](docs/Erweiterungen_Spezifikation.md) | Forward plan – status/priorities + the V2 design (banks/insurers, GISA, Ediktsdatei). |
 | [docs/appendix_position_mapping.json](docs/appendix_position_mapping.json) | Full 317-entry canonical position taxonomy → copy to `core/mapping/`. |
 | [docs/reference/](docs/reference/) | Official source material (API reference, JAb 4.0 XSDs/Excel). |
 

@@ -1,14 +1,16 @@
-# Version 2 — Design & Build Spec (forward-looking)
+# Erweiterungen — Design & Build Spec (forward-looking)
 
-> The detailed design record for the next iteration, backing the
+> The detailed design record for the planned extensions, backing the
 > [root `ROADMAP.md`](../ROADMAP.md) (which is the lightweight, prioritised
 > index). Each chapter is a self-contained, buildable work-package. Supporting
 > deep-dive research (with external-source citations) lives in
 > [`docs/research/`](research/).
 >
-> **Versioning convention:** the three `*_Spezifikation_v1.md` documents are the
-> stable record of the **shipped V1** system; this document is the **forward
-> plan**. As a V2 chapter ships, it moves from "planned" to "done" in `ROADMAP.md`.
+> **Naming convention:** the `*_Spezifikation.md` documents (Fachliche,
+> Technische, Distribution, Rechtsform_Coverage) are the stable record of the
+> **system as built**; this document is the **forward plan**. No version numbers
+> in filenames — history is git. As a chapter ships, it moves from "planned" to
+> "done" in `ROADMAP.md`.
 >
 > Status: **design + evidence**. Everything here is backed by a live audit of the
 > production Azure data and a hands-on analysis of **64 real bank/insurer

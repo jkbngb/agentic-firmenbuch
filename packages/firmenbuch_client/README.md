@@ -53,4 +53,4 @@ Shared contracts/format-detection live in [`core`](../core/README.md); the downl
 XML is parsed by [`parse`](../70_parse/README.md).
 
 ---
-↑ [Repo root](../../README.md) · Specs: [Technische](../../docs/Technische_Spezifikation_v1.md) · [Fachliche](../../docs/Fachliche_Spezifikation_v1.md) · [API reference](../../docs/reference/JustizOnline_API_Complete_Reference.md) · [Probe findings](../../docs/API_PROBE_FINDINGS.md)
+↑ [Repo root](../../README.md) · Specs: [Technische](../../docs/Technische_Spezifikation.md) · [Fachliche](../../docs/Fachliche_Spezifikation.md) · [API reference](../../docs/reference/JustizOnline_API_Complete_Reference.md) · [Probe findings](../../docs/API_PROBE_FINDINGS.md)

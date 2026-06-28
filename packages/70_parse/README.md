@@ -68,4 +68,4 @@ GuV-presence correct on Bilanz-only fixtures. `ruff` + `mypy --strict` + `pytest
 stage 6). Shared contracts live in [`core`](../core/README.md).
 
 ---
-↑ [Repo root](../../README.md) · Specs: [Technische](../../docs/Technische_Spezifikation_v1.md) · [Fachliche](../../docs/Fachliche_Spezifikation_v1.md) · [Pipeline samples](../../docs/pipeline-step-samples.md) · Fixtures: [tests/](../../tests/README.md)
+↑ [Repo root](../../README.md) · Specs: [Technische](../../docs/Technische_Spezifikation.md) · [Fachliche](../../docs/Fachliche_Spezifikation.md) · [Pipeline samples](../../docs/pipeline-step-samples.md) · Fixtures: [tests/](../../tests/README.md)

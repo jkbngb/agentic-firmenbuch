@@ -1,4 +1,4 @@
-"""Per-user usage metering (V2 §8).
+"""Per-user usage metering (Erweiterungen-Spec §8).
 
 A persistent, daily-rollup meter that sits **alongside** the rolling rate-limit
 counters in :mod:`fbl_auth.accounts`. Where ``record_usage`` keeps a single
@@ -37,7 +37,7 @@ from .accounts import Account
 
 USAGE_CONTAINER = "00_usage"
 
-# Weighted cost per tool (V2 §8.2). 1 unit ≈ ~5 Cosmos RU. Unknown tools default
+# Weighted cost per tool (Erweiterungen-Spec §8.2). 1 unit ≈ ~5 Cosmos RU. Unknown tools default
 # to 1 so a newly-added tool is always metered, never silently free.
 COMPUTE_UNITS: dict[str, int] = {
     "describe_fields": 0,
@@ -56,7 +56,7 @@ _DEFAULT_UNITS = 1
 
 
 def compute_units_for(tool: str) -> int:
-    """Weighted cost of one call to *tool* (V2 §8.2)."""
+    """Weighted cost of one call to *tool* (Erweiterungen-Spec §8.2)."""
     return COMPUTE_UNITS.get(tool, _DEFAULT_UNITS)
 
 

@@ -82,12 +82,12 @@ Zwei Teil-Probleme, beide generisch:
 
 ### Selbst in Layer 90 — verarbeitbar? Nein.
 
-Aus der 64-Datei-Analyse (`docs/V2_Spezifikation.md` §2):
+Aus der 64-Datei-Analyse (`docs/Erweiterungen_Spezifikation.md` §2):
 - **100 % PDF** (kein strukturiertes BWG/VAG-XML existiert).
 - **71 % der PDFs sind gescannte Bilder** → OCR nötig.
 - Anderes Bilanzschema (BWG §§43-58 / VAG §§136-167) → unsere UGB-Pipeline parst sie nicht.
 
-### Reihenfolge (aus V2-Spec):
+### Reihenfolge (aus `Erweiterungen_Spezifikation.md`):
 1. **`is_financial_institution`-Flag** (~3 Tage) — Banken/Versicherer markieren, damit der
    Agent keine UGB-Kennzahlen draufrechnet. **Wertvoll auch ohne Finanzdaten.** Erster Schritt.
 2. ESEF/iXBRL-Parser (börsennotierte, ~12 Firmen) — saubere IFRS-Daten.

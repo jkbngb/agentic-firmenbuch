@@ -62,4 +62,4 @@ re-run downloads nothing new. `ruff` + `mypy --strict` + `pytest` green.
 `consolidate`/`derive`. Orchestrated by [`orchestration`](../orchestration/README.md) (Stage 8).
 
 ---
-↑ [Repo root](../../README.md) · Specs: [Technische §8.3/§15a](../../docs/Technische_Spezifikation_v1.md) · [API probe findings](../../docs/API_PROBE_FINDINGS.md)
+↑ [Repo root](../../README.md) · Specs: [Technische §8.3/§15a](../../docs/Technische_Spezifikation.md) · [API probe findings](../../docs/API_PROBE_FINDINGS.md)
