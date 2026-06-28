@@ -56,6 +56,25 @@ def test_entity_without_firmenbuch_entry_kept_but_unjoinable() -> None:
     assert rec.fnr is None and rec.lei is None
 
 
+def test_robust_to_shifted_header_and_fewer_columns_nmfi_shape() -> None:
+    # The real risk the OeNB format poses: the change block shifts the header line, and NMFI has
+    # FEWER columns than MFI (no Institutsart/MR-*). Header-by-name must handle both without
+    # breaking. Here the header sits on line 3 (NMFI-style) with the 7-column NMFI layout.
+    data = (
+        "31.05.2026\n"
+        ";Keine Veraenderungen zum Vormonat\n"
+        "\n"
+        "Nr.;Institut;RIAD-Code;OeNB-IdentNr;FB-Nr;E-VGR;LEI\n"
+        "1;Valida Plus AG;AT0000055874927;5587492;224730k;1250B;529900NXPRVKL8WT6O60\n"
+    ).encode("latin-1")
+    result = parse_oenb_list(data, source="oenb_nmfi")
+    assert len(result.records) == 1
+    rec = result.records[0]
+    assert rec.fnr == "224730k" and rec.name == "Valida Plus AG"
+    assert rec.institutsart is None  # column absent in NMFI → None, not a crash
+    assert rec.fields["E-VGR"] == "1250B"  # still captured verbatim
+
+
 def test_change_only_file_yields_no_records() -> None:
     # An NMFI-style file with only a date + "Keine Veränderungen" (no data header) → empty list.
     data = "31.05.2026\n;Keine Veraenderungen zum Vormonat\n".encode("latin-1")

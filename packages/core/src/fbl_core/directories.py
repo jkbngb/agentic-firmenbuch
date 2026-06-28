@@ -67,10 +67,16 @@ def parse_oenb_list(data: bytes, *, source: str, kind: str = "bank") -> OeNBList
 
     stand = _clean(rows[0][0]) if rows and rows[0] else None
 
-    header_idx = next(
-        (i for i, r in enumerate(rows) if _FNR in (c.strip() for c in r)),
-        None,
-    )
+    # Find the data header by its column NAMES, not a fixed line number: the leading "Stand"
+    # date + the "Veränderungen zum Vormonat" (Neuzugang/Abgang) block push the header up/down
+    # month to month (MFI had it at line 8, NMFI at line 3). Require BOTH FB-Nr and Institut so
+    # the change block's mini-header (`;Institut;RIAD-Code;IdentNr`, no FB-Nr) is never mistaken
+    # for it. NMFI also has fewer columns (no Institutsart) — keying on names handles that too.
+    def _is_header(r: list[str]) -> bool:
+        cells = {c.strip() for c in r}
+        return _FNR in cells and _NAME in cells
+
+    header_idx = next((i for i, r in enumerate(rows) if _is_header(r)), None)
     if header_idx is None:
         return OeNBList(
             stand=stand, source=source
