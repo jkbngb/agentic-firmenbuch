@@ -36,19 +36,34 @@ weil ihr Filing-Check noch aussteht.
 
 ## P1 — Ingest-Gap schließen (höchste Priorität, kein neuer Datentyp)
 
-Größter Conversion-Killer: Interessent fragt echte Firma ab → „keine Daten" → springt ab.
-Zwei Teil-Probleme, beide generisch (helfen allen Firmen):
+**Wichtige Korrektur (2026-06-28, per Rechtsform geprüft):** Die „437k nie geprüft" sind
+KEIN echter 437k-Rückstand. Der Großteil sind Rechtsformen **ohne Veröffentlichungs-
+pflicht**, die nie einen Jahresabschluss einreichen — sie zu prüfen bringt (korrekt)
+nichts:
 
-1. **Backfill der 437k „nie geprüft".** Der Filing-Check-Job arbeitet die Warteschlange
-   ab, aber langsam (32 % in mehreren Wochen). → Durchsatz erhöhen / priorisieren
-   (große, aktive, kürzlich gesehene Firmen zuerst).
+| Rechtsform | nie geprüft | hat Abschlüsse | publikationspflichtig? |
+|---|---:|---:|---|
+| **EU** (Einzelunternehmer) | 84.728 | **20** | nein |
+| **KG** | 82.012 | 12.087 | nur GmbH&Co KG |
+| **OG** | 48.535 | 444 | nein |
+| **PST** (Privatstiftung) | 4.249 | 1 | nein |
+| **GES** (GmbH) | **191.237** | 191.909 | **ja** |
+| **AG** | 3.055 | 511 | **ja** |
+
+→ **~220k der „nie geprüft" sind EU/KG/OG/PST** — die reichen fast nie etwas ein, da ist
+nichts zu holen. Der **echte adressierbare Gap = ~191k GmbHs + ~3k AGs**, die einreichen
+*müssen*, aber noch nicht verarbeitet sind. **Das** ist das Ziel.
+
+Zwei Teil-Probleme, beide generisch:
+
+1. **Backfill der ~194k publikationspflichtigen GmbHs/AGs** (nicht der 437k). Filing-Check
+   priorisiert auf GES/AG, EU/KG/OG nachrangig. → Durchsatz hoch, große/aktive zuerst.
 2. **Großdatei-Download-Bug** (`urkunde failed … http 200`). 38 % der großen Dateien
    (Banken/Versicherer-PDFs) scheitern. → Timeout hoch, Streaming, bessere Retry-Logik;
    danach die ~5.800 dead-letter-Firmen erneut durchschieben. Code:
    `packages/firmenbuch_client/src/fbl_firmenbuch_client/soap_client.py:_post`.
 
-**Blocker:** keine. Reine Pipeline-Arbeit. **Wirkung:** das Produkt fühlt sich
-„vollständig" an. Größter Hebel überhaupt.
+**Blocker:** keine. **Wirkung:** das Produkt fühlt sich „vollständig" an. Größter Hebel.
 
 ---
 
