@@ -107,11 +107,17 @@ Aus der 64-Datei-Analyse (`docs/Erweiterungen_Spezifikation.md` §2):
 - Anderes Bilanzschema (BWG §§43-58 / VAG §§136-167) → unsere UGB-Pipeline parst sie nicht.
 
 ### Reihenfolge (aus `Erweiterungen_Spezifikation.md`):
-1. **`is_financial_institution`-Flag** (~3 Tage) — Banken/Versicherer markieren, damit der
-   Agent keine UGB-Kennzahlen draufrechnet. **Wertvoll auch ohne Finanzdaten.** Erster Schritt.
-2. ESEF/iXBRL-Parser (börsennotierte, ~12 Firmen) — saubere IFRS-Daten.
-3. EBA Pillar-3 (Banken: CET1/NPL/LCR) + SFCR/QRT (Versicherer: Combined Ratio/SCR).
-4. PDF-Extraktion (BWG/VAG) inkl. OCR für die 71 % gescannten.
+1. **`is_financial_institution`-Flag** ✅ **erledigt + live (28.06.).** Heuristischer Klassifizierer
+   (`fbl_core.financial_institution`) aus Rechtsform (SPA/VER) + Namens-Keywords; der MCP wendet
+   ihn beim Ausliefern an → wirkt sofort für alle 341k Docs ohne Re-Grind. `get_company_details`
+   liefert einen `financial_institution`-Block {kind, source, caveat}, die Such-Card ein
+   `is_financial_institution`. Löst die Volksbank-NÖ-Falle. Quelle = „heuristic" (GISA/NACE in P3 löst ab).
+2. **PDF-Download via MCP** (in Arbeit) — Banken/Versicherer-PDFs ins Blob holen (`include_pdf` für FIs)
+   + `get_document` vom Stub zum echten SAS-Download-Link ausbauen (+ MI-Rolle `Storage Blob Delegator`).
+   Liefert das amtliche Originaldokument, auch ohne extrahierte Zahlen.
+3. ESEF/iXBRL-Parser (börsennotierte, ~12 Firmen) — saubere IFRS-Daten.
+4. EBA Pillar-3 (Banken: CET1/NPL/LCR) + SFCR/QRT (Versicherer: Combined Ratio/SCR).
+5. PDF-Extraktion (BWG/VAG) inkl. OCR für die 71 % gescannten.
 
 **Blocker:** P1 zuerst (sonst sind die Firmen nicht da). Dann ist Schritt 1 schnell;
 2-4 sind echte Wochen-Projekte.
