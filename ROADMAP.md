@@ -2,6 +2,12 @@
 
 > Single source of truth for where the product stands and what's next.
 > Last updated: 2026-06-28. Numbers are live from production Cosmos + Blob checkpoints.
+>
+> **How this maps to GitHub:** this file is the **narrative** (status + why + order). The
+> **actionable backlog lives in [Issues](https://github.com/jkbngb/agentic-firmenbuch/issues)**,
+> one issue per work item, grouped by **Milestone P1–P5** (= the sections below). No item is
+> duplicated as prose here and as an issue — the P-sections summarise, the issues track. Each
+> issue links back to its ROADMAP section + the relevant spec.
 
 ---
 
