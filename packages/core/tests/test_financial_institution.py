@@ -24,7 +24,9 @@ from fbl_core.financial_institution import classify_financial_institution as clf
         ("AG", "Generali Versicherung AG", "insurer", "name"),
     ],
 )
-def test_classifies_financial_institutions(legal_form, name, kind, source) -> None:
+def test_classifies_financial_institutions(
+    legal_form: str | None, name: str | None, kind: str, source: str
+) -> None:
     fi = clf(legal_form, name)
     assert fi is not None
     assert fi.kind == kind
@@ -38,7 +40,7 @@ def test_classifies_financial_institutions(legal_form, name, kind, source) -> No
         ("GES", "VB - REAL Volksbank NÖ GmbH"),  # whoops — this DOES contain 'volksbank'
     ],
 )
-def test_known_overcapture_is_documented(legal_form, name) -> None:
+def test_known_overcapture_is_documented(legal_form: str | None, name: str | None) -> None:
     # The real-estate subsidiary literally carries "Volksbank" in its name, so the name
     # heuristic flags it too. That is the accepted false-positive direction (ROADMAP P2.1):
     # the flag only suppresses UGB-ratio expectations, it never deletes the GmbH's real data.
@@ -58,5 +60,5 @@ def test_known_overcapture_is_documented(legal_form, name) -> None:
         ("EU", ""),
     ],
 )
-def test_does_not_flag_ordinary_companies(legal_form, name) -> None:
+def test_does_not_flag_ordinary_companies(legal_form: str | None, name: str | None) -> None:
     assert clf(legal_form, name) is None
