@@ -1,4 +1,4 @@
-# Firmenbuch Live MCP — Technische Spezifikation
+# agentic-firmenbuch — Technische Spezifikation
 
 **Version:** 1 (everything herein is Version 1 unless explicitly stated otherwise)
 **Audience:** the engineer / AI coding tool implementing the system. Written to be read top-to-bottom and executed.

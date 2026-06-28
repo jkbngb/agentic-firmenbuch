@@ -1,4 +1,4 @@
-# Firmenbuch Live MCP — Fachliche Spezifikation
+# agentic-firmenbuch — Fachliche Spezifikation
 
 **Version:** 1 (everything herein is Version 1 unless explicitly stated otherwise)
 **Status:** For sign-off
@@ -9,7 +9,7 @@
 
 ## 1. Purpose & vision
 
-Build a **live, always-current data product over the Austrian Firmenbuch**, delivered as a **multi-tenant MCP server** that anyone can sign up for with an email address. A fully automated pipeline queries the official **Firmenbuch HVD API** on a schedule, ingests every newly published **Jahresabschluss** and register change for the **entire company universe** (~200,000+ companies), turns the raw filings into clean, consolidated per-company records, and computes everything that is **objectively derivable** from Firmenbuch data (multi-year financial time series, ratios, growth, trends). Consumers query it through the MCP server.
+Build a **live, always-current data product over the Austrian Firmenbuch**, delivered as a **multi-tenant MCP server** that anyone can sign up for with an email address. A fully automated pipeline queries the official **Firmenbuch HVD API** on a schedule, ingests every newly published **Jahresabschluss** and register change for the **entire company universe** (the register holds ~640k legal entities; the served slice is currently ~341k and grows as the backfill progresses), turns the raw filings into clean, consolidated per-company records, and computes everything that is **objectively derivable** from Firmenbuch data (multi-year financial time series, ratios, growth, trends). Consumers query it through the MCP server.
 
 The MCP server is the product. The end-to-end data pipeline behind it is the bulk of the work. Version 1 ships **facts and clean derivations only** — no scoring, no third-party data, no AI text.
 
@@ -59,7 +59,7 @@ The data comes from the official **Firmenbuch HVD (High Value Datasets)** web se
   - **Filing inventory:** which Jahresabschlüsse exist, for which Stichtag, with size class (Größenklasse / GKL), and submission dates.
   - **Filing content:** the actual Jahresabschluss as **structured XML** or as **PDF**. The XML also contains **Stammkapital** and the **signing person** (Geschäftsführer name + birth date) per filing.
   - **Change feeds:** newly published documents and company changes within a date range — the intended basis for efficient daily updates *(availability on our tier to be confirmed against the key — see §10)*.
-  - **Bulk dataset:** the whole Firmenbuch is additionally published as a downloadable **HVD bulk dataset on data.gv.at**, refreshed daily — the intended seed for enumerating all ~200k companies.
+  - **Bulk dataset:** the whole Firmenbuch is additionally published as a downloadable **HVD bulk dataset on data.gv.at**, refreshed daily — the intended seed for enumerating all ~640k legal entities.
 - **Tier limitation (important):** testing against the free HVD tier indicates the detailed company extract (`auszug` / Kurzinformation) **does not work on it**. Consequently, in Version 1, full **street address / PLZ**, the complete **officer list**, and the **Geschäftszweig** (business purpose) are **not reliably available** and are treated as deferred; `Bundesland` is derived from the court/seat, and Stammkapital + the signing Geschäftsführer come from the **Bilanz-XML**. *(To be confirmed against the key before this is locked — see §10.)*
 - **Not available from the free API (therefore deferred):** NACE code, Gesellschafter (shareholders) and ownership percentages, corporate group structure, online presence.
 
@@ -161,7 +161,7 @@ An internal dashboard reports, across the universe: how many companies have ≥1
 
 The system has **two clearly separated modes of running** (detailed technically in the Technische Spezifikation §15a):
 
-- **Initial Load (one-off bootstrap, run once by hand):** build the complete **company registry** of all ~200k companies (seeded from the official data.gv.at HVD bulk dataset), download every available Jahresabschluss to storage, then process all layers so the MCP goes live. Expected duration: **hours if the bulk dataset includes the documents; otherwise ~1–3 days**, dominated by downloading.
+- **Initial Load (one-off bootstrap, run once by hand):** build the complete **company registry** of all ~640k legal entities (seeded from the official data.gv.at HVD bulk dataset), download every available Jahresabschluss to storage, then process all layers so the MCP goes live. Expected duration: **hours if the bulk dataset includes the documents; otherwise ~1–3 days**, dominated by downloading.
 - **Operation (daily steady state, automatic):** **once per day**, the system checks only what **changed** (new filings, new companies, register changes), updates just those companies through the full pipeline, and the MCP reflects them. Typical daily runtime: **minutes**. New companies are picked up automatically in the same daily run.
 
 The **company registry** is a single authoritative list of every company that **lives in our own store** and drives every operation. Completeness is guaranteed by: seeding from the authoritative full dataset, adding new registrations daily, and periodically reconciling against the authoritative dataset. Daily runs are **non-overlapping** (a run never starts while the previous one is still going) and the daily schedule is enabled only after the Initial Load completes, so the two regimes never collide.
