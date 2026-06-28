@@ -9,17 +9,43 @@ from __future__ import annotations
 
 from typing import Any
 
+from fbl_core.directories import load_fi_directory
 from fbl_core.financial_institution import classify_financial_institution
 from fbl_core.models import CompanyCard, PublicProvenance, SearchFilters, SearchResponse, Sort
 from fbl_core.storage import RAW_CONTAINER, BlobStoreLike, CosmosStoreLike
 
 from .errors import NotFound
 
+# Caveat per register kind. Generic fallback for the less common financial-institution types.
+_FI_CAVEAT = {
+    "bank": "Bank: Rechnungslegung nach BWG (§§43-58), nicht UGB; strukturierte UGB-Kennzahlen "
+    "liegen daher nicht vor — der amtliche Jahresabschluss ist als PDF einzusehen.",
+    "insurer": "Versicherung: Rechnungslegung nach VAG (§§136-167), nicht UGB; strukturierte "
+    "UGB-Kennzahlen liegen daher nicht vor — der amtliche Jahresabschluss ist als PDF einzusehen.",
+}
 
-def _financial_institution(doc: dict[str, Any]) -> dict[str, Any] | None:
-    """Heuristic bank/insurer classification for *doc*, applied at serve time so it covers
-    every already-presented document without a re-grind (ROADMAP P2.1). Returns the served
-    ``financial_institution`` block, or ``None`` for an ordinary company."""
+
+def _fi_caveat(kind: str) -> str:
+    return _FI_CAVEAT.get(
+        kind,
+        f"Reguliertes Finanzinstitut ({kind}): es gelten Sondervorschriften, UGB-Kennzahlen sind "
+        "nicht ohne Weiteres vergleichbar.",
+    )
+
+
+def _financial_institution(
+    doc: dict[str, Any], directory: dict[str, str] | None = None
+) -> dict[str, Any] | None:
+    """The served ``financial_institution`` block, or ``None`` for an ordinary company.
+
+    Register-first (ROADMAP P2 / issue #15): if the FN is in *directory* — the authoritative
+    OeNB/EIOPA register set (``00_directories``) — use that (``source="register"``, exact kind).
+    Only fall back to the name heuristic (``source="heuristic"``) for entries not in any register
+    (e.g. foreign branches), so banks the heuristic missed (BAWAG, Oberbank) are still right."""
+    fnr = doc.get("fnr")
+    kind = (directory or {}).get(str(fnr)) if fnr else None
+    if kind is not None:
+        return {"kind": kind, "source": "register", "caveat": _fi_caveat(kind)}
     fi = classify_financial_institution(
         _g(doc, "identity", "legal_form"), _g(doc, "identity", "name")
     )
@@ -51,7 +77,7 @@ def _provenance(doc: dict[str, Any]) -> PublicProvenance:
     )
 
 
-def _card(doc: dict[str, Any]) -> CompanyCard:
+def _card(doc: dict[str, Any], directory: dict[str, str] | None = None) -> CompanyCard:
     return CompanyCard(
         fnr=doc["fnr"],
         name=_g(doc, "identity", "name") or doc["fnr"],
@@ -67,7 +93,7 @@ def _card(doc: dict[str, Any]) -> CompanyCard:
         growth_profile=_g(doc, "growth", "profile"),
         has_guv_latest=bool(_g(doc, "financials", "has_guv_latest")),
         manager_name=_g(doc, "management", "primary_manager_name"),
-        is_financial_institution=_financial_institution(doc) is not None,
+        is_financial_institution=_financial_institution(doc, directory) is not None,
     )
 
 
@@ -285,7 +311,8 @@ def search_companies(
         total = len(matched)
         page_docs = matched[start : start + page_size]
 
-    cards = [_card(d) for d in page_docs]
+    directory = load_fi_directory(cosmos)
+    cards = [_card(d, directory) for d in page_docs]
     data_version_max = max((_g(d, "provenance", "data_version") or 0 for d in page_docs), default=0)
     return SearchResponse(
         data_version_max=data_version_max,
@@ -334,7 +361,7 @@ def get_company_details(cosmos: CosmosStoreLike, fnr: str) -> dict[str, Any]:
     for f in result.get("filings", []):
         if isinstance(f, dict) and f.get("stichtag"):
             f["document_ref"] = f"{fnr}:{f['stichtag']}"
-    fi = _financial_institution(doc)
+    fi = _financial_institution(doc, load_fi_directory(cosmos))
     if fi is not None:
         # Surface the flag at the top of the record so an agent reads it before the (absent)
         # UGB figures, and doesn't mistake "no Bilanz" for "no data" (ROADMAP P2.1).
@@ -494,7 +521,7 @@ def get_document(
             if filing.get("stichtag") == stichtag:
                 result["filing"] = filing
                 break
-    fi = _financial_institution(served) if served is not None else None
+    fi = _financial_institution(served, load_fi_directory(cosmos)) if served is not None else None
     if fi is not None:
         # An FI's UGB figures are absent by construction — surface the flag + caveat so the agent
         # reads the official PDF instead of treating "no Bilanz" as "no data" (ROADMAP P2.1).
@@ -861,12 +888,13 @@ def find_peers(cosmos: CosmosStoreLike, fnr: str, n: int = 10) -> dict[str, Any]
 
     if target_bs is not None:
         candidates.sort(key=lambda d: abs(_g(d, "financials", "latest", "bilanzsumme") - target_bs))
+    directory = load_fi_directory(cosmos)
     return {
         "schema_version": "1.0",
         "result": {
             "fnr": fnr,
             "gkl": gkl,
-            "peers": [_card(d).model_dump(mode="json") for d in candidates[:n]],
+            "peers": [_card(d, directory).model_dump(mode="json") for d in candidates[:n]],
         },
         "provenance": PublicProvenance().model_dump(mode="json"),
     }

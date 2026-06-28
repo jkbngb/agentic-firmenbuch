@@ -256,6 +256,44 @@ def test_financial_institution_flag_and_caveat() -> None:
     assert cards["067890b"]["is_financial_institution"] is False
 
 
+def test_register_directory_flag_overrides_name_heuristic() -> None:
+    # Issue #15: a bank the NAME heuristic MISSES (no "bank" keyword) is still flagged because
+    # it's in the OeNB register set (00_directories) — source="register", not "heuristic".
+    from fbl_core.directories import DIRECTORIES_CONTAINER
+
+    cosmos = InMemoryCosmosStore()
+    cosmos.upsert(
+        PRESENTED,
+        _presented(
+            "012345a",
+            name="BAWAG Group AG",
+            legal_form="AG",
+            bundesland="W",
+            gkl="K",
+            bilanzsumme=0.0,
+            has_guv_latest=False,
+            equity_ratio=0.0,
+            profile="stable",
+        ),
+    )
+    cosmos.upsert(
+        DIRECTORIES_CONTAINER,
+        {"id": "012345a", "fnr": "012345a", "kind": "bank", "active": True},
+    )
+    token = signup("u@example.test", cosmos).token
+    svc = McpService(cosmos, Settings(rate_limit_per_min=1000, rate_limit_per_day=10000))
+    fi = svc.get_company_details(token, "012345a")["result"]["financial_institution"]
+    assert fi["kind"] == "bank" and fi["source"] == "register"  # register-backed, not a name guess
+    assert "BWG" in fi["caveat"]
+    # An inactive register row must NOT flag (licence lost).
+    cosmos.upsert(
+        DIRECTORIES_CONTAINER,
+        {"id": "012345a", "fnr": "012345a", "kind": "bank", "active": False},
+    )
+    plain = svc.get_company_details(token, "012345a")["result"]
+    assert "financial_institution" not in plain
+
+
 def test_history() -> None:
     svc, token = _svc()
     hist = svc.get_company_history(token, "030435h", metrics=["bilanzsumme", "equity_ratio"])
