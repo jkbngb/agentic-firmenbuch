@@ -11,6 +11,7 @@ reference and interpret them.
 | `JustizOnline_API_Complete_Reference.md` | BMJ – Justiz | The Firmenbuch HVD API (sucheFirma, sucheUrkunde, urkunde, auszug, change feeds) | `firmenbuch_client`, ingest |
 | `jab40_struktur/` | BMJ – Justiz | JAb 4.0 filing format: XSDs + Excel structure + change-log | `70_parse` |
 | `gisa/` | BMAW (Gewerbe) | GISA public interface (V1 + V2 PDFs, V2 XML-structure xlsx) — trade-license register | **P3 GISA** (planned, see ROADMAP) |
+| `ediktsdatei/` | BRZ / BMJ – Justiz | Insolvenzdatei IWG REST-API spec — insolvency register (collections, fields, deltas) | **P4 Ediktsdatei** (planned, see ROADMAP / issue #9) |
 
 ## Convention
 
