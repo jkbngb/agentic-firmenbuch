@@ -46,7 +46,7 @@ suffix. Two buckets:
 |---|---|
 | [`../ROADMAP.md`](../ROADMAP.md) | Prioritised status + next-steps index (ingest gap, banks/insurers, GISA, Ediktsdatei). |
 | [`Erweiterungen_Spezifikation.md`](Erweiterungen_Spezifikation.md) | Detailed design + evidence for the planned extensions — banks (BWG) / insurers (VAG) handling, FI flag, usage metering, ingest-gap fix. Backed by [`research/`](research/). |
-| [`research/`](research/) | Deep-dive research with external-source citations: `banks_BWG_schema.md`, `insurers_VAG_schema.md`, `jab40_bank_insurer_support.md`. |
+| [`research/`](research/) | Deep-dive research with external-source citations: `banks_BWG_schema.md`, `insurers_VAG_schema.md`, `jab40_bank_insurer_support.md`, `ediktsdatei_insolvency.md` (P4 insolvency API + join design). |
 
 ### Reference material (read-only)
 

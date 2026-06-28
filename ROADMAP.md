@@ -164,9 +164,18 @@ Gewerbe lassen sich **direkt an unsere Firmen anhängen** (Join über FN).
 Bekanntmachungen: **Insolvenzen, Konkurse, Sanierungsverfahren, Versteigerungen**. Der
 **Risiko-/Bonitäts-Datenpunkt**: „Ist über diese Firma ein Insolvenzverfahren offen?"
 
-**Status:** Noch nicht recherchiert. Vor dem Bau braucht es einen Recherche-Durchgang
-(offene API/HVD? oder nur Web-Suche/Scraping? Format? Join über FN?). **To-do:** kurze
-technische Recherche, dann Bau-Spec. **Wert:** sehr hoch für M&A/KYC/Vertrieb.
+**Status (recherchiert 2026-06-28 — Spec fertig):** Es gibt eine **offizielle JSON-REST-API**
+(IWG-Schnittstelle, kein Scraping): paginierte Liste `All`, Datums-Delta + explizite
+`Deletions`-Liste — passt fast 1:1 auf unser Watermark/Drift-Muster. **Zwei harte Punkte:**
+(1) **Blocker = Zugang** ist authentifiziert **und kostenpflichtig** (Login von BMJ/BRZ, IWG-
+Vereinbarung) — **muss der Inhaber beantragen**, wie der GISA-Key. (2) **Kein FN-Join:** die
+Datensätze haben **keine Firmenbuchnummer** und historisch kein sauberes Feld für juristische
+vs. natürliche Person → Verknüpfung muss **über Name + Ort** laufen (Filter
+`Schuldner_Akt_Type=J`, dann Fuzzy-Match mit Konfidenz). Das Matching ist der eigentliche
+Bauaufwand. **Volle Spec:** [`docs/research/ediktsdatei_insolvency.md`](docs/research/ediktsdatei_insolvency.md)
+· offizielle Doku in [`docs/reference/ediktsdatei/`](docs/reference/ediktsdatei/). **Wert:**
+sehr hoch für M&A/KYC/Vertrieb. **Tipp:** mit GISA (#8) kombinieren — dessen FN-Suche hebt die
+Match-Konfidenz.
 
 ---
 
@@ -190,5 +199,8 @@ technische Recherche, dann Bau-Spec. **Wert:** sehr hoch für M&A/KYC/Vertrieb.
 5. P2 Schritt 2-4 (echte Bank/Versicherer-Finanzdaten) — größtes Projekt, später.
 6. P5 Kleinkram nebenbei.
 
-**Dein einziger Hand-Blocker:** den **GISA-API-Key per Bürgerkarte beantragen**
-(https://www.gisa.gv.at/sst-Neuausstellung) — nur der Inhaber kann das. Alles andere baue ich.
+**Deine Hand-Blocker (nur der Inhaber kann das beantragen):**
+1. **GISA-API-Key** per Bürgerkarte (https://www.gisa.gv.at/sst-Neuausstellung) — für P3.
+2. **Ediktsdatei-IWG-Zugang** (Login von BMJ/BRZ, kostenpflichtig) — für P4.
+
+Alles andere baue ich. P4 ist vollständig recherchiert + gescoped (Spec liegt), wartet nur auf (2).
