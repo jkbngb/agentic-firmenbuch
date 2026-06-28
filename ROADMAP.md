@@ -135,31 +135,33 @@ Aus der 64-Datei-Analyse (`docs/Erweiterungen_Spezifikation.md` §2):
 
 ---
 
-## P3 — GISA-Anbindung (Gewerberegister) ← bald gewünscht
+## P3 — Branchen-/Tätigkeitsfilter via Geschäftszweig (GISA als Bulk-Quelle verworfen)
 
-**Was ist GISA?** Das österreichische **Gewerbeinformationssystem** (BMAW). Sagt,
-**welche Gewerbeberechtigungen** eine Firma hat (Baumeister, Handel, Gastgewerbe …) —
-faktisch „**was die Firma tun darf**". Der **fehlende Tätigkeits-/Branchen-Datenpunkt**
-(NACE haben wir nicht — Gewerbe ist das österreichische Äquivalent).
+**Entscheidung (2026-06-28): GISA ist KEINE Bulk-Branchenquelle.** Nicht erneut versuchen.
+- **GISA-Open-Data-Vollabzug** (data.gv.at) ist **anonymisiert**: nur `nuts1-3`, `lau1-2`,
+  `gewerbeschluessel`, `gewerbewortlaut`, `postleitzahl`, `ortschaft`, `ruhend_von` … —
+  **keine Firmenbuchnummer, kein Name, keine Straße → kein Join** auf eine konkrete Firma.
+  Nur für Aggregat-Statistik.
+- **GISA-API (Ausbaustufe 2)** liefert zwar Identität (inkl. FN), erlaubt laut Nutzungs-
+  bedingungen (Punkt 9) aber **nur Einzel-Validierung** — **Massenabfragen / Branchenlisten
+  verboten.** Also **kein Bulk-Enrichment.**
 
-**Warum es perfekt passt:** Methode **`SearchPersonJur` sucht nach Firmenbuchnummer** →
-Gewerbe lassen sich **direkt an unsere Firmen anhängen** (Join über FN).
+**Stattdessen: der Geschäftszweig, den wir schon haben.** Der **Geschäftszweig** (Tätigkeit/
+Branche) steht in den Firmenbuch-Stammdaten (HVD, CC BY 4.0), wird bereits ingestet und ist für
+**~84 % (289.280)** der ausgelieferten Firmen befüllt: „Gastgewerbe", „Baustoffhandel",
+„Immobilienverwaltung", „Friseur" … → **Freitext-Branchenfilter ohne GISA**, lizenzsauber,
+joinbar (ist ja schon an der Firma). Liegt als `company.description` in Layer 10.
 
-**Technik** (aus den Doku-PDFs, Stand V2/2022):
-- SOAP oder REST/XML: `https://www.gisa.gv.at/gisa-svc-public/GisaPublicV2.svc/xml`
-- Methoden: `SearchPersonJur` (per FN/Name) → `GetGewerbeV2` (Detail-XML + amtssignierter
-  PDF-Auszug) · `GetVKR` (ausländische Versicherungs-/Kreditvermittler) · Katalog-Methoden.
-- Rate-Limit: GetGewerbeV2/GetVKR 200/min pro Key; Auszüge 10/min.
-- **Blocker:** **API-Key per Bürgerkarte beantragen, jährlich verlängern**
-  (https://www.gisa.gv.at/sst-Neuausstellung). **Muss der Inhaber machen.** Einziger
-  echter GISA-Blocker.
+**Plan (Issue + Specs liegen):**
+- MCP-Suchfilter `geschaeftszweig` (Substring/CONTAINS auf `company.description`) + Feld auf der
+  Card; `company.description` in den Cosmos-Index aufnehmen.
+- Optional später: grobe NACE/ÖNACE-Klassifizierung aus dem Freitext im `derive` (eigene Seam).
+- **Grenze (ehrlich):** Freitext, kein Standardcode; ~16 % ohne Geschäftszweig.
 
-**Plan, sobald Key da:**
-- Neuer Adapter `gisa_client` (analog `firmenbuch_client`) + Container `40_gewerbe` (per FN).
-- Im Consolidate per FN joinen → `gewerbe[]` im Datensatz.
-- MCP: Feld `gewerbe` + Suchfilter (z. B. „alle Baumeister-GmbHs in Tirol"), Tool
-  `get_gewerbe(fnr)`.
-- **Wert:** sehr hoch — endlich eine Tätigkeits-/Branchensuche, die das Firmenbuch nicht bietet.
+**GISA-API (optional, niedrige Prio, NICHT für den Filter):** nur als späteres Live-Einzelfeature
+denkbar („welches Gewerbe hat Firma X?" für **eine** benannte Firma) — strikt Einzelabfrage,
+personengebundener Key, Aufrufe protokolliert, unter dem rechtlichen Vorbehalt. Kein Blocker mehr,
+weil der Filter ohne GISA läuft.
 
 ---
 
@@ -198,14 +200,16 @@ Match-Konfidenz.
 ## Empfohlene Reihenfolge
 
 1. **P1 Ingest-Gap** — größter Hebel, kein Blocker, sofort. (Durchsatz: Tage–Wochen.)
-2. **P2 Schritt 1: FI-Flag** — schnell (~3 Tage), verhindert Blamage bei Banken.
-3. **P3 GISA** — sobald der Bürgerkarte-Key da ist (→ jetzt beantragen anstoßen!).
-4. **P4 Ediktsdatei** — erst Recherche, dann Bau.
+2. **P2 Schritt 1: FI-Flag** ✅ + PDF-Download ✅ — erledigt.
+3. **P3 Branchenfilter (Geschäftszweig)** — **kein Blocker** (Daten liegen, ~84 % Abdeckung),
+   reiner MCP-Suchfilter. GISA als Bulk-Quelle verworfen.
+4. **P4 Ediktsdatei** — recherchiert + gescoped, wartet nur auf IWG-Zugang.
 5. P2 Schritt 2-4 (echte Bank/Versicherer-Finanzdaten) — größtes Projekt, später.
 6. P5 Kleinkram nebenbei.
 
 **Deine Hand-Blocker (nur der Inhaber kann das beantragen):**
-1. **GISA-API-Key** per Bürgerkarte (https://www.gisa.gv.at/sst-Neuausstellung) — für P3.
-2. **Ediktsdatei-IWG-Zugang** (Login von BMJ/BRZ, kostenpflichtig) — für P4.
+1. **Ediktsdatei-IWG-Zugang** (Login von BMJ/BRZ, kostenpflichtig) — für P4.
+   *(Der GISA-Bürgerkarte-Key ist KEIN Blocker mehr — der Branchenfilter läuft über den
+   Geschäftszweig ohne GISA; GISA-API höchstens optionales Einzel-Lookup, niedrige Prio.)*
 
-Alles andere baue ich. P4 ist vollständig recherchiert + gescoped (Spec liegt), wartet nur auf (2).
+Alles andere baue ich. P4 ist vollständig recherchiert + gescoped (Spec liegt), wartet nur auf (1).

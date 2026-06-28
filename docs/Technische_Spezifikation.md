@@ -641,6 +641,17 @@ class SearchFilters(BaseModel):
     gf_age_min: int | None = None          # primary Geschäftsführer current age ≥ (succession screen)
     manager_name: str | None = None        # substring on management.primary_manager_name (served
                                            # only when EXPOSE_PERSONAL_DATA is set; see §8.7 update)
+    geschaeftszweig: str | None = None     # substring/keyword on company.description (Geschäftszweig)
+                                           # — the industry/activity (branch) filter. PLANNED; see note.
+# **Industry/activity (branch) filter — `geschaeftszweig` (PLANNED, P3).** A case-insensitive
+# substring match on `company.description` (the Geschäftszweig from the Firmenbuch master extract:
+# „Gastgewerbe", „Baustoffhandel", …), populated for ~84% of served companies. Server-side it is a
+# `CONTAINS(LOWER(c.company.description), @q)` clause (mirrors the `name` filter); `company.description`
+# is added to the indexed paths (§4.1) and surfaced on the CompanyCard. It is **free text, not a
+# standardized code**; a coarse NACE/ÖNACE classification mapped at `derive` is a reserved later seam.
+# **GISA is NOT used for this** — the open-data dump is anonymized (no FN/name → no join) and the GISA
+# API's terms forbid bulk/list queries; see Fachliche Spezifikation §2.4 for the full decision so it
+# is not retried. The GISA API stays a possible optional single-record live lookup only.
 # CompanyCard also carries `bilanzsumme_band` (human size band — size_gkl is the UGB *filing*
 # class, not magnitude) and `manager_name` (null unless EXPOSE_PERSONAL_DATA). get_company_history
 # accepts the card name `revenue` as an alias of the stored `umsatzerloese`; get_cohort_summary
