@@ -41,6 +41,9 @@ param dailyReplicaTimeout int = 14400
 @description('Replica timeout (s) for the quarterly grind. The full prefix-walk can run many hours to days; 7-day headroom so one pass always completes (the checkpoint also lets it resume if ever killed).')
 param syncReplicaTimeout int = 604800
 
+@description('Cron for the monthly OeNB directory sync (register-based FI flag, issue #15). Default: 04:00 on the 1st.')
+param directoriesCron string = '0 4 1 * *'
+
 @description('Cosmos endpoint passed to workloads (data plane via Managed Identity).')
 param cosmosEndpoint string
 
@@ -92,6 +95,15 @@ var jobDefs = [
     mode: 'backfill-ingest'
     cron: '0 * * * *'
     timeout: syncReplicaTimeout
+  }
+  {
+    // Monthly OeNB register sync (issue #15): downloads the MFI + NMFI lists, archives them
+    // dated to 90-raw, and reconciles 00_directories (the authoritative is_financial_institution
+    // flag). No API key needed — public CC-BY CSVs. Cheap (~10 s); a 1 h replica window is ample.
+    name: '${jobName}-directories'
+    mode: 'directories'
+    cron: directoriesCron
+    timeout: 3600
   }
 ]
 
