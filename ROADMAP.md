@@ -1,80 +1,88 @@
 # Roadmap & Status — agentic-firmenbuch
 
 > Single source of truth for where the product stands and what's next.
-> Last updated: 2026-06-28. Numbers are live from production Cosmos.
+> Last updated: 2026-06-28. Numbers are live from production Cosmos + Blob checkpoints.
 
 ---
 
-## Wo wir stehen (Live-Fakten, 2026-06-28)
+## Wo wir stehen (Live-Fakten, 2026-06-28, direkt aus Cosmos/Blob verifiziert)
 
 | | Stand |
 |---|---|
-| **Im MCP-Server ausgeliefert (Layer 10)** | **341.196 Firmen** |
-| davon mit Finanzkennzahlen (≥1 Abschluss) | 204.917 |
-| Im Register insgesamt bekannt | 642.588 |
-| Filing-Check gelaufen (Abschlussliste geholt) | 205.298 (32 %) |
-| **Noch nie Filing-Check** | **437.290 (68 %)** |
-| Datenaktualität | **täglich** — Registry gestern gesweept, Filing-Check lief heute 03:50 UTC |
+| **Im MCP-Server ausgeliefert (Layer 10)** | **341.197 Firmen** |
+| davon mit Finanzkennzahlen (≥1 Abschluss) | **204.917** |
+| nur Stammdaten (keine Publikationspflicht / nie eingereicht) | 136.280 |
+| Register gesamt / aktiv / prüfbar (aktiv + Stammdaten) | 642.586 / 349.255 / 340.883 |
+| **Filing-Check erledigt** (Ingest-Checkpoint) | **340.407 von 340.883 = 99,86 %** |
+| GmbH-Abdeckung (GES mit Abschluss) | 191.659 von 213.618 = **90 %** |
+| Datenaktualität | **täglich** — Daily-Change-Feed-Job lief 28.06. 03:00 UTC |
 | MCP-Server | live, OAuth + API-Key, **Usage-Metering aktiv** (pro Key) |
 | Verzeichnisse | offizielles MCP-Registry ✅, mcp.so eingereicht, Glama gelistet |
 
-**Kurz:** Die Kern-Pipeline läuft und ist aktuell (täglicher Lauf). Das Produkt
-funktioniert. Die größte Lücke ist **Abdeckung**: erst ein Drittel der Firmen hat
-überhaupt einen Filing-Check.
+**Kurz:** Der Filing-Check ist **praktisch vollständig** (99,86 % der prüfbaren Firmen).
+Es gibt **keinen** großen versteckten Rückstand. Die 136k „nur Stammdaten" sind kein
+unverarbeiteter Stau, sondern Firmen **ohne Jahresabschluss** — überwiegend Rechtsformen
+ohne Publikationspflicht (EU/KG/OG/PST ≈ 111k). Die Abdeckung ist nahe am Maximum für
+UGB-pflichtige Firmen.
+
+> **Frühere Fehlangaben korrigiert (28.06.):** „437k nie geprüft / 32 %" war gegen den
+> **falschen Nenner** gerechnet (die vollen 642k inkl. ~293k historischer/gelöschter
+> Firmen + change-feed-Stubs, die wir korrekt nie filing-checken). Gemessen an den
+> prüfbaren Firmen sind 99,86 % erledigt. Auch „170k GmbHs nie gefetcht" war falsch
+> (191.659 GES haben Abschlüsse).
 
 ---
 
 ## Sind die Daten aktuell?
 
-**Ja.** Der Filing-Check-Job lief heute um 03:50 UTC, die Registry-Sweep gestern.
-Neue Abschlüsse fließen täglich nach. **Aber:** „aktuell" heißt nicht „vollständig" —
-68 % der Firmen wurden noch nie auf Abschlüsse geprüft (siehe Ingest-Gap). Eine Firma,
-die du heute abfragst, kann „keine Daten" liefern, obwohl sie Abschlüsse hat — einfach
-weil ihr Filing-Check noch aussteht.
+**Ja.** Der Daily-Change-Feed-Job läuft jeden Tag um 03:00 UTC; neue/geänderte Firmen
+fließen täglich nach. Der **Backfill** (Vollabgleich) war seit 23.06. geparkt und ist am
+28.06. wieder aktiviert (täglich 04:00/06:00 UTC), um die letzten **5.910 dead-letter-
+Firmen** zu bergen (siehe P1) — danach idlet er als Dead-letter-Backstop.
 
 ---
 
-## P1 — Ingest-Gap schließen (höchste Priorität, kein neuer Datentyp)
+## P1 — Ingest-Gap (✅ weitgehend erledigt, deployed 2026-06-28)
 
-**Wichtige Korrektur (2026-06-28, per Rechtsform geprüft):** Die „437k nie geprüft" sind
-KEIN echter 437k-Rückstand. Der Großteil sind Rechtsformen **ohne Veröffentlichungs-
-pflicht**, die nie einen Jahresabschluss einreichen — sie zu prüfen bringt (korrekt)
-nichts:
+**Realitätscheck (28.06., live aus Cosmos + Blob-Checkpoints):** Es gab **keinen**
+170k/437k-Rückstand. Der Ingest-Checkpoint zeigt **340.407 von 340.883 prüfbaren Firmen
+filing-checked = 99,86 %**. Die 136k „nur Stammdaten" sind Firmen **ohne** Abschluss,
+nicht unverarbeitete – überwiegend Rechtsformen ohne Publikationspflicht:
 
-| Rechtsform | nie geprüft | hat Abschlüsse | publikationspflichtig? |
+| Rechtsform | aktiv | mit Abschluss | publikationspflichtig? |
 |---|---:|---:|---|
-| **EU** (Einzelunternehmer) | 84.728 | **20** | nein |
-| **KG** | 82.012 | 12.087 | nur GmbH&Co KG |
-| **OG** | 48.535 | 444 | nein |
-| **PST** (Privatstiftung) | 4.249 | 1 | nein |
-| **GES** (GmbH) | **191.237** | 191.909 | **ja** |
-| **AG** | 3.055 | 511 | **ja** |
+| **GES** (GmbH) | 213.618 | **191.659** (90 %) | **ja** |
+| **AG** | 1.160 | 510 | **ja** |
+| KG | 42.241 | 12.067 | nur GmbH&Co KG |
+| OG | 22.446 | 444 | nein |
+| EU (Einzelunt.) | 56.405 | 20 | nein |
+| PST | 2.954 | 1 | nein |
 
-→ **~220k der „nie geprüft" sind EU/KG/OG/PST** — die reichen fast nie etwas ein, da ist
-nichts zu holen. Der **echte adressierbare Gap = ~191k GmbHs + ~3k AGs**, die einreichen
-*müssen*, aber noch nicht verarbeitet sind. **Das** ist das Ziel.
+→ Die Abdeckung ist **nahe am Maximum** für UGB-pflichtige Firmen. Es gibt nichts „nachzu-
+crawlen". Der **einzige echt bergbare Rest = 5.910 dead-letter-Firmen**, die alle am selben
+Bug scheiterten (Fehlertext durchgehend `urkunde failed … http 200`) — darunter ganz
+normale Großfirmen wie **Microsoft Österreich, IBM Österreich, GoodMills, Reisswolf**,
+deren Jahresabschluss-**XML** schlicht > 10 MB ist.
 
-Zwei Teil-Probleme, beide generisch – **beide im Code erledigt (2026-06-28)**, jetzt
-arbeiten die geplanten Läufe den Rückstand ab:
+Zwei Code-Fixes (beide deployed 28.06., Image `firmenbuch-pipeline:p1-19bdb60`):
 
-1. **Backfill priorisiert jetzt publikationspflichtige Formen.** ✅ Der Filing-Check
-   (`backfill-ingest`) prüft GES → AG → GEN/SE/SPA/VER → KG **zuerst**, der nie einreichende
-   Schwanz (EU/OG/OHG/KEG/PST) zuletzt. So fließt das Per-Lauf-Zeitbudget in die ~194k
-   Firmen, die wirklich einreichen, statt es an ~220k EU/KG/OG zu verschwenden. Reihenfolge
-   per `INGEST_PRIORITY_RECHTSFORMEN` überschreibbar. Code:
-   `Registry.ingestable_active_fnrs(priority=…)` + `orchestrator.backfill-ingest`.
-2. **Großdatei-Download-Bug behoben.** ✅ Ursache war **nicht** Netzwerk: eine Banken-/
-   Versicherer-PDF kommt base64-kodiert als **ein** Textknoten über libxml2s ~10-MB-Limit;
-   der Default-Parser warf „Text node too long" → das wurde fälschlich als wiederholbares
-   „http 200" gemeldet und nach Retries dead-letter. Fix: `huge_tree=True` beim Parsen (+
-   XXE-Schutz bleibt). Zusätzlich granulares Timeout (kurzer Connect-, großzügiger
-   Read-Timeout) statt der flachen 20 s, die bei langsamem Time-to-first-byte die größten
-   Filings killte. Code: `soap_client._try_parse` / `__init__` / `orchestration.__main__`.
-   **Dead-letter-Re-Drive automatisch:** fehlgeschlagene FNRs landen nie im `done`-Set, der
-   nächste Lauf nimmt sie also von selbst wieder auf – jetzt mit funktionierendem Download.
+1. **Großdatei-Parse-Bug behoben (der eigentliche Hebel).** ✅ Ursache war **nicht** Netzwerk:
+   ein großes Filing kommt base64-kodiert als **ein** XML-Textknoten über libxml2s ~10-MB-Limit;
+   der Default-Parser warf „Text node too long" → fälschlich als wiederholbares „http 200"
+   gemeldet → nach Retries dead-letter. Fix: `huge_tree=True` (+ XXE-Schutz bleibt) plus
+   granulares Timeout (kurzer Connect-, großzügiger Read-Timeout) statt der flachen 20 s.
+   Code: `soap_client._try_parse` / `__init__` / `orchestration.__main__`. **Re-Drive
+   automatisch:** dead-letters sind nicht im `done`-Set, der nächste Backfill-Lauf holt sie
+   mit funktionierendem Parser → **berge die 5.910**.
+2. **Backfill priorisiert publikationspflichtige Formen.** ✅ `ingestable_active_fnrs(priority=…)`
+   ordnet GES → AG → GEN/SE/SPA/VER → KG vor den nie-einreichenden Schwanz. Wirkt bei jedem
+   künftigen Re-Grind / Reset; jetzt kosmetisch, weil der Check ohnehin durch ist. Override:
+   `INGEST_PRIORITY_RECHTSFORMEN`.
 
-**Blocker:** keine. **Offen:** nur noch Durchsatz (die Läufe müssen die ~194k abarbeiten) –
-kein Code mehr. **Wirkung:** das Produkt fühlt sich „vollständig" an. Größter Hebel.
+**Betrieb:** Backfill-Jobs waren seit 23.06. geparkt (Cron = „31. Februar"); am 28.06.
+auf das neue Image gerollt und auf **täglich 04:00/06:00 UTC** reaktiviert. Sie bergen die
+5.910 in 1–2 Tagen und idlen dann als Dead-letter-Backstop. **Blocker:** keine. **Erwartete
+Wirkung:** +~5.910 Firmen mit Finanzdaten (u. a. namhafte GmbHs), danach ist P1 zu.
 
 ---
 
