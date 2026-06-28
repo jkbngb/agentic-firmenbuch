@@ -61,7 +61,7 @@ class McpService:
         if not decision.allowed:
             raise RateLimited(decision.reason or "rate limited")
         record_usage(account, tool, self._cosmos)  # rolling counters (rate limit)
-        # Persistent daily-rollup meter (V2 §8). Best-effort: a metering write must
+        # Persistent daily-rollup meter (Erweiterungen-Spec §8). Best-effort: a metering write must
         # never fail a tool call — the rate-limit counters above are authoritative.
         with contextlib.suppress(Exception):
             record_metered_usage(account, tool, self._cosmos)
@@ -125,7 +125,7 @@ class McpService:
         return service.coverage(self._cosmos)
 
     def get_my_usage(self, token: str, window: str = "today") -> dict[str, Any]:
-        """The caller's own consumption over *window* (V2 §8.5). Reads only the key's
+        """The caller's own consumption over *window* (Erweiterungen-Spec §8.5). Reads only the key's
         own usage docs; never exposes another user's data or the e-mail behind the key."""
         account = self._authorize(token, "get_my_usage")
         return dict(get_usage(self._cosmos, account.token_hash, window=window))

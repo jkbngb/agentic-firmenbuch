@@ -14,8 +14,9 @@ reference and interpret them.
 
 ## Convention
 
-- `docs/` = **our** specs (the `_v1` ones = shipped/stable; `V2_Spezifikation.md` + root
-  `ROADMAP.md` = forward plan).
+- `docs/` = **our** specs (the `*_Spezifikation.md` ones = system as built / stable;
+  `Erweiterungen_Spezifikation.md` + root `ROADMAP.md` = forward plan). No version numbers in
+  filenames — history is git.
 - `docs/reference/` = **official upstream** source files (this folder). One sub-folder per
   external system.
 - `docs/research/` = **our** research reports that analyse the above (e.g. the bank/insurer

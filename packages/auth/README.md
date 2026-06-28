@@ -32,4 +32,4 @@ Used by [`mcp_server`](../mcp_server/README.md) to authorize every tool call. Au
 the data pipeline (not a `90→10` layer).
 
 ---
-↑ [Repo root](../../README.md) · Specs: [Technische §8.10](../../docs/Technische_Spezifikation_v1.md)
+↑ [Repo root](../../README.md) · Specs: [Technische §8.10](../../docs/Technische_Spezifikation.md)

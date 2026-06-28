@@ -1,4 +1,4 @@
-"""Per-user usage metering (V2 §8)."""
+"""Per-user usage metering (Erweiterungen-Spec §8)."""
 
 from __future__ import annotations
 

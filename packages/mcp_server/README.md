@@ -56,4 +56,4 @@ Reads what [`present`](../10_present/README.md) writes to `10_presentation`; aut
 [`auth`](../auth/README.md). The serving end of the pipeline.
 
 ---
-↑ [Repo root](../../README.md) · Specs: [Technische §8.9 / §9](../../docs/Technische_Spezifikation_v1.md)
+↑ [Repo root](../../README.md) · Specs: [Technische §8.9 / §9](../../docs/Technische_Spezifikation.md)
