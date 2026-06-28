@@ -210,6 +210,39 @@ def test_details_and_not_found() -> None:
         svc.get_company_details(token, "999999z")
 
 
+def test_financial_institution_flag_and_caveat() -> None:
+    # A regulated bank (the Volksbank NÖ AG case) and an ordinary GmbH share a store.
+    cosmos = InMemoryCosmosStore()
+    cosmos.upsert(
+        PRESENTED,
+        _presented(
+            "012345a", name="Volksbank Niederösterreich AG", legal_form="AG", bundesland="N",
+            gkl="K", bilanzsumme=0.0, has_guv_latest=False, equity_ratio=0.0, profile="stable",
+        ),
+    )
+    cosmos.upsert(
+        PRESENTED,
+        _presented(
+            "067890b", name="Tischlerei Huber GmbH", bundesland="W", gkl="K",
+            bilanzsumme=500000.0, has_guv_latest=True, equity_ratio=0.4, profile="growing",
+        ),
+    )
+    token = signup("u@example.test", cosmos).token
+    svc = McpService(cosmos, Settings(rate_limit_per_min=1000, rate_limit_per_day=10000))
+
+    bank = svc.get_company_details(token, "012345a")["result"]
+    assert bank["financial_institution"]["kind"] == "bank"
+    assert "BWG" in bank["financial_institution"]["caveat"]
+
+    plain = svc.get_company_details(token, "067890b")["result"]
+    assert "financial_institution" not in plain  # ordinary GmbH: no FI block
+
+    # The flag also rides on the compact search card.
+    cards = {c["fnr"]: c for c in svc.search_companies(token)["results"]}
+    assert cards["012345a"]["is_financial_institution"] is True
+    assert cards["067890b"]["is_financial_institution"] is False
+
+
 def test_history() -> None:
     svc, token = _svc()
     hist = svc.get_company_history(token, "030435h", metrics=["bilanzsumme", "equity_ratio"])
