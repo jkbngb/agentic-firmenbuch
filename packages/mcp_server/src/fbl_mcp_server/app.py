@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import contextlib
 import html
+import json
 import os
 from typing import TYPE_CHECKING, Any
 from urllib.parse import urlencode
@@ -609,23 +610,89 @@ def _scope_credential(scope: dict[str, Any]) -> tuple[str, str] | None:
     return None
 
 
+# JSON-RPC methods that only reveal the server's PUBLIC shape (handshake + tool/prompt/
+# resource catalog), never any company data. These are allowed through WITHOUT a credential
+# so directory health checks (Glama etc.) and "preview the tools before connecting" work.
+# Everything else — above all ``tools/call`` — still requires auth. The tool schemas are
+# already fully public (felder.html, the MCP registry), so exposing the catalog leaks nothing.
+_ANON_DISCOVERY_METHODS = frozenset(
+    {
+        "initialize",
+        "notifications/initialized",
+        "tools/list",
+        "prompts/list",
+        "resources/list",
+        "resources/templates/list",
+        "ping",
+    }
+)
+_MAX_INSPECT_BYTES = 1_048_576  # MCP JSON-RPC requests are tiny; cap the buffered body at 1 MB.
+
+
+def _is_anonymous_discovery(body: bytes) -> bool:
+    """True iff *body* is a JSON-RPC request (or batch) whose every method is a public,
+    data-free discovery method. Safe-by-default: unparseable / any other method -> False."""
+    try:
+        data = json.loads(body)
+    except (ValueError, TypeError):
+        return False
+    items = data if isinstance(data, list) else [data]
+    if not items:
+        return False
+    return all(isinstance(it, dict) and it.get("method") in _ANON_DISCOVERY_METHODS for it in items)
+
+
+async def _read_body(receive: Any) -> bytes:
+    """Drain the ASGI request body (bounded). Pairs with ``_replay`` to feed it to the app."""
+    chunks: list[bytes] = []
+    size = 0
+    while True:
+        msg = await receive()
+        if msg.get("type") != "http.request":
+            break
+        chunk = msg.get("body", b"") or b""
+        chunks.append(chunk)
+        size += len(chunk)
+        if size > _MAX_INSPECT_BYTES or not msg.get("more_body", False):
+            break
+    return b"".join(chunks)
+
+
+def _replay(receive: Any, body: bytes) -> Any:
+    """A receive() that yields the already-read *body* once, then delegates to *receive*."""
+    sent = False
+
+    async def replay() -> Any:
+        nonlocal sent
+        if not sent:
+            sent = True
+            return {"type": "http.request", "body": body, "more_body": False}
+        return await receive()
+
+    return replay
+
+
 class _OAuthChallenge:
     """ASGI wrapper that makes the MCP endpoint a spec-compliant OAuth 2.0 protected resource.
 
-    A client that attaches by URL with no credential (Cowork, claude.ai) gets a
-    ``401`` carrying ``WWW-Authenticate: Bearer resource_metadata="…"`` (RFC 9728), which
-    is the signal that triggers OAuth discovery (DCR -> /authorize -> /token). Without this
-    the client just sees a 200 and never realises it must authenticate ("could not connect
-    to a valid MCP server").
+    An OAuth client (Cowork, claude.ai) that tries an actual data call with no credential
+    gets a ``401`` carrying ``WWW-Authenticate: Bearer resource_metadata="…"`` (RFC 9728),
+    which triggers OAuth discovery (DCR -> /authorize -> /token).
 
     We challenge in two cases, both of which the OAuth client knows how to act on:
-    * **no credential** -> first-time discovery (DCR -> /authorize -> /token).
+    * **no credential on a data call** (anything other than the public discovery methods in
+      ``_ANON_DISCOVERY_METHODS``) -> first-time discovery (DCR -> /authorize -> /token).
     * **a Bearer that is expired/invalid/revoked** -> the client silently refreshes (it
       holds a 30-day refresh token) and retries. Without this, an expired access token
       reaches the tool, fails validation deep inside, and returns ``invalid or unknown
       token`` inside an HTTP 200 -- which the client reads as "the call succeeded", so it
       never refreshes and the connection silently dies ~1h after connecting (the 1h access
       TTL), permanently, until a manual reconnect. A 401 here is RFC 6750 ``invalid_token``.
+
+    **Anonymous discovery is allowed** (handshake + tool/prompt/resource catalog) so directory
+    health checks and tool previews work without a key; the OAuth challenge is simply deferred
+    from connect-time to the first real ``tools/call``. The data itself is never exposed
+    anonymously — every tool still calls ``_authorize`` internally.
 
     An invalid **X-API-Key** is left to flow to ``_authorize`` (those clients do not do OAuth
     and would not act on the challenge), so the existing header path is untouched.
@@ -641,15 +708,32 @@ class _OAuthChallenge:
 
     async def __call__(self, scope: dict[str, Any], receive: Any, send: Any) -> None:
         is_mcp = scope.get("type") == "http" and scope.get("path", "").rstrip("/") == "/mcp"
-        if is_mcp:
-            cred = _scope_credential(scope)
-            if cred is None:
-                await self._challenge(send)
-                return
+        if not is_mcp:
+            await self._app(scope, receive, send)
+            return
+
+        cred = _scope_credential(scope)
+        if cred is not None:
+            # A credential is present. A present-but-expired/invalid Bearer must 401 so the
+            # client refreshes; an X-API-Key (valid or not) flows to _authorize as before.
             if cred[0] == "bearer" and validate_bearer(self._cosmos, cred[1]) is None:
                 await self._challenge(send)
                 return
-        await self._app(scope, receive, send)
+            await self._app(scope, receive, send)
+            return
+
+        # No credential. Allow anonymous discovery (handshake + catalog) so directory health
+        # checks and tool previews succeed; challenge anything that touches data so OAuth
+        # clients still get their 401 on the first real call. Only POST carries a JSON-RPC
+        # body to inspect; a no-credential GET/DELETE (SSE stream / session op) is challenged.
+        if scope.get("method") != "POST":
+            await self._challenge(send)
+            return
+        body = await _read_body(receive)
+        if _is_anonymous_discovery(body):
+            await self._app(scope, _replay(receive, body), send)
+            return
+        await self._challenge(send)
 
     async def _challenge(self, send: Any) -> None:
         www_auth = f'Bearer resource_metadata="{self._resource_metadata_url}"'
