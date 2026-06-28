@@ -26,8 +26,10 @@ def test_parses_oenb_mfi_with_firmenbuchnummer() -> None:
 
     # The two banks the NAME heuristic provably missed are now flagged via the FB-Nr join.
     oberbank = by_name["Oberbank AG"]
-    assert oberbank.fnr == "79063w" and oberbank.kind == "bank"
+    assert oberbank.fnr == "79063w" and oberbank.kind == "bank"  # E-VGR 1220A → bank
     assert oberbank.lei == "RRUN0TCQ1K2JDV7MXO75"
+    assert oberbank.e_vgr == "1220A"
+    assert oberbank.sector_label == "MFIs - CRD - MiRe-pflichtig"  # official ESVG legend
     bawag = by_name["BAWAG P.S.K. Bank fuer Arbeit und Wirtschaft AG"]
     assert bawag.fnr == "205340x" and bawag.lei == "529900ICA8XQYGIKR372"
 
@@ -73,6 +75,9 @@ def test_robust_to_shifted_header_and_fewer_columns_nmfi_shape() -> None:
     assert rec.fnr == "224730k" and rec.name == "Valida Plus AG"
     assert rec.institutsart is None  # column absent in NMFI → None, not a crash
     assert rec.fields["E-VGR"] == "1250B"  # still captured verbatim
+    # E-VGR drives the kind: 1250B = Mitarbeitervorsorgekasse, NOT a bank (the whole point).
+    assert rec.kind == "vorsorgekasse"
+    assert rec.sector_label == "Mitarbeitervorsorgekassen"
 
 
 def test_change_only_file_yields_no_records() -> None:

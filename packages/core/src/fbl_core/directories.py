@@ -21,6 +21,8 @@ import io
 
 from pydantic import BaseModel, Field
 
+from .esvg import esvg_kind, esvg_label
+
 # Header cells (by name) we lift into typed fields; everything is also kept in ``fields``.
 _FNR = "FB-Nr"
 _NAME = "Institut"
@@ -28,6 +30,7 @@ _RIAD = "RIAD-Code"
 _IDENT = "OeNB-IdentNr"
 _LEI = "LEI"
 _ART = "Institutsart"
+_EVGR = "E-VGR"
 
 
 class FinancialInstitutionRecord(BaseModel):
@@ -36,12 +39,14 @@ class FinancialInstitutionRecord(BaseModel):
 
     fnr: str | None = None  # from FB-Nr (the join key); None if the entity has no Firmenbuch entry
     name: str
-    kind: str = "bank"  # OeNB MFI/NMFI are credit institutions; the caller passes "bank"
+    kind: str = "bank"  # from the E-VGR/ESVG sector (bank/insurer/pensionskasse/fund/…), see esvg
     source: str  # "oenb_mfi" | "oenb_nmfi"
     riad_code: str | None = None
     oenb_ident: str | None = None
     lei: str | None = None
     institutsart: str | None = None
+    e_vgr: str | None = None  # ESVG sector code (the authoritative sector key, OeNB E-VGR column)
+    sector_label: str | None = None  # official Bezeichnung for e_vgr (esvg legend)
     fields: dict[str, str] = Field(default_factory=dict)  # ALL columns verbatim (forward-compat)
 
 
@@ -91,16 +96,22 @@ def parse_oenb_list(data: bytes, *, source: str, kind: str = "bank") -> OeNBList
         name = _clean(fields.get(_NAME))
         if name is None:
             continue  # a stray section marker, not an institution
+        e_vgr = _clean(fields.get(_EVGR))
+        # The E-VGR/ESVG sector is the authoritative kind (1220*=bank, 1250B=Vorsorgekasse, …) —
+        # far better than calling every NMFI row a "bank". Fall back to the caller default if the
+        # column is absent (older files / a list without E-VGR).
         out.append(
             FinancialInstitutionRecord(
                 fnr=_clean(fields.get(_FNR)),
                 name=name,
-                kind=kind,
+                kind=esvg_kind(e_vgr) if e_vgr else kind,
                 source=source,
                 riad_code=_clean(fields.get(_RIAD)),
                 oenb_ident=_clean(fields.get(_IDENT)),
                 lei=_clean(fields.get(_LEI)),
                 institutsart=_clean(fields.get(_ART)),
+                e_vgr=e_vgr,
+                sector_label=esvg_label(e_vgr),
                 fields=fields,
             )
         )
