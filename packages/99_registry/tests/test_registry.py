@@ -109,6 +109,18 @@ def test_record_filing_dedup_by_doc_key() -> None:
     assert not reg.has_filing("030435h", "K2")
 
 
+def test_record_filing_marks_company_dirty() -> None:
+    # Issue #7: new raw → dirty, so the bulk process rebuilds it instead of skipping (checkpoint).
+    reg = _registry()
+    reg.ensure("030435h", source="x")
+    reg.mark_clean("030435h")
+    assert reg.dirty_fnrs() == []
+    reg.record_filing("030435h", KnownFiling(stichtag="2024-12-31", doc_key="K1", downloaded=True))
+    assert reg.dirty_fnrs() == ["030435h"]
+    doc = reg.get("030435h")
+    assert doc is not None and doc.dirty_reason == "new_filing"
+
+
 def test_watermark_roundtrip_and_excluded_from_fnrs() -> None:
     reg = _registry()
     reg.ensure("030435h", source="x")

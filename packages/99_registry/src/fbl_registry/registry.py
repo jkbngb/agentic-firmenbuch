@@ -98,13 +98,23 @@ class Registry:
         self.put(doc)
 
     def record_filing(self, fnr: str, filing: KnownFiling) -> None:
-        """Add/replace a known filing (keyed by doc_key) and stamp the check time."""
+        """Add/replace a known filing (keyed by doc_key) and stamp the check time.
+
+        Recording a filing means **new raw arrived** for this company, so it is marked
+        ``dirty`` (issue #7). That is what makes a re-ingest invalidate a stale process
+        checkpoint: ``process_backfill`` honours the dirty flag and rebuilds the company even
+        if it was previously "done" — without this, a recovered dead-letter (e.g. a large
+        filing that failed, then succeeded after the huge_tree fix) stayed master-only until
+        the checkpoint was manually evicted. ``mark_clean`` (after a successful present)
+        clears it again, so the flag self-resolves."""
         doc = self.get(fnr)
         if doc is None:
             doc = self.ensure(fnr, source="sucheUrkunde")
         doc.known_filings = [f for f in doc.known_filings if f.doc_key != filing.doc_key]
         doc.known_filings.append(filing)
         doc.last_filing_check_at = now_utc_z()
+        doc.pipeline_state = "dirty"
+        doc.dirty_reason = "new_filing"
         self.put(doc)
 
     def has_filing(self, fnr: str, doc_key: str) -> bool:
