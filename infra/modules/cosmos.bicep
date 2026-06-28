@@ -96,6 +96,18 @@ resource oauthClientsContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabas
     }
   }
 }
+// 00_directories — register-sourced financial institutions (OeNB/EIOPA), keyed by Firmenbuchnummer
+// (issue #15). Low volume (~450), the authoritative is_financial_institution flag.
+resource directoriesContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2024-11-15' = {
+  parent: database
+  name: '00_directories'
+  properties: {
+    resource: {
+      id: '00_directories'
+      partitionKey: { paths: ['/id'], kind: 'Hash' }
+    }
+  }
+}
 resource oauthCodesContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2024-11-15' = {
   parent: database
   name: '00_oauth_codes'

@@ -22,6 +22,10 @@ import io
 from pydantic import BaseModel, Field
 
 from .esvg import esvg_kind, esvg_label
+from .storage import CosmosStoreLike
+
+# Cosmos container of register-sourced financial institutions (banks/insurers), keyed by FN.
+DIRECTORIES_CONTAINER = "00_directories"
 
 # Header cells (by name) we lift into typed fields; everything is also kept in ``fields``.
 _FNR = "FB-Nr"
@@ -116,3 +120,20 @@ def parse_oenb_list(data: bytes, *, source: str, kind: str = "bank") -> OeNBList
             )
         )
     return OeNBList(stand=stand, source=source, records=out)
+
+
+def load_fi_directory(cosmos: CosmosStoreLike) -> dict[str, str]:
+    """The served lookup: ``{fnr: kind}`` for every **active** institution in ``00_directories``.
+    Small (~450 rows) → cheap to load + cache. The MCP joins this by FN at serve time so the flag
+    is register-based (authoritative), with the name heuristic only as a fallback for entries not
+    in the list (e.g. foreign branches outside the OeNB/EIOPA registers)."""
+    out: dict[str, str] = {}
+    try:
+        items = list(cosmos.iter_all(DIRECTORIES_CONTAINER))
+    except Exception:
+        return out  # container not provisioned yet (e.g. before the first directories run)
+    for d in items:
+        fnr = d.get("fnr")
+        if fnr and d.get("active"):
+            out[str(fnr)] = str(d.get("kind") or "bank")
+    return out

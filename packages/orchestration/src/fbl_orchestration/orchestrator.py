@@ -39,6 +39,7 @@ MODES = (
     "backfill-ingest",
     "ingest-fi",
     "backfill-process",
+    "directories",
     "daily",
     "diag",
     "diag-doctypes",
@@ -173,6 +174,16 @@ def run(
 
     if mode == "diag-doctypes":
         _run_doctypes(ctx)  # read-only; no lock needed
+        return 0
+
+    if mode == "directories":
+        # Monthly: pull the OeNB MFI/NMFI registers, archive verbatim+dated, full-reconcile the
+        # 00_directories container (sets/clears the register-based is_financial_institution flag).
+        # Quick web-fetch + Cosmos upsert, nothing else writes 00_directories → no run-lock needed.
+        from fbl_ingest import sync_directories
+
+        report = sync_directories(ctx.blob, ctx.cosmos)
+        log.info("directories sync", extra={"context": report})
         return 0
 
     # Lease length (§15a.3, never-stuck): ALL jobs now heartbeat during their long loops

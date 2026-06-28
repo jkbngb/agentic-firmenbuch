@@ -18,6 +18,12 @@ from .checkpoint import (
     BlobWalkCheckpoint,
 )
 from .delta import detect_changes
+from .directories import (
+    DIRECTORIES_CONTAINER,
+    OENB_SOURCES,
+    load_fi_directory,
+    sync_directories,
+)
 from .enumerate import (
     DEFAULT_ALPHABET,
     DEFAULT_RECHTSFORMEN,
@@ -37,9 +43,11 @@ __all__ = [
     "CHECKPOINT_PATH",
     "DEFAULT_ALPHABET",
     "DEFAULT_RECHTSFORMEN",
+    "DIRECTORIES_CONTAINER",
     "INGEST_FI_CHECKPOINT_PATH",
     "LAYER",
     "MAX_PREFIX_DEPTH",
+    "OENB_SOURCES",
     "PUBLICATION_PRIORITY_RECHTSFORMEN",
     "WALK_COMPLETE_MARKER",
     "BlobIngestCheckpoint",
@@ -58,8 +66,10 @@ __all__ = [
     "WalkState",
     "archive_raw_responses",
     "detect_changes",
+    "load_fi_directory",
     "prefix_walk",
     "run_ingest",
     "status_from_result",
+    "sync_directories",
     "sync_registry",
 ]
