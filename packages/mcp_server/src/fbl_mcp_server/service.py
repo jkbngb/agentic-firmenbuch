@@ -27,6 +27,7 @@ def _financial_institution(doc: dict[str, Any]) -> dict[str, Any] | None:
         return None
     return {"kind": fi.kind, "source": fi.source, "caveat": fi.caveat}
 
+
 PRESENTED = "10_presentation"
 CONSOLIDATED = "50_consolidated"
 MAX_PAGE_SIZE = 100
