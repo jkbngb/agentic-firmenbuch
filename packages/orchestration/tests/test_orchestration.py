@@ -265,6 +265,33 @@ def test_process_backfill_is_bounded_and_resumable() -> None:
     assert ctx.cosmos.get("10_presentation", "0002b") is not None
 
 
+def test_process_backfill_reprocesses_reingested_dirty_company() -> None:
+    # Issue #7: a company re-ingested (→ marked dirty) AFTER it was already "done" in the
+    # process checkpoint must be rebuilt from the new raw, not skipped as done.
+    from fbl_ingest import BlobProcessCheckpoint
+    from fbl_orchestration.pipeline import process_backfill
+
+    ctx = _ctx(_two_ges_companies())
+    run("sync-registry", ctx)
+    run("backfill-ingest", ctx)
+    fnrs = ctx.registry.active_fnrs_by_rechtsform("GES")
+    cp = BlobProcessCheckpoint(ctx.blob)
+    process_backfill(ctx, "p1", fnrs, checkpoint=cp)
+    cons_done, pres_done = cp.load()
+    assert cons_done == {"0001a", "0002b"} and pres_done == {"0001a", "0002b"}
+    assert ctx.registry.dirty_fnrs() == []  # both clean after present
+
+    # Simulate a re-ingest of NEW raw for one company (what record_filing does) → it goes dirty.
+    ctx.registry.mark_dirty("0001a", reason="new_filing")
+    assert ctx.registry.dirty_fnrs() == ["0001a"]
+
+    # Second backfill-process: it must rebuild ONLY the dirty company (evicted from the
+    # checkpoint), skip the other (still done), and clear the dirty flag via present's mark_clean.
+    report = process_backfill(ctx, "p2", fnrs, checkpoint=cp)
+    assert report.processed == 1  # only the re-ingested company rebuilt; the clean one skipped
+    assert ctx.registry.dirty_fnrs() == []  # 0001a reprocessed → clean again, self-resolving
+
+
 def test_process_backfill_parallel_processes_all() -> None:
     from fbl_ingest import BlobProcessCheckpoint
     from fbl_orchestration.pipeline import process_backfill

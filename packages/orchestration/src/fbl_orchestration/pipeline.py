@@ -268,6 +268,14 @@ def process_backfill(
     cons_done, pres_done = checkpoint.load()
     cons_done &= worklist  # ignore stale FNRs from a different worklist
     pres_done &= worklist
+    # Issue #7: a company whose raw was re-ingested is marked `dirty` by `record_filing`.
+    # Honour that over the checkpoint — drop dirty FNRs from the done-sets so their new raw is
+    # rebuilt, instead of being skipped as "done" (the bug that left recovered dead-letters
+    # master-only until a manual checkpoint eviction). `present` calls `mark_clean`, so a
+    # rebuilt company drops out of `dirty` again and won't be reprocessed next run.
+    dirty = {f for f in ctx.registry.dirty_fnrs() if f in worklist}
+    cons_done -= dirty
+    pres_done -= dirty
 
     def _stop() -> bool:
         if ctx.heartbeat is not None and not ctx.heartbeat():
