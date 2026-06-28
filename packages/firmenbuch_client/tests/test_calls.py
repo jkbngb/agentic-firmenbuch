@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import base64
 from datetime import date
 
+import httpx
 from helpers import fixed_response, make_client
 
 
@@ -41,6 +43,36 @@ def test_urkunde_decodes_and_detects_format() -> None:
     assert content.oeffentlich is True
     # the decoded XML is the real filing bytes -> parseable downstream
     assert b"HGB_224_2" in content.content
+
+
+def test_urkunde_parses_huge_base64_pdf() -> None:
+    # ROADMAP P1.2 regression: a bank/insurer Jahresabschluss PDF arrives base64-encoded as
+    # ONE text node far past libxml2's ~10 MB single-text-node ceiling. The old default parser
+    # rejected it (XMLSyntaxError -> _try_parse None -> the HTTP-200 fetch misreported as a
+    # retryable "http 200" -> dead-lettered after retries). huge_tree=True must parse it.
+    raw = b"%PDF-1.4\n" + b"\x00" * 9_000_000  # ~9 MB binary PDF ...
+    content_b64 = base64.b64encode(raw).decode()  # ... = ~12 MB of base64 text (> 10 MB cap)
+    assert len(content_b64) > 10_000_000  # comfortably past the libxml2 limit
+    envelope = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">'
+        "<SOAP-ENV:Body>"
+        '<ns8:URKUNDERESPONSE xmlns:ns8="ns://firmenbuch.justiz.gv.at/Abfrage/UrkundeResponse">'
+        "<ns8:METADATEN><ns8:FNR>123456 a</ns8:FNR></ns8:METADATEN>"
+        "<ns8:DOKUMENT><ns8:CONTENTTYPE>application/pdf</ns8:CONTENTTYPE>"
+        "<ns8:DATEIENDUNG>pdf</ns8:DATEIENDUNG>"
+        f"<ns8:CONTENT>{content_b64}</ns8:CONTENT>"
+        "</ns8:DOKUMENT></ns8:URKUNDERESPONSE></SOAP-ENV:Body></SOAP-ENV:Envelope>"
+    ).encode()
+
+    def handler(_req: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, content=envelope, headers={"Content-Type": "text/xml"})
+
+    client = make_client(handler)
+    content = client.urkunde("123456_x_PDF")
+    assert content.content == raw  # decoded byte-for-byte, not dead-lettered
+    assert content.dateiendung == "pdf"
+    assert content.fnr == "123456a"
 
 
 def test_auszug_parses_master_data() -> None:

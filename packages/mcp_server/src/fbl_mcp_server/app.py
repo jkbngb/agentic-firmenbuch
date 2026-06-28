@@ -125,8 +125,8 @@ class McpService:
         return service.coverage(self._cosmos)
 
     def get_my_usage(self, token: str, window: str = "today") -> dict[str, Any]:
-        """The caller's own consumption over *window* (Erweiterungen-Spec §8.5). Reads only the key's
-        own usage docs; never exposes another user's data or the e-mail behind the key."""
+        """The caller's own consumption over *window* (Erweiterungen-Spec §8.5). Reads only
+        the key's own usage docs; never exposes another user's data or the e-mail behind it."""
         account = self._authorize(token, "get_my_usage")
         return dict(get_usage(self._cosmos, account.token_hash, window=window))
 

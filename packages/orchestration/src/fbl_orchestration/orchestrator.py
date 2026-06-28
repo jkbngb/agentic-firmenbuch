@@ -13,6 +13,7 @@ from fbl_core.storage import RAW_CONTAINER, BlobStoreLike
 from fbl_ingest import (
     CHECKPOINT_PATH,
     DEFAULT_RECHTSFORMEN,
+    PUBLICATION_PRIORITY_RECHTSFORMEN,
     WALK_COMPLETE_MARKER,
     BlobIngestCheckpoint,
     BlobProcessCheckpoint,
@@ -207,7 +208,18 @@ def run(
             # Active companies that have master data — bare change-feed stubs are excluded
             # (they stall the bulk grind on unresolvable FNRs; the daily pipeline enriches
             # + ingests them instead). See Registry.ingestable_active_fnrs / §15a.1.
-            fnrs = ctx.registry.ingestable_active_fnrs()
+            # Publication-required forms (GmbH/AG …) are filing-checked FIRST, so the per-run
+            # time budget closes the real addressable gap before the never-filing tail (ROADMAP
+            # P1). Override the order with INGEST_PRIORITY_RECHTSFORMEN (comma list; ""=no
+            # priority → pure FNR order).
+            priority = tuple(
+                f.strip()
+                for f in os.environ.get(
+                    "INGEST_PRIORITY_RECHTSFORMEN", ",".join(PUBLICATION_PRIORITY_RECHTSFORMEN)
+                ).split(",")
+                if f.strip()
+            )
+            fnrs = ctx.registry.ingestable_active_fnrs(priority=priority)
             workers = int(os.environ.get("INGEST_WORKERS", "8"))  # parallelism (latency-bound)
             # Per-run time budget: each scheduled run ends cleanly (checkpoint saved) before
             # the platform could evict it, and the next run resumes the rest. This is what
@@ -218,6 +230,7 @@ def run(
                 extra={
                     "context": {
                         "ingestable": len(fnrs),
+                        "priority": list(priority),
                         "workers": workers,
                         "max_minutes": max_minutes,
                     }

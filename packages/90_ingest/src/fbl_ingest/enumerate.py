@@ -62,6 +62,15 @@ DEFAULT_RECHTSFORMEN = (
     "VER",
 )
 
+# Filing-check priority for the active backfill (§277 UGB + GenG/VAG). The forms here MUST
+# publish a Jahresabschluss, so checking them first is where the coverage payoff is; highest
+# volume first (GES=GmbH, then AG), then the smaller mandatory filers (Genossenschaft, SE,
+# Sparkasse, Versicherungsverein), then KG last of the priority tier (only the GmbH&Co-KG
+# subset files, and the code can't distinguish it). Everything not listed — EU, OG, OHG, KEG,
+# PST — falls into the unprioritised tail: it almost never files, so it's checked only after
+# the mandatory forms are exhausted (see Registry.ingestable_active_fnrs / ROADMAP P1).
+PUBLICATION_PRIORITY_RECHTSFORMEN = ("GES", "AG", "GEN", "SE", "SPA", "VER", "KG")
+
 
 @dataclass
 class WalkState:

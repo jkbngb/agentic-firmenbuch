@@ -6,7 +6,7 @@ Drives every download/rebuild/reconcile (§15a.0). The watermark is a singleton 
 
 from __future__ import annotations
 
-from collections.abc import Iterator
+from collections.abc import Iterator, Sequence
 
 from fbl_core.lineage import now_utc_z
 from fbl_core.storage import CosmosStoreLike
@@ -142,7 +142,7 @@ class Registry:
             if self._is_company(d) and d.get("status") == "active" and d.get("rechtsform") in wanted
         )
 
-    def ingestable_active_fnrs(self) -> list[str]:
+    def ingestable_active_fnrs(self, priority: Sequence[str] = ()) -> list[str]:
         """The active-backfill worklist: active companies that carry **master data**
         (a known ``name``).
 
@@ -152,12 +152,26 @@ class Registry:
         including them in the bulk backfill made it crawl/stall on a tail of unresolvable
         FNRs (§15a.1). They are enriched + ingested by the daily pipeline instead (which
         looks up their master data by FNR), so nothing is lost — they just don't belong in
-        the one-off bulk grind."""
-        return sorted(
-            d["fnr"]
+        the one-off bulk grind.
+
+        When *priority* names Rechtsform codes, companies of those forms come FIRST (in the
+        order listed), then everyone else. The filing-check (``sucheUrkunde``) costs one API
+        round-trip per company whether or not the company ever filed, so against a per-run
+        time budget the order decides which companies get checked at all. Putting the
+        publication-required Kapitalgesellschaften (GmbH/AG …) first is what closes the real
+        addressable gap before the long tail of forms that almost never file (Einzelunter-
+        nehmer/OG/…). The download-checkpoint is a *set* of done FNRs, so reordering the
+        worklist never breaks resume — it only re-prioritises the still-pending companies.
+        Within each tier FNRs are sorted, so the order stays deterministic (§15a.1, P1)."""
+        rank = {rf: i for i, rf in enumerate(priority)}
+        tail = len(priority)
+        rows = [
+            (rank.get(str(d.get("rechtsform")), tail), d["fnr"])
             for d in self._store.iter_all(self._container)
             if self._is_company(d) and d.get("status") == "active" and d.get("name")
-        )
+        ]
+        rows.sort(key=lambda t: (t[0], t[1]))
+        return [fnr for _, fnr in rows]
 
     def dirty_fnrs(self) -> list[str]:
         return sorted(
