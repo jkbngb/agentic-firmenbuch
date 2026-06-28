@@ -32,19 +32,47 @@ Anything requiring a model, a judgement, an LLM, or an external data provider is
 - Deterministic **ratios, growth, trends, size bands, peer percentiles**.
 - A **coverage dashboard** (internal) showing data completeness across the universe.
 - An **MCP server** with search, company detail, history, document access, and cohort tools.
+- An **industry/activity filter** (Branchenfilter) over the registered **Geschäftszweig** (business
+  purpose) from the Firmenbuch master data — see §2.4 and §3.
 - **Email signup → API token**, free tier with rate limits.
 - Full **data lineage / provenance** on every record.
 
 ### 2.3 Out of scope (deferred to later versions)
 - **Scoring** of any kind (exit-window score, succession score, quality bands, signals).
 - **Third-party enrichment** (Northdata ownership/structure, SerpAPI online presence, etc.).
-- **NACE / sector classification** — not provided by the free API.
+- **Standardized NACE / ÖNACE sector codes** — not provided by the free API. *(A free-text
+  **Geschäftszweig** IS available and is our industry/activity signal — §2.4; mapping it to NACE
+  codes is a possible later enrichment, not v1.)*
 - **AI-generated text summaries.**
 - **OCR / extraction from PDF-only filings.**
 - **Paid subscription tiers** and **marketing website** (only a minimal signup surface in v1).
 - **Gesellschafter / ownership data** (not in the free API).
 
 > The architecture **reserves clean seams** for all of the above so they can be added later without reworking the core (see *Technische Spezifikation*).
+
+### 2.4 Industry / activity data — decision (2026-06-28)
+
+The product needs a **branch/activity filter**. We use the **Geschäftszweig** (registered business
+purpose) from the Firmenbuch master data — already ingested, license-clean (HVD, CC BY 4.0),
+populated for **~84 % of served companies** (e.g. „Gastgewerbe", „Baustoffhandel", „Immobilien-
+verwaltung", „Friseur"). It is **free text, not a standardized code**; the filter is a
+substring/keyword match. Mapping it to a coarse NACE/ÖNACE classification is a possible later
+enrichment.
+
+**GISA (Gewerberegister) was evaluated as a branch source and REJECTED — do not retry as a bulk
+source:**
+1. The **GISA open-data full dump** (data.gv.at, „Gewerbe in Österreich") is **anonymized**:
+   fields are `nuts1-3`, `lau1-2`, `adress_art`, `gewerbeschluessel`, `gewerbewortlaut`,
+   `gewerbeart`, `postleitzahl`, `ortschaft`, `rechtswirksam`, `ruhend_von`, `inhaber_pers_art`.
+   **No Firmenbuchnummer, no name, no street → no join to a specific company.** Only usable for
+   aggregate statistics, not for us.
+2. The **GISA API (Ausbaustufe 2)** does return identity (incl. Firmenbuchnummer), but its terms
+   of use (point 9) permit **single-record validation only**; **mass queries / building branch
+   lists are forbidden.** So no bulk enrichment.
+
+→ **GISA is not a bulk branch source.** The GISA API remains a possible **optional, low-priority,
+single-query live feature** only (e.g. „which Gewerbe does this one named company hold?"): strictly
+per-record, personal API key, calls logged, under the above legal reservation. Not the filter.
 
 ---
 
@@ -60,7 +88,7 @@ The data comes from the official **Firmenbuch HVD (High Value Datasets)** web se
   - **Filing content:** the actual Jahresabschluss as **structured XML** or as **PDF**. The XML also contains **Stammkapital** and the **signing person** (Geschäftsführer name + birth date) per filing.
   - **Change feeds:** newly published documents and company changes within a date range — the intended basis for efficient daily updates *(availability on our tier to be confirmed against the key — see §10)*.
   - **Bulk dataset:** the whole Firmenbuch is additionally published as a downloadable **HVD bulk dataset on data.gv.at**, refreshed daily — the intended seed for enumerating all ~640k legal entities.
-- **Tier limitation (important):** testing against the free HVD tier indicates the detailed company extract (`auszug` / Kurzinformation) **does not work on it**. Consequently, in Version 1, full **street address / PLZ**, the complete **officer list**, and the **Geschäftszweig** (business purpose) are **not reliably available** and are treated as deferred; `Bundesland` is derived from the court/seat, and Stammkapital + the signing Geschäftsführer come from the **Bilanz-XML**. *(To be confirmed against the key before this is locked — see §10.)*
+- **`auszug` / Kurzinformation — works on our tier (confirmed live 2026-06-28).** An earlier draft assumed the detailed company extract was unavailable on the free tier; that is **outdated**. The master extract is fetched and the **Geschäftszweig** (business purpose) is populated for **~84 % of served companies** — it is the basis of the industry/activity filter (§2.4). Stammkapital + the signing Geschäftsführer still also come from the **Bilanz-XML**; `Bundesland` is derived from the court/seat.
 - **Not available from the free API (therefore deferred):** NACE code, Gesellschafter (shareholders) and ownership percentages, corporate group structure, online presence.
 
 ---
@@ -89,7 +117,7 @@ The data comes from the official **Firmenbuch HVD (High Value Datasets)** web se
 | **Ownership / Gesellschafter** | — | Deferred |
 | **Scoring / enrichment / summary / online presence** | — | Deferred |
 
-> **`auszug`-dependent fields (subject to §3 tier limitation, to be confirmed):** full `postal_code` / `street`, the complete officer list, and `description` (Geschäftszweig) rely on the company extract, which appears unavailable on the free HVD tier. If so, in Version 1: `location` = Sitz + derived Bundesland (no street/PLZ); `management` = the **signing Geschäftsführer from each Bilanz-XML** only (not a full officer list); `description` deferred. `stammkapital` still comes from the Bilanz-XML.
+> **`auszug`-dependent fields (resolved 2026-06-28 — the extract works on our tier):** `description` (Geschäftszweig) **is populated for ~84 % of served companies** and powers the industry filter (§2.4). `location` is Sitz + derived Bundesland (street/PLZ still not surfaced); `management` = the **signing Geschäftsführer from each Bilanz-XML** (not a full officer list); `stammkapital` from the Bilanz-XML.
 
 ### 4.2 Two filing formats + PDF (a Version 1 reality)
 A Jahresabschluss arrives in one of three shapes, and the product must handle all three:
@@ -137,7 +165,7 @@ When a new Jahresabschluss (or register change) arrives:
 ## 6. The MCP product (functional)
 
 ### 6.1 What users can do (Version 1 tools)
-- **search_companies** — filter the universe by **company name (substring)**, legal form, Bundesland, Größenklasse, financial ranges (Bilanzsumme, Eigenkapitalquote, revenue, employees), growth profile, **has_guv / has_guv_latest**, last filing year, and **primary Geschäftsführer current age** (succession-window screen); sorted (bilanzsumme, revenue, equity_ratio, employees, last_filing_year) and paginated.
+- **search_companies** — filter the universe by **company name (substring)**, **Geschäftszweig / industry (substring)** — the branch filter, §2.4 — legal form, Bundesland, Größenklasse, financial ranges (Bilanzsumme, Eigenkapitalquote, revenue, employees), growth profile, **has_guv / has_guv_latest**, last filing year, and **primary Geschäftsführer current age** (succession-window screen); sorted (bilanzsumme, revenue, equity_ratio, employees, last_filing_year) and paginated.
 
 > **Served scope (v1):** ingest, raw archival and consolidation cover the **whole company universe (all Rechtsformen)**. The **served `10_presentation` layer is GmbH-first** — the Initial Load runs `backfill-process` with `PROCESS_RECHTSFORMEN=GES` (~213k GmbHs). Other forms (KG, AG, OG, GEN, SE, …) are fully pipeline-capable and are served once that env is widened; until then `search_companies` results are GmbH only.
 - **get_company_details** — the full consolidated record for one company.
