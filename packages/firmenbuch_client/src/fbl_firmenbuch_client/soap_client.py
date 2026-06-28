@@ -68,13 +68,22 @@ class JustizOnlineClient(RegisterSource):
         client: httpx.Client | None = None,
         max_retries: int = 4,
         backoff_base: float = 0.5,
-        timeout: float = 60.0,
+        timeout: float = 120.0,
+        connect_timeout: float = 15.0,
         sleep: Callable[[float], None] = time.sleep,
         capture_raw: bool = True,
     ) -> None:
         self._base = api_url.rstrip("/")
         self._key = api_key
-        self._client = client or httpx.Client(timeout=timeout)
+        # Granular timeout: a SHORT connect timeout fails fast on an unresponsive host, but a
+        # GENEROUS read timeout lets a large urkunde (a bank/insurer PDF the server generates
+        # on demand → long time-to-first-byte, then a multi-MB body) finish. A single flat
+        # value can't do both — the old flat 20 s tripped on TTFB and dead-lettered the biggest
+        # filings (ROADMAP P1.2). httpx resets the read timeout per chunk, so a steadily
+        # streaming body never trips it; only a genuinely hung connection does.
+        self._client = client or httpx.Client(
+            timeout=httpx.Timeout(timeout, connect=connect_timeout)
+        )
         self._max_retries = max_retries
         self._backoff_base = backoff_base
         self._sleep = sleep
@@ -426,10 +435,25 @@ class JustizOnlineClient(RegisterSource):
         )
 
 
+def _new_parser() -> etree.XMLParser:
+    """A parser that accepts the large ``urkunde`` responses.
+
+    ``huge_tree=True`` lifts libxml2's ~10 MB single-text-node ceiling: a bank/insurer
+    Jahresabschluss PDF arrives base64-encoded as ONE giant text node inside the SOAP
+    envelope, which the default parser rejects with an ``XMLSyntaxError`` ("huge text
+    node"). That rejection used to surface — misleadingly — as ``urkunde failed … http
+    200`` (the HTTP fetch succeeded; only the parse blew up), dead-lettering ~38 % of the
+    largest filings (ROADMAP P1.2). We still keep the XXE guards on (``resolve_entities``
+    off, ``no_network``), since lifting the size cap must not also open entity expansion.
+    A fresh parser per call keeps this thread-safe under the multi-worker backfill (libxml2
+    parsers are not safe to share across threads)."""
+    return etree.XMLParser(huge_tree=True, resolve_entities=False, no_network=True)
+
+
 def _try_parse(content: bytes) -> etree._Element | None:
     """Parse response bytes, or None if not well-formed XML (e.g. a 429 text body)."""
     try:
-        return etree.fromstring(content)
+        return etree.fromstring(content, parser=_new_parser())
     except etree.XMLSyntaxError:
         return None
 

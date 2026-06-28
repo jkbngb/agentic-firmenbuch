@@ -25,7 +25,6 @@ def _build_context(
     settings: object,
     *,
     capture_raw: bool = True,
-    timeout: float = 60.0,
     max_retries: int = 4,
 ) -> PipelineContext:
     s = settings  # pydantic Settings
@@ -41,7 +40,6 @@ def _build_context(
         s.justizonline_api_url,  # type: ignore[attr-defined]
         s.firmenbuch_api_key,  # type: ignore[attr-defined]
         capture_raw=capture_raw,
-        timeout=timeout,
         max_retries=max_retries,
     )
     return PipelineContext(
@@ -63,14 +61,15 @@ def cli(argv: list[str] | None = None) -> int:
     settings = get_settings()
     run_id = make_run_id(args.mode)
     log.info("pipeline start", extra={"context": {"run_id": run_id, "mode": args.mode}})
-    # Backfill: tighter HTTP timeout + fewer retries so a single unresponsive FNR fails fast
-    # (~3×20s) instead of stalling the worker for minutes. The registry walk keeps the
-    # generous defaults (its searches can legitimately be slow).
+    # Backfill: fewer retries so a single unresponsive FNR fails fast. The HTTP timeout is now
+    # granular (short connect = fast-fail on a dead host; generous read = patience for a large
+    # urkunde the server is slow to start streaming), so we no longer cripple it with a flat
+    # 20 s that dead-lettered the biggest bank/insurer filings (ROADMAP P1.2). The registry
+    # walk keeps the generous defaults (its searches can legitimately be slow).
     backfill = args.mode == "backfill-ingest"
     ctx = _build_context(
         settings,
         capture_raw=not backfill,
-        timeout=20.0 if backfill else 60.0,
         max_retries=2 if backfill else 4,
     )
     code = run(args.mode, ctx, run_id=run_id)

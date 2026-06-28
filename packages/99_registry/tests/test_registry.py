@@ -43,6 +43,28 @@ def test_ingestable_active_fnrs_excludes_bare_change_feed_stubs() -> None:
     assert reg.ingestable_active_fnrs() == ["030435h"]
 
 
+def test_ingestable_active_fnrs_prioritises_publication_forms() -> None:
+    reg = _registry()
+    # Mixed forms; FNRs chosen so plain sort would interleave them.
+    reg.ensure("01ou", source="t", name="O OG", rechtsform="OG")  # tail (never files)
+    reg.ensure("02ag", source="t", name="A AG", rechtsform="AG")  # priority #2
+    reg.ensure("03eu", source="t", name="E e.U.", rechtsform="EU")  # tail
+    reg.ensure("04ge", source="t", name="G GmbH", rechtsform="GES")  # priority #1
+    reg.ensure("05ge", source="t", name="H GmbH", rechtsform="GES")  # priority #1
+
+    # No priority → pure FNR order (unchanged behaviour, backward-compatible).
+    assert reg.ingestable_active_fnrs() == ["01ou", "02ag", "03eu", "04ge", "05ge"]
+
+    # With a priority list: GES before AG before the unlisted tail; FNR-sorted within a tier.
+    assert reg.ingestable_active_fnrs(priority=("GES", "AG")) == [
+        "04ge",
+        "05ge",
+        "02ag",
+        "01ou",
+        "03eu",
+    ]
+
+
 def test_dirty_clean_lifecycle() -> None:
     reg = _registry()
     reg.ensure("030435h", source="x")

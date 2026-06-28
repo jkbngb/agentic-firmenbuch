@@ -54,16 +54,27 @@ nichts:
 nichts zu holen. Der **echte adressierbare Gap = ~191k GmbHs + ~3k AGs**, die einreichen
 *müssen*, aber noch nicht verarbeitet sind. **Das** ist das Ziel.
 
-Zwei Teil-Probleme, beide generisch:
+Zwei Teil-Probleme, beide generisch – **beide im Code erledigt (2026-06-28)**, jetzt
+arbeiten die geplanten Läufe den Rückstand ab:
 
-1. **Backfill der ~194k publikationspflichtigen GmbHs/AGs** (nicht der 437k). Filing-Check
-   priorisiert auf GES/AG, EU/KG/OG nachrangig. → Durchsatz hoch, große/aktive zuerst.
-2. **Großdatei-Download-Bug** (`urkunde failed … http 200`). 38 % der großen Dateien
-   (Banken/Versicherer-PDFs) scheitern. → Timeout hoch, Streaming, bessere Retry-Logik;
-   danach die ~5.800 dead-letter-Firmen erneut durchschieben. Code:
-   `packages/firmenbuch_client/src/fbl_firmenbuch_client/soap_client.py:_post`.
+1. **Backfill priorisiert jetzt publikationspflichtige Formen.** ✅ Der Filing-Check
+   (`backfill-ingest`) prüft GES → AG → GEN/SE/SPA/VER → KG **zuerst**, der nie einreichende
+   Schwanz (EU/OG/OHG/KEG/PST) zuletzt. So fließt das Per-Lauf-Zeitbudget in die ~194k
+   Firmen, die wirklich einreichen, statt es an ~220k EU/KG/OG zu verschwenden. Reihenfolge
+   per `INGEST_PRIORITY_RECHTSFORMEN` überschreibbar. Code:
+   `Registry.ingestable_active_fnrs(priority=…)` + `orchestrator.backfill-ingest`.
+2. **Großdatei-Download-Bug behoben.** ✅ Ursache war **nicht** Netzwerk: eine Banken-/
+   Versicherer-PDF kommt base64-kodiert als **ein** Textknoten über libxml2s ~10-MB-Limit;
+   der Default-Parser warf „Text node too long" → das wurde fälschlich als wiederholbares
+   „http 200" gemeldet und nach Retries dead-letter. Fix: `huge_tree=True` beim Parsen (+
+   XXE-Schutz bleibt). Zusätzlich granulares Timeout (kurzer Connect-, großzügiger
+   Read-Timeout) statt der flachen 20 s, die bei langsamem Time-to-first-byte die größten
+   Filings killte. Code: `soap_client._try_parse` / `__init__` / `orchestration.__main__`.
+   **Dead-letter-Re-Drive automatisch:** fehlgeschlagene FNRs landen nie im `done`-Set, der
+   nächste Lauf nimmt sie also von selbst wieder auf – jetzt mit funktionierendem Download.
 
-**Blocker:** keine. **Wirkung:** das Produkt fühlt sich „vollständig" an. Größter Hebel.
+**Blocker:** keine. **Offen:** nur noch Durchsatz (die Läufe müssen die ~194k abarbeiten) –
+kein Code mehr. **Wirkung:** das Produkt fühlt sich „vollständig" an. Größter Hebel.
 
 ---
 
