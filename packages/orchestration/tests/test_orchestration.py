@@ -57,6 +57,31 @@ def test_initial_load_end_to_end() -> None:
     assert ctx.registry.dirty_fnrs() == []
 
 
+def test_ingest_fi_pulls_only_financial_institutions() -> None:
+    # ROADMAP P2.2: the FI-targeted PDF ingest selects banks/insurers (here by name) and pulls
+    # their official filing, while leaving ordinary companies untouched (storage guard).
+    src = FakeSource(
+        universe={
+            "012345f": "Volksbank Niederösterreich AG",  # bank (name match) → FI
+            "030435h": "Westerthaler GmbH",  # ordinary company → not an FI
+        },
+        documents={
+            "012345f": [ja_ref("012345f", "2024-12-31", ext="pdf")],
+            "030435h": [ja_ref("030435h", "2024-12-31")],
+        },
+        values={"2024-12-31": (1200.0, 700.0)},
+    )
+    ctx = _ctx(src)
+    run("sync-registry", ctx)
+    assert ctx.registry.financial_institution_fnrs() == ["012345f"]
+
+    assert run("ingest-fi", ctx) == 0
+    assert ctx.blob.list_paths("90-raw", "012345f/2024-12-31/")  # FI filing ingested
+    assert ctx.blob.list_paths("90-raw", "030435h/") == []  # ordinary company untouched
+    # Its own checkpoint blob, kept separate from the XML-only backfill's done-set.
+    assert ctx.blob.get_json("90-raw", "_checkpoints/ingest_fi.json") is not None
+
+
 def test_backfill_process_is_idempotent() -> None:
     ctx = _ctx(_source_two_years())
     run("sync-registry", ctx)

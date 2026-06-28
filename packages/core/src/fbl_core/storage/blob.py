@@ -8,13 +8,36 @@ stages (core/parse) run without Azure installed or configured (§3.2).
 from __future__ import annotations
 
 import json
+from dataclasses import dataclass
+from datetime import UTC, datetime, timedelta
 from typing import TYPE_CHECKING, Any
+from urllib.parse import quote
 
 if TYPE_CHECKING:  # pragma: no cover - typing only
     from azure.storage.blob import BlobServiceClient
 
 RAW_CONTAINER = "90-raw"
 PARSED_CONTAINER = "70-parsed"
+
+# Default lifetime of a download link. Short by design: the link is a bearer capability over a
+# public-data document, so it expires quickly; an agent re-asks get_document for a fresh one.
+DOWNLOAD_TTL_MINUTES = 15
+# Allow for client/server clock skew so a link is valid immediately (Azure rejects a SAS whose
+# signed start time is in the future relative to the storage service's clock).
+_SKEW_MINUTES = 5
+
+
+@dataclass(frozen=True)
+class BlobDownloadLink:
+    """A time-limited, read-only download URL for one blob (a User-Delegation SAS in prod).
+
+    ``url`` carries the signature inline — hand it straight to the caller; never stream the
+    blob's bytes through a tool response. ``expires_at`` is an ISO-8601 ``Z`` timestamp;
+    ``expires_in_seconds`` is the same horizon relative to issue time, for display."""
+
+    url: str
+    expires_at: str
+    expires_in_seconds: int
 
 
 class BlobStore:
@@ -87,6 +110,54 @@ class BlobStore:
         """List blob paths in *container* under *prefix*."""
         client = self._service().get_container_client(container)
         return [b.name for b in client.list_blobs(name_starts_with=prefix or None)]
+
+    def download_link(
+        self,
+        container: str,
+        path: str,
+        *,
+        ttl_minutes: int = DOWNLOAD_TTL_MINUTES,
+        filename: str | None = None,
+        content_type: str | None = None,
+    ) -> BlobDownloadLink:
+        """Mint a time-limited, read-only **User-Delegation SAS** URL for one blob (§7.2).
+
+        User-delegation (not an account key) means the SAS is signed with a key the Managed
+        Identity requests from Entra ID — so it works key-free and is auditable. The MI needs
+        the ``Storage Blob Delegator`` role IN ADDITION to ``Storage Blob Data Contributor``
+        (see ``infra/modules/rbac.bicep``); without it ``get_user_delegation_key`` 403s.
+
+        ``filename`` sets a ``Content-Disposition: attachment`` so a browser saves the official
+        document under a sensible name; ``content_type`` overrides the response MIME. The URL
+        embeds the signature — return it directly, never the bytes."""
+        from azure.storage.blob import BlobSasPermissions, generate_blob_sas
+
+        service = self._service()
+        account_name = service.account_name
+        if account_name is None:  # pragma: no cover - always set for a real BlobServiceClient
+            raise RuntimeError("blob service client has no account name; cannot sign a SAS")
+        now = datetime.now(UTC)
+        start = now - timedelta(minutes=_SKEW_MINUTES)
+        expiry = now + timedelta(minutes=ttl_minutes)
+        key = service.get_user_delegation_key(key_start_time=start, key_expiry_time=expiry)
+        disposition = f'attachment; filename="{filename}"' if filename else None
+        sas = generate_blob_sas(
+            account_name=account_name,
+            container_name=container,
+            blob_name=path,
+            user_delegation_key=key,
+            permission=BlobSasPermissions(read=True),
+            start=start,
+            expiry=expiry,
+            content_disposition=disposition,
+            content_type=content_type,
+        )
+        url = f"{self._account_url}/{container}/{quote(path)}?{sas}"
+        return BlobDownloadLink(
+            url=url,
+            expires_at=expiry.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            expires_in_seconds=ttl_minutes * 60,
+        )
 
     def put_json(self, container: str, path: str, obj: dict[str, Any]) -> str:
         """Store a JSON document (overwrite-safe; deterministic content)."""

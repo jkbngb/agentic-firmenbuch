@@ -8,9 +8,10 @@ from __future__ import annotations
 
 import json
 from collections.abc import Iterator
+from datetime import UTC, datetime, timedelta
 from typing import Any
 
-from .blob import PARSED_CONTAINER, RAW_CONTAINER
+from .blob import DOWNLOAD_TTL_MINUTES, PARSED_CONTAINER, RAW_CONTAINER, BlobDownloadLink
 
 
 class InMemoryBlobStore:
@@ -61,6 +62,25 @@ class InMemoryBlobStore:
 
     def list_paths(self, container: str, prefix: str = "") -> list[str]:
         return sorted(p for p in self._bucket(container) if p.startswith(prefix))
+
+    def download_link(
+        self,
+        container: str,
+        path: str,
+        *,
+        ttl_minutes: int = DOWNLOAD_TTL_MINUTES,
+        filename: str | None = None,
+        content_type: str | None = None,
+    ) -> BlobDownloadLink:
+        """Fake of the User-Delegation SAS: a ``memory://`` URL pointing at the blob, with an
+        ``se=`` expiry param. No signature (offline tests assert shape/target, not Azure auth)."""
+        expiry = datetime.now(UTC) + timedelta(minutes=ttl_minutes)
+        expires_at = expiry.strftime("%Y-%m-%dT%H:%M:%SZ")
+        return BlobDownloadLink(
+            url=f"memory://{container}/{path}?se={expires_at}&sig=fake",
+            expires_at=expires_at,
+            expires_in_seconds=ttl_minutes * 60,
+        )
 
 
 class InMemoryCosmosStore:

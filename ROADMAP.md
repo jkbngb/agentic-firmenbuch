@@ -118,9 +118,14 @@ Aus der 64-Datei-Analyse (`docs/Erweiterungen_Spezifikation.md` §2):
    ihn beim Ausliefern an → wirkt sofort für alle 341k Docs ohne Re-Grind. `get_company_details`
    liefert einen `financial_institution`-Block {kind, source, caveat}, die Such-Card ein
    `is_financial_institution`. Löst die Volksbank-NÖ-Falle. Quelle = „heuristic" (GISA/NACE in P3 löst ab).
-2. **PDF-Download via MCP** (in Arbeit) — Banken/Versicherer-PDFs ins Blob holen (`include_pdf` für FIs)
-   + `get_document` vom Stub zum echten SAS-Download-Link ausbauen (+ MI-Rolle `Storage Blob Delegator`).
-   Liefert das amtliche Originaldokument, auch ohne extrahierte Zahlen.
+2. **PDF-Download via MCP** ✅ **erledigt (Code; Deploy + RBAC manuell).** Neuer Pipeline-Modus
+   `ingest-fi` holt die amtlichen **PDF**-Abschlüsse der per FI-Klassifizierer erkannten Banken/
+   Versicherer ins Blob (`include_pdf=True`, eigener Checkpoint) — nicht für alle 340k. `get_document`
+   ist vom Metadaten-Stub zum echten **User-Delegation-SAS-Download-Link** ausgebaut: löst den
+   Blob-Pfad aus dem `_manifest.json` auf und liefert eine kurzlebige signierte URL (keine Bytes durch
+   die Tool-Antwort) plus FI-Flag + Caveat. MI-Rolle `Storage Blob Delegator` in `infra/modules/rbac.bicep`
+   ergänzt. **Manuell offen:** Bicep/`az role assignment` ausrollen, MCP-Image deployen, `ingest-fi`
+   einmalig laufen lassen. Liefert das amtliche Originaldokument, auch ohne extrahierte Zahlen.
 3. ESEF/iXBRL-Parser (börsennotierte, ~12 Firmen) — saubere IFRS-Daten.
 4. EBA Pillar-3 (Banken: CET1/NPL/LCR) + SFCR/QRT (Versicherer: Combined Ratio/SCR).
 5. PDF-Extraktion (BWG/VAG) inkl. OCR für die 71 % gescannten.

@@ -5,12 +5,17 @@ selected by `--mode`; holds the **singleton run lock**; runs the stages **sequen
 per company over the changed set (§8.8, §15a).
 
 ```
-fbl-pipeline --mode {sync-registry | backfill-ingest | backfill-process | daily}
+fbl-pipeline --mode {sync-registry | backfill-ingest | ingest-fi | backfill-process | daily}
 ```
 
 ## Modes
 - **`sync-registry`** — seed/reconcile `99_registry` (first run = seed).
-- **`backfill-ingest`** — download all raw → `90-raw` for the whole registry.
+- **`backfill-ingest`** — download all raw → `90-raw` for the whole registry (**XML only**,
+  `include_pdf=False` — the PDF siblings are skipped to spare storage across all 340k).
+- **`ingest-fi`** — FI-targeted PDF ingest (ROADMAP P2.2): pull the official **PDF** abschlüsse
+  for the few hundred banks (BWG) / insurers (VAG) that `Registry.financial_institution_fnrs()`
+  flags — the same heuristic the MCP applies at serve time — so `get_document` can hand out a
+  signed link to the real document. `include_pdf=True`, own checkpoint (`_checkpoints/ingest_fi.json`).
 - **`backfill-process`** — `consolidate → derive → present` over the whole registry.
 - **`daily`** — detect changes since the watermark → ingest the new raw → process the
   dirty set → advance the watermark **only on full success**. Status-change-only dirty

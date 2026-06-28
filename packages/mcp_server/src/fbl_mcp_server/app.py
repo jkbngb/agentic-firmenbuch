@@ -28,7 +28,7 @@ from fbl_auth import (
 )
 from fbl_core.config import Settings, get_settings
 from fbl_core.models import SearchFilters, Sort
-from fbl_core.storage import CosmosStoreLike
+from fbl_core.storage import BlobStore, BlobStoreLike, CosmosStoreLike
 
 from . import service
 from .errors import RateLimited, Unauthorized
@@ -45,9 +45,20 @@ else:
 class McpService:
     """Auth + rate limit + metering in front of the read tools."""
 
-    def __init__(self, cosmos: CosmosStoreLike, settings: Settings | None = None) -> None:
+    def __init__(
+        self,
+        cosmos: CosmosStoreLike,
+        settings: Settings | None = None,
+        blob: BlobStoreLike | None = None,
+    ) -> None:
         self._cosmos = cosmos
         self._settings = settings or get_settings()
+        # Blob is needed only by get_document (to mint a SAS download link). Built lazily from the
+        # configured account URL when not injected; stays None offline/in tests → get_document
+        # degrades to metadata only. The BlobStore opens no connection until first used.
+        if blob is None and self._settings.blob_account_url:
+            blob = BlobStore(self._settings.blob_account_url)
+        self._blob = blob
 
     def _authorize(self, token: str, tool: str) -> Account:
         # Two credential kinds resolve to the same Account: an X-API-Key (legacy header
@@ -104,7 +115,7 @@ class McpService:
 
     def get_document(self, token: str, doc_key: str) -> dict[str, Any]:
         self._authorize(token, "get_document")
-        return service.get_document(self._cosmos, doc_key)
+        return service.get_document(self._cosmos, doc_key, self._blob)
 
     def list_sectors(self, token: str) -> dict[str, Any]:
         self._authorize(token, "list_sectors")
@@ -559,7 +570,11 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
 
     @mcp.tool()
     def get_document(ctx: ToolContext, doc_key: str) -> dict[str, Any]:
-        """Resolve a filing document reference by key."""
+        """Get a time-limited download link to a company's official Jahresabschluss document.
+        Pass a filing's `document_ref` ("{fnr}:{stichtag}") from get_company_details, a bare FNR
+        (→ latest filing), or a legacy doc_key. Returns `download.url` (a short-lived signed link
+        — open it, don't expect bytes inline) plus the FI flag + caveat for banks/insurers, whose
+        figures live only in the PDF. `download` is null if nothing is ingested for that filing."""
         return svc.get_document(_http_token(ctx), doc_key)
 
     @mcp.tool()

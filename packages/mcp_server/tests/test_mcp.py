@@ -9,7 +9,7 @@ import pytest
 from fbl_auth import signup
 from fbl_core.config import Settings
 from fbl_core.models import SearchFilters
-from fbl_core.storage import InMemoryCosmosStore
+from fbl_core.storage import RAW_CONTAINER, InMemoryBlobStore, InMemoryCosmosStore
 from fbl_mcp_server import McpService, NotFound, RateLimited, Unauthorized, build_app
 
 PRESENTED = "10_presentation"
@@ -326,8 +326,87 @@ def test_get_document() -> None:
     svc, token = _svc()
     doc = svc.get_document(token, "030435h-KEY")["result"]
     assert doc["fnr"] == "030435h"
+    # No blob configured (the default _svc) → metadata only, no download link.
+    assert doc["download"] is None
     with pytest.raises(NotFound):
         svc.get_document(token, "missing-key")
+
+
+def test_get_company_details_stamps_document_ref() -> None:
+    svc, token = _svc()
+    result = svc.get_company_details(token, "030435h")["result"]
+    # Each filing carries a resolvable ref the agent can hand straight to get_document.
+    assert result["filings"][0]["document_ref"] == "030435h:2024-12-31"
+
+
+def _fi_store_with_pdf() -> tuple[InMemoryCosmosStore, InMemoryBlobStore]:
+    """A served Volksbank (FI) + its official PDF Jahresabschluss in 90-raw (manifest + bytes)."""
+    cosmos = InMemoryCosmosStore()
+    cosmos.upsert(
+        PRESENTED,
+        _presented(
+            "012345f",
+            name="Volksbank Niederösterreich AG",
+            bundesland="N",
+            gkl="G",
+            bilanzsumme=0.0,
+            has_guv_latest=False,
+            equity_ratio=0.0,
+            profile="stable",
+            legal_form="AG",
+        ),
+    )
+    blob = InMemoryBlobStore()
+    stichtag = "2024-12-31"
+    blob_path = f"012345f/{stichtag}/012345f_{stichtag}_abc1234567_jb.pdf"
+    blob.put_bytes(RAW_CONTAINER, blob_path, b"%PDF-1.7 official bank filing")
+    blob.put_json(
+        RAW_CONTAINER,
+        f"012345f/{stichtag}/_manifest.json",
+        {
+            "artifacts": [
+                {
+                    "blob_path": f"{RAW_CONTAINER}/{blob_path}",
+                    "doc_key": "VBNOE-PDF",
+                    "dateiendung": "pdf",
+                    "content_type": "application/pdf",
+                    "bytes": 29,
+                    "eingereicht": "2025-04-30",
+                    "dokumentart": {"code": "JA", "text": "Jahresabschluss"},
+                }
+            ]
+        },
+    )
+    return cosmos, blob
+
+
+def test_get_document_returns_sas_download_for_fi_pdf() -> None:
+    cosmos, blob = _fi_store_with_pdf()
+    token = signup("user@example.test", cosmos).token
+    svc = McpService(cosmos, Settings(rate_limit_per_min=1000, rate_limit_per_day=10000), blob)
+
+    result = svc.get_document(token, "012345f:2024-12-31")["result"]
+    # DoD: FI flag + caveat + a working (here: faked) download link to the official PDF.
+    assert result["financial_institution"]["kind"] == "bank"
+    assert "BWG" in result["financial_institution"]["caveat"]
+    assert result["document"]["dateiendung"] == "pdf"
+    dl = result["download"]
+    assert dl is not None
+    # The signed URL targets the exact PDF blob and carries an expiry.
+    assert dl["url"].startswith(
+        "memory://90-raw/012345f/2024-12-31/012345f_2024-12-31_abc1234567_jb.pdf?"
+    )
+    assert f"se={dl['expires_at']}" in dl["url"]
+    assert dl["expires_in_seconds"] > 0
+
+
+def test_get_document_resolves_bare_fnr_to_latest_filing() -> None:
+    cosmos, blob = _fi_store_with_pdf()
+    token = signup("user@example.test", cosmos).token
+    svc = McpService(cosmos, Settings(rate_limit_per_min=1000, rate_limit_per_day=10000), blob)
+    result = svc.get_document(token, "012345f")["result"]
+    assert result["stichtag"] == "2024-12-31"
+    assert result["download"] is not None
 
 
 def test_unauthorized() -> None:

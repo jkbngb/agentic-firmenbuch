@@ -19,6 +19,11 @@ and reconciliation.
   `ensure`/`get`/`put`, `mark_dirty`/`mark_clean`/`dead_letter`, `record_filing`,
   `set_status`, `all_fnrs`/`dirty_fnrs`/`iter_docs`, watermark get/set. Reserved
   singletons (watermark, run lock) use `__`-prefixed ids and are excluded from company sets.
+- **Worklist selectors** drive the backfill variants: `ingestable_active_fnrs(priority=…)`
+  (publication-required forms first), `active_fnrs_by_rechtsform(*forms)`, and
+  `financial_institution_fnrs()` — active banks/insurers per the shared
+  [`classify_financial_institution`](../core/README.md) heuristic, the worklist for the
+  `ingest-fi` PDF pull (ROADMAP P2.2).
 
 ## Run it standalone
 ```bash

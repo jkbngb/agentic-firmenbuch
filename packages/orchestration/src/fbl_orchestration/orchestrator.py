@@ -13,6 +13,7 @@ from fbl_core.storage import RAW_CONTAINER, BlobStoreLike
 from fbl_ingest import (
     CHECKPOINT_PATH,
     DEFAULT_RECHTSFORMEN,
+    INGEST_FI_CHECKPOINT_PATH,
     PUBLICATION_PRIORITY_RECHTSFORMEN,
     WALK_COMPLETE_MARKER,
     BlobIngestCheckpoint,
@@ -33,7 +34,15 @@ from .pipeline import (
 )
 from .runlock import heartbeat_run_lock, run_lock
 
-MODES = ("sync-registry", "backfill-ingest", "backfill-process", "daily", "diag", "diag-doctypes")
+MODES = (
+    "sync-registry",
+    "backfill-ingest",
+    "ingest-fi",
+    "backfill-process",
+    "daily",
+    "diag",
+    "diag-doctypes",
+)
 
 log = get_logger("orchestration")
 
@@ -247,6 +256,39 @@ def run(
                 heartbeat=ctx.heartbeat,  # renew the run lock across the multi-hour run
                 workers=workers,  # fan out — bottleneck is per-request latency
                 max_seconds=max_minutes * 60,  # bounded run → never stuck
+            )
+            return 0
+        if mode == "ingest-fi":
+            # FI-targeted PDF ingest (ROADMAP P2.2): banks (BWG) / insurers (VAG) file their
+            # Jahresabschluss as a PDF, which the general backfill skips (include_pdf=False) to
+            # spare storage across all 340k companies. Here we DO pull the official PDF abschlüsse
+            # for the few hundred regulated FIs — the same set the serve-time FI flag recognises —
+            # so the MCP's get_document can hand out a signed link to the real document. Its own
+            # checkpoint blob keeps this run's done-set separate from the XML-only backfill.
+            fnrs = ctx.registry.financial_institution_fnrs()
+            workers = int(os.environ.get("INGEST_WORKERS", "8"))
+            max_minutes = int(os.environ.get("INGEST_MAX_MINUTES", "50"))
+            log.info(
+                "ingest-fi starting",
+                extra={
+                    "context": {
+                        "financial_institutions": len(fnrs),
+                        "workers": workers,
+                        "max_minutes": max_minutes,
+                    }
+                },
+            )
+            run_ingest(
+                ctx.source,
+                ctx.registry,
+                ctx.blob,
+                run_id=run_id,
+                fnrs=fnrs,
+                include_pdf=True,  # the whole point — keep the official PDF abschlüsse
+                checkpoint=BlobIngestCheckpoint(ctx.blob, path=INGEST_FI_CHECKPOINT_PATH),
+                heartbeat=ctx.heartbeat,
+                workers=workers,
+                max_seconds=max_minutes * 60,
             )
             return 0
         if mode == "backfill-process":

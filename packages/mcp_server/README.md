@@ -11,7 +11,7 @@ auth + rate limiting enforced before any tool runs.
 | `get_company_details(fnr)` | full served profile (internal hash chain omitted); each line item carries its `source_codes` + `paragraph_ref` (Part A) |
 | `get_company_history(fnr, metrics)` | per-metric time series, each with `source_codes`, `source_codes_by_year`, `ugb_paragraph` (Part A) |
 | `get_full_record(fnr)` | the COMPLETE consolidated/derived record — full `positions`/`passthrough`/`completeness`, nothing reduced (Part B §5.1); officer names gated |
-| `get_document(doc_key)` | filing document reference |
+| `get_document(doc_key)` | a **time-limited signed download link** to a company's official Jahresabschluss artifact in `90-raw`. `doc_key` is a filing's `document_ref` (`{fnr}:{stichtag}`, stamped by `get_company_details`), a bare FNR (→ latest filing), or a legacy doc_key. The blob path is read from the per-Stichtag `_manifest.json`; the chosen artifact (the **PDF for a bank/insurer**) is signed with a short-lived **User-Delegation SAS** — the URL is returned, never the bytes. Emits the `financial_institution` flag + caveat for FIs, whose figures live only in the PDF (ROADMAP P2.2). `download` is `null` if nothing is ingested for that filing or no blob is configured. |
 | `list_sectors()` | legal-form + size-class taxonomy with counts |
 | `get_cohort_summary(dimension, value)` | aggregate for gkl / bundesland / legal_form |
 | `find_peers(fnr, n)` | nearest companies by Bilanzsumme in the same size class |
@@ -27,6 +27,12 @@ agent escalates from card → profile → full record as needed. `describe_field
 all three so the shape is discoverable, not guessed. Authoritative dictionary:
 [docs/FIELD_REFERENCE.md](../../docs/FIELD_REFERENCE.md) · public page
 [felder.html](https://www.agentic-firmenbuch.at/felder.html).
+
+**Document downloads (§7.2, ROADMAP P2.2).** `get_document` mints a User-Delegation SAS via
+`BlobStore.download_link`, so the managed identity needs the **`Storage Blob Delegator`** role
+in addition to `Storage Blob Data Contributor` (see [`infra/modules/rbac.bicep`](../../infra/modules/rbac.bicep));
+without it `get_user_delegation_key` 403s. The banks/insurers whose PDF abschlüsse this serves
+are pulled into `90-raw` by the [`ingest-fi`](../orchestration/README.md) pipeline mode.
 
 **Auth is header-based:** the API key is read from the `X-API-Key` request header (set once
 at `claude mcp add … --header`), never passed as a tool argument — so it never appears in a

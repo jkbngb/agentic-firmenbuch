@@ -8,14 +8,22 @@ Protocols, so pipeline code is identical either way.
 from __future__ import annotations
 
 from .base import BlobStoreLike, CosmosStoreLike
-from .blob import PARSED_CONTAINER, RAW_CONTAINER, BlobStore
+from .blob import (
+    DOWNLOAD_TTL_MINUTES,
+    PARSED_CONTAINER,
+    RAW_CONTAINER,
+    BlobDownloadLink,
+    BlobStore,
+)
 from .cosmos import PARTITION_KEYS, CosmosStore
 from .memory import InMemoryBlobStore, InMemoryCosmosStore
 
 __all__ = [
+    "DOWNLOAD_TTL_MINUTES",
     "PARSED_CONTAINER",
     "PARTITION_KEYS",
     "RAW_CONTAINER",
+    "BlobDownloadLink",
     "BlobStore",
     "BlobStoreLike",
     "CosmosStore",
