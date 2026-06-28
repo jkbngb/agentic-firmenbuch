@@ -20,6 +20,31 @@ missing and leaves existing resources untouched.
 | `modules/rbac.bicep` | Role assignments for the MI | Blob Data Contributor, KV Secrets User, AcrPull, Cosmos data-plane |
 | `main.bicep` | subscription-scoped orchestrator | creates the RG + all modules |
 
+## Live Container Apps Jobs (runbook)
+
+Four scheduled Jobs share one image (`firmenbuch-pipeline:<tag>`) and dispatch on `--mode`.
+The pipeline is two-phase: **ingest** fetches raw from the API into Blob `90-raw`; **process**
+turns that raw into the served `10_presentation`. State as of 2026-06-28:
+
+| Job | Mode | Does | Reads → writes | API? | Cron |
+|---|---|---|---|---|---|
+| `job-firmenbuch-daily` | `daily` | Change-feed delta: detect changed FNRs, ingest + process the dirty set | feed → Blob + Cosmos | yes | `0 3 * * *` (daily) |
+| `job-firmenbuch-backfill-ingest` | `backfill-ingest` | Bulk **fetch** of filing artifacts (publication-required forms first) | Registry → `90-raw` | **yes** | `0 4 * * *` (daily; drains dead-letters, then idles) |
+| `job-firmenbuch-backfill-process` | `backfill-process` | Bulk **transform** raw → served layer | `90-raw` → `10_presentation` | no | `0 6 * * *` (daily) |
+| `job-firmenbuch-pipeline` | (manual) | Generic entrypoint CI rolls to the latest image | — | — | manual |
+
+Notes:
+- **Pause a job** without deleting it: set its cron to an impossible date, `0 0 31 2 *`
+  (31 Feb = never). That is the parked state; restore a real cron to resume. The backfill
+  was parked this way from 23.06.–28.06.
+- **Keep the backfill jobs** even when idle — an idle scheduled run exits in seconds (nothing
+  pending) and they are the dead-letter recovery + re-grind / new-Rechtsform mechanism.
+- **Roll to a new image:** `az acr build --registry $ACR --image firmenbuch-pipeline:$TAG
+  --file infra/docker/pipeline.Dockerfile .` then `az containerapp job update -n <job> --image …`.
+  CI rolls only `job-firmenbuch-pipeline` + the MCP app on push to `main`; the daily/backfill
+  jobs are rolled by hand (they pin specific tags). Live status:
+  `az containerapp job execution list -g rg-firmenbuch-prod -n <job>`.
+
 ## Region policy (EU-only, ordered fallback, §4.0)
 `setup.sh` tries **germanywestcentral → westeurope → northeurope**. Override a single
 region with `REGION=...`. Nothing deploys outside the EU (GDPR / data residency).
