@@ -29,6 +29,21 @@ def test_active_fnrs_by_rechtsform_filters_to_form() -> None:
     assert reg.active_fnrs_by_rechtsform("GES", "AG") == ["0001a", "0002b", "0003c"]
 
 
+def test_financial_institution_fnrs_selects_banks_and_insurers() -> None:
+    # Drives the FI-targeted PDF ingest (ROADMAP P2.2): the same heuristic the MCP applies at
+    # serve time, so the ingested set == the flagged set.
+    reg = _registry()
+    reg.ensure("01vb", source="t", name="Volksbank Niederösterreich AG", rechtsform="AG")  # bank
+    reg.ensure("02vu", source="t", name="UNIQA Versicherung AG", rechtsform="AG")  # insurer
+    reg.ensure("03sp", source="t", name="Sparkasse X", rechtsform="SPA")  # bank by legal form
+    reg.ensure("04gm", source="t", name="Müller Bau GmbH", rechtsform="GES")  # ordinary company
+    reg.ensure(
+        "05hist", source="t", status="historical", name="Alte Bank AG", rechtsform="AG"
+    )  # FI but inactive → excluded
+    reg.ensure("06stub", source="veraenderungenFirma")  # bare stub, no name → excluded
+    assert reg.financial_institution_fnrs() == ["01vb", "02vu", "03sp"]
+
+
 def test_ingestable_active_fnrs_excludes_bare_change_feed_stubs() -> None:
     reg = _registry()
     # A walked company (has master data) and a deleted one.

@@ -66,11 +66,14 @@ def cli(argv: list[str] | None = None) -> int:
     # urkunde the server is slow to start streaming), so we no longer cripple it with a flat
     # 20 s that dead-lettered the biggest bank/insurer filings (ROADMAP P1.2). The registry
     # walk keeps the generous defaults (its searches can legitimately be slow).
-    backfill = args.mode == "backfill-ingest"
+    # Both fan-out ingest modes run workers>1, so capture_raw MUST be off (one shared _raw
+    # buffer can't attribute interleaved responses across concurrent companies — see run_ingest),
+    # and fewer retries let a single unresponsive FNR fail fast under the per-run time budget.
+    fanout_ingest = args.mode in ("backfill-ingest", "ingest-fi")
     ctx = _build_context(
         settings,
-        capture_raw=not backfill,
-        max_retries=2 if backfill else 4,
+        capture_raw=not fanout_ingest,
+        max_retries=2 if fanout_ingest else 4,
     )
     code = run(args.mode, ctx, run_id=run_id)
     log.info("pipeline done", extra={"context": {"run_id": run_id, "exit": code}})

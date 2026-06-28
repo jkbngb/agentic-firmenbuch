@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator, Sequence
 
+from fbl_core.financial_institution import classify_financial_institution
 from fbl_core.lineage import now_utc_z
 from fbl_core.storage import CosmosStoreLike
 
@@ -140,6 +141,25 @@ class Registry:
             d["fnr"]
             for d in self._store.iter_all(self._container)
             if self._is_company(d) and d.get("status") == "active" and d.get("rechtsform") in wanted
+        )
+
+    def financial_institution_fnrs(self) -> list[str]:
+        """Active companies the FI heuristic flags as a bank or insurer (ROADMAP P2.2).
+
+        Drives the FI-targeted PDF ingest (``ingest-fi``): banks (BWG) and insurers (VAG)
+        file their Jahresabschluss as a **PDF**, which the general backfill skips
+        (``include_pdf=False``) to spare storage across all 340k companies. This narrow
+        worklist — the few hundred regulated FIs the shipped classifier
+        (:func:`~fbl_core.financial_institution.classify_financial_institution`) recognises
+        from legal form + name — is the set whose official PDF abschlüsse we DO want in
+        ``90-raw``. Reuses the exact serve-time classifier the MCP applies, so the ingested
+        set is identical to the flagged set (no drift). Pure registry read."""
+        return sorted(
+            d["fnr"]
+            for d in self._store.iter_all(self._container)
+            if self._is_company(d)
+            and d.get("status") == "active"
+            and classify_financial_institution(d.get("rechtsform"), d.get("name")) is not None
         )
 
     def ingestable_active_fnrs(self, priority: Sequence[str] = ()) -> list[str]:

@@ -11,6 +11,7 @@ from __future__ import annotations
 from .bulk import BulkCompany, BulkSource, IterableBulkSource
 from .checkpoint import (
     CHECKPOINT_PATH,
+    INGEST_FI_CHECKPOINT_PATH,
     WALK_COMPLETE_MARKER,
     BlobIngestCheckpoint,
     BlobProcessCheckpoint,
@@ -36,6 +37,7 @@ __all__ = [
     "CHECKPOINT_PATH",
     "DEFAULT_ALPHABET",
     "DEFAULT_RECHTSFORMEN",
+    "INGEST_FI_CHECKPOINT_PATH",
     "LAYER",
     "MAX_PREFIX_DEPTH",
     "PUBLICATION_PRIORITY_RECHTSFORMEN",

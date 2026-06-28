@@ -17,7 +17,7 @@ missing and leaves existing resources untouched.
 | `modules/communication.bicep` | Communication Services + Email | `dataLocation: Europe` |
 | `modules/identity.bicep` | User-assigned Managed Identity | shared by Job + MCP app |
 | `modules/containerapps.bicep` | ACA env + pipeline **Job** (cron, singleton) + **MCP app** (scale-to-zero) | §8.8/§8.9 |
-| `modules/rbac.bicep` | Role assignments for the MI | Blob Data Contributor, KV Secrets User, AcrPull, Cosmos data-plane |
+| `modules/rbac.bicep` | Role assignments for the MI | Blob Data Contributor, **Blob Delegator** (user-delegation SAS for `get_document` downloads), KV Secrets User, AcrPull, Cosmos data-plane |
 | `main.bicep` | subscription-scoped orchestrator | creates the RG + all modules |
 
 ## Live Container Apps Jobs (runbook)

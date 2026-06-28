@@ -16,6 +16,10 @@ param cosmosAccountName string
 
 // Built-in role definition ids.
 var blobDataContributor = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
+// Storage Blob Delegator: lets the MI request a user-delegation key to sign short-lived SAS
+// download links (get_document, ROADMAP P2.2). Required IN ADDITION to Blob Data Contributor —
+// data access alone cannot mint a user-delegation SAS; get_user_delegation_key 403s without it.
+var blobDelegator = 'db58b8e5-c6ad-4a2a-8342-4190687cbf4a'
 var keyVaultSecretsUser = '4633458b-17de-408a-b874-0445c86b69e6'
 var acrPull = '7f951dda-4ed3-4680-a7ca-43fe172d538d'
 // Cosmos DB built-in data contributor (SQL data-plane role).
@@ -46,6 +50,19 @@ resource blobAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
     roleDefinitionId: subscriptionResourceId(
       'Microsoft.Authorization/roleDefinitions',
       blobDataContributor
+    )
+  }
+}
+
+resource blobDelegatorAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(storage.id, principalId, blobDelegator)
+  scope: storage
+  properties: {
+    principalId: principalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: subscriptionResourceId(
+      'Microsoft.Authorization/roleDefinitions',
+      blobDelegator
     )
   }
 }

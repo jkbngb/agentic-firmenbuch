@@ -35,6 +35,11 @@ CHECKPOINT_PATH = "_checkpoints/sync_registry_walk.json"
 # left off instead of re-querying every already-done company against the rate-limited API.
 INGEST_CHECKPOINT_PATH = "_checkpoints/backfill_ingest.json"
 
+# Progress checkpoint for the FI-targeted PDF ingest (``ingest-fi``). A separate blob from the
+# general backfill so the two worklists never cross-contaminate each other's done-set: the FI run
+# downloads PDFs (include_pdf=True) for the few hundred banks/insurers, the backfill stays XML-only.
+INGEST_FI_CHECKPOINT_PATH = "_checkpoints/ingest_fi.json"
+
 # Progress checkpoint for the bulk backfill-PROCESS (raw → consolidated → derived → presented).
 # Holds two FNR sets — companies fully consolidated, and companies fully presented — so a
 # bounded/killed run resumes mid-stream instead of recomputing the whole universe (§15a.1).

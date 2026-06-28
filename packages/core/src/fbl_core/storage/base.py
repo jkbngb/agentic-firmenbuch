@@ -7,13 +7,26 @@ satisfy these, so pipeline code is identical in production and in tests.
 from __future__ import annotations
 
 from collections.abc import Iterator
-from typing import Any, Protocol
+from typing import TYPE_CHECKING, Any, Protocol
+
+if TYPE_CHECKING:  # pragma: no cover - typing only
+    from .blob import BlobDownloadLink
 
 
 class BlobStoreLike(Protocol):
     """Blob storage: immutable raw artifacts + JSON projections."""
 
     def put_raw(self, fnr: str, stichtag: str, filename: str, data: bytes) -> str: ...
+
+    def download_link(
+        self,
+        container: str,
+        path: str,
+        *,
+        ttl_minutes: int = ...,
+        filename: str | None = ...,
+        content_type: str | None = ...,
+    ) -> BlobDownloadLink: ...
 
     def put_bytes(
         self, container: str, path: str, data: bytes, *, overwrite: bool = True
