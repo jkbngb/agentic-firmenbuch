@@ -105,6 +105,9 @@ def test_signup_delivers_token_via_email_sender() -> None:
         def send_oauth_login(self, to: str, login_url: str, client_name: str) -> bool:
             return True
 
+        def send_alert(self, to: str, subject: str, text: str) -> bool:
+            return True
+
     rec = signup("a@example.test", cosmos, email_sender=RecordingSender())
     assert sent == [("a@example.test", rec.token)]
 
@@ -123,6 +126,9 @@ def test_signup_survives_email_delivery_failure() -> None:
             raise RuntimeError("ACS down")
 
         def send_oauth_login(self, to: str, login_url: str, client_name: str) -> bool:
+            raise RuntimeError("ACS down")
+
+        def send_alert(self, to: str, subject: str, text: str) -> bool:
             raise RuntimeError("ACS down")
 
     rec = signup("a@example.test", cosmos, email_sender=BoomSender())

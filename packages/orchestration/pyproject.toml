@@ -13,6 +13,7 @@ dependencies = [
     "fbl-derive",
     "fbl-present",
     "fbl-mcp-server",  # store_stats: rebuild the served __stats__ snapshot after each run
+    "fbl-auth",  # email_sender_from_settings: ops alerts on directory-sync anomalies
     "pydantic>=2.7",
 ]
 

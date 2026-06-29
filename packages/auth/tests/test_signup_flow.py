@@ -41,6 +41,9 @@ class RecordingSender:
     def send_token(self, to: str, token: str) -> bool:  # legacy, unused here
         return True
 
+    def send_alert(self, to: str, subject: str, text: str) -> bool:
+        return True
+
 
 def _url(token: str) -> str:
     return f"https://agentic-firmenbuch.at/api/verify?token={token}"

@@ -177,14 +177,34 @@ def run(
         return 0
 
     if mode == "directories":
-        # Monthly: pull the OeNB MFI/NMFI registers, archive verbatim+dated, full-reconcile the
-        # 00_directories container (sets/clears the register-based is_financial_institution flag).
-        # Quick web-fetch + Cosmos upsert, nothing else writes 00_directories → no run-lock needed.
-        from fbl_ingest import sync_directories
+        # Monthly: pull the OeNB MFI/NMFI (banks) + EIOPA/GLEIF (insurers) registers, archive
+        # verbatim+dated, full-reconcile 00_directories (the register-based FI flag). Both fetches
+        # are brittle (esp. the EIOPA SharePoint scrape), so the sync degrades to the last snapshot
+        # and ALERTS by email on any failure / sanity-gate trip / refused mass-deactivation. The
+        # job exits non-zero on a hard error so Azure surfaces it too. No run-lock needed.
+        from fbl_auth.email import email_sender_from_settings
+        from fbl_core.config import get_settings
+        from fbl_ingest import fetch_eiopa_at, resolve_fns_via_gleif, sync_directories
 
-        report = sync_directories(ctx.blob, ctx.cosmos)
+        settings = get_settings()
+        sender = email_sender_from_settings(settings)
+
+        def _alert(subject: str, body: str) -> None:
+            try:
+                sender.send_alert(settings.alert_email, subject, body)
+            except Exception as exc:  # an alert must never crash the run
+                log.error("alert email failed", extra={"context": {"error": str(exc)}})
+
+        report = sync_directories(
+            ctx.blob,
+            ctx.cosmos,
+            eiopa_fetch=fetch_eiopa_at,
+            gleif=resolve_fns_via_gleif,
+            alert=_alert,
+        )
         log.info("directories sync", extra={"context": report})
-        return 0
+        errors = report.get("errors") or []
+        return 1 if errors else 0
 
     # Lease length (§15a.3, never-stuck): ALL jobs now heartbeat during their long loops
     # (ingest/process between companies; sync-registry between prefix batches), so a uniform

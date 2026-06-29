@@ -21,6 +21,9 @@ class _Sender:
     def send_token(self, to: str, token: str) -> bool:
         return True
 
+    def send_alert(self, to: str, subject: str, text: str) -> bool:
+        return True
+
 
 def test_bump_and_read_metric_is_daily() -> None:
     cosmos = InMemoryCosmosStore()
