@@ -38,6 +38,8 @@ from fbl_core.models import (
 )
 from fbl_core.models.meta import LineageRef
 
+from .events import derive_register_events
+
 PRODUCER = "consolidate@1.0.0"
 
 _BILANZ_FIELDS = list(Bilanz.model_fields)
@@ -65,8 +67,14 @@ def consolidate(
     prev: ConsolidatedCompany | None,
     *,
     run_id: str = "adhoc",
+    today: str | None = None,
 ) -> ConsolidatedCompany:
-    """Consolidate all filings for *fnr* into one company document."""
+    """Consolidate all filings for *fnr* into one company document.
+
+    ``today`` (ISO date) enables change-feed event derivation (issue #16): when set, the master
+    snapshot is diffed against ``prev``'s baseline to surface name/seat/legal-form/management/
+    capital changes as ``events``. The daily delta passes it; the bulk backfill leaves it ``None``
+    (no events derived in bulk — only the delta observes real-time changes)."""
     parsed = _dedupe_latest_per_stichtag([f for f in filings if f.parsed])
     years = [y for f in parsed if (y := _year(f.stichtag)) is not None]
     latest_year = max(years) if years else None
@@ -104,6 +112,11 @@ def consolidate(
 
     meta = _build_meta(fnr, parsed, master, prev, run_id)
 
+    # Register events derived from the change-feed delta (issue #16): diff this master snapshot
+    # against the baseline captured at the previous consolidation. Bulk backfill (today=None)
+    # derives nothing; it only refreshes the baseline.
+    events, event_baseline = derive_register_events(prev, master, today=today)
+
     company_doc = ConsolidatedCompany(
         identity=identity,
         location=location,
@@ -113,7 +126,8 @@ def consolidate(
         employees=employees,
         management=management,
         filings=[_filing_ref(f) for f in sorted(parsed, key=lambda x: x.stichtag, reverse=True)],
-        events=list(master.events) if master else [],
+        events=events,
+        event_baseline=event_baseline,
         meta=meta,
     )
     stamp(company_doc.meta, company_doc.model_dump(mode="json"), stage_time_key="consolidated_at")

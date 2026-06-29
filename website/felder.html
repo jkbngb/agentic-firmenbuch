@@ -340,7 +340,19 @@
           <tr><td><code>doc_key</code> · <code>document_url</code> · <code>pdf_doc_key</code></td><td>string | null</td><td>Dokument-Verweise (teils leer)</td></tr>
         </tbody>
       </table></div>
-      <p style="font-size:.92em"><code>events[]</code> – Registerereignisse; in V1 meist leer.</p>
+      <p style="font-size:.92em"><code>events[]</code> – Registerereignisse (Vollzüge), <strong>abgeleitet aus dem täglichen Änderungs-Feed ab 1. Juli 2026</strong>. Der amtliche Auszug liefert kein Vollzugs-Logbuch; wir vergleichen bei jeder Tages-Aktualisierung die Stammdaten und erfassen Abweichungen als typisierte Ereignisse (<code>name_change</code>, <code>seat_change</code>, <code>legal_form_change</code>, <code>management_change</code>, <code>capital_change</code>) mit <code>date</code>, <code>description</code> und <code>source</code> (<code>change_feed_delta</code>). Die Historie beginnt am 1. Juli 2026.</p>
+
+      <h3><code>financial_institution</code> · Reguliertes Finanzunternehmen</h3>
+      <p style="font-size:.92em">Nur bei Banken, Versicherungen und ähnlichen regulierten Instituten vorhanden. Quelle ist das <strong>amtliche Register</strong> (OeNB-Bankenliste, per Firmenbuchnummer verknüpft; Versicherer via EIOPA/GLEIF in Vorbereitung) – kein Namens-Raten.</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Feld</th><th>Typ</th><th>Bedeutung</th></tr></thead>
+        <tbody>
+          <tr><td><code>kind</code></td><td>string</td><td><code>bank</code>, <code>insurer</code>, <code>pensionskasse</code>, <code>vorsorgekasse</code>, <code>fund</code>, <code>other_financial</code></td></tr>
+          <tr><td><code>source</code></td><td>string</td><td><code>register</code> (amtliche Liste, eindeutig) oder <code>heuristic</code> (Namens-Fallback)</td></tr>
+          <tr><td><code>caveat</code></td><td>string</td><td>Hinweis: Banken (BWG) / Versicherer (VAG) bilanzieren nach eigenem Schema, UGB-Kennzahlen fehlen/abweichen</td></tr>
+        </tbody>
+      </table></div>
+      <p style="font-size:.92em">Auf der Such-Karte erscheint dazu das Flag <code>is_financial_institution</code> (bool).</p>
 
       <h3><code>management</code> · Geschäftsführung</h3>
       <div class="tablewrap"><table>

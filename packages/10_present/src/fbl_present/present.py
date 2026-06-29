@@ -33,6 +33,8 @@ _LATEST_BILANZ = ("bilanzsumme", "eigenkapital", "verbindlichkeiten", "anlagever
 PRESENTED_ALLOWLIST: dict[str, str] = {
     # Internal lineage / hash chain — stored in Cosmos, omitted from the served body (§8.7).
     "meta": "internal lineage + content-hash chain; stored, never served",
+    # Internal change-feed event-derivation baseline (issue #16) — stored, never served.
+    "event_baseline": "internal master snapshot used to derive events; stored, never served",
     # GDPR (§8.7): officer names are withheld unless a documented lawful basis is set.
     "management.primary_gf.first_name": "officer name withheld (GDPR §8.7)",
     "management.primary_gf.last_name": "officer name withheld (GDPR §8.7)",

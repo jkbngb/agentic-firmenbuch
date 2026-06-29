@@ -81,6 +81,7 @@ def process_set(
     *,
     max_seconds: float | None = None,
     clock: Callable[[], float] = time.monotonic,
+    today: str | None = None,
 ) -> ProcessReport:
     """Consolidate the set, build the universe cohort, then derive + present each.
 
@@ -115,6 +116,7 @@ def process_set(
                 load_master(ctx.blob, fnr),
                 load_prev(ctx.cosmos, fnr),
                 run_id=run_id,
+                today=today,
             )
             _upsert(ctx.cosmos, CONSOLIDATED, fnr, cons.model_dump(mode="json", exclude_none=True))
             report.consolidated += 1
