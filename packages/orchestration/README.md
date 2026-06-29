@@ -5,7 +5,7 @@ selected by `--mode`; holds the **singleton run lock**; runs the stages **sequen
 per company over the changed set (§8.8, §15a).
 
 ```
-fbl-pipeline --mode {sync-registry | backfill-ingest | ingest-fi | backfill-process | daily}
+fbl-pipeline --mode {sync-registry | backfill-ingest | ingest-fi | backfill-process | directories | daily}
 ```
 
 ## Modes
@@ -13,13 +13,19 @@ fbl-pipeline --mode {sync-registry | backfill-ingest | ingest-fi | backfill-proc
 - **`backfill-ingest`** — download all raw → `90-raw` for the whole registry (**XML only**,
   `include_pdf=False` — the PDF siblings are skipped to spare storage across all 340k).
 - **`ingest-fi`** — FI-targeted PDF ingest (ROADMAP P2.2): pull the official **PDF** abschlüsse
-  for the few hundred banks (BWG) / insurers (VAG) that `Registry.financial_institution_fnrs()`
-  flags — the same heuristic the MCP applies at serve time — so `get_document` can hand out a
-  signed link to the real document. `include_pdf=True`, own checkpoint (`_checkpoints/ingest_fi.json`).
+  for the regulated FIs so `get_document` can hand out a signed link. The worklist is the
+  **union** of the OeNB register (`00_directories`) and the name heuristic (issue #15), so a
+  register bank the heuristic missed is still drained. `include_pdf=True`, own checkpoint.
+- **`directories`** — monthly: download the OeNB MFI/NMFI registers, archive verbatim+dated to
+  `90-raw/_directories/`, and full-reconcile `00_directories` — the authoritative
+  register-based `is_financial_institution` flag (issue #15). Touches only Blob + Cosmos + the
+  public OeNB CSVs, so it needs no API key and no run lock.
 - **`backfill-process`** — `consolidate → derive → present` over the whole registry.
 - **`daily`** — detect changes since the watermark → ingest the new raw → process the
   dirty set → advance the watermark **only on full success**. Status-change-only dirty
-  companies take the cheap **re-present** path (no re-derive).
+  companies take the cheap **re-present** path (no re-derive). The delta also **derives register
+  events** (name/seat/legal-form/management/capital changes) by diffing each company's master
+  against the prior snapshot (issue #16, history from 2026-07-01).
 
 ## How it works
 - **Run lock** (`runlock.py`): a lease doc in `99_registry`; a second invocation finds

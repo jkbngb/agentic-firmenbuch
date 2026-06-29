@@ -39,9 +39,13 @@ at `claude mcp add … --header`), never passed as a tool argument — so it nev
 tool-call payload and the agent doesn't need to know it.
 
 ## Design
-- **`service.py`** — pure read functions over a `CosmosStoreLike` (unit-tested against
-  the in-memory store). Filters/sort/paginate are applied here; in production the same
-  predicates are pushed to the Cosmos index (§4.1).
+- **`service/`** — the pure read tools over a `CosmosStoreLike` (unit-tested against the
+  in-memory store), split into cohesive submodules over a shared `_common` support layer:
+  `search.py`, `records.py` (details/history/full_record/describe_fields), `documents.py`
+  (+ SAS download), `cohort.py` (cohort + peers), `stats.py` (coverage + sector
+  materialized view). `service/__init__.py` re-exports the tools, so `service.<tool>` and
+  `from fbl_mcp_server.service import store_stats` are unchanged. Filters/sort/paginate are
+  applied here; in production the same predicates are pushed to the Cosmos index (§4.1).
 - **`McpService`** (`app.py`) — wraps every tool with **auth → rate-limit → meter**
   (via `fbl_auth`) before delegating. This is the testable core.
 - **`build_app(cosmos, settings)`** — registers the tools on a `FastMCP("firmenbuch-live")`

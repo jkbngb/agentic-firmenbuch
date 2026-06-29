@@ -105,6 +105,17 @@ var jobDefs = [
     cron: directoriesCron
     timeout: 3600
   }
+  {
+    // Weekly FI-targeted PDF ingest (issue #13): drains the official Jahresabschluss PDFs for the
+    // regulated FIs — the union of the OeNB register (00_directories) and the name heuristic, so a
+    // register bank the heuristic missed (e.g. Oberbank) is still pulled. Self-limits via
+    // INGEST_MAX_MINUTES; own blob checkpoint resumes a timed-out replica. Needs the
+    // FIRMENBUCH_API_KEY secret, wired onto the job post-deploy like the daily/backfill jobs.
+    name: '${jobName}-ingest-fi'
+    mode: 'ingest-fi'
+    cron: '0 1 * * 0'
+    timeout: 7200
+  }
 ]
 
 resource pipelineJobs 'Microsoft.App/jobs@2024-03-01' = [
