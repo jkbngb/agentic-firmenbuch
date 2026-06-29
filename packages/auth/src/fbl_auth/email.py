@@ -243,9 +243,16 @@ class EmailSender(Protocol):
     def send_token(self, to: str, token: str) -> bool:  # legacy single-step path
         ...
 
+    def send_alert(self, to: str, subject: str, text: str) -> bool:  # ops/monitoring alert
+        ...
+
 
 class NullEmailSender:
     """No-op sender for local/dev/tests – records that delivery was skipped."""
+
+    def send_alert(self, to: str, subject: str, text: str) -> bool:
+        logger.warning("ACS not configured; ALERT not emailed to %s: %s", to, subject)
+        return False
 
     def send_verify(self, to: str, verify_url: str) -> bool:
         logger.info("ACS not configured; skipping verify email to %s (%s)", to, verify_url)
@@ -320,6 +327,10 @@ class AcsEmailSender:
 
     def send_token(self, to: str, token: str) -> bool:
         return self._send(to, _legacy_subject(), _legacy_text(token))
+
+    def send_alert(self, to: str, subject: str, text: str) -> bool:
+        """Plain-text ops alert (pipeline anomaly) to the operator — no HTML."""
+        return self._send(to, subject, text)
 
 
 def email_sender_from_settings(settings: Settings) -> EmailSender:

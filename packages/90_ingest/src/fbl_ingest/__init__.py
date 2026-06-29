@@ -21,7 +21,9 @@ from .delta import detect_changes
 from .directories import (
     DIRECTORIES_CONTAINER,
     OENB_SOURCES,
+    fetch_eiopa_at,
     load_fi_directory,
+    resolve_fns_via_gleif,
     sync_directories,
 )
 from .enumerate import (
@@ -66,8 +68,10 @@ __all__ = [
     "WalkState",
     "archive_raw_responses",
     "detect_changes",
+    "fetch_eiopa_at",
     "load_fi_directory",
     "prefix_walk",
+    "resolve_fns_via_gleif",
     "run_ingest",
     "status_from_result",
     "sync_directories",

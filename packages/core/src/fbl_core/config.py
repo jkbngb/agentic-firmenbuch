@@ -31,6 +31,8 @@ class Settings(BaseSettings):
     acs_connection_string: str | None = None
     acs_sender_address: str | None = None  # verified ACS sender, e.g. DoNotReply@<domain>
     appinsights_connection_string: str | None = None
+    # Where pipeline ops alerts go (directory-sync failures etc.). Override with ALERT_EMAIL.
+    alert_email: str = "jakobneugebauer@pm.me"
 
     # --- Distribution / signup (Distribution Spez §4, §6) ---
     turnstile_secret: str | None = (

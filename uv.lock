@@ -503,6 +503,7 @@ name = "fbl-orchestration"
 version = "1.0.0"
 source = { editable = "packages/orchestration" }
 dependencies = [
+    { name = "fbl-auth" },
     { name = "fbl-consolidate" },
     { name = "fbl-core" },
     { name = "fbl-derive" },
@@ -517,6 +518,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "fbl-auth", editable = "packages/auth" },
     { name = "fbl-consolidate", editable = "packages/50_consolidate" },
     { name = "fbl-core", editable = "packages/core" },
     { name = "fbl-derive", editable = "packages/30_derive" },

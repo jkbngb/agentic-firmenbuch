@@ -31,6 +31,9 @@ class Sender:
     def send_token(self, to: str, token: str) -> bool:
         return True
 
+    def send_alert(self, to: str, subject: str, text: str) -> bool:
+        return True
+
 
 def _url(t: str) -> str:
     return f"https://x.at/api/verify?token={t}"

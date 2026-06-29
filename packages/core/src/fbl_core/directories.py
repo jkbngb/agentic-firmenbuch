@@ -122,6 +122,67 @@ def parse_oenb_list(data: bytes, *, source: str, kind: str = "bank") -> OeNBList
     return OeNBList(stand=stand, source=source, records=out)
 
 
+# EIOPA register columns (the AT export; semicolon-delimited, UTF-8 BOM). We key by name.
+_EIOPA_COUNTRY = "Home Country"
+_EIOPA_LEI = "LEI"
+_EIOPA_NAME = "Official name of the entity"
+_EIOPA_INTL_NAME = "International Name"
+_EIOPA_IDCODE = "Identification code"
+# ESVG/ESA-2010 sector for insurance corporations (S.128); the OeNB E-VGR equivalent is 1280.
+_INSURER_EVGR = "1280"
+
+
+def parse_eiopa_at(data: bytes, *, source: str = "eiopa") -> OeNBList:
+    """Parse the EIOPA register of insurance undertakings (AT export) into insurer records.
+
+    The export is semicolon-delimited with a UTF-8 BOM; the header carries ``Home Country``,
+    ``LEI``, ``Official name of the entity``, ``Identification code``. We keep only Home
+    Country = AT rows (defensive even though the export is pre-filtered), dedupe by LEI (rows
+    repeat per cross-border status), and set ``kind="insurer"`` (E-VGR 1280). ``fnr`` stays
+    ``None`` here — the Firmenbuchnummer is resolved separately via the GLEIF LEI bridge."""
+    text = data.decode("utf-8-sig", errors="replace")
+    rows = list(csv.reader(io.StringIO(text), delimiter=";"))
+    if not rows:
+        return OeNBList(source=source)
+    cols = [c.strip() for c in rows[0]]
+    idx = {name: i for i, name in enumerate(cols)}
+
+    def cell(r: list[str], name: str) -> str | None:
+        i = idx.get(name)
+        return _clean(r[i]) if i is not None and i < len(r) else None
+
+    out: list[FinancialInstitutionRecord] = []
+    seen_lei: set[str] = set()
+    for r in rows[1:]:
+        if not any(c.strip() for c in r):
+            continue
+        country = (cell(r, _EIOPA_COUNTRY) or "").upper()
+        if country not in ("AT", "AUSTRIA", "ÖSTERREICH"):
+            continue
+        name = cell(r, _EIOPA_NAME) or cell(r, _EIOPA_INTL_NAME)
+        if name is None:
+            continue
+        lei = cell(r, _EIOPA_LEI)
+        if lei is not None:
+            if lei in seen_lei:
+                continue  # one undertaking, many cross-border rows
+            seen_lei.add(lei)
+        fields = {cols[i]: r[i].strip() for i in range(min(len(cols), len(r))) if cols[i]}
+        out.append(
+            FinancialInstitutionRecord(
+                fnr=None,  # resolved via GLEIF LEI→FN downstream
+                name=name,
+                kind="insurer",
+                source=source,
+                lei=lei,
+                e_vgr=_INSURER_EVGR,
+                sector_label=esvg_label(_INSURER_EVGR),
+                fields=fields,
+            )
+        )
+    return OeNBList(source=source, records=out)
+
+
 def load_fi_directory(cosmos: CosmosStoreLike) -> dict[str, str]:
     """The served lookup: ``{fnr: kind}`` for every **active** institution in ``00_directories``.
     Small (~450 rows) → cheap to load + cache. The MCP joins this by FN at serve time so the flag
