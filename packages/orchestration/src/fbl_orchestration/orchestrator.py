@@ -40,6 +40,7 @@ MODES = (
     "ingest-fi",
     "backfill-process",
     "directories",
+    "refresh-stats",
     "daily",
     "diag",
     "diag-doctypes",
@@ -174,6 +175,13 @@ def run(
 
     if mode == "diag-doctypes":
         _run_doctypes(ctx)  # read-only; no lock needed
+        return 0
+
+    if mode == "refresh-stats":
+        # Weekly (issue #12): rebuild the full __stats__ snapshot INCLUDING the heavy coverage
+        # scan, so get_coverage doesn't drift up to a quarter between full grinds. Read-only over
+        # Cosmos (no API key, no run lock).
+        _refresh_stats(ctx, with_coverage=True)
         return 0
 
     if mode == "directories":
