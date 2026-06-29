@@ -340,7 +340,19 @@
           <tr><td><code>doc_key</code> · <code>document_url</code> · <code>pdf_doc_key</code></td><td>string | null</td><td>Document references (partly empty)</td></tr>
         </tbody>
       </table></div>
-      <p style="font-size:.92em"><code>events[]</code> – register events; mostly empty in V1.</p>
+      <p style="font-size:.92em"><code>events[]</code> – register events (Vollzüge), <strong>derived from the daily change feed from 1 July 2026</strong>. The official extract carries no change log, so on every daily update we compare the master data and record differences as typed events (<code>name_change</code>, <code>seat_change</code>, <code>legal_form_change</code>, <code>management_change</code>, <code>capital_change</code>) with <code>date</code>, <code>description</code> and <code>source</code> (<code>change_feed_delta</code>). History starts 1 July 2026.</p>
+
+      <h3><code>financial_institution</code> · Regulated financial institution</h3>
+      <p style="font-size:.92em">Present only for banks, insurers and similar regulated institutions. Sourced from the <strong>official register</strong> (OeNB bank list, joined by company-register number; insurers via EIOPA/GLEIF in progress) – no name guessing.</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Field</th><th>Type</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>kind</code></td><td>string</td><td><code>bank</code>, <code>insurer</code>, <code>pensionskasse</code>, <code>vorsorgekasse</code>, <code>fund</code>, <code>other_financial</code></td></tr>
+          <tr><td><code>source</code></td><td>string</td><td><code>register</code> (official list, unambiguous) or <code>heuristic</code> (name fallback)</td></tr>
+          <tr><td><code>caveat</code></td><td>string</td><td>Note: banks (BWG) / insurers (VAG) report under their own regime, so UGB ratios are absent/not comparable</td></tr>
+        </tbody>
+      </table></div>
+      <p style="font-size:.92em">The search card additionally carries the <code>is_financial_institution</code> flag (bool).</p>
 
       <h3><code>management</code> · Management</h3>
       <div class="tablewrap"><table>

@@ -347,8 +347,13 @@ def _require(cosmos: CosmosStoreLike, fnr: str) -> dict[str, Any]:
 
 
 def _strip_internal(doc: dict[str, Any]) -> dict[str, Any]:
-    # drop the lineage block + Cosmos system fields (_rid/_self/_etag/_ts/_attachments)
-    return {k: v for k, v in doc.items() if k != "meta" and not k.startswith("_")}
+    # drop the lineage block, the internal event-derivation baseline (issue #16), and Cosmos
+    # system fields (_rid/_self/_etag/_ts/_attachments)
+    return {
+        k: v
+        for k, v in doc.items()
+        if k not in ("meta", "event_baseline") and not k.startswith("_")
+    }
 
 
 def get_company_details(cosmos: CosmosStoreLike, fnr: str) -> dict[str, Any]:

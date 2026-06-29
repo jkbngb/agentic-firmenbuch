@@ -414,7 +414,13 @@ def _run_daily(ctx: PipelineContext, run_id: str, today: date) -> ProcessReport:
             workers=int(os.environ.get("INGEST_WORKERS", "8")),
             max_seconds=max(1.0, deadline - time.monotonic()),
         )
-    report = process_set(ctx, run_id, full, max_seconds=max(1.0, deadline - time.monotonic()))
+    report = process_set(
+        ctx,
+        run_id,
+        full,
+        max_seconds=max(1.0, deadline - time.monotonic()),
+        today=today.isoformat(),
+    )
 
     # 4) Cheap status refresh for the rest.
     report.status_only_refreshed = refresh_status_only(ctx, run_id, status_only)

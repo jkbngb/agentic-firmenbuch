@@ -118,6 +118,10 @@ class RegisterEvent(BaseModel):
     date: str
     type: str
     description: str | None = None
+    # Provenance. "change_feed_delta" = derived by diffing the daily change-feed master snapshot
+    # against the prior one (issue #16): the HVD tier does not return the historical VOLLZ log, so
+    # events are derived, not read. "auszug" = a literal VOLLZ entry (rare on this tier).
+    source: str | None = None
 
 
 class Ratios(BaseModel):
@@ -176,6 +180,10 @@ class ConsolidatedCompany(BaseModel):
     management: Management | None = None  # gated at present
     filings: list[FilingRef] = Field(default_factory=list)
     events: list[RegisterEvent] = Field(default_factory=list)
+    # Internal: the master-data snapshot the events were derived against (issue #16). Compared
+    # against the next delta's master to surface what changed. Never served — present() whitelists
+    # fields, and get_full_record's _strip_internal drops it.
+    event_baseline: dict[str, object] | None = None
     # reserved (None in v1)
     sector: None = None
     enrichment: None = None

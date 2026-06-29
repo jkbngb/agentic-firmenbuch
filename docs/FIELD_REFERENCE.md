@@ -133,7 +133,33 @@ je Abschluss: `stichtag`, `format` (z. B. `legacy_finanzonline`, `jab_4_0`), `pa
 `gkl`, `eingereicht`, `doc_key`, `document_url`, `pdf_doc_key` (Verweise teils `null`).
 
 ### `events[]`
-Registerereignisse (in V1 meist leer `[]`).
+Registerereignisse (Vollzüge), **abgeleitet aus dem täglichen Änderungs-Feed** ab **1. Juli 2026**.
+
+Der amtliche HVD-Auszug auf unserer Stufe liefert kein historisches Vollzugs-Logbuch. Statt es
+abzufragen, **leiten wir Ereignisse ab**: Bei jeder täglichen Delta-Verarbeitung werden die
+Stammdaten einer geänderten Gesellschaft mit dem Stand der Vorverarbeitung verglichen; eine
+Abweichung wird als typisiertes Ereignis erfasst. Die Historie beginnt bewusst am **2026-07-01**
+(sauberes Startdatum) – ältere Änderungen werden nicht rückwirkend rekonstruiert.
+
+| Feld | Typ | Bedeutung |
+|---|---|---|
+| `date` | string | Datum der Feststellung (Lauf-Datum, ISO) |
+| `type` | string | `name_change`, `seat_change`, `legal_form_change`, `management_change`, `capital_change` |
+| `description` | string \| null | Kurztext, z. B. `vormals: …` |
+| `source` | string | `change_feed_delta` (abgeleitet) bzw. `auszug` (selten, direkter Vollzug) |
+
+### `financial_institution`
+Nur bei regulierten Finanzunternehmen vorhanden, sonst nicht im Profil. Quelle ist das **amtliche
+Register** (OeNB-Bankenliste; Versicherer via EIOPA/GLEIF in Vorbereitung), per Firmenbuchnummer
+verknüpft – kein Namens-Raten.
+
+| Feld | Typ | Bedeutung |
+|---|---|---|
+| `kind` | string | `bank`, `insurer`, `pensionskasse`, `vorsorgekasse`, `fund`, `other_financial` |
+| `source` | string | `register` (amtliche Liste, eindeutig) oder `heuristic` (Namens-/Rechtsform-Fallback) |
+| `caveat` | string | Hinweis, dass Banken (BWG) / Versicherer (VAG) nach eigenem Schema bilanzieren und UGB-Kennzahlen daher fehlen/abweichen |
+
+Auf der Such-Karte erscheint dazu das Flag `is_financial_institution` (bool).
 
 ### `management`
 | Feld | Typ | Bedeutung |
