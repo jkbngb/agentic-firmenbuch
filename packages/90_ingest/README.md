@@ -29,6 +29,12 @@ The catalog itself (`Registry`, `RegistryDoc`, watermark) lives in the
   per-Stichtag `_manifest.json`, and archive the master `auszug` (§5.1). Idempotent:
   a filing whose `doc_key` is already recorded is skipped. Per-company failures
   dead-letter; they never crash the batch.
+- **`sync_directories`** (issue #15) — the register-based `is_financial_institution` source:
+  download the OeNB MFI + NMFI lists (free CC-BY CSVs, Firmenbuchnummer-keyed), archive each
+  verbatim + **dated** to `90-raw/_directories/{source}/{day}.csv` (lossless history), parse, and
+  full-reconcile the `00_directories` Cosmos container — listed institutions → active, delisted →
+  inactive (kept for history). No HVD API key needed. Run monthly (`--mode=directories`); served
+  register-first by the MCP. Insurers (EIOPA + GLEIF FN bridge) are the planned addition (#17).
 - **Lossless responses (§5.1)** — beyond the decoded documents, the verbatim API
   responses are archived byte-for-byte: `sucheUrkunde`/`auszug` under
   `90-raw/{fnr}/_responses/{run_id}/`, change feeds under `_changes/_responses/{run_id}/`.

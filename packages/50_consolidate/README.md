@@ -23,6 +23,11 @@ added in `derive`). §8.5.
   (birth year only), `n_signatories_latest`, `signatories_stable_years`.
 - **Identity/location/company** from `MasterData` (the canonical form of `auszug`),
   with `stammkapital` falling back to the Bilanz when master is absent.
+- **Register events (`events.py`, issue #16):** `events[]` is derived from the daily change-feed
+  delta — `master_signature` snapshots the change-relevant master fields and
+  `derive_register_events` diffs it against the baseline (`event_baseline`) stored on the prior
+  doc, emitting typed events (name/seat/legal-form/management/capital). Only the daily delta
+  passes `today=`; the bulk backfill derives nothing. History starts 2026-07-01.
 - **Lineage:** `inputs` = every parsed filing + the master extract; on rebuild,
   `supersedes` → prior doc and `data_version` is bumped. Deterministic: identical
   inputs → identical `content_hash`.

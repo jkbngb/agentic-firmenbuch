@@ -63,7 +63,7 @@ The headline documents:
 ```
 99_registry (foundation: all companies)  →  90_raw (Blob)  →  70_parsed (Blob)  →  50_consolidated  →  30_derived  →  10_presentation  →  MCP
                                                                         (Cosmos)            (Cosmos)        (Cosmos)
-   side: 00_accounts (MCP signup)            reserved for v2: 40_enriched, 20_scored
+   side: 00_accounts (MCP signup) · 00_directories (register-based FI flag, OeNB)   reserved for v2: 40_enriched, 20_scored
 ```
 `90_raw` is the **immutable source of truth** (every downloaded XML/PDF, kept forever). `70_parsed`
 is a **write-through cache** of the per-filing `ParsedFiling` JSON – always re-derivable from raw,
