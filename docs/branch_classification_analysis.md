@@ -24,11 +24,15 @@ Beispiele: „Immobilienverwaltung", „Baustoffhandel und Handel mit Zement", �
 Geschäftsführung", „Helicopter Transporte". Starker Kopf-Cluster (Top-Phrasen wiederholen sich:
 „Handel mit Waren aller Art", „Vermögensverwaltung", „Holding", „Gastgewerbe").
 
-**LLM-Klassifikator-Test** (24 echte Werte → ÖNACE-Sektion + Konfidenz): **~54% hohe Konfidenz**
-(Einzeltätigkeiten mappen sauber auf die 21 ÖNACE-Sektionen), ~42% mittel (Mehrfach-Tätigkeiten,
-ein Primär-Tag wählbar), ~4% echt mehrdeutig. Abteilungs-Level (88 Klassen) wäre rauschiger.
-→ **Sektions-Level ist machbar**; Output als `(önace_sektion, konfidenz)`, nur Hochkonfidenz als
-Filter ausspielen. Validität braucht ein **Gold-Set** (~300 handverifizierte Paare) zum Messen.
+**Deterministischer Mapper gebaut** (`packages/core/src/fbl_core/oenace.py`, kein LLM, kein Netz):
+kuratierte Keyword-Regeln → die 21 ÖNACE-2008-Sektionen, Output `(section, label, confidence)`,
+`None` für den mehrdeutigen Schwanz. **Auf 8.000 Prod-Firmen gemessen: 76% klassifiziert** (62%
+hoch + 14% mittel, multi-aktivität), 24% → LLM-Schwanz. Top-Sektionen: G/Handel, L/Immobilien,
+K/Finanz-Holding, C/Herstellung, M/Beratung, F/Bau, I/Gastro, H/Transport.
+
+→ **Sektions-Level ist machbar.** Hybrid: der Mapper deckt 76% gratis+deterministisch; der LLM-Tail
+nur die restlichen 24%. Validität (echte Genauigkeit vs. wahre ÖNACE) braucht noch ein **Gold-Set**
+(~300 handverifizierte Paare) zum Messen. Abteilungs-Level (88 Klassen) wäre rauschiger.
 
 ## 2 · GISA (Gewerbeinformationssystem) — KEIN ÖNACE. Fünffach verifiziert.
 
@@ -86,11 +90,23 @@ Banken: OeNB MFI/NMFI (FN-keyed, stabil). Versicherer: EIOPA-Register (Identitä
 E-Mail-Alarm. Details: [[register-fi-flag]], Issue #15/#17. EIOPA hat keine stabile API (SharePoint-
 WebForms-POST-Scrape).
 
-## 4 · WKO `firmen.wko.at` — Machbarkeitsanalyse
+## 4 · WKO `firmen.wko.at` — Machbarkeitsanalyse: NICHT brauchbar (Scraper-only, blockiert)
 
-> **In Arbeit** (Recherche läuft). Frage: liefert die WKO-Firmen-A-Z eine Branchen-/Fachgruppen-
-> bzw. ÖNACE-Zuordnung pro Firma, joinbar per FN, **ohne Scraper** (API/Open-Data)? Ergebnis +
-> Verdikt werden hier ergänzt.
+Ein WKO-Firmen-A-Z-Eintrag trägt *im Prinzip* genau das Gewünschte: **Firmenname + FN + ÖNACE-Code
++ UID + Gewerbe** (die Daten kommen aus GISA, FN ist eine Such-Facette). **Aber:**
+
+| Frage | Befund |
+|---|---|
+| Offizielle API / OData / Open-Data / Bulk? | **Nein.** Der data.gv.at-„Firmen A-Z"-Eintrag ist eine **Application (Link-out)**, kein Datensatz. Keine Maschinenschnittstelle. |
+| Einziger Weg | **HTML-Scraping** — und die Seite **503t jeden automatischen Client** (auch `/robots.txt`), Result-Caps (<200 Treffer), keine Scraping-Erlaubnis. |
+| Fachgruppe→ÖNACE-Konkordanz publiziert? | **Nein** (nur die ÖNACE-Struktur selbst; kein zeilenweises Join-File). |
+| FN-Join | Deterministisch *möglich* (FN ist Facette), aber nur **per Scraping erreichbar** → praktisch blockiert. |
+| Abdeckung GmbHs | ~80-90% der **aktiv tätigen** GmbHs; systematische Lücken bei **Holdings, Freien Berufen, ruhenden** Gesellschaften — also genau dem Firmenbuch-typischen Schwanz. |
+
+**Verdikt:** firmen.wko.at ist **keine** nicht-Scraper-Quelle. Man baut exakt den fragilen,
+rechtlich exponierten Scraper, den wir vermeiden wollten — für **partielle** Abdeckung. Nicht
+empfohlen. (Quellen: `firmen.wko.at/SearchHelp.aspx` (503), `data.gv.at/application/firmen-a-z/`,
+`wko.at/zahlen-daten-fakten/oenace`.)
 
 ## 5 · Empfehlung (höchster Mehrwert)
 
