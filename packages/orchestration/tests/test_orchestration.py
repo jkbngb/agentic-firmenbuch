@@ -94,6 +94,18 @@ def test_backfill_process_is_idempotent() -> None:
     assert content_hash(first) == content_hash(second)  # no change on re-run
 
 
+def test_refresh_stats_mode_rebuilds_the_stats_doc_with_coverage() -> None:
+    # Issue #12: the weekly refresh-stats mode materialises the full __stats__ snapshot.
+    ctx = _ctx(_source_two_years())
+    run("sync-registry", ctx)
+    run("backfill-ingest", ctx)
+    run("backfill-process", ctx)
+    assert run("refresh-stats", ctx) == 0
+    stats = ctx.cosmos.get("10_presentation", "__stats__")
+    assert stats is not None
+    assert "coverage" in stats["stats"] and "sectors" in stats["stats"]
+
+
 def test_run_lock_prevents_overlap() -> None:
     ctx = _ctx(_source_two_years())
     # Simulate a previous run holding the lock.

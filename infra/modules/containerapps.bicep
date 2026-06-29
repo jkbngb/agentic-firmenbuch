@@ -116,6 +116,15 @@ var jobDefs = [
     cron: '0 1 * * 0'
     timeout: 7200
   }
+  {
+    // Weekly coverage/sector refresh (issue #12): rebuild the full __stats__ snapshot incl. the
+    // heavy coverage scan, so get_coverage doesn't drift up to a quarter between full grinds.
+    // Read-only over Cosmos, no API key. Sundays 03:00.
+    name: '${jobName}-refresh-stats'
+    mode: 'refresh-stats'
+    cron: '0 3 * * 0'
+    timeout: 3600
+  }
 ]
 
 resource pipelineJobs 'Microsoft.App/jobs@2024-03-01' = [
