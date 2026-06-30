@@ -32,3 +32,4 @@ infra/main.json
 
 # agent build-context, not for the public repo (kept locally)
 CLAUDE.md
+.grind/
