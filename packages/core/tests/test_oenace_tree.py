@@ -4,12 +4,20 @@ from fbl_core.mapping.oenace_tree import load_oenace_tree
 
 
 def test_levels_have_expected_counts() -> None:
-    t = load_oenace_tree()
+    t = load_oenace_tree()  # 2025 default
     assert len(t.codes_at(1)) == 22  # sections
     assert len(t.codes_at(2)) == 87  # divisions
     assert len(t.codes_at(3)) == 287  # groups
     assert len(t.codes_at(4)) == 651  # classes
     assert len(t.codes_at(5)) == 711  # national subclasses
+
+
+def test_2008_vintage_loads() -> None:
+    t = load_oenace_tree(2008)  # NACE Rev.2 — the LLM's strongest vintage
+    assert len(t.codes_at(1)) == 21  # 2008 had 21 sections (J not yet split)
+    assert len(t.codes_at(2)) == 88
+    assert len(t.codes_at(3)) == 272
+    assert t.section_of("68.3") == "L"  # real estate was section L in 2008
 
 
 def test_lookup_validation_and_labels() -> None:
