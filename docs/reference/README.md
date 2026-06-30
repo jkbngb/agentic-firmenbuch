@@ -16,7 +16,7 @@ reference and interpret them.
 ## Convention
 
 - `docs/` = **our** specs (the `*_Spezifikation.md` ones = system as built / stable;
-  `Erweiterungen_Spezifikation.md` + root `ROADMAP.md` = forward plan). No version numbers in
+  `../specs/Erweiterungen_Spezifikation.md` + root `ROADMAP.md` = forward plan). No version numbers in
   filenames — history is git.
 - `docs/reference/` = **official upstream** source files (this folder). One sub-folder per
   external system.

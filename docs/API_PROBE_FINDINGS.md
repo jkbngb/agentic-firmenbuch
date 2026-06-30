@@ -67,4 +67,4 @@ published "Komplettabzug"/full-FNR file. So:
   validate against a real semantic filing when one appears.
 
 ---
-↑ [Repo root](../README.md) · [Technische Spezifikation §16](Technische_Spezifikation.md) · [API reference](reference/JustizOnline_API_Complete_Reference.md)
+↑ [Repo root](../README.md) · [Technische Spezifikation §16](specs/Technische_Spezifikation.md) · [API reference](reference/JustizOnline_API_Complete_Reference.md)

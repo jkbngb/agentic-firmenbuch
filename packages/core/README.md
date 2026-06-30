@@ -52,4 +52,4 @@ Foundation for all stages. **Next stage:** [`parse`](../70_parse/README.md) (raw
 `ParsedFiling`).
 
 ---
-↑ [Repo root](../../README.md) · Specs: [Technische](../../docs/Technische_Spezifikation.md) · [Fachliche](../../docs/Fachliche_Spezifikation.md) · [Pipeline samples](../../docs/pipeline-step-samples.md)
+↑ [Repo root](../../README.md) · Specs: [Technische](../../docs/specs/Technische_Spezifikation.md) · [Fachliche](../../docs/specs/Fachliche_Spezifikation.md) · [Pipeline samples](../../docs/pipeline-step-samples.md)

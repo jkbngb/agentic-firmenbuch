@@ -107,7 +107,7 @@ Wirkung:** +~5.910 Firmen mit Finanzdaten (u. a. namhafte GmbHs), danach ist P1 
 
 ### Selbst in Layer 90 — verarbeitbar? Nein.
 
-Aus der 64-Datei-Analyse (`docs/Erweiterungen_Spezifikation.md` §2):
+Aus der 64-Datei-Analyse (`docs/specs/Erweiterungen_Spezifikation.md` §2):
 - **100 % PDF** (kein strukturiertes BWG/VAG-XML existiert).
 - **71 % der PDFs sind gescannte Bilder** → OCR nötig.
 - Anderes Bilanzschema (BWG §§43-58 / VAG §§136-167) → unsere UGB-Pipeline parst sie nicht.

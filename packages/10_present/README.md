@@ -52,4 +52,4 @@ present; indexed filter fields populated; status-only refresh works. `ruff` +
 [`mcp_server`](../mcp_server/README.md) (Stage 9) from `10_presentation`.
 
 ---
-↑ [Repo root](../../README.md) · Specs: [Technische §8.7 / §4.1](../../docs/Technische_Spezifikation.md) · [Pipeline samples](../../docs/pipeline-step-samples.md)
+↑ [Repo root](../../README.md) · Specs: [Technische §8.7 / §4.1](../../docs/specs/Technische_Spezifikation.md) · [Pipeline samples](../../docs/pipeline-step-samples.md)
