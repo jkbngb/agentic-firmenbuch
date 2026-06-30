@@ -161,6 +161,8 @@
           <tr><td><code>revenue_latest</code></td><td>number €</td><td>Umsatzerlöse (jüngstes Jahr)</td><td><strong>kein GuV</strong> im jüngsten Abschluss</td></tr>
           <tr><td><code>growth_profile</code></td><td>string</td><td><code>shrinking/stable/growing/fast_growing</code></td><td>&lt; 2 vergleichbare Jahre</td></tr>
           <tr><td><code>has_guv_latest</code></td><td>bool</td><td>hat der jüngste Abschluss eine GuV?</td><td>– (immer gesetzt)</td></tr>
+          <tr><td><code>geschaeftszweig</code></td><td>string</td><td>Geschäftszweig (Firmenbuch-Freitext)</td><td>nicht eingetragen (~15 %)</td></tr>
+          <tr><td><code>branch_section</code></td><td>string</td><td>ÖNACE-2025-Abschnitt <code>A</code>–<code>V</code> (Details unter <code>branch</code>)</td><td>kein Geschäftszweig</td></tr>
         </tbody>
       </table></div>
     </section>
@@ -353,6 +355,21 @@
         </tbody>
       </table></div>
       <p style="font-size:.92em">Auf der Such-Karte erscheint dazu das Flag <code>is_financial_institution</code> (bool).</p>
+
+      <h3><code>branch</code> · Branche (ÖNACE)</h3>
+      <p style="font-size:.92em">Quelle ist der <strong>Firmenbuch-Geschäftszweig</strong> (Freitext); daraus wird per Sprachmodell ein offizieller <strong>ÖNACE-2025-Code</strong> abgeleitet (klassifiziert in ÖNACE 2008, mit der amtlichen Statistik-Austria-Tabelle nach 2025 übergeleitet). Geprüfte Genauigkeit auf ungesehenen Firmen: Abschnitt ~92 %, Abteilung ~89 %, Gruppe ~74 %. Der Original-Geschäftszweig bleibt immer erhalten.</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Feld</th><th>Typ</th><th>Bedeutung</th></tr></thead>
+        <tbody>
+          <tr><td><code>geschaeftszweig</code></td><td>string</td><td>Original-Geschäftszweig (Freitext)</td></tr>
+          <tr><td><code>oenace.section</code> / <code>section_label</code></td><td>string</td><td>ÖNACE-2025-Abschnitt <code>A</code>–<code>V</code> + Titel (z. B. <code>M</code> · Grundstücks- und Wohnungswesen)</td></tr>
+          <tr><td><code>oenace.division</code> / <code>group</code></td><td>string</td><td>Abteilung (2-Steller) und Gruppe (z. B. <code>68</code> / <code>68.3</code>)</td></tr>
+          <tr><td><code>oenace.label</code> / <code>label_en</code></td><td>string</td><td>Gruppen-Titel DE / EN</td></tr>
+          <tr><td><code>nace_rev21_group</code></td><td>string</td><td>EU-Code (NACE Rev.2.1 = ÖNACE-2025-Gruppe)</td></tr>
+          <tr><td><code>code_2008</code> · <code>source</code></td><td>string</td><td>zugrundeliegender ÖNACE-2008-Code · <code>llm</code> oder <code>keyword</code> (Fallback)</td></tr>
+        </tbody>
+      </table></div>
+      <p style="font-size:.92em">Auf der Such-Karte erscheinen dazu <code>geschaeftszweig</code> und <code>branch_section</code> (ÖNACE-Abschnitt).</p>
 
       <h3><code>management</code> · Geschäftsführung</h3>
       <div class="tablewrap"><table>
