@@ -120,6 +120,6 @@ def load_oenace_tree(year: int = 2025) -> OenaceTree:
 
 
 def _read(filename: str) -> list[dict[str, str]]:
-    res = resources.files("fbl_core.mapping").joinpath("oenace", filename)
+    res = resources.files("fbl_core.classification").joinpath("data", "oenace", filename)
     raw = res.read_text(encoding="utf-8")
     return list(csv.DictReader(raw.splitlines(), delimiter=";"))

@@ -10,9 +10,9 @@ from __future__ import annotations
 
 from typing import Any
 
+from fbl_core.classification.keyword import classify_oenace
 from fbl_core.financial_institution import classify_financial_institution
 from fbl_core.models import CompanyCard, PublicProvenance
-from fbl_core.oenace import classify_oenace
 from fbl_core.storage import CosmosStoreLike
 
 from ..errors import NotFound
