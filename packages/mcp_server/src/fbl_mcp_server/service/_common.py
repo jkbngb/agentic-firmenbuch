@@ -198,7 +198,7 @@ def branch_block(geschaeftszweig: str | None) -> dict[str, Any] | None:
     """The scalable ``branch`` block (issue #14): the original Firmenbuch Geschäftszweig free text
     PLUS a derived ÖNACE classification. Computed at SERVE time from the stored ``description``, so
     it's available for every company instantly — no re-grind. The ÖNACE ``division``/``group``
-    levels (NACE depth ~272 groups) are filled later by the LLM/Northdata stage; the deterministic
+    levels (NACE depth ~272 groups) are filled later by the LLM classifier stage; the deterministic
     keyword head currently yields the ``section`` (A–U). The original text is never dropped."""
     if not geschaeftszweig:
         return None
