@@ -40,6 +40,8 @@ Kompakter Auszug. **Codes sind hier bereits als Labels ausgegeben** (z. B. `GmbH
 | `revenue_latest` | number € | Umsatzerlöse (jüngstes Jahr) | **kein GuV** im jüngsten Abschluss |
 | `growth_profile` | string | `shrinking`/`stable`/`growing`/`fast_growing` | < 2 vergleichbare Jahre |
 | `has_guv_latest` | bool | hat der jüngste Abschluss eine GuV? | – (immer gesetzt) |
+| `geschaeftszweig` | string | Geschäftszweig (Firmenbuch-Freitext) | nicht eingetragen (~15 %) |
+| `branch_section` | string | ÖNACE-2025-Abschnitt `A`–`V` (siehe `branch`) | kein Geschäftszweig |
 
 ---
 
@@ -160,6 +162,25 @@ verknüpft – kein Namens-Raten.
 | `caveat` | string | Hinweis, dass Banken (BWG) / Versicherer (VAG) nach eigenem Schema bilanzieren und UGB-Kennzahlen daher fehlen/abweichen |
 
 Auf der Such-Karte erscheint dazu das Flag `is_financial_institution` (bool).
+
+### `branch`
+Branche/Industrie. Quelle ist der **Firmenbuch-Geschäftszweig** (Freitext); daraus wird per
+Sprachmodell ein offizieller **ÖNACE-2025-Code** abgeleitet (klassifiziert in ÖNACE 2008 und mit
+der amtlichen Statistik-Austria-Tabelle nach 2025 übergeleitet). Geprüfte Genauigkeit auf
+ungesehenen Firmen: Abschnitt ~92 %, Abteilung ~89 %, Gruppe ~74 %. Der Original-Geschäftszweig
+bleibt immer erhalten.
+
+| Feld | Typ | Bedeutung | `null`, wenn … |
+|---|---|---|---|
+| `geschaeftszweig` | string | Original-Geschäftszweig (Freitext) | nicht eingetragen |
+| `oenace.section` | string | ÖNACE-2025-Abschnitt `A`–`V` (z. B. `M`) | – |
+| `oenace.section_label` | string | Abschnitts-Titel (z. B. `Grundstücks- und Wohnungswesen`) | – |
+| `oenace.division` | string | 2-Steller (z. B. `68`) | nur bei Keyword-Fallback leer |
+| `oenace.group` | string | 3-Steller / Gruppe (z. B. `68.3`) | nur bei Keyword-Fallback leer |
+| `oenace.label` / `label_en` | string | Gruppen-Titel DE / EN | wie oben |
+| `nace_rev21_group` | string | EU-Code (NACE Rev.2.1 Gruppe = ÖNACE-2025-Gruppe) | wie oben |
+| `code_2008` | string | zugrundeliegender ÖNACE-2008-Code | Keyword-Fallback |
+| `source` | string | `llm` (klassifiziert) oder `keyword` (Schlagwort-Fallback) | – |
 
 ### `management`
 | Feld | Typ | Bedeutung |
