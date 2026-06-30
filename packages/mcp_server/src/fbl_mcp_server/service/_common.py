@@ -216,7 +216,6 @@ def branch_block(geschaeftszweig: str | None) -> dict[str, Any] | None:
         "geschaeftszweig": geschaeftszweig,
         "oenace": oenace,
         "source": g.method if g else None,
-        "confidence": g.confidence if g else None,
     }
 
 
