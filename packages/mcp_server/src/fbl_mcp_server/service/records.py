@@ -38,9 +38,11 @@ def get_company_details(cosmos: CosmosStoreLike, fnr: str) -> dict[str, Any]:
         # Surface the flag at the top of the record so an agent reads it before the (absent)
         # UGB figures, and doesn't mistake "no Bilanz" for "no data" (ROADMAP P2.1).
         result["financial_institution"] = fi
-    # Branch (issue #14): the original Geschäftszweig free text + a derived ÖNACE classification,
-    # computed at serve time so it's live for every company without a re-grind.
-    result["branch"] = branch_block(_g(result, "company", "description"))
+    # Branch (issue #14): serve the stored LLM classification (full ÖNACE 2025 tree + confidence)
+    # when the grind has written it; otherwise fall back to the serve-time keyword section so every
+    # company still gets a branch. Lets the LLM data go live incrementally as the grind runs.
+    if not result.get("branch"):
+        result["branch"] = branch_block(_g(result, "company", "description"))
     return {
         "schema_version": doc.get("schema_version", "1.0"),
         "data_version": _g(doc, "provenance", "data_version"),
