@@ -219,9 +219,9 @@ def describe_fields() -> dict[str, Any]:
                     ],
                     "branch": [
                         "geschaeftszweig (Firmenbuch free text)",
-                        "oenace.section (A–U) + section_label; division/group reserved for the "
-                        "NACE classifier",
-                        "source (keyword/llm), confidence",
+                        "oenace.{section,division,group,label,label_en} (ÖNACE 2025) when the LLM "
+                        "classifier has run; else oenace.section only (keyword fallback)",
+                        "nace_rev21_group (EU code), code_2008, source (keyword/llm)",
                     ],
                     "management": [
                         "n_signatories_latest",
