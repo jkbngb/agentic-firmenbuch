@@ -36,4 +36,4 @@ a `LAYER` constant.
 - Each README links **up** to the root and **across** to its neighbouring stages.
 
 ---
-↑ [Repo root](../README.md) · Specs: [Technische Spezifikation](../docs/Technische_Spezifikation.md)
+↑ [Repo root](../README.md) · Specs: [Technische Spezifikation](../docs/specs/Technische_Spezifikation.md)

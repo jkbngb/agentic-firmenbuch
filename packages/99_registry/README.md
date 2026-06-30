@@ -36,4 +36,4 @@ The foundation. Populated/reconciled by [`90_ingest`](../90_ingest/README.md)
 Depends only on [`core`](../core/README.md).
 
 ---
-↑ [Repo root](../../README.md) · Specs: [Technische §15a.0](../../docs/Technische_Spezifikation.md)
+↑ [Repo root](../../README.md) · Specs: [Technische §15a.0](../../docs/specs/Technische_Spezifikation.md)

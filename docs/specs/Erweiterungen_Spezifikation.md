@@ -1,10 +1,10 @@
 # Erweiterungen — Design & Build Spec (forward-looking)
 
 > The detailed design record for the planned extensions, backing the
-> [root `ROADMAP.md`](../ROADMAP.md) (which is the lightweight, prioritised
+> [root `ROADMAP.md`](../../ROADMAP.md) (which is the lightweight, prioritised
 > index). Each chapter is a self-contained, buildable work-package. Supporting
 > deep-dive research (with external-source citations) lives in
-> [`docs/research/`](research/).
+> [`docs/research/`](../research/).
 >
 > **Naming convention:** the `*_Spezifikation.md` documents (Fachliche,
 > Technische, Distribution, Rechtsform_Coverage) are the stable record of the
@@ -265,7 +265,7 @@ worst correctness risk and enables `fi_kind` search filtering on day one.
 ## 4. Banks — BWG schema
 
 Legal basis: **BWG §§ 43-58 + Anlage 1 (Bilanz) + Anlage 2 (GuV)**. See
-[`docs/research/banks_BWG_schema.md`](research/banks_BWG_schema.md) for the
+[`docs/research/banks_BWG_schema.md`](../research/banks_BWG_schema.md) for the
 full position lists and citations. The schema is fundamentally different from
 UGB — no EBIT, no Umsatzerlöse; instead Nettozinsertrag → Provisionsergebnis →
 Handelsergebnis → Betriebsergebnis → Wertberichtigungen.
@@ -318,7 +318,7 @@ Legal basis: **VAG 2016 §§ 136-167**, Bilanz layout **§ 144**, GuV **§ 146**
 detailed by the FMA's **VU-RLV** (BGBl. II 316/2015). Three parallel technical
 accounts (Leben I / Sach II / Kranken III) + non-technical IV. Composite
 insurers barred (§ 8 Abs. 4 VAG) — each AG runs one Sparte. See
-[`docs/research/insurers_VAG_schema.md`](research/insurers_VAG_schema.md).
+[`docs/research/insurers_VAG_schema.md`](../research/insurers_VAG_schema.md).
 
 ### 5.1 Data sources, in build-priority order
 
@@ -530,7 +530,7 @@ lands, large companies, recently-active) ahead of the long tail.
 
 `urkunde` fails on multi-MB filings with `"failed after N attempts: http 200"`
 — 38% of our large-file sample pulls. Root cause is in
-[`soap_client.py:_post`](../packages/firmenbuch_client/src/fbl_firmenbuch_client/soap_client.py):
+[`soap_client.py:_post`](../../packages/firmenbuch_client/src/fbl_firmenbuch_client/soap_client.py):
 a 200 response whose body can't be parsed as XML within the timeout falls into
 the retry path and eventually dead-letters. Fixes to implement & test:
 
@@ -574,6 +574,6 @@ time.
 
 ## Reference research (citations)
 
-- [`docs/research/jab40_bank_insurer_support.md`](research/jab40_bank_insurer_support.md) — JAb 4.0 is UGB-only by design (XSD + BMJ docs).
-- [`docs/research/banks_BWG_schema.md`](research/banks_BWG_schema.md) — BWG §§ 43-58, Anlagen 1/2, EBA P3DH, OeNB Bankstellenverzeichnis.
-- [`docs/research/insurers_VAG_schema.md`](research/insurers_VAG_schema.md) — VAG 2016 §§ 136-167, § 144/146, SFCR/QRT, ECB IC list + FMA register.
+- [`docs/research/jab40_bank_insurer_support.md`](../research/jab40_bank_insurer_support.md) — JAb 4.0 is UGB-only by design (XSD + BMJ docs).
+- [`docs/research/banks_BWG_schema.md`](../research/banks_BWG_schema.md) — BWG §§ 43-58, Anlagen 1/2, EBA P3DH, OeNB Bankstellenverzeichnis.
+- [`docs/research/insurers_VAG_schema.md`](../research/insurers_VAG_schema.md) — VAG 2016 §§ 136-167, § 144/146, SFCR/QRT, ECB IC list + FMA register.

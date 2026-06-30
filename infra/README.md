@@ -84,4 +84,4 @@ verification is a manual step (billable).
 3. Run the Initial Load by hand (`--mode sync-registry → backfill-ingest → backfill-process`, §15a.1).
 
 ---
-↑ [Repo root](../README.md) · Specs: [Technische §4](../docs/Technische_Spezifikation.md) · Next stage: [`ingest`](../packages/90_ingest/README.md)
+↑ [Repo root](../README.md) · Specs: [Technische §4](../docs/specs/Technische_Spezifikation.md) · Next stage: [`ingest`](../packages/90_ingest/README.md)
