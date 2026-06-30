@@ -5,7 +5,7 @@ externen Register (GISA, EIOPA/GLEIF, WKO) **empirisch** herausgefunden haben ‚Ä
 nicht, und der empfohlene Weg. Quelle der Befunde: Live-Abfragen + Prim√§rquellen (nicht Vermutung).
 
 Verwandt: Issue [#14](https://github.com/jkbngb/agentic-firmenbuch/issues/14) (Branchenfilter),
-[#49 / P3 GISA](../ROADMAP.md), [#17] (Versicherer, erledigt).
+[#49 / P3 GISA](../../ROADMAP.md), [#17] (Versicherer, erledigt).
 
 ---
 
