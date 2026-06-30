@@ -222,7 +222,9 @@ def branch_block(geschaeftszweig: str | None) -> dict[str, Any] | None:
 
 def _card(doc: dict[str, Any], directory: dict[str, str] | None = None) -> CompanyCard:
     gz = _g(doc, "company", "description")
-    guess = classify_oenace(gz) if gz else None
+    # Prefer the stored LLM branch section once the grind has written it; else keyword fallback.
+    stored_section = _g(doc, "branch", "oenace", "section")
+    guess = classify_oenace(gz) if gz and not stored_section else None
     return CompanyCard(
         fnr=doc["fnr"],
         name=_g(doc, "identity", "name") or doc["fnr"],
@@ -239,6 +241,6 @@ def _card(doc: dict[str, Any], directory: dict[str, str] | None = None) -> Compa
         has_guv_latest=bool(_g(doc, "financials", "has_guv_latest")),
         manager_name=_g(doc, "management", "primary_manager_name"),
         is_financial_institution=_financial_institution(doc, directory) is not None,
-        geschaeftszweig=gz,
-        branch_section=guess.section if guess else None,
+        geschaeftszweig=_g(doc, "branch", "geschaeftszweig") or gz,
+        branch_section=stored_section or (guess.section if guess else None),
     )
