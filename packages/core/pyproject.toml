@@ -23,3 +23,5 @@ packages = ["src/fbl_core"]
 
 [tool.hatch.build.targets.wheel.force-include]
 "src/fbl_core/mapping/appendix_position_mapping.json" = "fbl_core/mapping/appendix_position_mapping.json"
+"src/fbl_core/mapping/oenace/oenace2025_de.csv" = "fbl_core/mapping/oenace/oenace2025_de.csv"
+"src/fbl_core/mapping/oenace/oenace2025_en.csv" = "fbl_core/mapping/oenace/oenace2025_en.csv"
