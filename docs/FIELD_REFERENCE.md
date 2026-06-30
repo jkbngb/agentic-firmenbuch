@@ -165,10 +165,9 @@ Auf der Such-Karte erscheint dazu das Flag `is_financial_institution` (bool).
 
 ### `branch`
 Branche/Industrie. Quelle ist der **Firmenbuch-Geschäftszweig** (Freitext); daraus wird per
-Sprachmodell ein offizieller **ÖNACE-2025-Code** abgeleitet (klassifiziert in ÖNACE 2008 und mit
-der amtlichen Statistik-Austria-Tabelle nach 2025 übergeleitet). Geprüfte Genauigkeit auf
-ungesehenen Firmen: Abschnitt ~92 %, Abteilung ~89 %, Gruppe ~74 %. Der Original-Geschäftszweig
-bleibt immer erhalten.
+Sprachmodell (Few-Shot) ein offizieller **ÖNACE-2025-Code** abgeleitet — klassifiziert in ÖNACE
+2008, mit der amtlichen Statistik-Austria-Tabelle nach 2025 übergeleitet — und gegen einen
+Referenzdatensatz geprüft. Der Original-Geschäftszweig bleibt immer erhalten.
 
 | Feld | Typ | Bedeutung | `null`, wenn … |
 |---|---|---|---|
