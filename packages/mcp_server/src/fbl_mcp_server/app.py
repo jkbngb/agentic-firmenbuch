@@ -178,13 +178,63 @@ def _http_token(ctx: Any) -> str:
 def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
     """Construct the FastMCP server with all tools registered (§9)."""
     svc = McpService(cosmos, settings)
+    # Public base URL of THIS MCP host (used for OAuth issuer below + the absolute icon src).
+    base_url = os.environ.get("PUBLIC_BASE_URL", "https://mcp.agentic-firmenbuch.at").rstrip("/")
     # Bind 0.0.0.0 so the Container App ingress can reach the streamable-HTTP server
     # (FastMCP defaults to 127.0.0.1, which is unreachable from outside the container).
+    # website_url + icons travel in the MCP serverInfo so a spec-aware client renders our brand
+    # (the green grid) and links to the site instead of showing a generic placeholder (issue #14).
+    from mcp.types import Icon
+
     mcp = FastMCP(
         "firmenbuch-live",
         host="0.0.0.0",
         port=int(os.environ.get("MCP_PORT", "8000")),
+        website_url="https://www.agentic-firmenbuch.at",
+        icons=[
+            Icon(src=f"{base_url}/icon.png", mimeType="image/png", sizes=["512x512"]),
+            Icon(src=f"{base_url}/favicon.svg", mimeType="image/svg+xml", sizes=["any"]),
+        ],
     )
+
+    # Serve the brand mark from the MCP domain too — the favicon path is the most widely
+    # honored fallback across clients that don't yet read serverInfo.icons.
+    @mcp.custom_route("/favicon.svg", methods=["GET"])  # type: ignore[untyped-decorator]
+    async def _favicon_svg(_request: Any) -> Any:
+        from starlette.responses import Response
+
+        from .branding import FAVICON_SVG
+
+        return Response(
+            FAVICON_SVG,
+            media_type="image/svg+xml",
+            headers={"Cache-Control": "public, max-age=86400"},
+        )
+
+    @mcp.custom_route("/icon.png", methods=["GET"])  # type: ignore[untyped-decorator]
+    async def _icon_png(_request: Any) -> Any:
+        from starlette.responses import Response
+
+        from .branding import ICON_PNG
+
+        return Response(
+            ICON_PNG,
+            media_type="image/png",
+            headers={"Cache-Control": "public, max-age=86400"},
+        )
+
+    @mcp.custom_route("/favicon.ico", methods=["GET"])  # type: ignore[untyped-decorator]
+    async def _favicon_ico(_request: Any) -> Any:
+        # Browsers/clients that blindly request /favicon.ico get the PNG (valid; clients sniff).
+        from starlette.responses import Response
+
+        from .branding import ICON_PNG
+
+        return Response(
+            ICON_PNG,
+            media_type="image/png",
+            headers={"Cache-Control": "public, max-age=86400"},
+        )
 
     # Friendly landing for humans who open the bare host in a browser. The MCP
     # protocol itself lives at ``/mcp`` (a bare GET there correctly returns 406);
@@ -223,7 +273,7 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
     # The authorization-base URL is the host root with the MCP path stripped. The metadata
     # endpoint MUST live at the root per RFC 8414 / MCP spec — and Cowork won't even try
     # the URL if this 404s.
-    _base = os.environ.get("PUBLIC_BASE_URL", "https://mcp.agentic-firmenbuch.at").rstrip("/")
+    _base = base_url
     from fbl_auth import email_sender_from_settings
 
     _settings = settings or get_settings()
