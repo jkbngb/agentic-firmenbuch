@@ -1,6 +1,6 @@
 """ÖNACE 2025 tree loads, indexes, and powers constrained candidate lists (issue #14)."""
 
-from fbl_core.mapping.oenace_tree import load_oenace_tree
+from fbl_core.classification.taxonomy import load_oenace_tree
 
 
 def test_levels_have_expected_counts() -> None:
@@ -40,3 +40,16 @@ def test_children_give_the_constrained_candidate_list() -> None:
     assert {"68.1", "68.2", "68.3"} <= groups
     # normalization: a serve-style code with section letter resolves the same node
     assert t.get("M 68.32") is t.get("68.32")
+
+
+def test_official_crosswalk_2008_to_2025() -> None:
+    from fbl_core.classification.crosswalk import changed_groups, map_group
+
+    # identity for an unchanged group, and a deterministic map for a re-coded one
+    assert map_group("68.3") == "68.3"  # real estate group stable across vintages
+    changed = changed_groups()
+    assert 30 < len(changed) < 60  # 41 groups were re-coded 2008->2025
+    # every mapped target is itself a real 2025 group
+    t = load_oenace_tree(2025)
+    for src, dst in list(changed.items())[:50]:
+        assert t.is_valid(dst), f"{src}->{dst} not a valid 2025 code"
