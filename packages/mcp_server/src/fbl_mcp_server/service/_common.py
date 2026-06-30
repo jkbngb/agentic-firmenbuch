@@ -12,6 +12,7 @@ from typing import Any
 
 from fbl_core.financial_institution import classify_financial_institution
 from fbl_core.models import CompanyCard, PublicProvenance
+from fbl_core.oenace import classify_oenace
 from fbl_core.storage import CosmosStoreLike
 
 from ..errors import NotFound
@@ -193,7 +194,35 @@ def _financial_institution(
     return {"kind": fi.kind, "source": fi.source, "caveat": fi.caveat}
 
 
+def branch_block(geschaeftszweig: str | None) -> dict[str, Any] | None:
+    """The scalable ``branch`` block (issue #14): the original Firmenbuch Geschäftszweig free text
+    PLUS a derived ÖNACE classification. Computed at SERVE time from the stored ``description``, so
+    it's available for every company instantly — no re-grind. The ÖNACE ``division``/``group``
+    levels (NACE depth ~272 groups) are filled later by the LLM/Northdata stage; the deterministic
+    keyword head currently yields the ``section`` (A–U). The original text is never dropped."""
+    if not geschaeftszweig:
+        return None
+    g = classify_oenace(geschaeftszweig)
+    oenace = None
+    if g is not None:
+        oenace = {
+            "section": g.section,
+            "section_label": g.label,
+            "division": None,  # 2-digit, e.g. "64" — filled by the NACE classifier
+            "group": None,  # 3-digit, e.g. "64.2" — filled by the NACE classifier
+            "label": g.label,
+        }
+    return {
+        "geschaeftszweig": geschaeftszweig,
+        "oenace": oenace,
+        "source": g.method if g else None,
+        "confidence": g.confidence if g else None,
+    }
+
+
 def _card(doc: dict[str, Any], directory: dict[str, str] | None = None) -> CompanyCard:
+    gz = _g(doc, "company", "description")
+    guess = classify_oenace(gz) if gz else None
     return CompanyCard(
         fnr=doc["fnr"],
         name=_g(doc, "identity", "name") or doc["fnr"],
@@ -210,4 +239,6 @@ def _card(doc: dict[str, Any], directory: dict[str, str] | None = None) -> Compa
         has_guv_latest=bool(_g(doc, "financials", "has_guv_latest")),
         manager_name=_g(doc, "management", "primary_manager_name"),
         is_financial_institution=_financial_institution(doc, directory) is not None,
+        geschaeftszweig=gz,
+        branch_section=guess.section if guess else None,
     )

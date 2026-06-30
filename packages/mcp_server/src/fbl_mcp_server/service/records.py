@@ -19,6 +19,7 @@ from ._common import (
     _provenance,
     _require,
     _strip_internal,
+    branch_block,
 )
 
 
@@ -37,6 +38,9 @@ def get_company_details(cosmos: CosmosStoreLike, fnr: str) -> dict[str, Any]:
         # Surface the flag at the top of the record so an agent reads it before the (absent)
         # UGB figures, and doesn't mistake "no Bilanz" for "no data" (ROADMAP P2.1).
         result["financial_institution"] = fi
+    # Branch (issue #14): the original Geschäftszweig free text + a derived ÖNACE classification,
+    # computed at serve time so it's live for every company without a re-grind.
+    result["branch"] = branch_block(_g(result, "company", "description"))
     return {
         "schema_version": doc.get("schema_version", "1.0"),
         "data_version": _g(doc, "provenance", "data_version"),
@@ -208,7 +212,15 @@ def describe_fields() -> dict[str, Any]:
                     "growth": ["profile", "method"],
                     "employees": ["latest", "latest_year", "history"],
                     "filings[]": ["stichtag", "format", "parsed", "gkl", "eingereicht", "doc_key"],
-                    "events[]": ["registered events (V1: usually empty)"],
+                    "events[]": [
+                        "name/seat/legal-form/management/capital changes (from 2026-07-01)"
+                    ],
+                    "branch": [
+                        "geschaeftszweig (Firmenbuch free text)",
+                        "oenace.section (A–U) + section_label; division/group reserved for the "
+                        "NACE classifier",
+                        "source (keyword/llm), confidence",
+                    ],
                     "management": [
                         "n_signatories_latest",
                         "signatories_stable_years",

@@ -29,6 +29,7 @@ def _presented(
     data_version: int = 1,
     manager_name: str | None = None,
     founded_year: int | None = None,
+    geschaeftszweig: str | None = None,
 ) -> dict[str, Any]:
     return {
         "id": fnr,
@@ -36,7 +37,11 @@ def _presented(
         "schema_version": "1.0",
         "identity": {"fnr": fnr, "name": name, "legal_form": legal_form, "status": "active"},
         "location": {"bundesland": bundesland},
-        "company": {"last_filing_year": 2024, "founded_year": founded_year},
+        "company": {
+            "last_filing_year": 2024,
+            "founded_year": founded_year,
+            "description": geschaeftszweig,
+        },
         "management": {"primary_manager": {"age": 55}, "primary_manager_name": manager_name},
         "size": {"gkl": gkl, "bilanzsumme_band": "small"},
         "financials": {
@@ -134,6 +139,36 @@ def test_tool_calls_are_metered_and_get_my_usage_reports_them() -> None:
     assert usage["tier"] == "free"
     # privacy: no e-mail leaks through the usage view
     assert "example.test" not in str(usage)
+
+
+def test_branch_field_from_geschaeftszweig_on_detail_and_card() -> None:
+    # Issue #14: the Geschäftszweig + a derived ÖNACE section are served (computed at serve time).
+    cosmos = InMemoryCosmosStore()
+    cosmos.upsert(
+        PRESENTED,
+        _presented(
+            "011111a",
+            name="Hausverwaltung GmbH",
+            bundesland="W",
+            gkl="K",
+            bilanzsumme=1.0,
+            has_guv_latest=False,
+            equity_ratio=0.5,
+            profile="stable",
+            geschaeftszweig="Immobilienverwaltung",
+        ),
+    )
+    token = signup("u@example.test", cosmos).token
+    svc = McpService(cosmos, Settings(rate_limit_per_min=1000, rate_limit_per_day=10000))
+
+    branch = svc.get_company_details(token, "011111a")["result"]["branch"]
+    assert branch["geschaeftszweig"] == "Immobilienverwaltung"
+    assert branch["oenace"]["section"] == "L" and branch["source"] == "keyword"
+    # the structure is scalable: NACE division/group reserved for the later classifier
+    assert "division" in branch["oenace"] and "group" in branch["oenace"]
+
+    card = svc.search_companies(token, SearchFilters(name="Hausverwaltung"))["results"][0]
+    assert card["geschaeftszweig"] == "Immobilienverwaltung" and card["branch_section"] == "L"
 
 
 def test_get_my_usage_requires_auth() -> None:
