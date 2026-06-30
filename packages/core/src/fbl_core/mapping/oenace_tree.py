@@ -82,11 +82,17 @@ def _norm(code: str) -> str:
     return c
 
 
-@lru_cache(maxsize=1)
-def load_oenace_tree() -> OenaceTree:
-    """Parse the bundled CSVs into the tree (cached; parsed once per process)."""
-    de_rows = _read("oenace2025_de.csv")
-    en_titles = {r["Code"]: r["Titel"] for r in _read("oenace2025_en.csv")}
+@lru_cache(maxsize=2)
+def load_oenace_tree(year: int = 2025) -> OenaceTree:
+    """Parse the bundled CSVs into the tree (cached; parsed once per year per process).
+
+    ``year`` selects the classification vintage: ``2025`` (current official, the default) or
+    ``2008`` (NACE Rev.2). 2008 is kept because the LLM knows it best — classify-in-2008 then
+    map to 2025 is a viable higher-accuracy path."""
+    if year not in (2008, 2025):
+        raise ValueError(f"unsupported ÖNACE year {year!r}")
+    de_rows = _read(f"oenace{year}_de.csv")
+    en_titles = {r["Code"]: r["Titel"] for r in _read(f"oenace{year}_en.csv")}
 
     nodes: dict[str, OenaceNode] = {}
     children: dict[str, list[str]] = {}
