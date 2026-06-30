@@ -40,7 +40,7 @@ OAUTH_CODES = "00_oauth_codes"
 OAUTH_TOKENS = "00_oauth_tokens"
 OAUTH_PENDING = "00_oauth_pending"
 ACCOUNTS = "00_accounts"
-PENDING_TTL_SEC = 900  # 15 min for the user to click the magic link
+PENDING_TTL_SEC = 3600  # 60 min for the user to click the magic link (mail may be read later)
 
 
 def verify_pkce(code_verifier: str, code_challenge: str) -> bool:
