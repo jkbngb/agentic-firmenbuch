@@ -286,15 +286,24 @@ def test_full_oauth_flow_end_to_end(monkeypatch) -> None:  # type: ignore[no-unt
     )
     assert r.status_code == 200 and "unterwegs" in r.text
 
-    # 4) Simulate the user clicking the magic link: find the pending grant in storage.
+    # 4) The magic link is GET -> it ONLY shows a confirm button and consumes NOTHING, so a
+    #    corporate mail link-scanner (Microsoft Safe Links) prefetching the URL can't burn the
+    #    grant. Two GETs (a scanner + the human opening it) both leave it usable; only the POST
+    #    (the human clicking the button) consumes + redirects with the code.
     from fbl_auth import OAUTH_PENDING
 
     pend = next(iter(cosmos.iter_all(OAUTH_PENDING)))
-    confirm = c.get(f"/authorize/confirm?grant={pend['grant_id']}", follow_redirects=False)
+    gid = pend["grant_id"]
+    g1 = c.get(f"/authorize/confirm?grant={gid}")
+    assert g1.status_code == 200 and "bestätigen" in g1.text.lower()
+    assert c.get(f"/authorize/confirm?grant={gid}").status_code == 200  # scanner prefetch: no burn
+    confirm = c.post("/authorize/confirm", data={"grant": gid}, follow_redirects=False)
     assert confirm.status_code == 302
     loc = confirm.headers["location"]
     assert loc.startswith("https://claude.ai/cb?") and "state=st-1" in loc
     code = loc.split("code=")[1].split("&")[0]
+    # and a re-POST of the now-consumed grant fails (still one-shot at the real consent step)
+    assert c.post("/authorize/confirm", data={"grant": gid}).status_code == 400
 
     # 5) /token exchange with the verifier
     tok = c.post(
@@ -329,7 +338,7 @@ def test_full_oauth_flow_end_to_end(monkeypatch) -> None:  # type: ignore[no-unt
         },
     )
     pend2 = next(p for p in cosmos.iter_all(OAUTH_PENDING) if not p["used"])
-    r2 = c.get(f"/authorize/confirm?grant={pend2['grant_id']}", follow_redirects=False)
+    r2 = c.post("/authorize/confirm", data={"grant": pend2["grant_id"]}, follow_redirects=False)
     loc2 = r2.headers["location"]
     code2 = loc2.split("code=")[1].split("&")[0]
     bad = c.post(

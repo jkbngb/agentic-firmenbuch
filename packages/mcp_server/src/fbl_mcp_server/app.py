@@ -411,7 +411,7 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
         return _page(
             "E-Mail unterwegs",
             f"<p>Wir haben einen Bestätigungslink an <strong>{html.escape(email)}</strong> "
-            "geschickt. Öffne ihn (gültig 15 Minuten), um die Verbindung abzuschließen. "
+            "geschickt. Öffne ihn (gültig 60 Minuten) und klicke auf „Verbindung bestätigen“. "
             "Du kannst dieses Fenster dann schließen.</p>"
             "<p style='margin-top:1rem;padding:12px 14px;background:#14161B;border-radius:10px;"
             "color:#9AA2AF;font-size:14px'><strong style='color:#EDEFF3'>Danach testen:</strong> "
@@ -420,13 +420,35 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
             "Verbindung.</p>",
         )
 
-    @mcp.custom_route("/authorize/confirm", methods=["GET"])  # type: ignore[untyped-decorator]
+    @mcp.custom_route("/authorize/confirm", methods=["GET", "POST"])  # type: ignore[untyped-decorator]
     async def _authorize_confirm(request: Any) -> Any:
         from starlette.responses import RedirectResponse
 
         from fbl_auth import consume_pending_auth, get_or_create_account_by_email, issue_code
 
-        grant = request.query_params.get("grant", "")
+        # Two-step so corporate mail link-scanners (Microsoft 365 Safe Links, Proofpoint, …) can't
+        # silently consume the one-time magic link: the email link is a GET that ONLY shows a
+        # confirm button — it consumes nothing. Scanners do the GET (harmless); the human clicks
+        # the button → POST → actual consent. Without this, a Safe-Links GET marked the grant
+        # "used" before the user, so every M365 user got "Link abgelaufen/benutzt" and no token.
+        if request.method == "GET":
+            grant = request.query_params.get("grant", "")
+            if not grant:
+                return _page(
+                    "Link ungültig", "<p>Dieser Bestätigungslink ist ungültig.</p>", status=400
+                )
+            return _page(
+                "Verbindung bestätigen",
+                "<p style='color:#9AA2AF'>Fast geschafft — klicke, um die Verbindung mit "
+                "Agentic-Firmenbuch.at abzuschließen.</p>"
+                "<form method=post style='margin-top:1.5rem'>"
+                f"<input type=hidden name=grant value='{html.escape(grant)}'>"
+                "<button type=submit style='width:100%;padding:12px;border:0;border-radius:10px;"
+                "background:#19C37D;color:#08130D;font-weight:700;font-size:15px;cursor:pointer'>"
+                "Verbindung bestätigen</button></form>",
+            )
+        form = await request.form()
+        grant = str(form.get("grant", "")).strip()
         pending = consume_pending_auth(cosmos, grant) if grant else None
         if pending is None:
             return _page(
