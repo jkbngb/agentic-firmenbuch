@@ -11,6 +11,7 @@ dependency wiring from settings/env (Turnstile secret, ACS, Cosmos via managed i
 
 from __future__ import annotations
 
+import html
 import json
 from typing import Any
 
@@ -18,7 +19,7 @@ from starlette.applications import Starlette
 from starlette.middleware import Middleware
 from starlette.middleware.cors import CORSMiddleware
 from starlette.requests import Request
-from starlette.responses import JSONResponse, RedirectResponse, Response
+from starlette.responses import HTMLResponse, JSONResponse, RedirectResponse, Response
 from starlette.routing import Route
 
 from fbl_auth import (
@@ -120,9 +121,36 @@ async def signup(req: Request) -> Response:
 
 
 async def verify(req: Request) -> Response:
-    status, _ = verify_request(req.query_params.get("token", ""), _cosmos, email_sender=_email)
+    # Interstitial confirm: corporate mail link-scanners (Microsoft 365 Safe Links, Proofpoint, …)
+    # PRE-FETCH links to scan them. Consuming the one-time verify token on that GET burned it
+    # before the human clicked. So the email link (GET) only renders a confirm button and consumes
+    # NOTHING; the human's button POST runs verify_request (issue + email the API key). Scanners
+    # GET (harmless); only a real POST completes.
+    site = _settings.site_base_url.rstrip("/")
+    if req.method == "GET":
+        token = req.query_params.get("token", "")
+        if not token:
+            return RedirectResponse(f"{site}/verify-fehler.html", status_code=302)
+        return HTMLResponse(
+            "<!doctype html><html lang=de><head><meta charset=utf-8>"
+            "<meta name=viewport content='width=device-width,initial-scale=1'>"
+            "<title>E-Mail bestätigen</title></head>"
+            "<body style='font-family:system-ui,sans-serif;background:#0b0d10;color:#EDEFF3;"
+            "margin:0;display:flex;min-height:100vh;align-items:center;justify-content:center'>"
+            "<form method=post style='max-width:380px;width:90%;text-align:center'>"
+            "<h2 style='color:#19C37D;margin:0 0 .5rem'>Agentic-Firmenbuch.at</h2>"
+            "<p style='color:#9AA2AF'>Klicke, um deine E-Mail zu bestätigen — danach bekommst du "
+            "deinen API-Key per Mail.</p>"
+            f"<input type=hidden name=token value='{html.escape(token)}'>"
+            "<button type=submit style='width:100%;padding:12px;border:0;border-radius:10px;"
+            "background:#19C37D;color:#08130D;font-weight:700;font-size:15px;cursor:pointer'>"
+            "E-Mail bestätigen</button></form></body></html>"
+        )
+    form = await req.form()
+    token = str(form.get("token", "")) or req.query_params.get("token", "")
+    status, _ = verify_request(token, _cosmos, email_sender=_email)
     target = "verified" if status == 200 else "verify-fehler"
-    return RedirectResponse(f"{_settings.site_base_url.rstrip('/')}/{target}.html", status_code=302)
+    return RedirectResponse(f"{site}/{target}.html", status_code=302)
 
 
 async def regenerate(req: Request) -> Response:
@@ -222,7 +250,7 @@ app = Starlette(
         Route("/api/health", health, methods=["GET"]),
         Route("/api/demo", demo, methods=["GET"]),
         Route("/api/signup", signup, methods=["POST"]),
-        Route("/api/verify", verify, methods=["GET"]),
+        Route("/api/verify", verify, methods=["GET", "POST"]),
         Route("/api/regenerate", regenerate, methods=["POST"]),
         Route("/api/unsubscribe", unsubscribe, methods=["POST"]),
         Route("/api/playground", playground, methods=["POST"]),
