@@ -25,6 +25,9 @@ htmlcov/
 
 # local data / scratch (never commit real Firmenbuch data dumps)
 data/
+# …but the bundled classification taxonomy/crosswalk IS source, not a data dump:
+!packages/core/src/fbl_core/classification/data/
+!packages/core/src/fbl_core/classification/data/**
 *.local.json
 
 # bicep build artifacts
