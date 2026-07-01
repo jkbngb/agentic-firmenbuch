@@ -1,0 +1,41 @@
+# Personalised owner notification — pings you ONLY when something needs your attention:
+#   • the agent escalated a BIG change (issue labelled `needs-owner-approval`), or
+#   • the agent opened a PR for you to review + deploy (branch `feedback/*`).
+#
+# Setup (owner, 2 min): create a Slack Incoming Webhook (Slack → Apps → "Incoming Webhooks" →
+# pick a channel/DM → copy the URL) and add it as repo secret SLACK_WEBHOOK_URL. The URL already
+# points at your chosen channel — no Slack identity is shared with the repo. No secret → no-op.
+# (Telegram/Discord work the same way: swap the curl payload; ask if you prefer those.)
+name: notify-owner
+
+on:
+  issues:
+    types: [labeled]
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    if: >
+      (github.event_name == 'issues' && github.event.label.name == 'needs-owner-approval') ||
+      (github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'feedback/'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Slack ping
+        env:
+          HOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          KIND: ${{ github.event_name }}
+          TITLE: ${{ github.event.issue.title || github.event.pull_request.title }}
+          URL: ${{ github.event.issue.html_url || github.event.pull_request.html_url }}
+        run: |
+          if [ -z "$HOOK" ]; then echo "SLACK_WEBHOOK_URL not set — skipping."; exit 0; fi
+          if [ "$KIND" = "pull_request" ]; then
+            TEXT="🟢 *Agent hat einen PR für dich* — reviewen + deployen: *$TITLE*"
+          else
+            TEXT="🔔 *Große Änderung braucht deine Entscheidung*: *$TITLE*"
+          fi
+          curl -sS -X POST -H 'Content-type: application/json' \
+            --data "$(printf '{"text":"%s\\n%s"}' "$TEXT" "$URL")" "$HOOK"

@@ -55,7 +55,7 @@ app and subscribe a channel — no custom code:
 ```
 
 You'll get new feedback issues, the agent's PRs, and its @-mentions (big-change escalations) in
-Slack. Optional: a workflow step can post a tailored Slack message on escalation — ask if wanted.
+Slack. A **personalised bot** is wired in `.github/workflows/notify-owner.yml`: it pings you **only when action is needed** — a big change escalated (`needs-owner-approval`) or an agent PR to review. Add a Slack Incoming Webhook URL as repo secret `SLACK_WEBHOOK_URL` (no Slack identity is shared; the URL points at your chosen channel). No secret → the step is a silent no-op. GitHub's default e-mail/web notifications work regardless.
 
 ## Owner setup
 
