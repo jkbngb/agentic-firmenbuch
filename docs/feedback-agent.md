@@ -74,3 +74,9 @@ az containerapp secret set -n app-firmenbuch-signup -g rg-firmenbuch-prod \
 az containerapp update -n app-firmenbuch-signup -g rg-firmenbuch-prod \
   --set-env-vars GH_FEEDBACK_TOKEN=secretref:gh-feedback-token
 ```
+
+## Budget & cost visibility
+
+- **Per-run tokens:** in each Actions run log (the agent reports usage).
+- **Total spend + remaining balance:** only in the **Anthropic Console** (Billing) — the API does not expose a remaining balance. Set a **spend limit on the key** there.
+- **Budget/failure alarm:** if the agent can't run (credit exhausted, rate limit, any error), the workflow pings `SLACK_WEBHOOK_URL` so no request is silently dropped.
