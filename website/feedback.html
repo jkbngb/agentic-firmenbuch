@@ -19,7 +19,14 @@
   label{display:block;font-size:.9rem;color:var(--muted);margin:18px 0 6px}
   textarea,input[type=email],input[type=file]{width:100%;background:var(--card);border:1px solid var(--line);border-radius:10px;color:var(--fg);padding:12px 14px;font:inherit}
   textarea{min-height:150px;resize:vertical}
-  input[type=file]{padding:10px}
+  input[type=file]{display:none}
+  .drop{margin-top:6px;border:1.5px dashed var(--line);border-radius:10px;padding:22px 16px;text-align:center;color:var(--muted);cursor:pointer;transition:border-color .15s,background .15s;font-size:.9rem}
+  .drop:hover,.drop.over{border-color:var(--acc);background:rgba(25,195,125,.06);color:var(--fg)}
+  .drop b{color:var(--acc)}
+  .preview{display:none;margin-top:10px;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px}
+  .preview img{width:56px;height:56px;object-fit:cover;border-radius:6px;flex:none}
+  .preview .fn{flex:1;min-width:0;font-size:.85rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .preview .rm{color:#e0685f;cursor:pointer;font-size:.85rem;background:none;border:0;padding:4px 8px;width:auto;margin:0}
   button{margin-top:22px;width:100%;background:var(--acc);color:#08130C;border:0;border-radius:10px;padding:14px;font-weight:600;font-size:1rem;cursor:pointer}
   button:disabled{opacity:.5;cursor:default}
   .msg{margin-top:18px;padding:12px 14px;border-radius:10px;display:none}
@@ -43,8 +50,10 @@
       <label for="message">Dein Feedback *</label>
       <textarea id="message" name="message" required placeholder="z. B. „In der Suche wäre ein Filter nach … super“ oder „Feld X zeigt einen falschen Wert bei Firma Y“"></textarea>
 
-      <label for="screenshot">Screenshot (optional, PNG/JPG, max 5 MB)</label>
+      <label>Screenshot (optional, PNG/JPG, max 5 MB)</label>
       <input type="file" id="screenshot" name="screenshot" accept="image/png,image/jpeg,image/webp,image/gif" />
+      <div class="drop" id="drop">Screenshot <b>hierher ziehen</b>, klicken zum Auswählen — oder einfach <b>einfügen</b> (Strg/Cmd&nbsp;+&nbsp;V)</div>
+      <div class="preview" id="preview"><img id="thumb" alt="" /><span class="fn" id="fn"></span><button type="button" class="rm" id="rm">entfernen</button></div>
 
       <label for="contact">E-Mail für Rückfragen (optional)</label>
       <input type="email" id="contact" name="contact" placeholder="name@firma.at" />
@@ -61,6 +70,25 @@
 
 <script>
 const f=document.getElementById('f'),btn=document.getElementById('btn'),ok=document.getElementById('ok'),err=document.getElementById('err');
+const input=document.getElementById('screenshot'),drop=document.getElementById('drop'),preview=document.getElementById('preview'),thumb=document.getElementById('thumb'),fn=document.getElementById('fn'),rm=document.getElementById('rm');
+const OK_TYPES=['image/png','image/jpeg','image/webp','image/gif'];
+function setFile(file){
+  if(!file)return;
+  if(!OK_TYPES.includes(file.type)){err.textContent='Nur PNG, JPG, WEBP oder GIF.';err.style.display='block';return;}
+  if(file.size>5e6){err.textContent='Screenshot zu groß (max 5 MB).';err.style.display='block';return;}
+  err.style.display='none';
+  const dt=new DataTransfer();dt.items.add(file);input.files=dt.files;
+  thumb.src=URL.createObjectURL(file);fn.textContent=file.name||'Screenshot';
+  drop.style.display='none';preview.style.display='flex';
+}
+function clearFile(){input.value='';preview.style.display='none';drop.style.display='block';}
+drop.addEventListener('click',()=>input.click());
+input.addEventListener('change',()=>setFile(input.files[0]));
+rm.addEventListener('click',clearFile);
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over');}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over');}));
+drop.addEventListener('drop',e=>{const file=e.dataTransfer.files[0];if(file)setFile(file);});
+window.addEventListener('paste',e=>{for(const it of (e.clipboardData||{}).items||[]){if(it.type.startsWith('image/')){setFile(it.getAsFile());break;}}});
 f.addEventListener('submit',async e=>{
   e.preventDefault();ok.style.display='none';err.style.display='none';
   const ts=document.querySelector('[name=cf-turnstile-response]');
@@ -70,7 +98,7 @@ f.addEventListener('submit',async e=>{
   try{
     const r=await fetch('/api/feedback',{method:'POST',body:fd});
     const j=await r.json().catch(()=>({}));
-    if(r.ok){f.reset();ok.style.display='block';if(window.turnstile)turnstile.reset();}
+    if(r.ok){f.reset();clearFile();ok.style.display='block';if(window.turnstile)turnstile.reset();}
     else{err.textContent=j.error||'Konnte nicht gesendet werden. Bitte später nochmal.';err.style.display='block';}
   }catch(_){err.textContent='Netzwerkfehler. Bitte später nochmal.';err.style.display='block';}
   btn.disabled=false;btn.textContent='Absenden';
