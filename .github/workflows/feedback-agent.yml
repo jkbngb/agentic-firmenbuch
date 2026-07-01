@@ -15,10 +15,12 @@ on:
     # `opened` too would run the agent twice for the same issue.
     types: [labeled]
 
-# Waitlist: run feedback items ONE AT A TIME (no cancel) so concurrent agents never collide.
-# You can submit the next feedback immediately — it queues behind the current one.
+# Serialize PER ISSUE only. Each issue gets its own branch (claude/issue-<n>-*), so different
+# issues never collide and run in parallel. A global group was wrong: GitHub keeps only ONE run
+# pending per group, so a burst of submissions had its middle runs cancelled (issues silently
+# dropped). Per-issue grouping still guards an issue against colliding with a re-fire of itself.
 concurrency:
-  group: feedback-agent
+  group: feedback-agent-${{ github.event.issue.number }}
   cancel-in-progress: false
 
 # Least privilege: enough to branch + open a PR + comment; NOT enough to merge or deploy.
@@ -66,12 +68,12 @@ jobs:
 
             ${{ github.event.issue.body }}
 
-            If SMALL: implement it on a branch, make the CI gate pass
+            If SMALL: implement it on a branch, try to make the CI gate pass
             (uv run ruff check packages && uv run ruff format --check packages &&
-             uv run mypy --strict packages && uv run pytest), then ACTUALLY OPEN the pull request
-            (e.g. `gh pr create`) — do not just post a compare link — so an independent reviewer
-            bot can pick it up. The PR body must say the owner must review + deploy. Comment the PR
-            link on the issue. Never push to main, never merge, never deploy.
+             uv run mypy --strict packages && uv run pytest) — if uv is unavailable in your
+            sandbox, say so and rely on CI. Push the branch and post the "Create PR" compare link
+            in your comment (opening the PR is the owner's step; that is what starts the review).
+            The comment must say the owner must review + deploy. Never push to main, merge, deploy.
             If BIG or unsure: post a short plan, add label needs-owner-approval, @-mention @jkbngb,
             and stop without writing code.
 
