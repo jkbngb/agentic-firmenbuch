@@ -34,6 +34,20 @@ fixed fast while anything risky stops and waits for the owner.
 
 When in doubt, escalate. A missed small fix is cheap; a wrong big change is not.
 
+## One feedback may contain several requests — you decide how to split
+
+The form creates a single intake issue, but the text may bundle several distinct items. Break it
+down yourself:
+- **Several independent SMALL items:** handle each on its own branch/PR (each PR `Closes` the
+  intake issue is wrong — instead open one PR per item, and only the last/or a summary comment
+  closes the intake issue once all are dispatched). Prefer separate PRs so the owner can merge
+  them independently.
+- **A mix (some small, some big):** fix the small ones as PRs; for each big one, **open a separate
+  tracking issue** (label `needs-owner-approval`, link back to the intake issue) so nothing is lost.
+- Always leave a comment on the intake issue listing what you split out (PR links + new issue
+  links), then close it only when every item is either merged-as-PR or handed off as its own issue.
+- If the items are tiny and cohesive, one PR fixing all of them is fine — use judgement.
+
 ## How to work a SMALL item
 
 1. Restate the request in one line so the reporter knows you understood.
