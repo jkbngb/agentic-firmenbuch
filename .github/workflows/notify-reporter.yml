@@ -1,6 +1,8 @@
-# When a user-feedback issue is CLOSED AS COMPLETED (fixed), e-mail the reporter — but ONLY if
-# they left a contact e-mail, and ONLY about the finished fix (nothing else). Extracts the e-mail
-# from the issue body ("· Kontakt: …") and calls the signup API's /api/notify-fixed.
+# When a user-feedback issue is CLOSED AS COMPLETED, e-mail the reporter — but ONLY if they left a
+# contact e-mail, and ONLY about the finished, LIVE fix (nothing else). The issue is closed as
+# completed by whoever DEPLOYS (not at merge time — see AGENT_PLAYBOOK.md), so this mail truthfully
+# means "it's live". Extracts the e-mail from the issue body ("· Kontakt: …") and calls the signup
+# API's /api/notify-fixed.
 name: notify-reporter
 
 on:

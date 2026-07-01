@@ -64,16 +64,20 @@ Check first, so the same topic is not opened twice:
 1. Restate the request in one line so the reporter knows you understood.
 2. Work on the `claude/*` branch created for this run. Make the minimal change.
 3. Add/adjust a test. Run the full gate locally.
-4. Open a PR whose description starts with `Closes #<n>` (so merging auto-closes the issue with
-   the PR as the reasoning), summarises the change and the risk, and states that the owner must
-   review + deploy. Do **not** deploy. Keep the diff tight — an independent reviewer bot will
-   assess the PR and post a merge recommendation, so scope creep will be flagged.
+4. Open a PR that references the issue with `Behebt #<n>` — **do NOT** use the auto-closing
+   keywords `Closes/Fixes/Resolves`. Those would close the issue the moment the PR merges, which
+   fires the reporter's "it's live" e-mail **before** the change is deployed. The issue is closed
+   (and the reporter mailed) only after the owner DEPLOYS. The PR body summarises the change and
+   the risk and states the owner must review + deploy. Do **not** deploy. Keep the diff tight — an
+   independent reviewer bot assesses the PR and posts a merge recommendation.
 5. Comment on the issue linking the PR.
 
 ## Closing issues (resolution)
 
-- **Fixed:** the PR's `Closes #<n>` closes the issue automatically **when the owner merges** — the
-  merged PR is the written justification. You never close a fixed issue by hand.
+- **Fixed:** you never close a fixed issue by hand. The PR only *references* the issue (`Behebt
+  #<n>`, not an auto-closing keyword). The issue is closed **as completed after the owner deploys**
+  — that post-deploy close is what e-mails the reporter "it's live", so it must not happen at merge
+  time. Leave the merged-but-not-yet-deployed issue open (label `merged-pending-deploy`).
 - **Not actionable** (spam, unclear after you asked, duplicate, out of scope, or already works):
   post a short, friendly comment with the reason and **close the issue** yourself (`state: closed`).
   For a duplicate, link the original. Never silently drop an issue.
