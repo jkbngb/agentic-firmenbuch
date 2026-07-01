@@ -33,13 +33,19 @@ def _presented(
     branch: dict[str, Any] | None = None,
     postal_code: str | None = None,
     city: str | None = None,
+    street: str | None = None,
 ) -> dict[str, Any]:
     doc = {
         "id": fnr,
         "fnr": fnr,
         "schema_version": "1.0",
         "identity": {"fnr": fnr, "name": name, "legal_form": legal_form, "status": "active"},
-        "location": {"bundesland": bundesland, "postal_code": postal_code, "city": city},
+        "location": {
+            "bundesland": bundesland,
+            "postal_code": postal_code,
+            "city": city,
+            "street": street,
+        },
         "company": {
             "last_filing_year": 2024,
             "founded_year": founded_year,
@@ -226,6 +232,34 @@ def test_search_filters_by_branch_and_location() -> None:
     assert fnrs(postal_code="8010") == {"022222b"}  # exact
     assert fnrs(city="graz") == {"022222b"}
     assert fnrs(oenace_section="M", postal_code="80") == set()  # combined, no match
+
+
+def test_search_card_exposes_seat_address() -> None:
+    # Issue #28: PLZ/Ort/Straße direkt auf der Karte — kein get_company_details-Umweg mehr.
+    cosmos = InMemoryCosmosStore()
+    cosmos.upsert(
+        PRESENTED,
+        _presented(
+            "022222b",
+            name="Bau Graz GmbH",
+            bundesland="St",
+            gkl="K",
+            bilanzsumme=1.0,
+            has_guv_latest=False,
+            equity_ratio=0.5,
+            profile="stable",
+            postal_code="8010",
+            city="Graz",
+            street="Hauptplatz 1",
+        ),
+    )
+    svc = McpService(cosmos, Settings(rate_limit_per_min=1000, rate_limit_per_day=10000))
+    token = signup("u@example.test", cosmos).token
+
+    card = svc.search_companies(token, SearchFilters(name="Bau Graz"))["results"][0]
+    assert card["postal_code"] == "8010"
+    assert card["city"] == "Graz"
+    assert card["street"] == "Hauptplatz 1"
 
 
 def test_get_my_usage_requires_auth() -> None:
