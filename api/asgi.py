@@ -13,8 +13,11 @@ from __future__ import annotations
 
 import html
 import json
+import os
+import uuid
 from typing import Any
 
+import httpx
 from starlette.applications import Starlette
 from starlette.middleware import Middleware
 from starlette.middleware.cors import CORSMiddleware
@@ -31,7 +34,7 @@ from fbl_auth import (
 )
 from fbl_auth.turnstile import make_turnstile_verifier
 from fbl_core.config import Settings
-from fbl_core.storage import CosmosStore
+from fbl_core.storage import RAW_CONTAINER, BlobStore, CosmosStore
 from fbl_mcp_server import service
 from fbl_mcp_server.playground import _within_cap, playground_request
 
@@ -237,6 +240,70 @@ async def company(req: Request) -> Response:
 # Browser CORS: the static site (www / apex) fetches signup + playground from this container,
 # so those origins must be allowed. Configurable via CORS_ALLOWED_ORIGINS; sensible prod
 # defaults otherwise. Credentials are not used (no cookies), so an explicit origin list is enough.
+_blob = BlobStore(_settings.blob_account_url) if _settings.blob_account_url else None
+_GH_TOKEN = os.environ.get("GH_FEEDBACK_TOKEN", "")
+_GH_REPO = os.environ.get("GH_FEEDBACK_REPO", "jkbngb/agentic-firmenbuch")
+_IMG_EXT = {"image/png": "png", "image/jpeg": "jpg", "image/webp": "webp", "image/gif": "gif"}
+
+
+async def feedback(req: Request) -> Response:
+    """User feedback → a labelled GitHub issue (which triggers the auto-fix agent). Optional
+    screenshot is stored in Blob and embedded via a 7-day signed URL (the agent reads it at once).
+    Turnstile-gated; the agent can only open PRs, never merge/deploy (branch protection)."""
+    form = await req.form()
+    message = str(form.get("message", "")).strip()
+    contact = str(form.get("contact", "")).strip()[:200]
+    if len(message) < 5:
+        return JSONResponse({"error": "Bitte beschreibe dein Feedback kurz."}, status_code=400)
+    message = message[:5000]
+    if _turnstile and not _turnstile(str(form.get("turnstile", "")), _ip(req)):
+        return JSONResponse({"error": "Bot-Prüfung fehlgeschlagen."}, status_code=403)
+    if not _GH_TOKEN:
+        return JSONResponse({"error": "Feedback-Kanal noch nicht konfiguriert."}, status_code=503)
+
+    shot_md = ""
+    up = form.get("screenshot")
+    filename = getattr(up, "filename", "") if up is not None else ""
+    if filename:
+        data = await up.read()  # type: ignore[union-attr]
+        if len(data) > 5_000_000:
+            return JSONResponse({"error": "Screenshot zu groß (max 5 MB)."}, status_code=400)
+        ext = _IMG_EXT.get(getattr(up, "content_type", "") or "")
+        if not ext:
+            return JSONResponse({"error": "Nur PNG/JPG/WEBP/GIF."}, status_code=400)
+        if _blob is not None:
+            path = f"feedback/{uuid.uuid4().hex}.{ext}"
+            _blob.put_bytes(RAW_CONTAINER, path, data)
+            try:
+                url = _blob.download_link(RAW_CONTAINER, path, ttl_minutes=7 * 24 * 60).url
+                shot_md = (
+                    f"\n\n![screenshot]({url})\n\n"
+                    f"_(Screenshot-Link 7 Tage gültig; dauerhaft: `{path}`)_"
+                )
+            except Exception:
+                shot_md = f"\n\n_(Screenshot gespeichert: `{path}`)_"
+
+    title = (message.splitlines()[0] or "User-Feedback")[:80]
+    body = message + shot_md + "\n\n---\n_Via Feedback-Formular_"
+    if contact:
+        body += f" · Kontakt: {contact}"
+    try:
+        r = httpx.post(
+            f"https://api.github.com/repos/{_GH_REPO}/issues",
+            headers={
+                "Authorization": f"Bearer {_GH_TOKEN}",
+                "Accept": "application/vnd.github+json",
+            },
+            json={"title": f"[Feedback] {title}", "body": body, "labels": ["user-feedback"]},
+            timeout=15,
+        )
+    except Exception:
+        return JSONResponse({"error": "Übermittlung fehlgeschlagen."}, status_code=502)
+    if r.status_code >= 300:
+        return JSONResponse({"error": "Übermittlung fehlgeschlagen."}, status_code=502)
+    return JSONResponse({"ok": True, "issue": r.json().get("html_url")})
+
+
 _DEFAULT_ORIGINS = [
     "https://www.agentic-firmenbuch.at",
     "https://agentic-firmenbuch.at",
@@ -255,6 +322,7 @@ app = Starlette(
         Route("/api/unsubscribe", unsubscribe, methods=["POST"]),
         Route("/api/playground", playground, methods=["POST"]),
         Route("/api/company/{fnr}", company, methods=["GET"]),
+        Route("/api/feedback", feedback, methods=["POST"]),
     ],
     middleware=[
         Middleware(

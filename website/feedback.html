@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Feedback · Agentic-Firmenbuch.at</title>
+<meta name="description" content="Feedback, Wünsche oder Fehler melden — geht direkt an die Entwicklung." />
+<meta name="robots" content="noindex" />
+<link rel="icon" href="favicon.svg" />
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<style>
+  :root{--bg:#0C0E12;--card:#14161B;--line:#242830;--fg:#E8EAED;--muted:#9AA0A8;--acc:#19C37D}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.6}
+  .wrap{max-width:640px;margin:0 auto;padding:56px 20px 80px}
+  a{color:var(--acc)}
+  h1{font-size:1.6rem;margin:0 0 8px}
+  .sub{color:var(--muted);margin:0 0 28px}
+  label{display:block;font-size:.9rem;color:var(--muted);margin:18px 0 6px}
+  textarea,input[type=email],input[type=file]{width:100%;background:var(--card);border:1px solid var(--line);border-radius:10px;color:var(--fg);padding:12px 14px;font:inherit}
+  textarea{min-height:150px;resize:vertical}
+  input[type=file]{padding:10px}
+  button{margin-top:22px;width:100%;background:var(--acc);color:#08130C;border:0;border-radius:10px;padding:14px;font-weight:600;font-size:1rem;cursor:pointer}
+  button:disabled{opacity:.5;cursor:default}
+  .msg{margin-top:18px;padding:12px 14px;border-radius:10px;display:none}
+  .ok{background:rgba(25,195,125,.12);border:1px solid rgba(25,195,125,.4)}
+  .err{background:rgba(220,60,50,.12);border:1px solid rgba(220,60,50,.4)}
+  .foot{margin-top:40px;font-size:.85rem;color:var(--muted)}
+  .brand{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--fg);font-weight:600;margin-bottom:32px}
+  .brand svg{width:26px;height:26px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="brand" href="/">
+      <svg viewBox="0 0 32 32" fill="none"><rect x="1" y="1" width="30" height="30" rx="9" fill="#14161B" stroke="#19C37D" stroke-opacity=".5"/><rect x="8" y="8" width="7" height="7" rx="2" fill="#19C37D"/><rect x="17" y="8" width="7" height="7" rx="2" fill="#19C37D" fill-opacity=".4"/><rect x="8" y="17" width="7" height="7" rx="2" fill="#19C37D" fill-opacity=".4"/><rect x="17" y="17" width="7" height="7" rx="2" fill="#19C37D"/></svg>
+      <span><span style="color:#19C37D">Agentic</span>-Firmenbuch.at</span>
+    </a>
+    <h1>Feedback &amp; Wünsche</h1>
+    <p class="sub">Was fehlt, was passt nicht, was wäre praktisch? Schreib einfach rein — es geht direkt an die Entwicklung, kleine Dinge werden oft schon am selben Tag umgesetzt.</p>
+
+    <form id="f">
+      <label for="message">Dein Feedback *</label>
+      <textarea id="message" name="message" required placeholder="z. B. „In der Suche wäre ein Filter nach … super“ oder „Feld X zeigt einen falschen Wert bei Firma Y“"></textarea>
+
+      <label for="screenshot">Screenshot (optional, PNG/JPG, max 5 MB)</label>
+      <input type="file" id="screenshot" name="screenshot" accept="image/png,image/jpeg,image/webp,image/gif" />
+
+      <label for="contact">E-Mail für Rückfragen (optional)</label>
+      <input type="email" id="contact" name="contact" placeholder="name@firma.at" />
+
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAADnTe5KZ0-FsdC5I" style="margin-top:18px"></div>
+
+      <button type="submit" id="btn">Absenden</button>
+      <div class="msg ok" id="ok">Danke! Dein Feedback ist angekommen. 🙌</div>
+      <div class="msg err" id="err"></div>
+    </form>
+
+    <p class="foot">Wir verarbeiten nur, was du hier eingibst. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>. · <a href="/">Zur Startseite</a></p>
+  </div>
+
+<script>
+const f=document.getElementById('f'),btn=document.getElementById('btn'),ok=document.getElementById('ok'),err=document.getElementById('err');
+f.addEventListener('submit',async e=>{
+  e.preventDefault();ok.style.display='none';err.style.display='none';
+  const ts=document.querySelector('[name=cf-turnstile-response]');
+  const fd=new FormData(f);
+  if(ts&&ts.value)fd.set('turnstile',ts.value);
+  btn.disabled=true;btn.textContent='Senden…';
+  try{
+    const r=await fetch('/api/feedback',{method:'POST',body:fd});
+    const j=await r.json().catch(()=>({}));
+    if(r.ok){f.reset();ok.style.display='block';if(window.turnstile)turnstile.reset();}
+    else{err.textContent=j.error||'Konnte nicht gesendet werden. Bitte später nochmal.';err.style.display='block';}
+  }catch(_){err.textContent='Netzwerkfehler. Bitte später nochmal.';err.style.display='block';}
+  btn.disabled=false;btn.textContent='Absenden';
+});
+</script>
+</body>
+</html>
