@@ -98,7 +98,7 @@ f.addEventListener('submit',async e=>{
   if(ts&&ts.value)fd.set('turnstile',ts.value);
   btn.disabled=true;btn.textContent='Senden…';
   try{
-    const r=await fetch('/api/feedback',{method:'POST',body:fd});
+    const r=await fetch('https://api.agentic-firmenbuch.at/api/feedback',{method:'POST',body:fd});
     const j=await r.json().catch(()=>({}));
     if(r.ok){f.reset();clearFile();ok.style.display='block';if(window.turnstile)turnstile.reset();}
     else{err.textContent=j.error||'Konnte nicht gesendet werden. Bitte später nochmal.';err.style.display='block';}
