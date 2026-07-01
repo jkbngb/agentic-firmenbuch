@@ -53,6 +53,27 @@ def test_run_tool_threads_sort_and_name_to_searcher() -> None:
     assert seen["sort"].descending is True  # default: highest first
 
 
+def test_run_tool_threads_city_and_postal_code_to_searcher() -> None:
+    """'größte Firmen aus Graz' must filter by city (a town), not fall back to Bundesland."""
+    from fbl_core.models.mcp import SearchFilters, Sort
+    from fbl_mcp_server.playground_llm import _SEARCH_TOOL, _run_tool
+
+    # The two location filters are advertised to the model (else it can only reach Bundesland).
+    props = _SEARCH_TOOL["input_schema"]["properties"]
+    assert "city" in props and "postal_code" in props
+
+    seen: dict[str, object] = {}
+
+    def _capture(filters: SearchFilters, sort: Sort | None) -> tuple[int, list[dict[str, object]]]:
+        seen["filters"] = filters
+        return 1, [{"fnr": "111111a", "name": "Graz GmbH"}]
+
+    _run_tool({"city": "Graz", "postal_code": "80"}, _capture, max_results=8)
+    assert isinstance(seen["filters"], SearchFilters)
+    assert seen["filters"].city == "Graz"
+    assert seen["filters"].postal_code == "80"
+
+
 def test_run_tool_ignores_malformed_sort() -> None:
     from fbl_core.models.mcp import SearchFilters, Sort
     from fbl_mcp_server.playground_llm import _run_tool
