@@ -41,6 +41,8 @@ _SYSTEM = (
     "Unternehmen', 'Top 5') setze das Feld sort; Umsatz (revenue) liegt nur mit "
     "veröffentlichter GuV vor, kombiniere Umsatz-Ranking daher mit has_guv_latest=true. "
     "Für die Suche nach einem konkreten Firmennamen nutze name. "
+    "Für eine Stadt (z. B. 'aus Graz', 'in Linz') nutze city — NICHT bundesland; "
+    "Städtenamen sind keine Bundesländer. "
     "Fasse das Ergebnis in HÖCHSTENS 2–3 knappen Sätzen auf Deutsch zusammen: die Trefferzahl, "
     "den Spitzenreiter mit seiner wichtigsten Kennzahl und ggf. eine kurze Einordnung. "
     "WICHTIG: Die Trefferzahl IST das Feld 'total_matches' aus dem Tool-Ergebnis (NICHT die "
@@ -77,6 +79,17 @@ _SEARCH_TOOL: dict[str, Any] = {
             "bundesland": {
                 "type": "string",
                 "description": "z. B. 'Wien', 'Steiermark', 'Oberösterreich'.",
+            },
+            "city": {
+                "type": "string",
+                "description": (
+                    "Sitzgemeinde/Stadt (Teilstring), z. B. 'Graz', 'Linz'. Für Städte immer "
+                    "city (NICHT bundesland) nutzen — 'Graz' ist eine Stadt, kein Bundesland."
+                ),
+            },
+            "postal_code": {
+                "type": "string",
+                "description": "PLZ-Präfix, z. B. '8010' (exakt) oder '80' (alle 80xx).",
             },
             "size_gkl": {
                 "type": "string",
