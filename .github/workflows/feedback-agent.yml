@@ -68,8 +68,10 @@ jobs:
 
             If SMALL: implement it on a branch, make the CI gate pass
             (uv run ruff check packages && uv run ruff format --check packages &&
-             uv run mypy --strict packages && uv run pytest), open a PR that says the owner must
-            review + deploy, and comment the PR link on the issue. Never push to main, never deploy.
+             uv run mypy --strict packages && uv run pytest), then ACTUALLY OPEN the pull request
+            (e.g. `gh pr create`) — do not just post a compare link — so an independent reviewer
+            bot can pick it up. The PR body must say the owner must review + deploy. Comment the PR
+            link on the issue. Never push to main, never merge, never deploy.
             If BIG or unsure: post a short plan, add label needs-owner-approval, @-mention @jkbngb,
             and stop without writing code.
 
