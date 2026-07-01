@@ -326,7 +326,8 @@ async def notify_fixed(req: Request) -> Response:
         "Danke fürs Einmelden!\n\n"
         "Dein Feedback wurde umgesetzt und ist erledigt.\n\n"
         f"Zur Nachverfolgung: {url}\n\n"
-        "Viele Grüße\nAgentic-Firmenbuch.at"
+        "Viele Grüße\nAgentic-Firmenbuch.at\n\n"
+        "Hinweis: automatische Benachrichtigung, du musst nicht darauf antworten."
     )
     try:
         _email.send_alert(email, "Dein Feedback wurde umgesetzt", text)
