@@ -243,6 +243,7 @@ async def company(req: Request) -> Response:
 _blob = BlobStore(_settings.blob_account_url) if _settings.blob_account_url else None
 _GH_TOKEN = os.environ.get("GH_FEEDBACK_TOKEN", "")
 _GH_REPO = os.environ.get("GH_FEEDBACK_REPO", "jkbngb/agentic-firmenbuch")
+_NOTIFY_SECRET = os.environ.get("FEEDBACK_NOTIFY_SECRET", "")
 _IMG_EXT = {"image/png": "png", "image/jpeg": "jpg", "image/webp": "webp", "image/gif": "gif"}
 
 
@@ -310,6 +311,30 @@ async def feedback(req: Request) -> Response:
     return JSONResponse({"ok": True, "issue": r.json().get("html_url")})
 
 
+async def notify_fixed(req: Request) -> Response:
+    """Internal: the notify-reporter workflow calls this when a feedback issue is closed as fixed.
+    Sends the reporter a short 'your feedback was implemented' e-mail. Secret-header gated; a
+    reporter is only ever mailed on a completed fix (never on intermediate updates)."""
+    if not _NOTIFY_SECRET or req.headers.get("x-notify-secret") != _NOTIFY_SECRET:
+        return JSONResponse({"error": "unauthorized"}, status_code=401)
+    body = await _body(req)
+    email = str(body.get("email", "")).strip()
+    url = str(body.get("issue_url", ""))
+    if "@" not in email:
+        return JSONResponse({"ok": True, "skipped": "no reporter e-mail"})
+    text = (
+        "Danke fürs Einmelden!\n\n"
+        "Dein Feedback wurde umgesetzt und ist erledigt.\n\n"
+        f"Zur Nachverfolgung: {url}\n\n"
+        "Viele Grüße\nAgentic-Firmenbuch.at"
+    )
+    try:
+        _email.send_alert(email, "Dein Feedback wurde umgesetzt", text)
+    except Exception:
+        return JSONResponse({"error": "send failed"}, status_code=502)
+    return JSONResponse({"ok": True})
+
+
 _DEFAULT_ORIGINS = [
     "https://www.agentic-firmenbuch.at",
     "https://agentic-firmenbuch.at",
@@ -329,6 +354,7 @@ app = Starlette(
         Route("/api/playground", playground, methods=["POST"]),
         Route("/api/company/{fnr}", company, methods=["GET"]),
         Route("/api/feedback", feedback, methods=["POST"]),
+        Route("/api/notify-fixed", notify_fixed, methods=["POST"]),
     ],
     middleware=[
         Middleware(

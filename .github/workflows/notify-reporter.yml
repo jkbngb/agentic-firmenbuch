@@ -1,0 +1,32 @@
+# When a user-feedback issue is CLOSED AS COMPLETED (fixed), e-mail the reporter — but ONLY if
+# they left a contact e-mail, and ONLY about the finished fix (nothing else). Extracts the e-mail
+# from the issue body ("· Kontakt: …") and calls the signup API's /api/notify-fixed.
+name: notify-reporter
+
+on:
+  issues:
+    types: [closed]
+
+permissions:
+  contents: read
+
+jobs:
+  mail:
+    if: >
+      github.event.issue.state_reason == 'completed' &&
+      contains(github.event.issue.labels.*.name, 'user-feedback')
+    runs-on: ubuntu-latest
+    steps:
+      - name: E-mail the reporter (if they left one)
+        env:
+          BODY: ${{ github.event.issue.body }}
+          URL: ${{ github.event.issue.html_url }}
+          SECRET: ${{ secrets.FEEDBACK_NOTIFY_SECRET }}
+        run: |
+          if [ -z "$SECRET" ]; then echo "FEEDBACK_NOTIFY_SECRET not set — skip"; exit 0; fi
+          # the reporter e-mail is on the "Kontakt:" line the form appends
+          EMAIL=$(printf '%s' "$BODY" | grep -o 'Kontakt: [^ ]*' | head -1 | sed 's/Kontakt: //')
+          if ! printf '%s' "$EMAIL" | grep -q '@'; then echo "no reporter e-mail — skip"; exit 0; fi
+          curl -sS -X POST https://api.agentic-firmenbuch.at/api/notify-fixed \
+            -H "x-notify-secret: $SECRET" -H "content-type: application/json" \
+            --data "$(jq -n --arg e "$EMAIL" --arg u "$URL" '{email:$e,issue_url:$u}')"
