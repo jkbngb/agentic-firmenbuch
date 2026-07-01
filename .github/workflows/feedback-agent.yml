@@ -11,7 +11,7 @@ name: feedback-agent
 
 on:
   issues:
-    types: [labeled]
+    types: [opened, labeled]
 
 # Least privilege: enough to branch + open a PR + comment; NOT enough to merge or deploy.
 permissions:
@@ -21,7 +21,9 @@ permissions:
 
 jobs:
   handle-feedback:
-    if: github.event.label.name == 'user-feedback'
+    # fires for issues created WITH the label (via the feedback form's token) OR labelled by a
+    # maintainer. Random visitors can't add the label, so they can't trigger the agent.
+    if: contains(github.event.issue.labels.*.name, 'user-feedback')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
