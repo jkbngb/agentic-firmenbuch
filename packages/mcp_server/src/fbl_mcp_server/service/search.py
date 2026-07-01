@@ -133,7 +133,8 @@ def _build_where(f: SearchFilters) -> tuple[str, list[dict[str, Any]]]:
     for bpath, bval, bkey in (
         ("c.branch.oenace.section", f.oenace_section, "@oenace_section"),
         ("c.branch.oenace.division", f.oenace_division, "@oenace_division"),
-        ("c.branch.oenace.group", f.oenace_group, "@oenace_group"),
+        # `group` is a reserved SQL keyword — must use bracket notation, not dot access.
+        ('c.branch.oenace["group"]', f.oenace_group, "@oenace_group"),
     ):
         if bval is not None:
             conds.append(f"{bpath} = {bkey}")
