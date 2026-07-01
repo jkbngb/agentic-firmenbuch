@@ -45,6 +45,24 @@ jobs:
       - name: Set up uv
         uses: astral-sh/setup-uv@v5
 
+      # The agent's own sandbox has no network, so it cannot fetch the screenshot the feedback form
+      # embeds as a blob link. The RUNNER does have network — download it here into ./feedback-assets
+      # so the agent can Read it. Claude is natively multimodal (the Read tool shows it the image
+      # directly, no OCR needed). Failure is non-fatal: the agent just falls back to the text.
+      - name: Fetch feedback screenshot (so the agent can see it)
+        env:
+          BODY: ${{ github.event.issue.body }}
+        run: |
+          mkdir -p feedback-assets
+          URL=$(printf '%s' "$BODY" | grep -oE 'https://[a-z0-9]+\.blob\.core\.windows\.net[^) ]*' | head -1)
+          if [ -z "$URL" ]; then echo "no screenshot in this issue — text only"; exit 0; fi
+          if curl -fsSL "$URL" -o feedback-assets/screenshot.img; then
+            echo "screenshot saved to feedback-assets/screenshot.img"
+          else
+            echo "download failed (SAS expired?) — agent proceeds text-only"
+            rm -f feedback-assets/screenshot.img
+          fi
+
       # Verify the action reference/inputs against the current Claude Code Action docs before
       # first use; pin to a released tag. The prompt hands control to AGENT_PLAYBOOK.md.
       - name: Claude triage + fix
@@ -67,6 +85,10 @@ jobs:
             Issue #${{ github.event.issue.number }}: "${{ github.event.issue.title }}"
 
             ${{ github.event.issue.body }}
+
+            If the file `feedback-assets/screenshot.img` exists, use the Read tool on it FIRST —
+            it is the screenshot the reporter attached. You can see images directly; base your
+            diagnosis on what the screenshot actually shows, not only on the (often terse) text.
 
             If SMALL: implement it on a branch, try to make the CI gate pass
             (uv run ruff check packages && uv run ruff format --check packages &&
