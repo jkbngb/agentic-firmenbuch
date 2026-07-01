@@ -256,8 +256,14 @@ async def feedback(req: Request) -> Response:
     if len(message) < 5:
         return JSONResponse({"error": "Bitte beschreibe dein Feedback kurz."}, status_code=400)
     message = message[:5000]
-    if _turnstile and not _turnstile(str(form.get("turnstile", "")), _ip(req)):
-        return JSONResponse({"error": "Bot-Prüfung fehlgeschlagen."}, status_code=403)
+    # Turnstile widget auto-injects `cf-turnstile-response` into the form; accept that (reliable)
+    # or the explicit `turnstile` field.
+    ts_token = str(form.get("cf-turnstile-response") or form.get("turnstile") or "")
+    if _turnstile and not _turnstile(ts_token, _ip(req)):
+        return JSONResponse(
+            {"error": "Bot-Prüfung fehlgeschlagen — bitte die Box neu bestätigen."},
+            status_code=403,
+        )
     if not _GH_TOKEN:
         return JSONResponse({"error": "Feedback-Kanal noch nicht konfiguriert."}, status_code=503)
 
