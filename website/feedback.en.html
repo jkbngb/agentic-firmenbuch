@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Feedback · Agentic-Firmenbuch.at</title>
-<meta name="description" content="Report feedback, requests or bugs — goes straight to development." />
+<meta name="description" content="Report feedback, requests or bugs. Goes straight to development." />
 <meta name="robots" content="noindex" />
 <link rel="icon" href="favicon.svg" />
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
@@ -44,20 +44,21 @@
       <span><span style="color:#19C37D">Agentic</span>-Firmenbuch.at</span>
     </a>
     <h1>Feedback &amp; requests</h1>
-    <p class="sub">What's missing, what doesn't fit, what would be handy? Just write it in — it goes straight to development, small things are often shipped the same day.</p>
+    <p class="sub">What's missing, what doesn't fit, what would help? Write it in. Your feedback goes straight to development; small things often ship the same day.</p>
 
     <form id="f">
       <label for="message">Your feedback *</label>
-      <textarea id="message" name="message" required placeholder="e.g. “a filter by … in search would be great” or “field X shows a wrong value for company Y”"></textarea>
+      <textarea id="message" name="message" required placeholder="e.g. “Search is missing a filter by legal form” or “The Bilanzsumme field shows 1M for Muster GmbH (FN 123456a); it should be 2M”"></textarea>
+      <p style="font-size:.82em;color:var(--muted);margin-top:6px">The more precisely you describe the problem, the faster and better we can fix it. It helps to say what you did, what you expected, and what happened instead. A concrete example (company, search term, field) and a screenshot go a long way.</p>
 
       <label>Screenshot (optional, PNG/JPG, max 5 MB)</label>
       <input type="file" id="screenshot" name="screenshot" accept="image/png,image/jpeg,image/webp,image/gif" />
-      <div class="drop" id="drop"><b>Drag</b> a screenshot here, click to pick — or just <b>paste</b> (Ctrl/Cmd&nbsp;+&nbsp;V)</div>
+      <div class="drop" id="drop"><b>Drag</b> a screenshot here, click to pick, or <b>paste</b> (Ctrl/Cmd&nbsp;+&nbsp;V)</div>
       <div class="preview" id="preview"><img id="thumb" alt="" /><span class="fn" id="fn"></span><button type="button" class="rm" id="rm">remove</button></div>
 
       <label for="contact">E-mail (optional)</label>
       <input type="email" id="contact" name="contact" placeholder="name@company.com" />
-      <p style="font-size:.82em;color:var(--muted);margin-top:6px">Only fill this in if you want to be notified <strong>once your feedback has been implemented</strong> — we won't write to you otherwise.</p>
+      <p style="font-size:.82em;color:var(--muted);margin-top:6px">Only fill this in if you want to be notified <strong>once your feedback has been implemented</strong>. We won't contact you otherwise.</p>
 
       <div class="cf-turnstile" data-sitekey="0x4AAAAAADnTe5KZ0-FsdC5I" data-refresh-expired="auto" data-refresh-timeout="auto" style="margin-top:18px"></div>
 

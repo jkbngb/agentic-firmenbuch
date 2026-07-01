@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Feedback · Agentic-Firmenbuch.at</title>
-<meta name="description" content="Feedback, Wünsche oder Fehler melden — geht direkt an die Entwicklung." />
+<meta name="description" content="Feedback, Wünsche oder Fehler melden. Geht direkt an die Entwicklung." />
 <meta name="robots" content="noindex" />
 <link rel="icon" href="favicon.svg" />
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
@@ -44,20 +44,21 @@
       <span><span style="color:#19C37D">Agentic</span>-Firmenbuch.at</span>
     </a>
     <h1>Feedback &amp; Wünsche</h1>
-    <p class="sub">Was fehlt, was passt nicht, was wäre praktisch? Schreib einfach rein — es geht direkt an die Entwicklung, kleine Dinge werden oft schon am selben Tag umgesetzt.</p>
+    <p class="sub">Was fehlt, was passt nicht, was wäre praktisch? Schreib es uns. Dein Feedback geht direkt an die Entwicklung; kleine Dinge setzen wir oft noch am selben Tag um.</p>
 
     <form id="f">
       <label for="message">Dein Feedback *</label>
-      <textarea id="message" name="message" required placeholder="z. B. „In der Suche wäre ein Filter nach … super“ oder „Feld X zeigt einen falschen Wert bei Firma Y“"></textarea>
+      <textarea id="message" name="message" required placeholder="z. B. „In der Suche fehlt ein Filter nach Rechtsform“ oder „Feld Bilanzsumme zeigt bei der Muster GmbH (FN 123456a) 1 Mio., korrekt wären 2 Mio.“"></textarea>
+      <p style="font-size:.82em;color:var(--muted);margin-top:6px">Je genauer du das Problem beschreibst, desto schneller und besser können wir es beheben. Hilfreich ist: was du gemacht hast, was du erwartet hast und was stattdessen passiert ist. Gern mit konkretem Beispiel (Firma, Suchbegriff, Feld) und Screenshot.</p>
 
       <label>Screenshot (optional, PNG/JPG, max 5 MB)</label>
       <input type="file" id="screenshot" name="screenshot" accept="image/png,image/jpeg,image/webp,image/gif" />
-      <div class="drop" id="drop">Screenshot <b>hierher ziehen</b>, klicken zum Auswählen — oder einfach <b>einfügen</b> (Strg/Cmd&nbsp;+&nbsp;V)</div>
+      <div class="drop" id="drop">Screenshot <b>hierher ziehen</b>, klicken zum Auswählen oder <b>einfügen</b> (Strg/Cmd&nbsp;+&nbsp;V)</div>
       <div class="preview" id="preview"><img id="thumb" alt="" /><span class="fn" id="fn"></span><button type="button" class="rm" id="rm">entfernen</button></div>
 
       <label for="contact">E-Mail (optional)</label>
       <input type="email" id="contact" name="contact" placeholder="name@firma.at" />
-      <p style="font-size:.82em;color:var(--muted);margin-top:6px">Nur ausfüllen, wenn du benachrichtigt werden möchtest, <strong>sobald dein Feedback umgesetzt wurde</strong> — sonst schreiben wir dir nicht.</p>
+      <p style="font-size:.82em;color:var(--muted);margin-top:6px">Nur ausfüllen, wenn du benachrichtigt werden möchtest, <strong>sobald dein Feedback umgesetzt wurde</strong>. Sonst melden wir uns nicht.</p>
 
       <div class="cf-turnstile" data-sitekey="0x4AAAAAADnTe5KZ0-FsdC5I" data-refresh-expired="auto" data-refresh-timeout="auto" style="margin-top:18px"></div>
 
