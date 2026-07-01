@@ -30,13 +30,16 @@ def _presented(
     manager_name: str | None = None,
     founded_year: int | None = None,
     geschaeftszweig: str | None = None,
+    branch: dict[str, Any] | None = None,
+    postal_code: str | None = None,
+    city: str | None = None,
 ) -> dict[str, Any]:
-    return {
+    doc = {
         "id": fnr,
         "fnr": fnr,
         "schema_version": "1.0",
         "identity": {"fnr": fnr, "name": name, "legal_form": legal_form, "status": "active"},
-        "location": {"bundesland": bundesland},
+        "location": {"bundesland": bundesland, "postal_code": postal_code, "city": city},
         "company": {
             "last_filing_year": 2024,
             "founded_year": founded_year,
@@ -67,6 +70,9 @@ def _presented(
         "filings": [{"stichtag": "2024-12-31", "doc_key": f"{fnr}-KEY", "format": "xml"}],
         "provenance": {"data_version": data_version, "schema_version": "1.0"},
     }
+    if branch is not None:
+        doc["branch"] = branch
+    return doc
 
 
 def _store() -> InMemoryCosmosStore:
@@ -169,6 +175,57 @@ def test_branch_field_from_geschaeftszweig_on_detail_and_card() -> None:
 
     card = svc.search_companies(token, SearchFilters(name="Hausverwaltung"))["results"][0]
     assert card["geschaeftszweig"] == "Immobilienverwaltung" and card["branch_section"] == "L"
+
+
+def test_search_filters_by_branch_and_location() -> None:
+    # Issue #19: filter search_companies by ÖNACE branch + PLZ/Ort + Geschäftszweig directly.
+    cosmos = InMemoryCosmosStore()
+    common: dict[str, Any] = dict(
+        bundesland="W",
+        gkl="K",
+        bilanzsumme=1.0,
+        has_guv_latest=False,
+        equity_ratio=0.5,
+        profile="stable",
+    )
+    cosmos.upsert(
+        PRESENTED,
+        _presented(
+            "011111a",
+            name="Immo Wien GmbH",
+            geschaeftszweig="Immobilienverwaltung",
+            postal_code="1010",
+            city="Wien",
+            branch={"oenace": {"section": "M", "division": "68", "group": "68.3"}},
+            **common,
+        ),
+    )
+    cosmos.upsert(
+        PRESENTED,
+        _presented(
+            "022222b",
+            name="Bau Graz GmbH",
+            geschaeftszweig="Baumeistergewerbe",
+            postal_code="8010",
+            city="Graz",
+            branch={"oenace": {"section": "F", "division": "41", "group": "41.2"}},
+            **common,
+        ),
+    )
+    svc = McpService(cosmos, Settings(rate_limit_per_min=1000, rate_limit_per_day=10000))
+    token = signup("u@example.test", cosmos).token
+
+    def fnrs(**flt: Any) -> set[str]:
+        return {r["fnr"] for r in svc.search_companies(token, SearchFilters(**flt))["results"]}
+
+    assert fnrs(oenace_section="M") == {"011111a"}
+    assert fnrs(oenace_group="68.3") == {"011111a"}
+    assert fnrs(oenace_division="41") == {"022222b"}
+    assert fnrs(geschaeftszweig="immobilien") == {"011111a"}
+    assert fnrs(postal_code="10") == {"011111a"}  # PLZ prefix (all 10xx)
+    assert fnrs(postal_code="8010") == {"022222b"}  # exact
+    assert fnrs(city="graz") == {"022222b"}
+    assert fnrs(oenace_section="M", postal_code="80") == set()  # combined, no match
 
 
 def test_get_my_usage_requires_auth() -> None:

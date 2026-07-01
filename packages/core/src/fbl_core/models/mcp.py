@@ -105,6 +105,14 @@ class SearchFilters(BaseModel):
     gf_age_min: int | None = None  # primary Geschäftsführer current age ≥ (succession screen)
     manager_name: str | None = None  # case-insensitive substring on the primary manager's name
     #   (officer names are public Firmenbuch data; served only when EXPOSE_PERSONAL_DATA is set)
+    # Branch / industry (issue #19) — the fast peer-finder; exact match, most-specific wins.
+    oenace_section: str | None = None  # ÖNACE 2025 section A–V (broad screen), e.g. "M"
+    oenace_division: str | None = None  # 2-digit division, e.g. "68"
+    oenace_group: str | None = None  # 3-digit group (precise peers), e.g. "68.3"
+    geschaeftszweig: str | None = None  # case-insensitive substring on the Firmenbuch activity text
+    # Location (issue #19) — filter directly instead of the get_company_details detour.
+    postal_code: str | None = None  # PLZ prefix, e.g. "1010" (exact) or "10" (all 10xx)
+    city: str | None = None  # case-insensitive substring on the seat city
 
 
 class Sort(BaseModel):

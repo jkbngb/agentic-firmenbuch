@@ -220,6 +220,11 @@ Auch hier gilt: **Namen bleiben ausgeblendet** (DSGVO).
 `last_filing_year_min`, `gf_age_min` (primärer GF mindestens X Jahre — Nachfolge-Screen),
 `status` (`active`/`inactive`/`all`).
 
+**Branche & Ort** (schnelle Peer-Suche, ohne Umweg über `get_company_details`):
+`oenace_section` (ÖNACE-2025-Abschnitt `A`–`V`), `oenace_division` (2-Steller, z. B. `68`),
+`oenace_group` (Gruppe, z. B. `68.3` — die präzisen Peers), `geschaeftszweig` (Teilstring auf
+den Freitext), `postal_code` (PLZ-Präfix: `1010` exakt, `10` = alle 10xx), `city` (Ort, Teilstring).
+
 **Sortierung:** `sort = { field, descending }` über u. a. `bilanzsumme`, `equity_ratio`,
 `revenue`. **Seiten:** `page` (ab 1), `page_size` (Standard 25).
 
