@@ -30,6 +30,12 @@ GitHub issue, label `user-feedback`   ← created via GH_FEEDBACK_TOKEN
 - **Are issues closed when fixed?** Yes, automatically — the fix PR says `Closes #n`, so **merging
   it closes the issue**, with the PR as the justification. Not-actionable issues the agent closes
   itself with a comment. Big items stay open for the owner.
+- **One feedback with several requests?** The form creates one intake issue; the **agent splits
+  it** — a separate PR per independent small item, and a separate tracking issue per big item
+  (linked back), then closes the intake issue once everything is dispatched (see the playbook).
+- **Where are the prompts?** The **system prompt** is [`AGENT_PLAYBOOK.md`](../AGENT_PLAYBOOK.md)
+  (persistent rules); the **user prompt** is the `prompt:` field in `feedback-agent.yml` (the
+  per-issue task, injecting the issue title + body).
 - **Which model?** `claude-opus-4-8` (best code-change quality). Cost is bounded by the spend
   limit on the API key.
 - **Can the agent break production?** No. It only opens PRs — it **cannot push to `main`, merge, or
