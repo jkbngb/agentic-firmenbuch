@@ -39,9 +39,19 @@ When in doubt, escalate. A missed small fix is cheap; a wrong big change is not.
 1. Restate the request in one line so the reporter knows you understood.
 2. Branch `feedback/<issue-number>-<slug>`. Make the minimal change.
 3. Add/adjust a test. Run the full gate locally.
-4. Open a PR that links the issue (`Closes #<n>`), summarises the change and the risk, and
-   states that the owner must review + deploy. Do **not** deploy.
+4. Open a PR whose description starts with `Closes #<n>` (so merging auto-closes the issue with
+   the PR as the reasoning), summarises the change and the risk, and states that the owner must
+   review + deploy. Do **not** deploy.
 5. Comment on the issue linking the PR.
+
+## Closing issues (resolution)
+
+- **Fixed:** the PR's `Closes #<n>` closes the issue automatically **when the owner merges** — the
+  merged PR is the written justification. You never close a fixed issue by hand.
+- **Not actionable** (spam, unclear after you asked, duplicate, out of scope, or already works):
+  post a short, friendly comment with the reason and **close the issue** yourself (`state: closed`).
+  For a duplicate, link the original. Never silently drop an issue.
+- **Big:** do not close — leave it open with the plan + `needs-owner-approval` for the owner.
 
 ## Style
 
