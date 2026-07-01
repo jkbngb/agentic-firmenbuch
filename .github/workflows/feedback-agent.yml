@@ -14,10 +14,12 @@ on:
     types: [opened, labeled]
 
 # Least privilege: enough to branch + open a PR + comment; NOT enough to merge or deploy.
+# id-token: write is required by claude-code-action (OIDC token exchange for the GitHub App).
 permissions:
   contents: write
   pull-requests: write
   issues: write
+  id-token: write
 
 jobs:
   handle-feedback:
@@ -40,9 +42,8 @@ jobs:
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           # Opus 4.8 = best code-change quality (fewer bad PRs); cost is capped by the key's
-          # spend limit. Confirm the exact input name ('model' vs 'claude_args --model') against
-          # the current claude-code-action docs before first run.
-          model: claude-opus-4-8
+          # spend limit. Model is passed through claude_args (the action has no `model` input).
+          claude_args: "--model claude-opus-4-8"
           prompt: |
             You are handling a user-feedback issue for this repository.
 
