@@ -13,6 +13,12 @@ on:
   issues:
     types: [opened, labeled]
 
+# Waitlist: run feedback items ONE AT A TIME (no cancel) so concurrent agents never collide.
+# You can submit the next feedback immediately — it queues behind the current one.
+concurrency:
+  group: feedback-agent
+  cancel-in-progress: false
+
 # Least privilege: enough to branch + open a PR + comment; NOT enough to merge or deploy.
 # id-token: write is required by claude-code-action (OIDC token exchange for the GitHub App).
 permissions:

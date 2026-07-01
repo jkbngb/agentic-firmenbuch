@@ -48,6 +48,17 @@ down yourself:
   links), then close it only when every item is either merged-as-PR or handed off as its own issue.
 - If the items are tiny and cohesive, one PR fixing all of them is fine — use judgement.
 
+## Before you start: is it a duplicate or already fixed?
+
+Check first, so the same topic is not opened twice:
+- Scan **open issues** (other `user-feedback`), **open PRs**, and the **recent git log / merged PRs**
+  for the same request.
+- If it's **already merged/done**: comment that it's already fixed (link the PR/commit) and close
+  the issue. Don't redo it.
+- If it's **already open/in progress** (another issue or an open PR covers it): comment linking the
+  other item and close this one as a duplicate.
+- Only if it's genuinely new (or a real follow-up) do you proceed below.
+
 ## How to work a SMALL item
 
 1. Restate the request in one line so the reporter knows you understood.
