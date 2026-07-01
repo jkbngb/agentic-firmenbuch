@@ -1,0 +1,27 @@
+name: User feedback / request
+description: Report a bug, a missing filter/field, or a small improvement. A maintainer reviews it; small items are auto-fixed as a PR.
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke fürs Feedback! Beschreibe möglichst konkret, was du brauchst oder was nicht passt.
+        Ein Maintainer sieht es an — kleine Dinge werden automatisch als Pull-Request umgesetzt,
+        größere werden vorher mit dir/uns abgestimmt.
+  - type: textarea
+    id: what
+    attributes:
+      label: Was möchtest du / was passt nicht?
+      placeholder: "z. B. search_companies sollte auch nach ÖNACE-Gruppe filtern können …"
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Konkretes Beispiel
+      placeholder: "z. B. Suche: alle Firmen mit oenace_group=68.3 in Wien, sortiert nach Umsatz"
+  - type: input
+    id: contact
+    attributes:
+      label: Kontakt (optional)
+      placeholder: name@firma.at
