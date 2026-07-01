@@ -930,7 +930,7 @@
     function renderRows(rows){ return rows.map(function(r){ return '<div class="rrow"><span class="nm">'+esc(r.nm)+'</span><span class="mt">'+esc(r.mt)+'</span></div>'; }).join(""); }
     function renderAnswer(u, data){
       // Backend response: { mode, summary?, results?, total_matches?, interpretation? }
-      // We render the LLM/deterministic summary as-is — NO fabricated fallback content.
+      // We render the LLM/deterministic summary as-is. NO fabricated fallback content.
       if(data && typeof data === "object"){
         var summary = (typeof data.summary === "string" && data.summary) ||
                       (typeof data.text === "string" && data.text) ||
@@ -941,7 +941,7 @@
           return;
         }
       }
-      pgTxt.textContent = "The playground service is temporarily unavailable. Please try again shortly — or use the full version directly in your AI agent (see Connect).";
+      pgTxt.textContent = "The playground service is temporarily unavailable. Please try again shortly, or use the full version directly in your AI agent (see Connect).";
       pgResult.style.display = "none";
     }
     function runPg(){
