@@ -78,7 +78,9 @@ function setFile(file){
   if(file.size>5e6){err.textContent='Screenshot zu groß (max 5 MB).';err.style.display='block';return;}
   err.style.display='none';
   const dt=new DataTransfer();dt.items.add(file);input.files=dt.files;
-  thumb.src=URL.createObjectURL(file);fn.textContent=file.name||'Screenshot';
+  // data: URL (not blob:) so the preview renders under the site's img-src CSP
+  const rd=new FileReader();rd.onload=()=>{thumb.src=rd.result;};rd.readAsDataURL(file);
+  fn.textContent=file.name||'Screenshot';
   drop.style.display='none';preview.style.display='flex';
 }
 function clearFile(){input.value='';preview.style.display='none';drop.style.display='block';}
