@@ -64,3 +64,18 @@ jobs:
             review + deploy, and comment the PR link on the issue. Never push to main, never deploy.
             If BIG or unsure: post a short plan, add label needs-owner-approval, @-mention @jkbngb,
             and stop without writing code.
+
+      # Budget / failure alarm: if the agent step failed (credit exhausted, rate limit, or any
+      # error), ping the owner so a request never silently goes unhandled. Console shows the
+      # remaining balance; the API can't. No SLACK_WEBHOOK_URL → silent no-op.
+      - name: Alert owner on failure
+        if: failure()
+        env:
+          HOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          ISSUE: ${{ github.event.issue.title }}
+          RUN: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -z "$HOOK" ]; then echo "no SLACK_WEBHOOK_URL — skipping alarm"; exit 0; fi
+          MSG="⚠️ *Feedback-Agent fehlgeschlagen* für: *$ISSUE*. Häufigste Ursache: Anthropic-Guthaben/Budget aus (Restguthaben im Console prüfen). Log: $RUN"
+          curl -sS -X POST -H 'Content-type: application/json' \
+            --data "$(printf '{"text":"%s"}' "$MSG")" "$HOOK"
