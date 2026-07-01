@@ -44,6 +44,9 @@ jobs:
           # Opus 4.8 = best code-change quality (fewer bad PRs); cost is capped by the key's
           # spend limit. Model is passed through claude_args (the action has no `model` input).
           claude_args: "--model claude-opus-4-8"
+          # act in the issue's context: post a progress/result comment and take GitHub actions
+          # (branch/PR/close) rather than running read-only.
+          track_progress: true
           prompt: |
             You are handling a user-feedback issue for this repository.
 
