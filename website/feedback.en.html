@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Feedback · Agentic-Firmenbuch.at</title>
-<meta name="description" content="Feedback, Wünsche oder Fehler melden — geht direkt an die Entwicklung." />
+<meta name="description" content="Report feedback, requests or bugs — goes straight to development." />
 <meta name="robots" content="noindex" />
 <link rel="icon" href="favicon.svg" />
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
@@ -39,34 +39,34 @@
 </head>
 <body>
   <div class="wrap">
-    <a class="brand" href="/">
+    <a class="brand" href="/en.html">
       <svg viewBox="0 0 32 32" fill="none"><rect x="1" y="1" width="30" height="30" rx="9" fill="#14161B" stroke="#19C37D" stroke-opacity=".5"/><rect x="8" y="8" width="7" height="7" rx="2" fill="#19C37D"/><rect x="17" y="8" width="7" height="7" rx="2" fill="#19C37D" fill-opacity=".4"/><rect x="8" y="17" width="7" height="7" rx="2" fill="#19C37D" fill-opacity=".4"/><rect x="17" y="17" width="7" height="7" rx="2" fill="#19C37D"/></svg>
       <span><span style="color:#19C37D">Agentic</span>-Firmenbuch.at</span>
     </a>
-    <h1>Feedback &amp; Wünsche</h1>
-    <p class="sub">Was fehlt, was passt nicht, was wäre praktisch? Schreib einfach rein — es geht direkt an die Entwicklung, kleine Dinge werden oft schon am selben Tag umgesetzt.</p>
+    <h1>Feedback &amp; requests</h1>
+    <p class="sub">What's missing, what doesn't fit, what would be handy? Just write it in — it goes straight to development, small things are often shipped the same day.</p>
 
     <form id="f">
-      <label for="message">Dein Feedback *</label>
-      <textarea id="message" name="message" required placeholder="z. B. „In der Suche wäre ein Filter nach … super“ oder „Feld X zeigt einen falschen Wert bei Firma Y“"></textarea>
+      <label for="message">Your feedback *</label>
+      <textarea id="message" name="message" required placeholder="e.g. “a filter by … in search would be great” or “field X shows a wrong value for company Y”"></textarea>
 
       <label>Screenshot (optional, PNG/JPG, max 5 MB)</label>
       <input type="file" id="screenshot" name="screenshot" accept="image/png,image/jpeg,image/webp,image/gif" />
-      <div class="drop" id="drop">Screenshot <b>hierher ziehen</b>, klicken zum Auswählen — oder einfach <b>einfügen</b> (Strg/Cmd&nbsp;+&nbsp;V)</div>
-      <div class="preview" id="preview"><img id="thumb" alt="" /><span class="fn" id="fn"></span><button type="button" class="rm" id="rm">entfernen</button></div>
+      <div class="drop" id="drop"><b>Drag</b> a screenshot here, click to pick — or just <b>paste</b> (Ctrl/Cmd&nbsp;+&nbsp;V)</div>
+      <div class="preview" id="preview"><img id="thumb" alt="" /><span class="fn" id="fn"></span><button type="button" class="rm" id="rm">remove</button></div>
 
-      <label for="contact">E-Mail (optional)</label>
-      <input type="email" id="contact" name="contact" placeholder="name@firma.at" />
-      <p style="font-size:.82em;color:var(--muted);margin-top:6px">Nur ausfüllen, wenn du benachrichtigt werden möchtest, <strong>sobald dein Feedback umgesetzt wurde</strong> — sonst schreiben wir dir nicht.</p>
+      <label for="contact">E-mail (optional)</label>
+      <input type="email" id="contact" name="contact" placeholder="name@company.com" />
+      <p style="font-size:.82em;color:var(--muted);margin-top:6px">Only fill this in if you want to be notified <strong>once your feedback has been implemented</strong> — we won't write to you otherwise.</p>
 
       <div class="cf-turnstile" data-sitekey="0x4AAAAAADnTe5KZ0-FsdC5I" data-refresh-expired="auto" data-refresh-timeout="auto" style="margin-top:18px"></div>
 
-      <button type="submit" id="btn">Absenden</button>
-      <div class="msg ok" id="ok">Danke! Dein Feedback ist angekommen. 🙌</div>
+      <button type="submit" id="btn">Send</button>
+      <div class="msg ok" id="ok">Thanks! Your feedback has arrived. 🙌</div>
       <div class="msg err" id="err"></div>
     </form>
 
-    <p class="foot">Wir verarbeiten nur, was du hier eingibst. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>. · <a href="/">Zur Startseite</a></p>
+    <p class="foot">We only process what you enter here. Details in the <a href="datenschutz.en.html">privacy policy</a>. · <a href="/en.html">Back to start</a></p>
   </div>
 
 <script>
@@ -75,11 +75,10 @@ const input=document.getElementById('screenshot'),drop=document.getElementById('
 const OK_TYPES=['image/png','image/jpeg','image/webp','image/gif'];
 function setFile(file){
   if(!file)return;
-  if(!OK_TYPES.includes(file.type)){err.textContent='Nur PNG, JPG, WEBP oder GIF.';err.style.display='block';return;}
-  if(file.size>5e6){err.textContent='Screenshot zu groß (max 5 MB).';err.style.display='block';return;}
+  if(!OK_TYPES.includes(file.type)){err.textContent='Only PNG, JPG, WEBP or GIF.';err.style.display='block';return;}
+  if(file.size>5e6){err.textContent='Screenshot too large (max 5 MB).';err.style.display='block';return;}
   err.style.display='none';
   const dt=new DataTransfer();dt.items.add(file);input.files=dt.files;
-  // data: URL (not blob:) so the preview renders under the site's img-src CSP
   const rd=new FileReader();rd.onload=()=>{thumb.src=rd.result;};rd.readAsDataURL(file);
   fn.textContent=file.name||'Screenshot';
   drop.style.display='none';preview.style.display='flex';
@@ -97,14 +96,14 @@ f.addEventListener('submit',async e=>{
   const ts=document.querySelector('[name=cf-turnstile-response]');
   const fd=new FormData(f);
   if(ts&&ts.value)fd.set('turnstile',ts.value);
-  btn.disabled=true;btn.textContent='Senden…';
+  btn.disabled=true;btn.textContent='Sending…';
   try{
     const r=await fetch('https://api.agentic-firmenbuch.at/api/feedback',{method:'POST',body:fd});
     const j=await r.json().catch(()=>({}));
     if(r.ok){f.reset();clearFile();ok.style.display='block';if(window.turnstile)turnstile.reset();}
-    else{err.textContent=j.error||'Konnte nicht gesendet werden. Bitte später nochmal.';err.style.display='block';}
-  }catch(_){err.textContent='Netzwerkfehler. Bitte später nochmal.';err.style.display='block';}
-  btn.disabled=false;btn.textContent='Absenden';
+    else{err.textContent=j.error||'Could not send. Please try again later.';err.style.display='block';}
+  }catch(_){err.textContent='Network error. Please try again later.';err.style.display='block';}
+  btn.disabled=false;btn.textContent='Send';
 });
 </script>
 </body>

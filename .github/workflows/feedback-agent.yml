@@ -11,7 +11,9 @@ name: feedback-agent
 
 on:
   issues:
-    types: [opened, labeled]
+    # Only `labeled` — creating an issue WITH the label already fires this, so triggering on
+    # `opened` too would run the agent twice for the same issue.
+    types: [labeled]
 
 # Waitlist: run feedback items ONE AT A TIME (no cancel) so concurrent agents never collide.
 # You can submit the next feedback immediately — it queues behind the current one.
