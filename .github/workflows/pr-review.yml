@@ -1,0 +1,87 @@
+# Independent PR reviewer + merge recommendation.
+#
+# When a fix-PR opens (branch `claude/*`, made by the feedback agent), a SEPARATE Claude — not the
+# one that wrote the fix — reviews the diff against the issue, checks for regressions / scope creep /
+# secret handling, notes the CI-gate status, and posts ONE comment ending in a clear verdict:
+#   ## Merge-Empfehlung: ✅ mergen   —or—   ## Merge-Empfehlung: ⚠️ noch nicht — <Gründe>
+# It then pings the owner on Slack with that verdict + the PR link. It NEVER merges and NEVER
+# pushes (contents: read). The owner decides: click merge themselves, or tell their assistant.
+#
+# Same-repo PRs only (the agent's branches are pushed with the repo token, not forks), so secrets
+# are available. Setup: ANTHROPIC_API_KEY + (optional) SLACK_WEBHOOK_URL repo secrets.
+name: pr-review
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+# One review at a time per PR; a new push supersedes the previous review.
+concurrency:
+  group: pr-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write
+
+jobs:
+  review:
+    # Only the feedback agent's own fix branches — not every random PR.
+    if: startsWith(github.event.pull_request.head.ref, 'claude/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Independent review
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Opus 4.8 for the sharpest review judgement. Independent of the author agent.
+          claude_args: "--model claude-opus-4-8"
+          track_progress: true
+          prompt: |
+            You are a senior reviewer. A DIFFERENT agent wrote this fix; your job is to judge it,
+            NOT to change it. You have read-only access to the code and can only comment.
+
+            PR #${{ github.event.pull_request.number }}: "${{ github.event.pull_request.title }}"
+            Head branch: ${{ github.event.pull_request.head.ref }}
+
+            Review the diff of this PR against the issue it Closes. Check, honestly and sceptically:
+            - Does it actually fix the reported problem? (read the linked issue.)
+            - Regressions, scope creep, anything touched that shouldn't be.
+            - Security: does it read/print/exfiltrate any secret? touch auth, tenancy, GDPR, cost,
+              schema, or infra? If so it should have been ESCALATED, not fixed — flag that loudly.
+            - Would the CI gate pass? (ruff check, ruff format --check, mypy --strict, pytest.)
+              Run it if you can; if you can't, say the gate must be green on CI before merge.
+
+            Post ONE concise comment. END it with EXACTLY one of these two lines:
+              ## Merge-Empfehlung: ✅ mergen
+              ## Merge-Empfehlung: ⚠️ noch nicht
+            If ⚠️, list the concrete blockers as short bullets above the line.
+
+            Finally, write a single word to the file `.pr-verdict` in the repo root: `MERGE` if you
+            recommend merging, otherwise `HOLD`. (This is read by the notification step; it is a
+            scratch file, do not commit it.)
+
+      - name: Notify owner with the verdict
+        if: always()
+        env:
+          HOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          TITLE: ${{ github.event.pull_request.title }}
+          URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          if [ -z "$HOOK" ]; then echo "SLACK_WEBHOOK_URL not set — skipping."; exit 0; fi
+          VERDICT=$(cat .pr-verdict 2>/dev/null | tr -d '[:space:]')
+          case "$VERDICT" in
+            MERGE) TEXT="✅ *Merge empfohlen* — PR reviewt, Gate ok: *$TITLE*" ;;
+            HOLD)  TEXT="⚠️ *Noch nicht mergen* — Claude sieht Punkte, Details im PR: *$TITLE*" ;;
+            *)     TEXT="🔍 *PR reviewt* — Empfehlung im PR-Kommentar: *$TITLE*" ;;
+          esac
+          curl -sS -X POST -H 'Content-type: application/json' \
+            --data "$(printf '{"text":"%s\\n%s\\nDu entscheidest: selbst mergen oder deinem Assistenten sagen."}' "$TEXT" "$URL")" "$HOOK"

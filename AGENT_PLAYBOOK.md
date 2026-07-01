@@ -62,11 +62,12 @@ Check first, so the same topic is not opened twice:
 ## How to work a SMALL item
 
 1. Restate the request in one line so the reporter knows you understood.
-2. Branch `feedback/<issue-number>-<slug>`. Make the minimal change.
+2. Work on the `claude/*` branch created for this run. Make the minimal change.
 3. Add/adjust a test. Run the full gate locally.
 4. Open a PR whose description starts with `Closes #<n>` (so merging auto-closes the issue with
    the PR as the reasoning), summarises the change and the risk, and states that the owner must
-   review + deploy. Do **not** deploy.
+   review + deploy. Do **not** deploy. Keep the diff tight — an independent reviewer bot will
+   assess the PR and post a merge recommendation, so scope creep will be flagged.
 5. Comment on the issue linking the PR.
 
 ## Closing issues (resolution)
