@@ -61,6 +61,14 @@ def _matches(doc: dict[str, Any], f: SearchFilters) -> bool:
         or (_g(doc, "management", "primary_manager", "age") or 0) >= f.gf_age_min,
         f.manager_name is None
         or f.manager_name.lower() in (_g(doc, "management", "primary_manager_name") or "").lower(),
+        f.oenace_section is None or _g(doc, "branch", "oenace", "section") == f.oenace_section,
+        f.oenace_division is None or _g(doc, "branch", "oenace", "division") == f.oenace_division,
+        f.oenace_group is None or _g(doc, "branch", "oenace", "group") == f.oenace_group,
+        f.geschaeftszweig is None
+        or f.geschaeftszweig.lower() in (_g(doc, "company", "description") or "").lower(),
+        f.postal_code is None
+        or (_g(doc, "location", "postal_code") or "").startswith(f.postal_code),
+        f.city is None or f.city.lower() in (_g(doc, "location", "city") or "").lower(),
     ]
     return all(checks)
 
@@ -122,6 +130,23 @@ def _build_where(f: SearchFilters) -> tuple[str, list[dict[str, Any]]]:
     if f.manager_name:
         conds.append("CONTAINS(LOWER(c.management.primary_manager_name), @manager_name)")
         params.append({"name": "@manager_name", "value": f.manager_name.lower()})
+    for bpath, bval, bkey in (
+        ("c.branch.oenace.section", f.oenace_section, "@oenace_section"),
+        ("c.branch.oenace.division", f.oenace_division, "@oenace_division"),
+        ("c.branch.oenace.group", f.oenace_group, "@oenace_group"),
+    ):
+        if bval is not None:
+            conds.append(f"{bpath} = {bkey}")
+            params.append({"name": bkey, "value": bval})
+    if f.geschaeftszweig:
+        conds.append("CONTAINS(LOWER(c.company.description), @geschaeftszweig)")
+        params.append({"name": "@geschaeftszweig", "value": f.geschaeftszweig.lower()})
+    if f.postal_code:
+        conds.append("STARTSWITH(c.location.postal_code, @postal_code)")
+        params.append({"name": "@postal_code", "value": f.postal_code})
+    if f.city:
+        conds.append("CONTAINS(LOWER(c.location.city), @city)")
+        params.append({"name": "@city", "value": f.city.lower()})
     rng("c.financials.latest.bilanzsumme", f.bilanzsumme_min, f.bilanzsumme_max, "bs")
     rng("c.ratios.equity_ratio.latest", f.equity_ratio_min, f.equity_ratio_max, "eq")
     rng("c.financials.latest.revenue", f.revenue_min, f.revenue_max, "rev")

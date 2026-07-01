@@ -192,7 +192,14 @@ resource presentedContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/
           { path: '/growth/profile/?' }
           { path: '/company/last_filing_year/?' }
           { path: '/company/founded_year/?' }
+          { path: '/company/description/?' }
           { path: '/management/primary_manager_name/?' }
+          // Branch / industry + location filters (issue #19)
+          { path: '/branch/oenace/section/?' }
+          { path: '/branch/oenace/division/?' }
+          { path: '/branch/oenace/group/?' }
+          { path: '/location/postal_code/?' }
+          { path: '/location/city/?' }
         ]
         // Opt-in indexing: exclude everything, then the includedPaths above are the
         // only indexed fields. (Cosmos forbids mid-path wildcards like
