@@ -24,9 +24,10 @@ from fbl_core.mapping import (
 )
 from fbl_core.models.filing import Bilanz, GuV
 
-# ebit/ebitda are not 1:1 single positions in GuV (ebit = zwischensumme_betriebserfolg,
-# ebitda is computed), and revenue_basis is a label not a position.
-_GUV_NON_POSITION = {"ebitda", "revenue_basis"}
+# ebitda and ebit_strict are COMPUTED (ebitda = ebit + D&A; ebit_strict = EBT + interest),
+# not 1:1 single positions, and revenue_basis is a label not a position. ebit and
+# operating_result both map 1:1 to zwischensumme_betriebserfolg and stay tested.
+_GUV_NON_POSITION = {"ebitda", "ebit_strict", "revenue_basis"}
 
 
 def test_taxonomy_has_317_entries() -> None:

@@ -154,6 +154,8 @@ _GUV_POSITIONS = [
     "personalaufwand",
     "abschreibungen",
     "ebit",
+    "operating_result",
+    "ebit_strict",
     "ebitda",
     "jahresueberschuss",
 ]
@@ -164,6 +166,7 @@ _RATIOS = [
     "working_capital_ratio",
     "anlagedeckungsgrad_1",
     "ebit_margin",
+    "ebit_strict_margin",
     "ebitda_margin",
     "net_margin",
     "personalkostenquote",
@@ -255,15 +258,23 @@ def describe_fields() -> dict[str, Any]:
             "(GES ≈ 99.7%); the search card labels it 'GmbH'",
         },
         "metric_definitions": {
-            "ebit": "Operating result (Betriebserfolg, the §231 Abs 2 UGB operating subtotal) "
-            "BEFORE financial result and taxes. The UGB GuV reports no EBIT line, so this is a "
-            "simplified approximation; it is NOT strict EBIT (earnings before interest and taxes, "
-            "which includes the financial result). For entities with material financial / "
-            "participation income (e.g. holdings) the two can differ materially.",
-            "ebitda": "ebit (= Betriebserfolg) plus depreciation & amortisation (abschreibungen). "
-            "Same operating-result basis and caveat as ebit.",
-            "ebit_margin": "ebit / umsatzerloese (operating-result basis, see ebit).",
-            "ebitda_margin": "ebitda / umsatzerloese (operating-result basis, see ebit).",
+            "ebit": "The UGB operating result (Betriebserfolg, §231 Abs 2), BEFORE financial "
+            "result and taxes. Kept as a documented alias of operating_result; it is NOT strict "
+            "EBIT. Prefer operating_result (this same figure, correctly named) or ebit_strict "
+            "(true EBIT) depending on what you need.",
+            "operating_result": "Betriebserfolg (§231 Abs 2), the operating result before the "
+            "financial result and taxes. Identical value to ebit, served under its correct name.",
+            "ebit_strict": "True EBIT = Ergebnis vor Steuern (pre-tax result) + Zinsaufwand "
+            "(interest expense). Includes the financial result, unlike operating_result. Null "
+            "when the GuV does not disclose the pre-tax result and interest expense (~7% of GuV "
+            "filers). For entities with material financial / participation income (e.g. holdings) "
+            "ebit_strict and operating_result can differ materially.",
+            "ebitda": "operating_result plus depreciation & amortisation (abschreibungen). "
+            "Operating-result basis (like operating_result / ebit), NOT strict-EBIT basis.",
+            "ebit_margin": "ebit / umsatzerloese (operating-result basis, = operating_result).",
+            "ebit_strict_margin": "ebit_strict / umsatzerloese (true-EBIT basis); null when "
+            "ebit_strict is null.",
+            "ebitda_margin": "ebitda / umsatzerloese (operating-result basis).",
         },
         "availability_rules": [
             "search_companies returns a summary card, not all data — escalate to "

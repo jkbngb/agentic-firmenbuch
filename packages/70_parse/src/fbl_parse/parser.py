@@ -13,7 +13,9 @@ from lxml import etree
 from fbl_core.lineage import new_doc_id, stamp
 from fbl_core.mapping import (
     BILANZ_FIELD_TO_CANONICAL,
+    EBT_CANONICAL,
     GUV_FIELD_TO_CANONICAL,
+    INTEREST_EXPENSE_CANONICAL,
     MAPPING_VERSION,
     load_taxonomy,
 )
@@ -291,6 +293,12 @@ def _build_guv(extract: ExtractResult) -> GuV | None:
     abschreibungen = present.get("abschreibungen")
     ebitda = ebit - abschreibungen if (ebit is not None and abschreibungen is not None) else None
 
+    # True EBIT (#6): Ergebnis vor Steuern + Zinsaufwand. Interest expense is stored negative,
+    # so EBIT = EBT - zinsen_und_aehnliche_aufwendungen. Null unless both lines are present.
+    ebt = extract.canonical_values.get(EBT_CANONICAL)
+    interest = extract.canonical_values.get(INTEREST_EXPENSE_CANONICAL)
+    ebit_strict = ebt - interest if (ebt is not None and interest is not None) else None
+
     return GuV(
         revenue_basis=revenue_basis,
         umsatzerloese=umsatz,
@@ -300,6 +308,8 @@ def _build_guv(extract: ExtractResult) -> GuV | None:
         abschreibungen=abschreibungen,
         ebit=ebit,
         ebitda=ebitda,
+        operating_result=present.get("operating_result"),  # = Betriebserfolg, correctly named
+        ebit_strict=ebit_strict,
         jahresueberschuss=present.get("jahresueberschuss"),
     )
 

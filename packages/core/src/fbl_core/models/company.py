@@ -130,7 +130,8 @@ class Ratios(BaseModel):
     debt_to_equity: MetricSeries | None = None
     working_capital_ratio: MetricSeries | None = None
     anlagedeckungsgrad_1: MetricSeries | None = None
-    ebit_margin: MetricSeries | None = None
+    ebit_margin: MetricSeries | None = None  # operating-result basis (Betriebserfolg); see ebit
+    ebit_strict_margin: MetricSeries | None = None  # true-EBIT basis; null when ebit_strict is (#6)
     ebitda_margin: MetricSeries | None = None
     net_margin: MetricSeries | None = None
     personalkostenquote: MetricSeries | None = None

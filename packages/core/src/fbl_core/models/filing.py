@@ -48,6 +48,11 @@ class GuV(BaseModel):
     abschreibungen: float | None = None
     ebit: float | None = None
     ebitda: float | None = None
+    # operating_result is the Betriebserfolg (§231 Abs 2) under its correct name — identical
+    # value to ``ebit``, which is kept as a documented alias. ebit_strict is TRUE EBIT
+    # (Ergebnis vor Steuern + Zinsaufwand); null when the GuV lacks those lines (#6).
+    operating_result: float | None = None
+    ebit_strict: float | None = None
     jahresueberschuss: float | None = None
 
 
