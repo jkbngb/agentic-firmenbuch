@@ -1,0 +1,25 @@
+{
+  "_comment": "Golden regression set (P6, #34): text -> expected OENACE 2025 group. Every corrected error becomes an entry. The grind refuses to upload while any of these classify wrong.",
+  "cases": {
+    "Unternehmensberatung": "70.2",
+    "Unternehmens- und Betriebsberatung": "70.2",
+    "Wirtschaftsberatung": "70.2",
+    "Public-Relations-Beratung": "73.3",
+    "Werbeagentur": "73.1",
+    "Tankstelle": "47.3",
+    "Betrieb von Waschanlagen und Tankstellen": "47.3",
+    "Kraftfahrzeugwerkstätte": "95.3",
+    "KFZ-Reparatur und KFZ-Handel": "95.3",
+    "Immobilienverwaltung": "68.3",
+    "Beteiligungsverwaltung": "64.2",
+    "Holding": "64.2",
+    "Softwareentwicklung": "62.1",
+    "Friseur": "96.2",
+    "Gastgewerbe": "56.1",
+    "Steuerberatung": "69.2",
+    "Baumeistergewerbe": "41.0",
+    "Elektroinstallation": "43.2",
+    "Güterbeförderung": "49.4",
+    "Rechtsanwaltskanzlei": "69.1"
+  }
+}
