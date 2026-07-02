@@ -274,19 +274,21 @@
           <tr><td><code>materialaufwand</code></td><td>Materialaufwand</td></tr>
           <tr><td><code>personalaufwand</code></td><td>Personalaufwand</td></tr>
           <tr><td><code>abschreibungen</code></td><td>Abschreibungen</td></tr>
-          <tr><td><code>ebit</code></td><td>Betriebserfolg (operatives Ergebnis vor Finanzergebnis und Steuern) – siehe Hinweis</td></tr>
-          <tr><td><code>ebitda</code></td><td>Betriebserfolg zzgl. Abschreibungen – siehe Hinweis</td></tr>
+          <tr><td><code>operating_result</code></td><td>Betriebserfolg (operatives Ergebnis vor Finanzergebnis und Steuern), § 231 Abs 2</td></tr>
+          <tr><td><code>ebit_strict</code></td><td>echtes EBIT = Ergebnis vor Steuern + Zinsaufwand; <code>null</code>, wenn die GuV diese Zeilen nicht ausweist</td></tr>
+          <tr><td><code>ebit</code></td><td>= <code>operating_result</code> (dokumentierter Alias, siehe Hinweis)</td></tr>
+          <tr><td><code>ebitda</code></td><td>Betriebserfolg zzgl. Abschreibungen</td></tr>
           <tr><td><code>jahresueberschuss</code></td><td>Jahresüberschuss / -fehlbetrag</td></tr>
         </tbody>
       </table></div>
-      <div class="note"><strong>Hinweis zu EBIT/EBITDA:</strong> Der österreichische UGB-Abschluss
-        (§ 231 Abs 2, Gesamtkostenverfahren) weist weder EBIT noch EBITDA aus. Als <code>ebit</code>
-        verwenden wir den ausgewiesenen <strong>Betriebserfolg</strong> (operatives Ergebnis vor
-        Finanzergebnis und Steuern), als <code>ebitda</code> den Betriebserfolg zzgl. Abschreibungen.
-        Das entspricht <strong>nicht</strong> der strengen EBIT-Definition
-        (Ergebnis vor Zinsen und Steuern inklusive Finanzergebnis), sondern ist als vereinfachte
-        Näherung zu verstehen. Bei Gesellschaften mit wesentlichem Finanz- oder Beteiligungsergebnis
-        (etwa Holdings) können die Werte spürbar abweichen.</div>
+      <div class="note"><strong>Hinweis zu EBIT:</strong> Der österreichische UGB-Abschluss
+        (§ 231 Abs 2, Gesamtkostenverfahren) weist kein EBIT aus. Wir servieren beides klar getrennt:
+        <code>operating_result</code> ist der <strong>Betriebserfolg</strong> (operatives Ergebnis vor
+        Finanzergebnis und Steuern); <code>ebit_strict</code> ist das <strong>echte EBIT</strong>
+        (inkl. Finanzergebnis, = Ergebnis vor Steuern + Zinsaufwand), berechenbar wo die GuV die
+        nötigen Zeilen ausweist, sonst <code>null</code>. <code>ebit</code> bleibt als dokumentierter
+        Alias von <code>operating_result</code> erhalten. Bei Gesellschaften mit wesentlichem
+        Finanz- oder Beteiligungsergebnis (etwa Holdings) weichen die beiden spürbar ab.</div>
       <div class="note"><strong>Nur Bilanz, ohne GuV:</strong> Kleine Gesellschaften reichen oft nur
         eine Bilanz ein. Dann ist <code>guv = {}</code>, <code>revenue_latest = null</code>, und
         margenbasierte Kennzahlen bleiben ohne Wert. Gezielt filtern mit <code>has_guv</code> /
@@ -303,7 +305,8 @@
           <tr><td><code>debt_to_equity</code></td><td>Verschuldungsgrad (FK / EK)</td></tr>
           <tr><td><code>working_capital_ratio</code></td><td>Working-Capital-Quote</td></tr>
           <tr><td><code>anlagedeckungsgrad_1</code></td><td>Anlagedeckungsgrad I (EK / Anlagevermögen)</td></tr>
-          <tr><td><code>ebit_margin</code></td><td>EBIT-Marge (EBIT / Umsatz) – EBIT = Betriebserfolg, siehe Hinweis oben</td></tr>
+          <tr><td><code>ebit_margin</code></td><td>Marge auf Betriebserfolg-Basis (operating_result / Umsatz)</td></tr>
+          <tr><td><code>ebit_strict_margin</code></td><td>Marge auf echtem EBIT (ebit_strict / Umsatz); <code>null</code>, wenn ebit_strict null</td></tr>
           <tr><td><code>ebitda_margin</code></td><td>EBITDA-Marge (EBITDA / Umsatz)</td></tr>
           <tr><td><code>net_margin</code></td><td>Nettomarge (Jahresüberschuss / Umsatz)</td></tr>
           <tr><td><code>personalkostenquote</code></td><td>Personalkostenquote (Personalaufwand / Umsatz)</td></tr>

@@ -98,15 +98,16 @@ Das Unternehmen liegt unter `result`. **Hier stehen die Roh-Codes** (`legal_form
 `gewinnruecklagen`, `bilanzgewinn_verlust`.
 
 **GuV-Positionen** (nur bei `has_guv`): `umsatzerloese`, `materialaufwand`,
-`personalaufwand`, `abschreibungen`, `ebit`, `ebitda`, `jahresueberschuss`.
+`personalaufwand`, `abschreibungen`, `operating_result`, `ebit_strict`, `ebit`, `ebitda`,
+`jahresueberschuss`.
 
-> **EBIT/EBITDA – Definition:** Der UGB-Abschluss (§ 231 Abs 2, Gesamtkostenverfahren)
-> weist weder EBIT noch EBITDA aus. `ebit` ist der ausgewiesene **Betriebserfolg**
-> (operatives Ergebnis vor Finanzergebnis und Steuern), `ebitda` = Betriebserfolg +
-> `abschreibungen`. Das entspricht **nicht** dem strengen EBIT (Ergebnis vor Zinsen
-> und Steuern inkl. Finanzergebnis), sondern ist als vereinfachte Näherung zu verstehen;
-> bei Gesellschaften mit wesentlichem Finanz-/Beteiligungsergebnis (z. B. Holdings)
-> weichen die Werte ab.
+> **EBIT – Definition:** Der UGB-Abschluss (§ 231 Abs 2) weist kein EBIT aus. Wir servieren
+> beide sauber getrennt: `operating_result` ist der **Betriebserfolg** (operatives Ergebnis
+> vor Finanzergebnis und Steuern); `ebit_strict` ist das **echte EBIT** (inkl. Finanzergebnis,
+> = Ergebnis vor Steuern + Zinsaufwand), berechnet wo die GuV die nötigen Zeilen ausweist,
+> sonst `null`. `ebit` bleibt als dokumentierter **Alias** von `operating_result`; `ebitda` =
+> Betriebserfolg + `abschreibungen`. Bei Gesellschaften mit wesentlichem Finanz-/
+> Beteiligungsergebnis (z. B. Holdings) weichen `operating_result` und `ebit_strict` ab.
 > Alle übrigen Positionen werden 1:1 aus dem Abschluss übernommen.
 
 > **Bilanz-only vs. mit GuV:** Kleine Gesellschaften reichen oft nur eine Bilanz ein.
@@ -117,7 +118,7 @@ Das Unternehmen liegt unter `result`. **Hier stehen die Roh-Codes** (`legal_form
 ### `ratios`
 13 Kennzahlen, je als Zeitreihen-Objekt:
 `equity_ratio`, `debt_ratio`, `debt_to_equity`, `working_capital_ratio`,
-`anlagedeckungsgrad_1`, `ebit_margin`, `ebitda_margin`, `net_margin`,
+`anlagedeckungsgrad_1`, `ebit_margin`, `ebit_strict_margin`, `ebitda_margin`, `net_margin`,
 `personalkostenquote`, `materialaufwandsquote`, `roa`, `roe`, `capital_profile`.
 
 Jedes Kennzahl-Objekt enthält u. a.: `latest`, `latest_year`, `history` (Jahr → Wert),
