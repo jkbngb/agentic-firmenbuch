@@ -162,7 +162,7 @@
           <tr><td><code>growth_profile</code></td><td>string</td><td><code>shrinking/stable/growing/fast_growing</code></td><td>&lt; 2 vergleichbare Jahre</td></tr>
           <tr><td><code>has_guv_latest</code></td><td>bool</td><td>hat der jüngste Abschluss eine GuV?</td><td>– (immer gesetzt)</td></tr>
           <tr><td><code>geschaeftszweig</code></td><td>string</td><td>Geschäftszweig (Firmenbuch-Freitext)</td><td>nicht eingetragen (~15 %)</td></tr>
-          <tr><td><code>branch_section</code></td><td>string</td><td>ÖNACE-2025-Abschnitt <code>A</code>–<code>V</code> (Details unter <code>branch</code>)</td><td>kein Geschäftszweig</td></tr>
+          <tr><td><code>industry_section</code></td><td>string</td><td>ÖNACE-2025-Abschnitt <code>A</code>–<code>V</code> (Details unter <code>industry</code>)</td><td>keine Klassifizierung vorhanden</td></tr>
         </tbody>
       </table></div>
     </section>
@@ -356,20 +356,22 @@
       </table></div>
       <p style="font-size:.92em">Auf der Such-Karte erscheint dazu das Flag <code>is_financial_institution</code> (bool).</p>
 
-      <h3><code>branch</code> · Branche (ÖNACE)</h3>
-      <p style="font-size:.92em">Quelle ist der <strong>Firmenbuch-Geschäftszweig</strong> (Freitext); daraus wird die Branche als offizieller <strong>ÖNACE 2025</strong>- und <strong>EU-NACE-Rev.2.1</strong>-Code abgeleitet. Der Original-Geschäftszweig bleibt immer erhalten.</p>
+      <h3><code>industry</code> · Branche (ÖNACE / NACE)</h3>
+      <p style="font-size:.92em">Quelle ist der <strong>Firmenbuch-Geschäftszweig</strong> (Freitext); daraus wird die Branche als offizieller <strong>ÖNACE 2025</strong>-Code abgeleitet (LLM-gestützt, Few-Shot, gegen eine Referenz getestet). <code>oenace</code> und <code>nace</code> sind symmetrisch aufgebaut und tragen per Konstruktion dieselben Codes (ÖNACE 2025 = EU NACE Rev. 2.1); ÖNACE mit deutschen und englischen Titeln, NACE mit den offiziellen englischen. Der Original-Geschäftszweig bleibt immer erhalten. <em>Hinweis: Dieser Block hieß früher <code>branch</code> und wurde umbenannt und erweitert.</em></p>
       <div class="tablewrap"><table>
         <thead><tr><th>Feld</th><th>Typ</th><th>Bedeutung</th></tr></thead>
         <tbody>
           <tr><td><code>geschaeftszweig</code></td><td>string</td><td>Original-Geschäftszweig (Freitext)</td></tr>
-          <tr><td><code>oenace.section</code> / <code>section_label</code></td><td>string</td><td>ÖNACE-2025-Abschnitt <code>A</code>–<code>V</code> + Titel (z. B. <code>M</code> · Grundstücks- und Wohnungswesen)</td></tr>
-          <tr><td><code>oenace.division</code> / <code>group</code></td><td>string</td><td>Abteilung (2-Steller) und Gruppe (z. B. <code>68</code> / <code>68.3</code>)</td></tr>
-          <tr><td><code>oenace.label</code> / <code>label_en</code></td><td>string</td><td>Gruppen-Titel DE / EN</td></tr>
-          <tr><td><code>nace_rev21_group</code></td><td>string</td><td>EU-Code (NACE Rev.2.1 = ÖNACE-2025-Gruppe)</td></tr>
-          <tr><td><code>code_2008</code> · <code>source</code></td><td>string</td><td>zugrundeliegender ÖNACE-2008-Code · <code>llm</code> oder <code>keyword</code> (Fallback)</td></tr>
+          <tr><td><code>oenace.section</code> / <code>section_label_de</code> / <code>section_label_en</code></td><td>string</td><td>ÖNACE-2025-Abschnitt <code>A</code>–<code>V</code> + Titel DE/EN</td></tr>
+          <tr><td><code>oenace.division</code> / <code>division_label_de</code> / <code>division_label_en</code></td><td>string</td><td>Abteilung (2-Steller, z. B. <code>68</code>) + Titel DE/EN</td></tr>
+          <tr><td><code>oenace.group</code> / <code>group_label_de</code> / <code>group_label_en</code></td><td>string</td><td>Gruppe (z. B. <code>68.3</code>) + Titel DE/EN</td></tr>
+          <tr><td><code>oenace.version</code></td><td>string</td><td><code>OENACE_2025</code></td></tr>
+          <tr><td><code>nace.section</code> / <code>division</code> / <code>group</code> + <code>*_label</code></td><td>string</td><td>EU NACE Rev. 2.1: identische Codes, offizielle englische Titel, <code>version</code> = <code>NACE_REV_2.1</code></td></tr>
+          <tr><td><code>code_2008</code></td><td>string</td><td>zugewiesene ÖNACE-2008-Klasse (4-Steller, z. B. <code>70.22</code>); alles Weitere ist deterministische Ableitung</td></tr>
+          <tr><td><code>source</code> · <code>classified_from</code></td><td>string</td><td><code>lexicon</code> (verifizierte Zuordnungstabelle) oder <code>llm</code> · Basis <code>geschaeftszweig</code> oder <code>name</code></td></tr>
         </tbody>
       </table></div>
-      <p style="font-size:.92em">Auf der Such-Karte erscheinen dazu <code>geschaeftszweig</code> und <code>branch_section</code> (ÖNACE-Abschnitt).</p>
+      <p style="font-size:.92em">Ohne Geschäftszweig gilt: kein Raten. Nur eindeutige Firmennamen werden klassifiziert (<code>classified_from: name</code>), sonst ist <code>industry</code> leer. Auf der Such-Karte erscheinen <code>geschaeftszweig</code> und <code>industry_section</code>.</p>
 
       <h3><code>management</code> · Geschäftsführung</h3>
       <div class="tablewrap"><table>

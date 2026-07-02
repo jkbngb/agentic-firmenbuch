@@ -44,7 +44,7 @@ Kompakter Auszug. **Codes sind hier bereits als Labels ausgegeben** (z. B. `GmbH
 | `growth_profile` | string | `shrinking`/`stable`/`growing`/`fast_growing` | < 2 vergleichbare Jahre |
 | `has_guv_latest` | bool | hat der jüngste Abschluss eine GuV? | – (immer gesetzt) |
 | `geschaeftszweig` | string | Geschäftszweig (Firmenbuch-Freitext) | nicht eingetragen (~15 %) |
-| `branch_section` | string | ÖNACE-2025-Abschnitt `A`–`V` (siehe `branch`) | kein Geschäftszweig |
+| `industry_section` | string | ÖNACE-2025-Abschnitt `A`–`V` (siehe `industry`) | keine Klassifizierung vorhanden |
 
 ---
 
@@ -166,23 +166,31 @@ verknüpft – kein Namens-Raten.
 
 Auf der Such-Karte erscheint dazu das Flag `is_financial_institution` (bool).
 
-### `branch`
+### `industry` (früher `branch`; umbenannt und erweitert)
 Branche/Industrie. Quelle ist der **Firmenbuch-Geschäftszweig** (Freitext); daraus wird per
-Sprachmodell (Few-Shot) ein offizieller **ÖNACE-2025-Code** abgeleitet — klassifiziert in ÖNACE
-2008, mit der amtlichen Statistik-Austria-Tabelle nach 2025 übergeleitet — und gegen einen
-Referenzdatensatz geprüft. Der Original-Geschäftszweig bleibt immer erhalten.
+Sprachmodell (Few-Shot, gegen eine Referenz getestet) eine offizielle **ÖNACE-2008-Klasse**
+zugewiesen und mit der amtlichen Statistik-Austria-Korrespondenz deterministisch nach
+**ÖNACE 2025** übergeleitet. `oenace` und `nace` sind symmetrisch und tragen per Konstruktion
+dieselben Codes (ÖNACE 2025 = EU NACE Rev. 2.1); alle Ebenen mit Titeln (ÖNACE DE+EN, NACE EN).
+Der Original-Geschäftszweig bleibt immer erhalten. Ohne Geschäftszweig wird nicht geraten:
+nur eindeutige Firmennamen werden klassifiziert (`classified_from: name`), sonst `null`.
 
 | Feld | Typ | Bedeutung | `null`, wenn … |
 |---|---|---|---|
 | `geschaeftszweig` | string | Original-Geschäftszweig (Freitext) | nicht eingetragen |
-| `oenace.section` | string | ÖNACE-2025-Abschnitt `A`–`V` (z. B. `M`) | – |
-| `oenace.section_label` | string | Abschnitts-Titel (z. B. `Grundstücks- und Wohnungswesen`) | – |
-| `oenace.division` | string | 2-Steller (z. B. `68`) | nur bei Keyword-Fallback leer |
-| `oenace.group` | string | 3-Steller / Gruppe (z. B. `68.3`) | nur bei Keyword-Fallback leer |
-| `oenace.label` / `label_en` | string | Gruppen-Titel DE / EN | wie oben |
-| `nace_rev21_group` | string | EU-Code (NACE Rev.2.1 Gruppe = ÖNACE-2025-Gruppe) | wie oben |
-| `code_2008` | string | zugrundeliegender ÖNACE-2008-Code | Keyword-Fallback |
-| `source` | string | `llm` (klassifiziert) oder `keyword` (Schlagwort-Fallback) | – |
+| `oenace.section` | string | ÖNACE-2025-Abschnitt `A`–`V` (z. B. `N`) | Text nicht klassifizierbar |
+| `oenace.section_label_de` / `_en` | string | Abschnitts-Titel DE / EN | wie oben |
+| `oenace.division` | string | 2-Steller (z. B. `70`) | wie oben |
+| `oenace.division_label_de` / `_en` | string | Abteilungs-Titel DE / EN | wie oben |
+| `oenace.group` | string | Gruppe (z. B. `70.2`) | wie oben |
+| `oenace.group_label_de` / `_en` | string | Gruppen-Titel DE / EN | wie oben |
+| `oenace.version` | string | `OENACE_2025` | – |
+| `nace.section`/`division`/`group` | string | identische Codes (EU NACE Rev. 2.1) | wie `oenace` |
+| `nace.section_label`/`division_label`/`group_label` | string | offizielle englische Titel | wie oben |
+| `nace.version` | string | `NACE_REV_2.1` | – |
+| `code_2008` | string | zugewiesene ÖNACE-2008-Klasse (4-Steller, z. B. `70.22`) | wie `oenace` |
+| `source` | string | `lexicon` (verifizierte Tabelle) oder `llm` | – |
+| `classified_from` | string | `geschaeftszweig` oder `name` | – |
 
 ### `management`
 | Feld | Typ | Bedeutung |
