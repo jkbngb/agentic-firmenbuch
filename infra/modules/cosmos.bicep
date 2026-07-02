@@ -108,6 +108,18 @@ resource directoriesContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabase
     }
   }
 }
+// 01_lexicon — learned Geschaeftszweig->OENACE-class memo (issue #34, P2): the daily delta
+// LLM-classifies each unique text at most once, ever; one small doc per text.
+resource lexiconContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2024-11-15' = {
+  parent: database
+  name: '01_lexicon'
+  properties: {
+    resource: {
+      id: '01_lexicon'
+      partitionKey: { paths: ['/id'], kind: 'Hash' }
+    }
+  }
+}
 resource oauthCodesContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2024-11-15' = {
   parent: database
   name: '00_oauth_codes'

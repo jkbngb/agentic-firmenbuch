@@ -16,8 +16,10 @@ deterministic; unknown texts stay code-less until the next grind sweeps them.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
+import threading
 from collections.abc import Callable
 from functools import lru_cache
 from importlib import resources
@@ -26,11 +28,16 @@ from typing import Any
 from fbl_core.classification.industry import build_industry_block
 from fbl_core.classification.taxonomy import load_oenace_tree
 from fbl_core.logging import get_logger
+from fbl_core.storage import CosmosStoreLike
 
 log = get_logger(__name__)
 
 # (text, mode) -> ÖNACE 2008 class or None; mode is "text" or "name"
 LlmClassifier = Callable[[str, str], str | None]
+
+# One doc per unique normalised text; pk = /id. Deliberately its own container: the FI
+# directory container is iterated in full at serve time and must stay small.
+LEXICON_CONTAINER = "01_lexicon"
 
 
 def _norm(text: str) -> str:
@@ -51,32 +58,78 @@ def _lexicon() -> dict[str, str]:
         return {}
 
 
+class LearnedLexicon:
+    """Cosmos-backed memo: every Geschäftszweig text is LLM-classified at most ONCE, ever.
+
+    Enforces P2 (same text ⇒ same code) across companies, runs and days for the long tail
+    the frozen lexicon does not cover, and makes repeat texts free. Entries carry the
+    original text + class so the next grind can audit and merge them into the frozen
+    lexicon. An in-process cache dedupes within a run (incl. parallel workers)."""
+
+    def __init__(self, cosmos: CosmosStoreLike) -> None:
+        self._cosmos = cosmos
+        self._memo: dict[str, str | None] = {}
+        self._lock = threading.Lock()
+
+    @staticmethod
+    def _doc_id(key: str) -> str:
+        return "gz-" + hashlib.sha1(key.encode("utf-8")).hexdigest()
+
+    def get(self, key: str) -> str | None:
+        with self._lock:
+            if key in self._memo:
+                return self._memo[key]
+        try:
+            doc = self._cosmos.get(LEXICON_CONTAINER, self._doc_id(key))
+        except Exception:  # container missing → behave as empty, never break the pipeline
+            doc = None
+        cls = str(doc["cls08"]) if doc and doc.get("cls08") else None
+        with self._lock:
+            self._memo[key] = cls
+        return cls
+
+    def put(self, key: str, text: str, cls08: str) -> None:
+        with self._lock:
+            self._memo[key] = cls08
+        try:
+            self._cosmos.upsert(
+                LEXICON_CONTAINER,
+                {"id": self._doc_id(key), "key": key, "text": text, "cls08": cls08},
+            )
+        except Exception as exc:
+            log.warning("learned lexicon write failed", extra={"context": {"error": str(exc)}})
+
+
 def resolve_industry(
     geschaeftszweig: str | None,
     name: str | None,
     prev_doc: dict[str, Any] | None,
     llm: LlmClassifier | None = None,
+    learned: LearnedLexicon | None = None,
 ) -> dict[str, Any] | None:
     """Resolve the ``industry`` block for a freshly presented company document."""
     gz = (geschaeftszweig or "").strip()
     prev = (prev_doc or {}).get("industry")
 
     if gz:
+        key = _norm(gz)
         # 1) carry-forward: same text, keep the previous (already audited) block
         if (
             isinstance(prev, dict)
             and prev.get("oenace")
-            and _norm(str(prev.get("geschaeftszweig") or "")) == _norm(gz)
+            and _norm(str(prev.get("geschaeftszweig") or "")) == key
         ):
             return prev
-        # 2) deterministic lexicon
-        cls = _lexicon().get(_norm(gz))
+        # 2) deterministic: frozen head lexicon, then the learned long-tail memo
+        cls = _lexicon().get(key) or (learned.get(key) if learned else None)
         if cls:
             return build_industry_block(gz, cls, "lexicon")
-        # 3) LLM long tail
+        # 3) LLM — at most once per unique text, result memoised for every later company
         if llm is not None:
             got = llm(gz, "text")
             if got:
+                if learned:
+                    learned.put(key, gz, got)
                 return build_industry_block(gz, got, "llm")
         # 5) honest gap: text served, codes null
         return build_industry_block(gz, None, "llm")

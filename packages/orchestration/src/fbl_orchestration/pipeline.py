@@ -24,7 +24,7 @@ from fbl_firmenbuch_client import RegisterSource
 from fbl_present import present, present_status_only
 from fbl_registry import Registry
 
-from .industry_sync import LlmClassifier, resolve_industry
+from .industry_sync import LearnedLexicon, LlmClassifier, resolve_industry
 from .loaders import load_master, load_prev, parse_all
 
 CONSOLIDATED, DERIVED, PRESENTED = "50_consolidated", "30_derived", "10_presentation"
@@ -49,6 +49,8 @@ class PipelineContext:
     # Industry classification for (re-)presented companies (#34 step 6): lexicon-first is
     # built in (deterministic); this optional LLM handles the long tail. None → no LLM.
     industry_llm: LlmClassifier | None = None
+    # Cosmos-backed memo (P2): each unique text is LLM-classified at most once, ever.
+    industry_learned: LearnedLexicon | None = None
 
 
 HEARTBEAT_EVERY = 50  # renew the run lease after this many companies
@@ -67,7 +69,11 @@ def _attach_industry(ctx: PipelineContext, fnr: str, payload: dict[str, object])
     name = identity.get("name") if isinstance(identity, dict) else None
     prev = ctx.cosmos.get(PRESENTED, fnr)
     ind = resolve_industry(
-        str(gz) if gz else None, str(name) if name else None, prev, ctx.industry_llm
+        str(gz) if gz else None,
+        str(name) if name else None,
+        prev,
+        ctx.industry_llm,
+        ctx.industry_learned,
     )
     if ind is not None:
         payload["industry"] = ind
