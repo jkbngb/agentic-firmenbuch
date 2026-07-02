@@ -385,10 +385,10 @@
           <tr><td><code>primary_manager.vertretung</code></td><td>string | null</td><td>Type of representation (sole / joint)</td></tr>
         </tbody>
       </table></div>
-      <div class="note"><strong>Privacy (GDPR):</strong> Personal names are <strong>not</strong>
-        returned. Available are only <strong>age</strong> and <strong>year of birth</strong> (year only,
-        no day/month) as well as role and representation – enough for succession screens without
-        identifying the individual.</div>
+      <div class="note"><strong>Privacy (GDPR):</strong> Names of authorised representatives
+        (e.g. managing directors) come from the <strong>public Firmenbuch</strong> and are returned
+        for per-query lookup. Birth data is <strong>year-granular only</strong> (age / year of birth,
+        no day or month). Bulk extraction and resale are prohibited by the terms of use.</div>
     </section>
 
     <section class="block" id="voll">
@@ -402,7 +402,7 @@
         <li><code>management.signatories_history</code> – authorised signatories per year</li>
         <li><code>derivations</code> – <code>metrics_version</code> + formula registry of the ratios</li>
       </ul>
-      <p>Same here: <strong>names stay hidden</strong> (GDPR).</p>
+      <p>Same rule here: officer names are public Firmenbuch data (per-query), birth data year-granular only.</p>
     </section>
 
     <section class="block" id="filter">

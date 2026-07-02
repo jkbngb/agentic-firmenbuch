@@ -520,7 +520,7 @@
       pgDetailCard.innerHTML =
         '<div class="pgd-top"><div><div class="pgd-name">'+esc(id.name||id.fnr||"–")+'</div><div class="pgd-meta">'+esc(meta)+'</div></div>'
         +'<button class="pgd-close" id="pgdClose" aria-label="Close">✕</button></div>'+bilanz+guv+table
-        +'<div class="pgd-prov">Source: Austrian Firmenbuch / Federal Ministry of Justice. Personal names omitted for privacy (age / year of birth only). An agent receives exactly this record via <code>get_company_details</code>.</div>';
+        +'<div class="pgd-prov">Source: Austrian Firmenbuch / Federal Ministry of Justice. Public data incl. officer names; birth data year-granular only. An agent receives exactly this record via <code>get_company_details</code>.</div>';
       document.getElementById("pgdClose").addEventListener("click", closeDetail);
     }
     function openDetail(fnr){

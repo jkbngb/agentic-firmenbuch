@@ -519,7 +519,7 @@
       pgDetailCard.innerHTML =
         '<div class="pgd-top"><div><div class="pgd-name">'+esc(id.name||id.fnr||"–")+'</div><div class="pgd-meta">'+esc(meta)+'</div></div>'
         +'<button class="pgd-close" id="pgdClose" aria-label="Schließen">✕</button></div>'+bilanz+guv+table
-        +'<div class="pgd-prov">Quelle: Österreichisches Firmenbuch / BMJ. Personennamen aus Datenschutzgründen nicht enthalten (nur Alter/Geburtsjahr). Genau diesen Datensatz erhält ein Agent über <code>get_company_details</code>.</div>';
+        +'<div class="pgd-prov">Quelle: Österreichisches Firmenbuch / BMJ. Öffentliche Daten inkl. Namen der Organe; Geburtsdaten nur jahresgenau. Genau diesen Datensatz erhält ein Agent über <code>get_company_details</code>.</div>';
       document.getElementById("pgdClose").addEventListener("click", closeDetail);
     }
     function openDetail(fnr){
