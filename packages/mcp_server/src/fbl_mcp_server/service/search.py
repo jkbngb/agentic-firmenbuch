@@ -61,9 +61,15 @@ def _matches(doc: dict[str, Any], f: SearchFilters) -> bool:
         or (_g(doc, "management", "primary_manager", "age") or 0) >= f.gf_age_min,
         f.manager_name is None
         or f.manager_name.lower() in (_g(doc, "management", "primary_manager_name") or "").lower(),
-        f.oenace_section is None or _g(doc, "branch", "oenace", "section") == f.oenace_section,
-        f.oenace_division is None or _g(doc, "branch", "oenace", "division") == f.oenace_division,
-        f.oenace_group is None or _g(doc, "branch", "oenace", "group") == f.oenace_group,
+        f.oenace_section is None
+        or f.oenace_section
+        in (_g(doc, "industry", "oenace", "section"), _g(doc, "branch", "oenace", "section")),
+        f.oenace_division is None
+        or f.oenace_division
+        in (_g(doc, "industry", "oenace", "division"), _g(doc, "branch", "oenace", "division")),
+        f.oenace_group is None
+        or f.oenace_group
+        in (_g(doc, "industry", "oenace", "group"), _g(doc, "branch", "oenace", "group")),
         f.geschaeftszweig is None
         or f.geschaeftszweig.lower() in (_g(doc, "company", "description") or "").lower(),
         f.postal_code is None
@@ -130,14 +136,17 @@ def _build_where(f: SearchFilters) -> tuple[str, list[dict[str, Any]]]:
     if f.manager_name:
         conds.append("CONTAINS(LOWER(c.management.primary_manager_name), @manager_name)")
         params.append({"name": "@manager_name", "value": f.manager_name.lower()})
-    for bpath, bval, bkey in (
-        ("c.branch.oenace.section", f.oenace_section, "@oenace_section"),
-        ("c.branch.oenace.division", f.oenace_division, "@oenace_division"),
+    # ÖNACE filters match the v2 `industry` block OR the legacy v1 `branch` block, so search
+    # works both before and after the re-grind replaces the stored docs (#34). A comparison on
+    # an undefined path is undefined in Cosmos SQL, so the OR simply falls through.
+    for bpath, lpath, bval, bkey in (
+        ("c.industry.oenace.section", "c.branch.oenace.section", f.oenace_section, "@oe_s"),
+        ("c.industry.oenace.division", "c.branch.oenace.division", f.oenace_division, "@oe_d"),
         # `group` is a reserved SQL keyword — must use bracket notation, not dot access.
-        ('c.branch.oenace["group"]', f.oenace_group, "@oenace_group"),
+        ('c.industry.oenace["group"]', 'c.branch.oenace["group"]', f.oenace_group, "@oe_g"),
     ):
         if bval is not None:
-            conds.append(f"{bpath} = {bkey}")
+            conds.append(f"({bpath} = {bkey} OR {lpath} = {bkey})")
             params.append({"name": bkey, "value": bval})
     if f.geschaeftszweig:
         conds.append("CONTAINS(LOWER(c.company.description), @geschaeftszweig)")

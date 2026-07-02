@@ -139,8 +139,8 @@ class CompanyCard(BaseModel):
     has_guv_latest: bool = False
     manager_name: str | None = None  # primary manager; null unless EXPOSE_PERSONAL_DATA is set
     is_financial_institution: bool = False  # bank/insurer → UGB figures absent by design (P2.1)
-    geschaeftszweig: str | None = None  # Firmenbuch free-text activity (the branch source text)
-    branch_section: str | None = None  # derived ÖNACE section (A–U) from the Geschäftszweig (#14)
+    geschaeftszweig: str | None = None  # Firmenbuch free-text activity (the industry source text)
+    industry_section: str | None = None  # ÖNACE 2025 section (A–V) from the industry block (#34)
 
 
 class SearchResponse(BaseModel):
