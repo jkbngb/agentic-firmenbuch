@@ -380,7 +380,10 @@ def phase_upload(container) -> None:
         sys.exit(2)
     companies = jread(INPUT)
     text_cls = {r["key"]: r["cls08"] for r in jread(TEXTS)}
-    done = {r["fnr"] for r in jread(UPLOADED)}
+    # Only companies uploaded WITH a real code count as done. A company uploaded with a
+    # null block (its text was not yet classified at the time) is deliberately NOT skipped
+    # on resume — otherwise it would keep serving null after its text gets classified.
+    done = {r["fnr"] for r in jread(UPLOADED) if r.get("coded")}
     # one block per unique text (P2), shared across its companies
     block_cache: dict[str, dict[str, Any] | None] = {}
     todo = []
@@ -394,19 +397,19 @@ def phase_upload(container) -> None:
         if key not in block_cache:
             block_cache[key] = build_industry_block(gz, text_cls.get(key), "llm")
         todo.append((c["fnr"], block_cache[key]))
-    print(f"upload: {len(done)} fertig, {len(todo)} offen")
+    print(f"upload: {len(done)} fertig (mit Code), {len(todo)} offen")
     out = UPLOADED.open("a")
     n = 0
     t0 = time.time()
 
-    def work(item: tuple[str, dict[str, Any] | None]) -> str:
+    def work(item: tuple[str, dict[str, Any] | None]) -> tuple[str, bool]:
         fnr, block = item
         _patch(container, fnr, block)
-        return fnr
+        return fnr, bool(block and block.get("oenace"))
 
     with ThreadPoolExecutor(max_workers=WORKERS) as ex:
-        for fnr in ex.map(work, todo):
-            out.write(json.dumps({"fnr": fnr}) + "\n")
+        for fnr, coded in ex.map(work, todo):
+            out.write(json.dumps({"fnr": fnr, "coded": coded}) + "\n")
             n += 1
             if n % 10000 == 0:
                 out.flush()
