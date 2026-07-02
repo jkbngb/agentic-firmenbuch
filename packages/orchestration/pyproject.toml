@@ -14,6 +14,7 @@ dependencies = [
     "fbl-present",
     "fbl-mcp-server",  # store_stats: rebuild the served __stats__ snapshot after each run
     "fbl-auth",  # email_sender_from_settings: ops alerts on directory-sync anomalies
+    "anthropic>=0.40",  # industry_sync: long-tail Geschäftszweig classification (#34)
     "pydantic>=2.7",
 ]
 

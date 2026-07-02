@@ -71,6 +71,10 @@ class PresentedCompany(BaseModel):
     filings: list[dict[str, object]] = Field(default_factory=list)
     events: list[dict[str, object]] = Field(default_factory=list)
     management: PresentedManagement | None = None
+    # Industry classification (v2, #34): written by the grind / the daily delta
+    # (orchestration.industry_sync), carried as a first-class field so re-presents and
+    # status-only refreshes never silently drop it.
+    industry: dict[str, object] | None = None
     # reserved (null in v1)
     sector: None = None
     enrichment: None = None

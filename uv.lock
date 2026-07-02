@@ -503,6 +503,7 @@ name = "fbl-orchestration"
 version = "1.0.0"
 source = { editable = "packages/orchestration" }
 dependencies = [
+    { name = "anthropic" },
     { name = "fbl-auth" },
     { name = "fbl-consolidate" },
     { name = "fbl-core" },
@@ -518,6 +519,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "anthropic", specifier = ">=0.40" },
     { name = "fbl-auth", editable = "packages/auth" },
     { name = "fbl-consolidate", editable = "packages/50_consolidate" },
     { name = "fbl-core", editable = "packages/core" },

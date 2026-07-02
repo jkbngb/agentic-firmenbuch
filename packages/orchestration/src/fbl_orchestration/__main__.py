@@ -15,6 +15,7 @@ from fbl_core.storage import BlobStore, CosmosStore
 from fbl_firmenbuch_client import JustizOnlineClient
 from fbl_registry import Registry
 
+from .industry_sync import make_llm_classifier
 from .orchestrator import MODES, make_run_id, run
 from .pipeline import PipelineContext
 
@@ -54,6 +55,9 @@ def _build_context(
         expose_personal_data=s.expose_personal_data,  # type: ignore[attr-defined]
         growth_horizons=list(s.growth_horizons),  # type: ignore[attr-defined]
         delta_lookback_days=s.delta_lookback_days,  # type: ignore[attr-defined]
+        # #34 step 6: industry classification in the daily delta (lexicon-first, LLM long
+        # tail). Without ANTHROPIC_API_KEY the pipeline stays fully deterministic.
+        industry_llm=make_llm_classifier(s.anthropic_api_key),  # type: ignore[attr-defined]
     )
 
 
