@@ -125,16 +125,20 @@ catalogue fits in one prompt, so nothing forces a cascade. A two-stage narrowing
 tail is a measurable option (golden set), not the default. Top-down would also **not** have
 prevented the v1 defect: that was a granularity/mapping loss, orthogonal to direction.
 
-### Final served `branch` block (v2 contract)
+### Final served `industry` block (v2 contract)
 
-One assigned fact (the 2008 class, from lexicon or LLM); everything else is a deterministic
-lookup from the official bilingual tables. Labels on **all** levels, DE and EN, consistent
-names, hierarchy consistent by construction.
+The block is renamed **`branch` → `industry`** (owner decision: "branch" is ambiguous between
+English *branch office* and German *Branche*; `industry` is unambiguous and matches the
+English structural field names of the API). One assigned fact (the 2008 class, from lexicon
+or LLM); everything else is a deterministic lookup from the official tables. `oenace` and
+`nace` are **structurally symmetric** blocks: same shape, same codes (ÖNACE 2025 is identical
+to NACE Rev. 2.1 at section/division/group level), ÖNACE carries the official German and
+English titles, NACE carries the official English titles.
 
 ```jsonc
-"branch": {
+"industry": {
   "geschaeftszweig": "Unternehmensberatung",        // original free text, never dropped
-  "oenace": {                                        // ÖNACE 2025 (= NACE Rev. 2.1)
+  "oenace": {                                        // Austrian national classification
     "section": "N",
     "section_label_de": "Erbringung von freiberuflichen, wissenschaftlichen und technischen Dienstleistungen",
     "section_label_en": "Professional, scientific and technical activities",
@@ -146,7 +150,15 @@ names, hierarchy consistent by construction.
     "group_label_en": "Business and other management consultancy activities",
     "version": "OENACE_2025"
   },
-  "nace_rev21_group": "70.2",       // deterministic copy: ÖNACE 2025 == NACE Rev. 2.1 at group level
+  "nace": {                                          // EU classification, same codes by construction
+    "section": "N",
+    "section_label": "Professional, scientific and technical activities",
+    "division": "70",
+    "division_label": "Activities of head offices; management consultancy activities",
+    "group": "70.2",
+    "group_label": "Business and other management consultancy activities",
+    "version": "NACE_REV_2.1"
+  },
   "code_2008": "70.22",             // the assigned fact (ÖNACE 2008 CLASS, 4-digit)
   "source": "lexicon",              // "lexicon" (verified head table) | "llm" (long tail)
   "classified_from": "geschaeftszweig"
@@ -154,17 +166,16 @@ names, hierarchy consistent by construction.
 ```
 
 Notes:
-- `nace_rev21_group` is **not** a second mapping or model: the national ÖNACE 2025 is
-  identical to EU NACE Rev. 2.1 down to the 4-digit class; Austria only adds 5-digit
-  subclasses. The field is a deterministic copy served for EU-facing consumers.
-- Companies **without** a Geschäftszweig keep `branch: null` (honest gap, ~15%). No
+- The `nace` block is **not** a second mapping or model: ÖNACE 2025 is identical to EU NACE
+  Rev. 2.1 down to the 4-digit class (Austria only adds 5-digit subclasses). Codes are copied,
+  labels are the official English titles (already in the repo tables). NACE labels exist in
+  all EU languages, but the German ones are the ÖNACE titles, so the `nace` block serves
+  English only; German lives in `oenace`.
+- Companies **without** a Geschäftszweig keep `industry: null` (honest gap, ~15%). No
   name-guessing: a company name is not evidence. If a name heuristic is ever added it must be
   flagged `source: "name_heuristic"` and default-off.
-- Field-name changes vs v1 (`label` → `group_label_de`, new `division_label_*`,
-  `section_label_*` in both languages, new `version` and `classified_from`): a **breaking
-  change** for consumers of `oenace.label`; ship together with the data correction and
-  announce in `felder.html`. (Renaming `branch` itself, e.g. to `industry`, was considered
-  and deferred: cosmetic, another break, low value.)
+- This is a **breaking change** (block rename + `label` → `group_label_*` + structured `nace`).
+  It ships in ONE break together with the data correction, announced in `felder.html`.
 - Public wording stays: "LLM-classified (few-shot), tested against a reference"; no provider
   or dataset names anywhere.
 
@@ -183,7 +194,8 @@ Notes:
 
 ## Gaps / open
 
-- ~15% of companies have no Geschäftszweig → `branch: null` by design (see above).
+- ~15% of companies have no Geschäftszweig → no industry block by design (v1: `branch: null`,
+  v2: `industry: null`); see above.
 - The daily change-feed does **not** yet classify new companies (step 6); until it ships, the
   corpus slowly drifts stale.
 - `search_companies` filters (`oenace_section/division/group`) keep working unchanged; group
