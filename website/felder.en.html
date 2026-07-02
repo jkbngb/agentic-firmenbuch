@@ -494,7 +494,7 @@
     <span class="ck">"filing_years_available"</span>: <span class="cn">11</span>,
     <span class="ck">"founded_year"</span>:           <span class="cn">2013</span>,
     <span class="ck">"founded_source"</span>:         <span class="cs">"first_filing-1"</span>,
-    <span class="ck">"description"</span>:            <span class="cn">null</span>
+    <span class="ck">"description"</span>:            <span class="cs">"Unternehmensberatung"</span>
   },
   <span class="ck">"size"</span>: {
     <span class="ck">"gkl"</span>:               <span class="cs">"M"</span>,           <span class="cc">// medium</span>
@@ -557,6 +557,7 @@
   <span class="ck">"management"</span>: {
     <span class="ck">"n_signatories_latest"</span>:    <span class="cn">2</span>,
     <span class="ck">"signatories_stable_years"</span>: <span class="cn">4</span>,
+    <span class="ck">"primary_manager_name"</span>:    <span class="cs">"Maria Beispiel"</span>,   <span class="cc">// public Firmenbuch data (name served)</span>
     <span class="ck">"primary_manager"</span>: {
       <span class="ck">"age"</span>:         <span class="cn">52</span>,
       <span class="ck">"birth_year"</span>:  <span class="cn">1974</span>,            <span class="cc">// year only (GDPR)</span>
@@ -576,7 +577,34 @@
     }
     <span class="cc">// … older statements, sorted by stichtag descending</span>
   ],
-  <span class="ck">"events"</span>: []
+  <span class="ck">"events"</span>: [],
+  <span class="ck">"industry"</span>: {                              <span class="cc">// industry – derived from the Geschäftszweig</span>
+    <span class="ck">"geschaeftszweig"</span>: <span class="cs">"Unternehmensberatung"</span>,
+    <span class="ck">"oenace"</span>: {                              <span class="cc">// ÖNACE 2025 (national), titles DE + EN</span>
+      <span class="ck">"section"</span>:           <span class="cs">"N"</span>,
+      <span class="ck">"section_label_de"</span>:  <span class="cs">"Erbringung von freiberuflichen, wissenschaftlichen und technischen Dienstleistungen"</span>,
+      <span class="ck">"section_label_en"</span>:  <span class="cs">"Professional, scientific and technical activities"</span>,
+      <span class="ck">"division"</span>:          <span class="cs">"70"</span>,
+      <span class="ck">"division_label_de"</span>: <span class="cs">"Verwaltung und Führung von Unternehmen; Unternehmensberatung"</span>,
+      <span class="ck">"division_label_en"</span>: <span class="cs">"Activities of head offices and management consultancy"</span>,
+      <span class="ck">"group"</span>:             <span class="cs">"70.2"</span>,
+      <span class="ck">"group_label_de"</span>:    <span class="cs">"Unternehmensberatung"</span>,
+      <span class="ck">"group_label_en"</span>:    <span class="cs">"Business and other management consultancy activities"</span>,
+      <span class="ck">"version"</span>:           <span class="cs">"OENACE_2025"</span>
+    },
+    <span class="ck">"nace"</span>: {                                <span class="cc">// EU NACE Rev. 2.1 – same codes, English titles</span>
+      <span class="ck">"section"</span>:        <span class="cs">"N"</span>,
+      <span class="ck">"section_label"</span>:  <span class="cs">"Professional, scientific and technical activities"</span>,
+      <span class="ck">"division"</span>:       <span class="cs">"70"</span>,
+      <span class="ck">"division_label"</span>: <span class="cs">"Activities of head offices and management consultancy"</span>,
+      <span class="ck">"group"</span>:          <span class="cs">"70.2"</span>,
+      <span class="ck">"group_label"</span>:    <span class="cs">"Business and other management consultancy activities"</span>,
+      <span class="ck">"version"</span>:        <span class="cs">"NACE_REV_2.1"</span>
+    },
+    <span class="ck">"code_2008"</span>:       <span class="cs">"70.22"</span>,       <span class="cc">// assigned ÖNACE 2008 class</span>
+    <span class="ck">"source"</span>:          <span class="cs">"llm"</span>,          <span class="cc">// or "lexicon"</span>
+    <span class="ck">"classified_from"</span>: <span class="cs">"geschaeftszweig"</span>  <span class="cc">// or "name"</span>
+  }
 }</pre>
       <p style="font-size:.94em;color:var(--faint)">In the search card (<code>search_companies</code>)
          codes are already resolved to labels (e.g. <code>legal_form: "GmbH"</code>,
