@@ -126,7 +126,10 @@ class CompanyCard(BaseModel):
     fnr: str
     name: str
     legal_form: str | None = None
-    bundesland: str | None = None
+    bundesland: str | None = None  # Bundesland label (e.g. "Steiermark")
+    postal_code: str | None = None  # PLZ of the seat — Ort/PLZ on the card, no detail call (#28)
+    city: str | None = None  # seat city (e.g. "Graz")
+    street: str | None = None  # seat street + number
     size_gkl: str | None = None
     bilanzsumme_band: str | None = None  # human size band (size_gkl is the UGB *filing* class)
     bilanzsumme_latest: float | None = None

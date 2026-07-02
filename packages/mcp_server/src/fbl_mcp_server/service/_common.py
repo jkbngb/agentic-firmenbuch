@@ -231,6 +231,9 @@ def _card(doc: dict[str, Any], directory: dict[str, str] | None = None) -> Compa
         bundesland=_BL_CODE_TO_NAME.get(
             _g(doc, "location", "bundesland"), _g(doc, "location", "bundesland")
         ),
+        postal_code=_g(doc, "location", "postal_code"),
+        city=_g(doc, "location", "city"),
+        street=_g(doc, "location", "street"),
         size_gkl=_g(doc, "size", "gkl"),
         bilanzsumme_band=_g(doc, "size", "bilanzsumme_band"),
         bilanzsumme_latest=_g(doc, "financials", "latest", "bilanzsumme"),

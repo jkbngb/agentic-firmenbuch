@@ -14,7 +14,7 @@ auf. Es gibt also drei Stufen:
 
 | Werkzeug | Liefert | Wofür |
 |---|---|---|
-| `search_companies` | 10-Feld-**Karte** je Treffer | Suchen, Ranken, Überblick |
+| `search_companies` | kompakte **Karte** je Treffer (inkl. Sitz-Adresse) | Suchen, Ranken, Überblick |
 | `get_company_details` | **vollständiges Profil** (alle Abschnitte unten) | Detailansicht eines Unternehmens |
 | `get_full_record` | **Obermenge** des Profils (volle Taxonomie + Lineage) | maximaler Detailgrad |
 
@@ -34,6 +34,9 @@ Kompakter Auszug. **Codes sind hier bereits als Labels ausgegeben** (z. B. `GmbH
 | `name` | string | Firmenwortlaut | nie |
 | `legal_form` | string | Rechtsform-Label (z. B. `GmbH`) | unbekannt |
 | `bundesland` | string | Bundesland-Label (z. B. `Wien`) | unbekannt |
+| `postal_code` | string | PLZ des Sitzes (z. B. `8010`) | nicht eingetragen |
+| `city` | string | Ort des Sitzes (z. B. `Graz`) | nicht eingetragen |
+| `street` | string | Straße + Hausnummer des Sitzes | nicht eingetragen |
 | `size_gkl` | string | Größenklasse `W`/`K`/`M`/`G` (siehe §5) | unbekannt |
 | `bilanzsumme_latest` | number € | Bilanzsumme des jüngsten Abschlusses | kein Abschluss vorhanden |
 | `equity_ratio_latest` | number 0–1 | Eigenkapitalquote (jüngstes Jahr) | nicht berechenbar |
