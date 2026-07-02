@@ -8,8 +8,10 @@ from __future__ import annotations
 
 from .canonical import (
     BILANZ_FIELD_TO_CANONICAL,
+    EBT_CANONICAL,
     EMPLOYEES_CANONICAL,
     GUV_FIELD_TO_CANONICAL,
+    INTEREST_EXPENSE_CANONICAL,
     MAPPING_VERSION,
     MATERIALAUFWAND_CANONICAL,
     CanonicalPosition,
@@ -25,8 +27,10 @@ from .legacy_map import canonical_for_hgb, is_known_hgb
 
 __all__ = [
     "BILANZ_FIELD_TO_CANONICAL",
+    "EBT_CANONICAL",
     "EMPLOYEES_CANONICAL",
     "GUV_FIELD_TO_CANONICAL",
+    "INTEREST_EXPENSE_CANONICAL",
     "MAPPING_VERSION",
     "MATERIALAUFWAND_CANONICAL",
     "CanonicalPosition",

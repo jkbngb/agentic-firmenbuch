@@ -134,8 +134,15 @@ GUV_FIELD_TO_CANONICAL: dict[str, str] = {
     "personalaufwand": "personalaufwand",
     "abschreibungen": "abschreibungen",
     "ebit": "zwischensumme_betriebserfolg",
+    # operating_result = the same official position as ebit, served under its correct name (#6).
+    "operating_result": "zwischensumme_betriebserfolg",
     "jahresueberschuss": "jahresueberschuss_jahresfehlbetrag",
 }
+
+# Canonical positions used to COMPUTE strict EBIT (#6): EBIT = Ergebnis vor Steuern + Zinsaufwand.
+# Interest expense is stored negative, so EBIT = EBT - zinsen_und_aehnliche_aufwendungen.
+EBT_CANONICAL = "ergebnis_vor_steuern"
+INTEREST_EXPENSE_CANONICAL = "zinsen_und_aehnliche_aufwendungen"
 
 # Other canonical positions surfaced as scalars on ``ParsedFiling``.
 EMPLOYEES_CANONICAL = "durchschnittliche_anzahl_arbeitnehmer"
