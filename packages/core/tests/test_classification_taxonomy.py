@@ -42,14 +42,46 @@ def test_children_give_the_constrained_candidate_list() -> None:
     assert t.get("M 68.32") is t.get("68.32")
 
 
-def test_official_crosswalk_2008_to_2025() -> None:
-    from fbl_core.classification.crosswalk import changed_groups, map_group
+def test_map_class_is_total_and_unambiguous() -> None:
+    """P1 build gate (#34): every 2008 class the LLM may emit maps to exactly one valid
+    2025 group. If this fails, the question to the model is too coarse — fix the
+    crosswalk extraction, never ship."""
+    from fbl_core.classification.crosswalk import map_class
 
-    # identity for an unchanged group, and a deterministic map for a re-coded one
-    assert map_group("68.3") == "68.3"  # real estate group stable across vintages
-    changed = changed_groups()
-    assert 30 < len(changed) < 60  # 41 groups were re-coded 2008->2025
-    # every mapped target is itself a real 2025 group
-    t = load_oenace_tree(2025)
-    for src, dst in list(changed.items())[:50]:
-        assert t.is_valid(dst), f"{src}->{dst} not a valid 2025 code"
+    t08, t25 = load_oenace_tree(2008), load_oenace_tree(2025)
+    for code in t08.codes_at(4):
+        g25 = map_class(code)
+        assert g25 is not None, f"2008 class {code} has no 2025 mapping"
+        assert t25.is_valid(g25), f"{code}->{g25} is not a valid 2025 group"
+
+
+def test_map_class_golden_cases() -> None:
+    """The v1 failure class (#34): split groups must resolve to the right branch."""
+    from fbl_core.classification.crosswalk import map_class
+
+    assert map_class("70.22") == "70.2"  # Unternehmensberatung stays consulting (BCG bug)
+    assert map_class("70.21") == "73.3"  # PR goes to PR
+    assert map_class("47.30") == "47.3"  # petrol stations stay fuel retail (not 35.15!)
+    assert map_class("45.20") == "95.3"  # car repair genuinely moved to 95.3
+    assert map_class("64.20") == "64.2"  # holdings stay Beteiligungsgesellschaften
+    # normalisation: bare digits and subclass suffixes resolve to the same class
+    assert map_class("7022") == "70.2"
+    assert map_class("70.22-0") == "70.2"
+    # unknown code -> None (caller must treat as unclassified, never guess)
+    assert map_class("00.00") is None
+
+
+def test_ambiguous_classes_are_documented() -> None:
+    from fbl_core.classification.crosswalk import ambiguous_classes, map_class
+
+    amb = ambiguous_classes()
+    assert len(amb) > 50  # the official correspondence is genuinely 1:n
+    # every ambiguous class is still resolved (rule or manual) — nothing silently open
+    for code in amb:
+        assert map_class(code) is not None
+
+
+def test_map_group_legacy_reads_v1_docs() -> None:
+    from fbl_core.classification.crosswalk import map_group
+
+    assert map_group("68.3") == "68.3"  # identity for stable groups (v1 docs only)
