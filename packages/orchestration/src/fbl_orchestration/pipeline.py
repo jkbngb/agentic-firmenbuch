@@ -24,6 +24,7 @@ from fbl_firmenbuch_client import RegisterSource
 from fbl_present import present, present_status_only
 from fbl_registry import Registry
 
+from .industry_sync import LlmClassifier, resolve_industry
 from .loaders import load_master, load_prev, parse_all
 
 CONSOLIDATED, DERIVED, PRESENTED = "50_consolidated", "30_derived", "10_presentation"
@@ -45,10 +46,31 @@ class PipelineContext:
     # Optional lease renewal, called every HEARTBEAT_EVERY companies during a long run
     # (§15a.3). The orchestrator wires this to ``heartbeat_run_lock``; tests leave it None.
     heartbeat: Callable[[], bool] | None = None
+    # Industry classification for (re-)presented companies (#34 step 6): lexicon-first is
+    # built in (deterministic); this optional LLM handles the long tail. None → no LLM.
+    industry_llm: LlmClassifier | None = None
 
 
 HEARTBEAT_EVERY = 50  # renew the run lease after this many companies
 log = get_logger("orchestration.pipeline")
+
+
+def _attach_industry(ctx: PipelineContext, fnr: str, payload: dict[str, object]) -> None:
+    """Resolve + attach the industry block before the presented doc is written (#34 step 6).
+
+    present() rebuilds the document from the derived layer, so without this step every
+    re-present would silently wipe the classification (the v1 bug). Carry-forward is
+    deterministic and free; only genuinely new text costs an LLM call."""
+    company = payload.get("company")
+    identity = payload.get("identity")
+    gz = company.get("description") if isinstance(company, dict) else None
+    name = identity.get("name") if isinstance(identity, dict) else None
+    prev = ctx.cosmos.get(PRESENTED, fnr)
+    ind = resolve_industry(
+        str(gz) if gz else None, str(name) if name else None, prev, ctx.industry_llm
+    )
+    if ind is not None:
+        payload["industry"] = ind
 
 
 class ProcessReport(BaseModel):
@@ -156,7 +178,9 @@ def process_set(
                 run_id=run_id,
                 current_year=year,
             )
-            _upsert(ctx.cosmos, PRESENTED, fnr, pres.model_dump(mode="json", exclude_none=True))
+            payload = pres.model_dump(mode="json", exclude_none=True)
+            _attach_industry(ctx, fnr, payload)
+            _upsert(ctx.cosmos, PRESENTED, fnr, payload)
             ctx.registry.mark_clean(fnr)
             report.processed += 1
         except Exception as exc:
@@ -348,7 +372,9 @@ def process_backfill(
                 run_id=run_id,
                 current_year=year,
             )
-            _upsert(ctx.cosmos, PRESENTED, fnr, pres.model_dump(mode="json", exclude_none=True))
+            payload = pres.model_dump(mode="json", exclude_none=True)
+            _attach_industry(ctx, fnr, payload)
+            _upsert(ctx.cosmos, PRESENTED, fnr, payload)
             ctx.registry.mark_clean(fnr)
             return None
         except Exception as exc:
