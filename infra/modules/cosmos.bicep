@@ -194,7 +194,11 @@ resource presentedContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/
           { path: '/company/founded_year/?' }
           { path: '/company/description/?' }
           { path: '/management/primary_manager_name/?' }
-          // Branch / industry + location filters (issue #19)
+          // Industry + location filters (issues #19, #34). The legacy /branch paths stay
+          // until the re-grind has replaced every stored v1 doc, then can be dropped.
+          { path: '/industry/oenace/section/?' }
+          { path: '/industry/oenace/division/?' }
+          { path: '/industry/oenace/group/?' }
           { path: '/branch/oenace/section/?' }
           { path: '/branch/oenace/division/?' }
           { path: '/branch/oenace/group/?' }

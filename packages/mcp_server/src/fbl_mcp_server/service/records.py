@@ -19,7 +19,7 @@ from ._common import (
     _provenance,
     _require,
     _strip_internal,
-    branch_block,
+    industry_block,
 )
 
 
@@ -38,11 +38,11 @@ def get_company_details(cosmos: CosmosStoreLike, fnr: str) -> dict[str, Any]:
         # Surface the flag at the top of the record so an agent reads it before the (absent)
         # UGB figures, and doesn't mistake "no Bilanz" for "no data" (ROADMAP P2.1).
         result["financial_institution"] = fi
-    # Branch (issue #14): serve the stored LLM classification (full ÖNACE 2025 tree + confidence)
-    # when the grind has written it; otherwise fall back to the serve-time keyword section so every
-    # company still gets a branch. Lets the LLM data go live incrementally as the grind runs.
-    if not result.get("branch"):
-        result["branch"] = branch_block(_g(result, "company", "description"))
+    # Industry (v2, #34): the stored v2 block, or the legacy v1 branch translated into the
+    # v2 shape during the transition. The legacy `branch` key itself is no longer served —
+    # a single, consistent contract (breaking change, announced in felder.html).
+    result["industry"] = industry_block(doc)
+    result.pop("branch", None)
     return {
         "schema_version": doc.get("schema_version", "1.0"),
         "data_version": _g(doc, "provenance", "data_version"),
@@ -217,11 +217,14 @@ def describe_fields() -> dict[str, Any]:
                     "events[]": [
                         "name/seat/legal-form/management/capital changes (from 2026-07-01)"
                     ],
-                    "branch": [
-                        "geschaeftszweig (Firmenbuch free text)",
-                        "oenace.{section,division,group,label,label_en} (ÖNACE 2025) when the LLM "
-                        "classifier has run; else oenace.section only (keyword fallback)",
-                        "nace_rev21_group (EU code), code_2008, source (keyword/llm)",
+                    "industry": [
+                        "geschaeftszweig (Firmenbuch free text, never dropped)",
+                        "oenace.{section,division,group} + {level}_label_de/_label_en on every "
+                        "level + version (ÖNACE 2025)",
+                        "nace.{section,division,group} + {level}_label (EN) + version "
+                        "(NACE Rev. 2.1; codes identical to oenace by construction)",
+                        "code_2008 (assigned ÖNACE 2008 class), source (lexicon/llm), "
+                        "classified_from (geschaeftszweig/name)",
                     ],
                     "management": [
                         "n_signatories_latest",

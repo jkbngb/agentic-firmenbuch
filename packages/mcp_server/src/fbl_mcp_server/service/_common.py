@@ -10,7 +10,10 @@ from __future__ import annotations
 
 from typing import Any
 
-from fbl_core.classification.keyword import classify_oenace
+from fbl_core.classification.industry import (
+    build_industry_block,
+    industry_from_legacy_branch,
+)
 from fbl_core.financial_institution import classify_financial_institution
 from fbl_core.models import CompanyCard, PublicProvenance
 from fbl_core.storage import CosmosStoreLike
@@ -194,36 +197,30 @@ def _financial_institution(
     return {"kind": fi.kind, "source": fi.source, "caveat": fi.caveat}
 
 
-def branch_block(geschaeftszweig: str | None) -> dict[str, Any] | None:
-    """The scalable ``branch`` block (issue #14): the original Firmenbuch Geschäftszweig free text
-    PLUS a derived ÖNACE classification. Computed at SERVE time from the stored ``description``, so
-    it's available for every company instantly — no re-grind. The ÖNACE ``division``/``group``
-    levels (NACE depth ~272 groups) are filled later by the LLM classifier stage; the deterministic
-    keyword head currently yields the ``section`` (A–U). The original text is never dropped."""
-    if not geschaeftszweig:
+def industry_block(doc: dict[str, Any]) -> dict[str, Any] | None:
+    """The served ``industry`` block (v2, #34): prefer the stored v2 block, translate a
+    stored legacy v1 ``branch`` block into the v2 shape during the transition, and as a
+    last resort serve the free text alone with ``oenace``/``nace`` = null. Codes are
+    NEVER guessed at serve time (the v1 keyword fallback served 2008-lettered sections
+    next to 2025-lettered stored ones — an inconsistent contract; gone)."""
+    stored = doc.get("industry")
+    if isinstance(stored, dict):
+        return stored
+    legacy = industry_from_legacy_branch(doc.get("branch"))
+    if legacy is not None:
+        return legacy
+    gz = _g(doc, "company", "description")
+    if not gz:
         return None
-    g = classify_oenace(geschaeftszweig)
-    oenace = None
-    if g is not None:
-        oenace = {
-            "section": g.section,
-            "section_label": g.label,
-            "division": None,  # 2-digit, e.g. "64" — filled by the NACE classifier
-            "group": None,  # 3-digit, e.g. "64.2" — filled by the NACE classifier
-            "label": g.label,
-        }
-    return {
-        "geschaeftszweig": geschaeftszweig,
-        "oenace": oenace,
-        "source": g.method if g else None,
-    }
+    return build_industry_block(gz, None, "llm")
 
 
 def _card(doc: dict[str, Any], directory: dict[str, str] | None = None) -> CompanyCard:
     gz = _g(doc, "company", "description")
-    # Prefer the stored LLM branch section once the grind has written it; else keyword fallback.
-    stored_section = _g(doc, "branch", "oenace", "section")
-    guess = classify_oenace(gz) if gz and not stored_section else None
+    # v2 stored block first, legacy v1 branch second — never a serve-time guess for codes.
+    stored_section = _g(doc, "industry", "oenace", "section") or _g(
+        doc, "branch", "oenace", "section"
+    )
     return CompanyCard(
         fnr=doc["fnr"],
         name=_g(doc, "identity", "name") or doc["fnr"],
@@ -243,6 +240,8 @@ def _card(doc: dict[str, Any], directory: dict[str, str] | None = None) -> Compa
         has_guv_latest=bool(_g(doc, "financials", "has_guv_latest")),
         manager_name=_g(doc, "management", "primary_manager_name"),
         is_financial_institution=_financial_institution(doc, directory) is not None,
-        geschaeftszweig=_g(doc, "branch", "geschaeftszweig") or gz,
-        branch_section=stored_section or (guess.section if guess else None),
+        geschaeftszweig=_g(doc, "industry", "geschaeftszweig")
+        or _g(doc, "branch", "geschaeftszweig")
+        or gz,
+        industry_section=stored_section,
     )

@@ -31,6 +31,7 @@ def _presented(
     founded_year: int | None = None,
     geschaeftszweig: str | None = None,
     branch: dict[str, Any] | None = None,
+    industry: dict[str, Any] | None = None,
     postal_code: str | None = None,
     city: str | None = None,
     street: str | None = None,
@@ -78,6 +79,8 @@ def _presented(
     }
     if branch is not None:
         doc["branch"] = branch
+    if industry is not None:
+        doc["industry"] = industry
     return doc
 
 
@@ -153,8 +156,10 @@ def test_tool_calls_are_metered_and_get_my_usage_reports_them() -> None:
     assert "example.test" not in str(usage)
 
 
-def test_branch_field_from_geschaeftszweig_on_detail_and_card() -> None:
-    # Issue #14: the Geschäftszweig + a derived ÖNACE section are served (computed at serve time).
+def test_industry_block_served_on_detail_and_card() -> None:
+    # v2 (#34): codes come ONLY from stored classification, never a serve-time guess.
+    # Without a stored block: free text + null codes. Legacy v1 `branch` docs translate
+    # into the v2 shape; the `branch` key itself is no longer served.
     cosmos = InMemoryCosmosStore()
     cosmos.upsert(
         PRESENTED,
@@ -170,17 +175,50 @@ def test_branch_field_from_geschaeftszweig_on_detail_and_card() -> None:
             geschaeftszweig="Immobilienverwaltung",
         ),
     )
+    cosmos.upsert(
+        PRESENTED,
+        _presented(
+            "033333c",
+            name="Beratung Alt GmbH",
+            bundesland="W",
+            gkl="K",
+            bilanzsumme=1.0,
+            has_guv_latest=False,
+            equity_ratio=0.5,
+            profile="stable",
+            geschaeftszweig="Unternehmensberatung",
+            # legacy v1 doc: stored `branch` block from the first grind
+            branch={
+                "geschaeftszweig": "Unternehmensberatung",
+                "oenace": {"section": "N", "division": "70", "group": "70.2", "label": "x"},
+                "nace_rev21_group": "70.2",
+                "source": "llm",
+                "code_2008": "70.2",
+            },
+        ),
+    )
     token = signup("u@example.test", cosmos).token
     svc = McpService(cosmos, Settings(rate_limit_per_min=1000, rate_limit_per_day=10000))
 
-    branch = svc.get_company_details(token, "011111a")["result"]["branch"]
-    assert branch["geschaeftszweig"] == "Immobilienverwaltung"
-    assert branch["oenace"]["section"] == "L" and branch["source"] == "keyword"
-    # the structure is scalable: NACE division/group reserved for the later classifier
-    assert "division" in branch["oenace"] and "group" in branch["oenace"]
+    # no stored classification -> honest gap: text served, codes null, no `branch` key
+    res = svc.get_company_details(token, "011111a")["result"]
+    assert "branch" not in res
+    ind = res["industry"]
+    assert ind["geschaeftszweig"] == "Immobilienverwaltung"
+    assert ind["oenace"] is None and ind["nace"] is None
+
+    # legacy v1 doc -> translated into the v2 shape (labels all levels, symmetric nace)
+    ind2 = svc.get_company_details(token, "033333c")["result"]["industry"]
+    assert ind2["oenace"]["group"] == "70.2"
+    assert ind2["oenace"]["group_label_de"] == "Unternehmensberatung"
+    assert ind2["oenace"]["division_label_de"] and ind2["oenace"]["section_label_en"]
+    assert ind2["nace"]["group"] == "70.2" and ind2["nace"]["version"] == "NACE_REV_2.1"
+    assert ind2["nace"]["group_label"] == ind2["oenace"]["group_label_en"]
 
     card = svc.search_companies(token, SearchFilters(name="Hausverwaltung"))["results"][0]
-    assert card["geschaeftszweig"] == "Immobilienverwaltung" and card["branch_section"] == "L"
+    assert card["geschaeftszweig"] == "Immobilienverwaltung" and card["industry_section"] is None
+    card2 = svc.search_companies(token, SearchFilters(name="Beratung Alt"))["results"][0]
+    assert card2["industry_section"] == "N"
 
 
 def test_search_filters_by_branch_and_location() -> None:
@@ -218,15 +256,35 @@ def test_search_filters_by_branch_and_location() -> None:
             **common,
         ),
     )
+    cosmos.upsert(
+        PRESENTED,
+        _presented(
+            "044444d",
+            name="Berater Neu GmbH",
+            geschaeftszweig="Unternehmensberatung",
+            postal_code="4020",
+            city="Linz",
+            # v2 doc: stored `industry` block from the re-grind
+            industry={
+                "geschaeftszweig": "Unternehmensberatung",
+                "oenace": {"section": "N", "division": "70", "group": "70.2"},
+            },
+            **common,
+        ),
+    )
     svc = McpService(cosmos, Settings(rate_limit_per_min=1000, rate_limit_per_day=10000))
     token = signup("u@example.test", cosmos).token
 
     def fnrs(**flt: Any) -> set[str]:
         return {r["fnr"] for r in svc.search_companies(token, SearchFilters(**flt))["results"]}
 
+    # legacy v1 `branch` docs still match (transition) …
     assert fnrs(oenace_section="M") == {"011111a"}
     assert fnrs(oenace_group="68.3") == {"011111a"}
     assert fnrs(oenace_division="41") == {"022222b"}
+    # … and v2 `industry` docs match the same filters
+    assert fnrs(oenace_section="N") == {"044444d"}
+    assert fnrs(oenace_group="70.2") == {"044444d"}
     assert fnrs(geschaeftszweig="immobilien") == {"011111a"}
     assert fnrs(postal_code="10") == {"011111a"}  # PLZ prefix (all 10xx)
     assert fnrs(postal_code="8010") == {"022222b"}  # exact
