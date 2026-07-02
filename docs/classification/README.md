@@ -22,7 +22,13 @@ The LLM performs exactly **one** step: free text → code. Everything else (hier
 labels, NACE, crosswalk) is a deterministic lookup against the official tables. That division
 of labour is deliberate and stays in v2.
 
-## v1 — what is live today (and its defect)
+> **Status 2026-07-02:** v2 is SHIPPED — class-level crosswalk, `industry` serving contract,
+> head lexicon (1,832 texts / 112k companies), audit gates, daily-delta classification.
+> The class-level re-grind covered ~64% of unique texts before the API credit ran out
+> (audit green, uploaded); resume with `caffeinate -dims uv run python .grind/grind2.py
+> --phase all` after topping up, which also runs the name pass. Details: issue #34.
+
+## v1 — what was live before v2 (and its defect)
 
 ```
 Geschäftszweig
