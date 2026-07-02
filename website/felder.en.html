@@ -274,19 +274,21 @@
           <tr><td><code>materialaufwand</code></td><td>Cost of materials</td></tr>
           <tr><td><code>personalaufwand</code></td><td>Personnel expenses</td></tr>
           <tr><td><code>abschreibungen</code></td><td>Depreciation and amortisation</td></tr>
-          <tr><td><code>ebit</code></td><td>Operating result (before financial result and taxes) – see note</td></tr>
-          <tr><td><code>ebitda</code></td><td>Operating result plus depreciation – see note</td></tr>
+          <tr><td><code>operating_result</code></td><td>Betriebserfolg (operating result before financial result and taxes), § 231 (2)</td></tr>
+          <tr><td><code>ebit_strict</code></td><td>true EBIT = pre-tax result + interest expense; <code>null</code> when the GuV does not disclose those lines</td></tr>
+          <tr><td><code>ebit</code></td><td>= <code>operating_result</code> (documented alias, see note)</td></tr>
+          <tr><td><code>ebitda</code></td><td>Operating result plus depreciation</td></tr>
           <tr><td><code>jahresueberschuss</code></td><td>Net income / loss for the year</td></tr>
         </tbody>
       </table></div>
-      <div class="note"><strong>Note on EBIT/EBITDA:</strong> The Austrian UGB statement
-        (§ 231 (2), total-cost format) reports neither EBIT nor EBITDA. As <code>ebit</code>
-        we use the reported <strong>Betriebserfolg</strong> (operating result before
-        financial result and taxes), and as <code>ebitda</code> the operating result plus
-        depreciation. This does <strong>not</strong> match the strict EBIT definition
-        (earnings before interest and taxes, including the financial result); treat it as a
-        simplified approximation. For companies with a material financial or participation
-        result (e.g. holdings) the values can deviate noticeably.</div>
+      <div class="note"><strong>Note on EBIT:</strong> The Austrian UGB statement
+        (§ 231 (2), total-cost format) reports no EBIT. We serve both, clearly separated:
+        <code>operating_result</code> is the <strong>Betriebserfolg</strong> (operating result
+        before financial result and taxes); <code>ebit_strict</code> is <strong>true EBIT</strong>
+        (including the financial result, = pre-tax result + interest expense), computed where the
+        GuV discloses those lines, else <code>null</code>. <code>ebit</code> stays as a documented
+        alias of <code>operating_result</code>. For companies with a material financial or
+        participation result (e.g. holdings) the two deviate noticeably.</div>
       <div class="note"><strong>Balance sheet only, no P&amp;L:</strong> Small companies often file
         only a balance sheet. In that case <code>guv = {}</code>, <code>revenue_latest = null</code>, and
         margin-based ratios stay empty. Filter explicitly with <code>has_guv</code> /
@@ -303,7 +305,8 @@
           <tr><td><code>debt_to_equity</code></td><td>Debt-to-equity ratio (debt / equity)</td></tr>
           <tr><td><code>working_capital_ratio</code></td><td>Working-capital ratio</td></tr>
           <tr><td><code>anlagedeckungsgrad_1</code></td><td>Fixed-asset coverage I (equity / non-current assets)</td></tr>
-          <tr><td><code>ebit_margin</code></td><td>EBIT margin (EBIT / revenue) – EBIT = operating result, see note above</td></tr>
+          <tr><td><code>ebit_margin</code></td><td>margin on operating-result basis (operating_result / revenue)</td></tr>
+          <tr><td><code>ebit_strict_margin</code></td><td>margin on true EBIT (ebit_strict / revenue); <code>null</code> when ebit_strict is null</td></tr>
           <tr><td><code>ebitda_margin</code></td><td>EBITDA margin (EBITDA / revenue)</td></tr>
           <tr><td><code>net_margin</code></td><td>Net margin (net income / revenue)</td></tr>
           <tr><td><code>personalkostenquote</code></td><td>Personnel-cost ratio (personnel expenses / revenue)</td></tr>
