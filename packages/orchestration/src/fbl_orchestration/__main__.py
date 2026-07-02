@@ -15,7 +15,7 @@ from fbl_core.storage import BlobStore, CosmosStore
 from fbl_firmenbuch_client import JustizOnlineClient
 from fbl_registry import Registry
 
-from .industry_sync import make_llm_classifier
+from .industry_sync import LearnedLexicon, make_llm_classifier
 from .orchestrator import MODES, make_run_id, run
 from .pipeline import PipelineContext
 
@@ -58,6 +58,8 @@ def _build_context(
         # #34 step 6: industry classification in the daily delta (lexicon-first, LLM long
         # tail). Without ANTHROPIC_API_KEY the pipeline stays fully deterministic.
         industry_llm=make_llm_classifier(s.anthropic_api_key),  # type: ignore[attr-defined]
+        # P2 memo: every unique text is LLM-classified at most once, ever (01_lexicon).
+        industry_learned=LearnedLexicon(cosmos),
     )
 
 
