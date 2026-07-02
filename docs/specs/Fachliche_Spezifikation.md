@@ -40,9 +40,12 @@ Anything requiring a model, a judgement, an LLM, or an external data provider is
 ### 2.3 Out of scope (deferred to later versions)
 - **Scoring** of any kind (exit-window score, succession score, quality bands, signals).
 - **Third-party enrichment** (Northdata ownership/structure, SerpAPI online presence, etc.).
-- **Standardized NACE / ÖNACE sector codes** — not provided by the free API. *(A free-text
-  **Geschäftszweig** IS available and is our industry/activity signal — §2.4; mapping it to NACE
-  codes is a possible later enrichment, not v1.)*
+- ~~**Standardized NACE / ÖNACE sector codes** — not provided by the free API.~~ **SHIPPED
+  2026-06 (post-v1):** the free-text Geschäftszweig is LLM-classified to an official
+  **ÖNACE 2025** code (= NACE Rev. 2.1), served as the `branch` block and filterable in
+  `search_companies`. Method, quality figures, known defect and the v2 correction design live
+  in [`docs/classification/README.md`](../classification/README.md) (authoritative spec);
+  correction tracked in issue #34.
 - **AI-generated text summaries.**
 - **OCR / extraction from PDF-only filings.**
 - **Paid subscription tiers** and **marketing website** (only a minimal signup surface in v1).
@@ -56,8 +59,10 @@ The product needs a **branch/activity filter**. We use the **Geschäftszweig** (
 purpose) from the Firmenbuch master data — already ingested, license-clean (HVD, CC BY 4.0),
 populated for **~84 % of served companies** (e.g. „Gastgewerbe", „Baustoffhandel", „Immobilien-
 verwaltung", „Friseur"). It is **free text, not a standardized code**; the filter is a
-substring/keyword match. Mapping it to a coarse NACE/ÖNACE classification is a possible later
-enrichment.
+substring/keyword match. **Update 2026-06:** the free text is additionally LLM-classified to an
+official **ÖNACE 2025** code (served `branch` block, `oenace_*` search filters); the
+authoritative method/quality/correction spec is
+[`docs/classification/README.md`](../classification/README.md).
 
 **GISA (Gewerberegister) was evaluated as a branch source and REJECTED — do not retry as a bulk
 source:**
