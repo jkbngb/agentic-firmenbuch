@@ -129,6 +129,7 @@
       <ol>
         <li><a href="#verantwortlicher">Verantwortlicher</a></li>
         <li><a href="#anmeldung">Anmeldung &amp; API-Key</a></li>
+        <li><a href="#firmenbuch">Firmenbuch-Daten &amp; Organe</a></li>
         <li><a href="#turnstile">Cloudflare Turnstile</a></li>
         <li><a href="#server">Server-Logs &amp; Hosting</a></li>
         <li><a href="#fonts">Schriftarten</a></li>
@@ -165,30 +166,39 @@
       <p><strong>Nutzungsdaten je API-Key:</strong> Zur Bereitstellung des Dienstes, zur Durchsetzung fairer Nutzungsgrenzen (Rate-Limit) und zur Missbrauchsprävention protokollieren wir pro API-Key, <strong>welche Werkzeuge wie oft und wann</strong> abgefragt werden (aggregierte Zähler je Tag). Der Key wird dabei nur als <strong>Hashwert</strong> gespeichert; das Nutzungsprotokoll enthält <strong>weder den Inhalt der Abfragen noch die E-Mail-Adresse</strong>. <strong>Rechtsgrundlage:</strong> Vertragserfüllung (Art. 6 Abs. 1 lit. b DSGVO) und unser berechtigtes Interesse an einem stabilen, missbrauchsfreien Betrieb (Art. 6 Abs. 1 lit. f DSGVO). <strong>Speicherdauer:</strong> höchstens 12 Monate, danach automatische Löschung.</p>
     </section>
 
+    <section class="block" id="firmenbuch">
+      <h2><span class="n">03</span> Firmenbuch-Daten &amp; Personendaten von Organen</h2>
+      <p>Der Dienst liefert auf <strong>Einzelabfrage</strong> Daten aus dem österreichischen <strong>Firmenbuch</strong> aus (High Value Dataset des BMJ/JustizOnline, CC BY 4.0). Diese umfassen auch <strong>personenbezogene Daten von Organen</strong> (z. B. Geschäftsführer, Vorstand, Prokuristen): Name, Funktion und Vertretungsart sowie das <strong>Geburtsjahr</strong> bzw. das daraus berechnete Alter.</p>
+      <p><strong>Datenminimierung:</strong> Von Geburtsdaten wird ausschließlich das <strong>Jahr</strong> verarbeitet und ausgeliefert, niemals Tag oder Monat.</p>
+      <p><strong>Zweck:</strong> Bereitstellung von Wirtschaftsauskünften zu österreichischen Unternehmen (z. B. für Bonitäts-, Nachfolge- oder Geschäftspartner-Prüfungen) im Wege der Einzelabfrage. <strong>Rechtsgrundlage:</strong> berechtigtes Interesse an der Bereitstellung öffentlich zugänglicher Registerinformationen (Art. 6 Abs. 1 lit. f DSGVO). Die Daten sind im öffentlichen Firmenbuch auf gesetzlicher Grundlage (Firmenbuchgesetz) ohnehin einsehbar.</p>
+      <p><strong>Keine Massenverarbeitung:</strong> Systematische Massenextraktion, Profilbildung sowie Weitergabe oder Weiterverkauf der Personendaten sind technisch begrenzt und nach den <a href="nutzungsbedingungen.html">Nutzungsbedingungen</a> untersagt.</p>
+      <p><strong>Betroffenenrechte:</strong> Betroffene Personen können ihre Rechte gegenüber dem Verantwortlichen (siehe Abschnitt Betroffenenrechte) geltend machen. Der Dienst gibt den amtlichen Registerstand wieder; Änderungen am Eintrag sind primär beim Firmenbuchgericht zu veranlassen.</p>
+    </section>
+
     <section class="block" id="turnstile">
-      <h2><span class="n">03</span> Cloudflare Turnstile</h2>
+      <h2><span class="n">04</span> Cloudflare Turnstile</h2>
       <p>Zum Schutz des Anmeldeformulars vor automatisierten Anfragen (Spam/Bots) setzen wir <strong>Cloudflare Turnstile</strong> ein, einen Dienst der Cloudflare, Inc. Turnstile prüft ohne klassische Captcha-Rätsel, ob die Eingabe von einem Menschen stammt; dabei werden technische Informationen (z. B. IP-Adresse, Browser-Merkmale) verarbeitet. Cloudflare gibt an, hierfür <strong>keine Tracking-Cookies</strong> zu Werbezwecken zu setzen.</p>
       <p><strong>Rechtsgrundlage:</strong> berechtigtes Interesse an einem sicheren, missbrauchsfreien Betrieb (Art. 6 Abs. 1 lit. f DSGVO). Sofern eine Datenübermittlung in Drittländer erfolgt, stützt sich diese auf Standardvertragsklauseln (SCC) bzw. das EU-US Data Privacy Framework. Details: <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare Datenschutzhinweise</a>.</p>
     </section>
 
     <section class="block" id="server">
-      <h2><span class="n">04</span> Server-Logs &amp; Hosting</h2>
+      <h2><span class="n">05</span> Server-Logs &amp; Hosting</h2>
       <p>Die Website wird bei <strong>Microsoft Azure</strong> (Static Web Apps / Functions, Region Germany West Central, EU) gehostet. Beim Aufruf werden technisch notwendige Daten automatisch in Server-Logfiles verarbeitet: IP-Adresse (gekürzt, sofern möglich), Datum und Uhrzeit, abgerufene Ressource, Referrer, Browser- und Betriebssystem-Kennung.</p>
       <p><strong>Zweck:</strong> Auslieferung der Website, Stabilität und Sicherheit. <strong>Rechtsgrundlage:</strong> berechtigtes Interesse (Art. 6 Abs. 1 lit. f DSGVO). Mit dem Hoster besteht ein Auftragsverarbeitungsvertrag gemäß Art. 28 DSGVO.</p>
     </section>
 
     <section class="block" id="fonts">
-      <h2><span class="n">05</span> Schriftarten</h2>
+      <h2><span class="n">06</span> Schriftarten</h2>
       <p>Diese Website lädt Schriftarten über das <strong>Google Fonts CDN</strong> (Google Ireland Ltd.). Dabei wird die IP-Adresse des Besuchers an Google übermittelt. <strong>Rechtsgrundlage:</strong> berechtigtes Interesse an einer einheitlichen, performanten Darstellung (Art. 6 Abs. 1 lit. f DSGVO).</p>
     </section>
 
     <section class="block" id="cookies">
-      <h2><span class="n">06</span> Cookies</h2>
+      <h2><span class="n">07</span> Cookies</h2>
       <p>Wir verwenden <strong>keine Tracking- oder Marketing-Cookies</strong> und kein Webanalyse-Tool. Es wird lediglich – sofern der Browser dies zulässt – eine technisch notwendige Information im lokalen Speicher (localStorage) abgelegt, um den einmaligen Cookie-Hinweis nicht erneut anzuzeigen. Diese Information verbleibt auf dem jeweiligen Gerät und wird nicht an uns übertragen.</p>
     </section>
 
     <section class="block" id="empfaenger">
-      <h2><span class="n">07</span> Empfänger &amp; Auftragsverarbeiter</h2>
+      <h2><span class="n">08</span> Empfänger &amp; Auftragsverarbeiter</h2>
       <p>Eine Weitergabe der Daten erfolgt nur an Dienstleister, die uns bei der Bereitstellung des Dienstes unterstützen, im erforderlichen Umfang und auf Grundlage von Auftragsverarbeitungsverträgen:</p>
       <ul>
         <li>Hosting-/Infrastruktur-Anbieter: Microsoft Ireland Operations Ltd. (Azure, EU-Region)</li>
@@ -199,12 +209,12 @@
     </section>
 
     <section class="block" id="speicherdauer">
-      <h2><span class="n">08</span> Speicherdauer</h2>
+      <h2><span class="n">09</span> Speicherdauer</h2>
       <p>Wir speichern personenbezogene Daten nur so lange, wie es für die genannten Zwecke erforderlich ist oder gesetzliche Aufbewahrungspflichten bestehen. Anmelde- und API-Key-Daten werden gelöscht, sobald das Konto bzw. der Key widerrufen oder zur Löschung beantragt wird, spätestens nach 12 Monaten Inaktivität.</p>
     </section>
 
     <section class="block" id="rechte">
-      <h2><span class="n">09</span> Betroffenenrechte</h2>
+      <h2><span class="n">10</span> Betroffenenrechte</h2>
       <p>Nach der DSGVO bestehen folgende Rechte:</p>
       <ul>
         <li>Auskunft (Art. 15), Berichtigung (Art. 16) und Löschung (Art. 17)</li>
@@ -216,7 +226,7 @@
     </section>
 
     <section class="block" id="aenderungen">
-      <h2><span class="n">10</span> Änderungen dieser Erklärung</h2>
+      <h2><span class="n">11</span> Änderungen dieser Erklärung</h2>
       <p>Wir passen diese Datenschutzerklärung an, wenn sich der Dienst oder die Rechtslage ändert. Es gilt jeweils die auf dieser Seite veröffentlichte Fassung.</p>
     </section>
 

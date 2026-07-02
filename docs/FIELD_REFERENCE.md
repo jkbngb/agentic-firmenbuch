@@ -202,9 +202,10 @@ nur eindeutige Firmennamen werden klassifiziert (`classified_from: name`), sonst
 | `primary_manager.role_label` | string | Funktion (z. B. `GESCHÄFTSFÜHRER/IN (handelsrechtlich)`) |
 | `primary_manager.vertretung` | string \| null | Vertretungsart (Einzel/Gemeinschaft) |
 
-> **Datenschutz (DSGVO):** Personennamen werden **nicht** ausgeliefert. Verfügbar sind nur
-> **Alter** und **Geburtsjahr** (Jahr, ohne Tag/Monat) sowie Funktion/Vertretung —
-> ausreichend für Nachfolge-Screenings, ohne die Person zu identifizieren.
+> **Datenschutz (DSGVO):** Namen der vertretungsbefugten Personen (z. B. Geschäftsführer)
+> stammen aus dem **öffentlichen Firmenbuch** und werden für die Einzelabfrage ausgeliefert.
+> Geburtsdaten nur **jahresgenau** (Alter/Geburtsjahr, ohne Tag/Monat). Massenextraktion und
+> Weiterverkauf sind laut Nutzungsbedingungen untersagt.
 
 ---
 
@@ -219,7 +220,8 @@ Enthält **alles** aus dem Profil **plus**:
 - `management.signatories_history` — Zeichnungs­berechtigte je Jahr,
 - `derivations` — `metrics_version` + Formel-Registry der Kennzahlen.
 
-Auch hier gilt: **Namen bleiben ausgeblendet** (DSGVO).
+Auch hier dieselbe Regel: Namen der Organe sind öffentliche Firmenbuch-Daten (Einzelabfrage),
+Geburtsdaten nur jahresgenau.
 
 ---
 
