@@ -33,7 +33,7 @@ def _g3(code: str) -> str:
 
 @lru_cache(maxsize=1)
 def _tables() -> dict[str, Any]:
-    res = resources.files("fbl_core.classification").joinpath(
+    res = resources.files("fbl_core_at.classification").joinpath(
         "data", "oenace", "oenace2008_2025_crosswalk.json"
     )
     data: dict[str, Any] = json.loads(res.read_text(encoding="utf-8"))

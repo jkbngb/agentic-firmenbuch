@@ -5,9 +5,9 @@ from __future__ import annotations
 
 from typing import Any
 
-from fbl_core.directories import load_fi_directory
-from fbl_core.models import CompanyCard, PublicProvenance
 from fbl_core.storage import CosmosStoreLike
+from fbl_core_at.directories import load_fi_directory
+from fbl_core_at.models import CompanyCard, PublicProvenance
 
 from ..errors import NotFound
 from ._common import (
@@ -128,7 +128,7 @@ def _redact_officer_names(record: dict[str, Any]) -> None:
 FIELD_REFERENCE_URL = "https://www.agentic-firmenbuch.at/felder.html"
 
 # Catalog of every field the server can return, by tool tier. Kept in sync with the served
-# Pydantic models (fbl_core.models.mcp) and the prose reference at FIELD_REFERENCE_URL /
+# Pydantic models (fbl_core_at.models.mcp) and the prose reference at FIELD_REFERENCE_URL /
 # docs/FIELD_REFERENCE.md. Lets an agent discover the full field set programmatically instead
 # of guessing from a single search card.
 _BILANZ_POSITIONS = [

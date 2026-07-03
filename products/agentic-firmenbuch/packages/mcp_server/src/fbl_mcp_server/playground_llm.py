@@ -21,7 +21,7 @@ import logging
 from collections.abc import Callable
 from typing import Any, cast
 
-from fbl_core.models.mcp import SearchFilters, Sort
+from fbl_core_at.models.mcp import SearchFilters, Sort
 
 logger = logging.getLogger(__name__)
 
@@ -57,7 +57,7 @@ _SYSTEM = (
     "höflich ab und verweist auf den Zweck (Firmenbuch-Daten)."
 )
 
-# Tool input schema = the searchable subset of SearchFilters. Mirrors fbl_core.models.mcp.
+# Tool input schema = the searchable subset of SearchFilters. Mirrors fbl_core_at.models.mcp.
 _SEARCH_TOOL: dict[str, Any] = {
     "name": "search_companies",
     "description": (

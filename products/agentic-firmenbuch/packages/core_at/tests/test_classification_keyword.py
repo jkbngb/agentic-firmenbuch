@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from fbl_core.classification.keyword import OENACE_SECTIONS, classify_oenace
+from fbl_core_at.classification.keyword import OENACE_SECTIONS, classify_oenace
 
 
 def test_sections_are_the_21_oenace_sections() -> None:

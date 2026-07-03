@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from fbl_core.models import ConsolidatedCompany, MasterData, ParsedFiling
 from fbl_core.storage import PARSED_CONTAINER, RAW_CONTAINER, BlobStoreLike, CosmosStoreLike
+from fbl_core_at.models import ConsolidatedCompany, MasterData, ParsedFiling
 from fbl_parse import PRODUCER, parse_filing, parse_pdf_only
 
 
@@ -71,8 +71,8 @@ def load_master(blob: BlobStoreLike, fnr: str) -> MasterData | None:
 
 def _auszug_json_to_master(raw: dict[str, Any], fnr: str) -> MasterData:
     """Map an archived AuszugKurz JSON to MasterData without importing the API package."""
-    from fbl_core.austria import bundesland_from_plz
-    from fbl_core.models import Location, Manager, Money
+    from fbl_core_at.austria import bundesland_from_plz
+    from fbl_core_at.models import Location, Manager, Money
 
     plz = raw.get("postal_code")
     persons = [

@@ -11,13 +11,15 @@ from __future__ import annotations
 from collections.abc import Callable
 
 from fbl_core.lineage import lineage_ref, new_doc_id, stamp
-from fbl_core.mapping import (
+from fbl_core.models import Meta, MetricSeries
+from fbl_core.models.meta import LineageRef
+from fbl_core_at.mapping import (
     BILANZ_FIELD_TO_CANONICAL,
     GUV_FIELD_TO_CANONICAL,
     paragraph_ref,
     paragraph_ref_for_canonical,
 )
-from fbl_core.models import (
+from fbl_core_at.models import (
     Bilanz,
     CompanyMaster,
     ConsolidatedCompany,
@@ -30,13 +32,10 @@ from fbl_core.models import (
     Management,
     Manager,
     MasterData,
-    Meta,
-    MetricSeries,
     Money,
     ParsedFiling,
     Size,
 )
-from fbl_core.models.meta import LineageRef
 
 from .events import derive_register_events
 

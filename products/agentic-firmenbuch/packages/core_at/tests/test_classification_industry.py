@@ -3,7 +3,7 @@ including the golden cases that v1 got wrong."""
 
 from typing import Any
 
-from fbl_core.classification.industry import (
+from fbl_core_at.classification.industry import (
     build_industry_block,
     industry_from_legacy_branch,
 )

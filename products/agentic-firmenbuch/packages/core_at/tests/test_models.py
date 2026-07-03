@@ -10,7 +10,8 @@ import json
 from pathlib import Path
 
 from fbl_core.lineage import content_hash, stamp
-from fbl_core.models import (
+from fbl_core.models import Meta, MetricSeries
+from fbl_core_at.models import (
     Bilanz,
     ConsolidatedCompany,
     Derivations,
@@ -21,18 +22,14 @@ from fbl_core.models import (
     GuV,
     Identity,
     Location,
-    Meta,
-    MetricSeries,
     ParsedFiling,
     Ratios,
     Signatory,
     Size,
 )
-from fbl_core.models.company import CompanyMaster
+from fbl_core_at.models.company import CompanyMaster
 
-FIXTURES = (
-    Path(__file__).resolve().parents[3] / "products" / "agentic-firmenbuch" / "tests" / "fixtures"
-)
+FIXTURES = Path(__file__).resolve().parents[3] / "tests" / "fixtures"
 
 
 def _sample_parsed() -> ParsedFiling:

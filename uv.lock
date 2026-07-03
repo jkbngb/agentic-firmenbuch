@@ -8,6 +8,7 @@ members = [
     "fbl-auth",
     "fbl-consolidate",
     "fbl-core",
+    "fbl-core-at",
     "fbl-derive",
     "fbl-firmenbuch-client",
     "fbl-ingest",
@@ -26,6 +27,7 @@ dependencies = [
     { name = "fbl-auth" },
     { name = "fbl-consolidate" },
     { name = "fbl-core" },
+    { name = "fbl-core-at" },
     { name = "fbl-derive" },
     { name = "fbl-firmenbuch-client" },
     { name = "fbl-ingest" },
@@ -49,6 +51,7 @@ requires-dist = [
     { name = "fbl-auth", editable = "packages/auth" },
     { name = "fbl-consolidate", editable = "products/agentic-firmenbuch/packages/50_consolidate" },
     { name = "fbl-core", editable = "packages/core" },
+    { name = "fbl-core-at", editable = "products/agentic-firmenbuch/packages/core_at" },
     { name = "fbl-derive", editable = "products/agentic-firmenbuch/packages/30_derive" },
     { name = "fbl-firmenbuch-client", editable = "products/agentic-firmenbuch/packages/firmenbuch_client" },
     { name = "fbl-ingest", editable = "products/agentic-firmenbuch/packages/90_ingest" },
@@ -409,7 +412,6 @@ dependencies = [
     { name = "azure-cosmos" },
     { name = "azure-identity" },
     { name = "azure-storage-blob" },
-    { name = "lxml" },
     { name = "pydantic" },
     { name = "pydantic-settings" },
 ]
@@ -419,9 +421,25 @@ requires-dist = [
     { name = "azure-cosmos", specifier = ">=4.7" },
     { name = "azure-identity", specifier = ">=1.17" },
     { name = "azure-storage-blob", specifier = ">=12.20" },
-    { name = "lxml", specifier = ">=5.2" },
     { name = "pydantic", specifier = ">=2.7" },
     { name = "pydantic-settings", specifier = ">=2.3" },
+]
+
+[[package]]
+name = "fbl-core-at"
+version = "1.0.0"
+source = { editable = "products/agentic-firmenbuch/packages/core_at" }
+dependencies = [
+    { name = "fbl-core" },
+    { name = "lxml" },
+    { name = "pydantic" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "fbl-core", editable = "packages/core" },
+    { name = "lxml", specifier = ">=5.2" },
+    { name = "pydantic", specifier = ">=2.7" },
 ]
 
 [[package]]

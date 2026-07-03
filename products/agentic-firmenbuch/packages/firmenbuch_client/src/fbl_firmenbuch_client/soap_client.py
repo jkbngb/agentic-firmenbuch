@@ -16,8 +16,8 @@ from datetime import date
 import httpx
 from lxml import etree
 
-from fbl_core.formats import detect_xml_variant_bytes
-from fbl_core.models.filing import FilingFormat
+from fbl_core_at.formats import detect_xml_variant_bytes
+from fbl_core_at.models.filing import FilingFormat
 
 from .envelope import build_envelope, child_text, direct_child, fault_string, iter_named
 from .errors import FirmenbuchApiError

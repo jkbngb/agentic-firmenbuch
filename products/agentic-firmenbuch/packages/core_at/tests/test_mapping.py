@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import pytest
 
-from fbl_core.mapping import (
+from fbl_core_at.mapping import (
     BILANZ_FIELD_TO_CANONICAL,
     EMPLOYEES_CANONICAL,
     GUV_FIELD_TO_CANONICAL,
@@ -22,7 +22,7 @@ from fbl_core.mapping import (
     paragraph_ref_for_canonical,
     v4_for_canonical,
 )
-from fbl_core.models.filing import Bilanz, GuV
+from fbl_core_at.models.filing import Bilanz, GuV
 
 # ebitda and ebit_strict are COMPUTED (ebitda = ebit + D&A; ebit_strict = EBT + interest),
 # not 1:1 single positions, and revenue_basis is a label not a position. ebit and
@@ -37,7 +37,7 @@ def test_taxonomy_has_317_entries() -> None:
 
 def test_taxonomy_matches_declared_entry_count() -> None:
     # The appendix _meta declares its own entry_count; copy must be verbatim.
-    from fbl_core.mapping.canonical import _raw_mapping
+    from fbl_core_at.mapping.canonical import _raw_mapping
 
     raw = _raw_mapping()
     assert raw["_meta"]["entry_count"] == len(load_taxonomy().positions)

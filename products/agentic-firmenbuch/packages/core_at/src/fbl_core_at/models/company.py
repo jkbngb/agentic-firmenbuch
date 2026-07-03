@@ -11,8 +11,8 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-from .meta import Meta
-from .metric import MetricSeries
+from fbl_core.models.meta import Meta
+from fbl_core.models.metric import MetricSeries
 
 LegalStatus = Literal["active", "historical", "deleted"]
 SizeClass = Literal["W", "K", "M", "G"]  # Mikro/Kleinst, Klein, Mittel, Groß

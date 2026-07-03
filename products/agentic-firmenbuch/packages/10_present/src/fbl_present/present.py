@@ -9,9 +9,9 @@ in ``meta`` (stored) but omitted from the served body by the MCP server.
 from __future__ import annotations
 
 from fbl_core.lineage import lineage_ref, new_doc_id, stamp
-from fbl_core.models import (
+from fbl_core.models import Meta
+from fbl_core_at.models import (
     DerivedCompany,
-    Meta,
     PresentedCompany,
     PresentedFinancials,
     PresentedManagement,

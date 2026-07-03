@@ -11,7 +11,7 @@ from datetime import date
 
 from lxml import etree
 
-from fbl_core.models.filing import Signatory
+from fbl_core_at.models.filing import Signatory
 
 from .xml_common import age_at, child_by_local, local_name, parse_int, parse_iso_date, text_of
 

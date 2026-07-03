@@ -5,7 +5,8 @@ from __future__ import annotations
 from typing import Any, cast
 
 from fbl_core.lineage import content_hash
-from fbl_core.models import (
+from fbl_core.models import Meta, MetricSeries
+from fbl_core_at.models import (
     CompanyMaster,
     Derivations,
     DerivedCompany,
@@ -15,8 +16,6 @@ from fbl_core.models import (
     Location,
     Management,
     Manager,
-    Meta,
-    MetricSeries,
     Ratios,
     Size,
 )
@@ -103,8 +102,8 @@ def test_birth_data_is_year_only_no_month_or_day_field_exists() -> None:
     # The hard GDPR invariant (§8.7): names may be served, but birth data is YEAR ONLY —
     # never month/day. Guard it structurally so a future schema change can't introduce a
     # finer-grained birth field unnoticed. Covers both the internal and the served models.
-    from fbl_core.models import PresentedManager
-    from fbl_core.models.company import Manager
+    from fbl_core_at.models import PresentedManager
+    from fbl_core_at.models.company import Manager
 
     forbidden = ("month", "day", "dob", "date_of_birth", "geburtstag", "geburtsdatum")
     for model in (Manager, PresentedManager):

@@ -11,9 +11,9 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-from fbl_core.austria import bundesland_from_plz
-from fbl_core.models.company import Court, Location, Manager, MasterData, Money, RegisterEvent
-from fbl_core.models.filing import FilingFormat
+from fbl_core_at.austria import bundesland_from_plz
+from fbl_core_at.models.company import Court, Location, Manager, MasterData, Money, RegisterEvent
+from fbl_core_at.models.filing import FilingFormat
 
 DOKUMENTART_JAHRESABSCHLUSS = "48"
 

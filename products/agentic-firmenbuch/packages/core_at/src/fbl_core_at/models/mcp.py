@@ -6,7 +6,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-from .meta import Meta
+from fbl_core.models.meta import Meta
 
 
 class PublicProvenance(BaseModel):

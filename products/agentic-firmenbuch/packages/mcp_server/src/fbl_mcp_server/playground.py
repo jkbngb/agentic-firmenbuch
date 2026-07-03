@@ -21,8 +21,8 @@ from typing import Any
 
 from fbl_auth import hash_token
 from fbl_auth.metrics import bump_metric
-from fbl_core.models.mcp import SearchFilters, Sort
 from fbl_core.storage import CosmosStoreLike
+from fbl_core_at.models.mcp import SearchFilters, Sort
 
 from . import service
 

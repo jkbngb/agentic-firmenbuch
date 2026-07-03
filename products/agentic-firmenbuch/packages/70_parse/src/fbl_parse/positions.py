@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 
 from lxml import etree
 
-from fbl_core.mapping import canonical_for_hgb, canonical_for_v4
+from fbl_core_at.mapping import canonical_for_hgb, canonical_for_v4
 
 from .xml_common import child_by_local, local_name, parse_amount
 

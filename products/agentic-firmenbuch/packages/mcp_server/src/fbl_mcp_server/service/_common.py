@@ -10,13 +10,13 @@ from __future__ import annotations
 
 from typing import Any
 
-from fbl_core.classification.industry import (
+from fbl_core.storage import CosmosStoreLike
+from fbl_core_at.classification.industry import (
     build_industry_block,
     industry_from_legacy_branch,
 )
-from fbl_core.financial_institution import classify_financial_institution
-from fbl_core.models import CompanyCard, PublicProvenance
-from fbl_core.storage import CosmosStoreLike
+from fbl_core_at.financial_institution import classify_financial_institution
+from fbl_core_at.models import CompanyCard, PublicProvenance
 
 from ..errors import NotFound
 

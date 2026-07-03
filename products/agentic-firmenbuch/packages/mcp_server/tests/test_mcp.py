@@ -8,8 +8,8 @@ import pytest
 
 from fbl_auth import signup
 from fbl_core.config import Settings
-from fbl_core.models import SearchFilters
 from fbl_core.storage import RAW_CONTAINER, InMemoryBlobStore, InMemoryCosmosStore
+from fbl_core_at.models import SearchFilters
 from fbl_mcp_server import McpService, NotFound, RateLimited, Unauthorized, build_app
 
 PRESENTED = "10_presentation"
@@ -448,7 +448,7 @@ def test_financial_institution_flag_and_caveat() -> None:
 def test_register_directory_flag_overrides_name_heuristic() -> None:
     # Issue #15: a bank the NAME heuristic MISSES (no "bank" keyword) is still flagged because
     # it's in the OeNB register set (00_directories) — source="register", not "heuristic".
-    from fbl_core.directories import DIRECTORIES_CONTAINER
+    from fbl_core_at.directories import DIRECTORIES_CONTAINER
 
     cosmos = InMemoryCosmosStore()
     cosmos.upsert(

@@ -8,9 +8,9 @@ from __future__ import annotations
 
 from collections.abc import Iterator, Sequence
 
-from fbl_core.financial_institution import classify_financial_institution
 from fbl_core.lineage import now_utc_z
 from fbl_core.storage import CosmosStoreLike
+from fbl_core_at.financial_institution import classify_financial_institution
 
 from .models import (
     REGISTRY_CONTAINER,
@@ -160,7 +160,7 @@ class Registry:
         file their Jahresabschluss as a **PDF**, which the general backfill skips
         (``include_pdf=False``) to spare storage across all 340k companies. This narrow
         worklist — the few hundred regulated FIs the shipped classifier
-        (:func:`~fbl_core.financial_institution.classify_financial_institution`) recognises
+        (:func:`~fbl_core_at.financial_institution.classify_financial_institution`) recognises
         from legal form + name — is the set whose official PDF abschlüsse we DO want in
         ``90-raw``. Reuses the exact serve-time classifier the MCP applies, so the ingested
         set is identical to the flagged set (no drift). Pure registry read."""

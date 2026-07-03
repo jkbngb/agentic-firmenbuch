@@ -42,9 +42,9 @@ from typing import Any
 from anthropic import Anthropic
 from azure.cosmos import CosmosClient
 
-from fbl_core.classification.crosswalk import map_class
-from fbl_core.classification.industry import build_industry_block
-from fbl_core.classification.taxonomy import load_oenace_tree
+from fbl_core_at.classification.crosswalk import map_class
+from fbl_core_at.classification.industry import build_industry_block
+from fbl_core_at.classification.taxonomy import load_oenace_tree
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent

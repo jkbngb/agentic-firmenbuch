@@ -20,7 +20,7 @@ Two safeguards make this safe to switch on:
 
 from __future__ import annotations
 
-from fbl_core.models import ConsolidatedCompany, Manager, MasterData, RegisterEvent
+from fbl_core_at.models import ConsolidatedCompany, Manager, MasterData, RegisterEvent
 
 # Documented go-live for the derived-events history (issue #16). No event is emitted with a date
 # before this, so the dataset has one clean origin date.

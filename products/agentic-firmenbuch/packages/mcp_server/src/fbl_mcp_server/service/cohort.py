@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from typing import Any
 
-from fbl_core.directories import load_fi_directory
-from fbl_core.models import PublicProvenance
 from fbl_core.storage import CosmosStoreLike
+from fbl_core_at.directories import load_fi_directory
+from fbl_core_at.models import PublicProvenance
 
 from ..errors import BadRequest
 from ._common import (

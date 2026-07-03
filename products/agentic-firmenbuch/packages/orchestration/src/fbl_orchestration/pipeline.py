@@ -17,8 +17,8 @@ from pydantic import BaseModel
 from fbl_consolidate import consolidate
 from fbl_core.lineage import now_utc_z
 from fbl_core.logging import get_logger
-from fbl_core.models import ConsolidatedCompany
 from fbl_core.storage import BlobStoreLike, CosmosStoreLike
+from fbl_core_at.models import ConsolidatedCompany
 from fbl_derive import build_cohort_stats, derive
 from fbl_firmenbuch_client import RegisterSource
 from fbl_present import present, present_status_only
@@ -412,7 +412,7 @@ def process_backfill(
 
 def refresh_status_only(ctx: PipelineContext, run_id: str, fnrs: list[str]) -> int:
     """Cheap re-`present` for status-change-only dirty companies (§15a.0)."""
-    from fbl_core.models import PresentedCompany
+    from fbl_core_at.models import PresentedCompany
 
     refreshed = 0
     for fnr in fnrs:

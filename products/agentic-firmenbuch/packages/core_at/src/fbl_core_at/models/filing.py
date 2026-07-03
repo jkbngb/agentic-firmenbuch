@@ -6,7 +6,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-from .meta import Meta
+from fbl_core.models.meta import Meta
 
 FilingFormat = Literal["legacy_finanzonline", "firmenbuch_2025", "jab40_semantic", "pdf"]
 RevenueBasis = Literal["umsatzerloese", "rohergebnis"]

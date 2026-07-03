@@ -7,6 +7,7 @@ requires-python = ">=3.12,<3.13"
 license = "MIT"
 dependencies = [
     "fbl-core",
+    "fbl-core-at",
     "fbl-registry",
     "fbl-parse",
     "fbl-firmenbuch-client",
@@ -37,6 +38,7 @@ members = ["packages/*", "products/agentic-firmenbuch/packages/*"]
 
 [tool.uv.sources]
 fbl-core = { workspace = true }
+fbl-core-at = { workspace = true }
 fbl-registry = { workspace = true }
 fbl-parse = { workspace = true }
 fbl-firmenbuch-client = { workspace = true }
@@ -90,4 +92,4 @@ python_files = ["test_*.py"]
 addopts = "-q --import-mode=importlib"
 
 [tool.coverage.run]
-source = ["fbl_core", "fbl_registry", "fbl_parse", "fbl_firmenbuch_client", "fbl_ingest", "fbl_consolidate", "fbl_derive", "fbl_present", "fbl_orchestration", "fbl_auth", "fbl_mcp_server"]
+source = ["fbl_core", "fbl_core_at", "fbl_registry", "fbl_parse", "fbl_firmenbuch_client", "fbl_ingest", "fbl_consolidate", "fbl_derive", "fbl_present", "fbl_orchestration", "fbl_auth", "fbl_mcp_server"]

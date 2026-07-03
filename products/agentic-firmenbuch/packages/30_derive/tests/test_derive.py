@@ -4,14 +4,13 @@ from __future__ import annotations
 
 from typing import Any
 
-from fbl_core.models import (
+from fbl_core.models import Meta, MetricSeries
+from fbl_core_at.models import (
     CompanyMaster,
     ConsolidatedCompany,
     Financials,
     Identity,
     Location,
-    Meta,
-    MetricSeries,
     Size,
 )
 from fbl_derive import build_cohort_stats, derive

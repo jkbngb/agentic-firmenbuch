@@ -56,7 +56,7 @@ class Taxonomy(BaseModel):
 
 
 def _raw_mapping() -> dict[str, Any]:
-    data = resources.files("fbl_core.mapping").joinpath("appendix_position_mapping.json")
+    data = resources.files("fbl_core_at.mapping").joinpath("appendix_position_mapping.json")
     with data.open("r", encoding="utf-8") as fh:
         loaded: dict[str, Any] = json.load(fh)
     return loaded

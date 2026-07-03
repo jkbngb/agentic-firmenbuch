@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from fbl_core.financial_institution import classify_financial_institution as clf
+from fbl_core_at.financial_institution import classify_financial_institution as clf
 
 
 @pytest.mark.parametrize(

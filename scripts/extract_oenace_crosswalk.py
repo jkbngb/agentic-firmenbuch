@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """Extract the official Statistik Austria ÖNACE 2008 → 2025 correspondence into the
-crosswalk JSON shipped with ``fbl_core.classification`` — correctly this time.
+crosswalk JSON shipped with ``fbl_core_at.classification`` — correctly this time.
 
 The source Excel (OENACE2008_2025_Korrespondenz.xlsx, sheet ÖNACE08→ÖNACE25) is a **1:n
 correspondence**: one 2008 subclass may have several 2025 target rows, each with a
@@ -25,7 +25,7 @@ Every manual resolution picks the dominant real-world activity; the full officia
 stays in `ambiguous_class_2008` so every choice is auditable.
 
 Run:  uv run --with openpyxl python scripts/extract_oenace_crosswalk.py
-Writes: packages/core/src/fbl_core/classification/data/oenace/oenace2008_2025_crosswalk.json
+Writes: products/agentic-firmenbuch/packages/core_at/src/fbl_core_at/classification/data/oenace/oenace2008_2025_crosswalk.json
 """
 
 from __future__ import annotations
@@ -38,7 +38,7 @@ from pathlib import Path
 import openpyxl
 
 ROOT = Path(__file__).resolve().parent.parent
-DATA = ROOT / "packages/core/src/fbl_core/classification/data/oenace"
+DATA = ROOT / "products/agentic-firmenbuch/packages/core_at/src/fbl_core_at/classification/data/oenace"
 XLSX = DATA / "OENACE2008_2025_Korrespondenz.xlsx"
 OUT = DATA / "oenace2008_2025_crosswalk.json"
 

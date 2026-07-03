@@ -25,10 +25,10 @@ from functools import lru_cache
 from importlib import resources
 from typing import Any
 
-from fbl_core.classification.industry import build_industry_block
-from fbl_core.classification.taxonomy import load_oenace_tree
 from fbl_core.logging import get_logger
 from fbl_core.storage import CosmosStoreLike
+from fbl_core_at.classification.industry import build_industry_block
+from fbl_core_at.classification.taxonomy import load_oenace_tree
 
 log = get_logger(__name__)
 
@@ -48,7 +48,7 @@ def _norm(text: str) -> str:
 def _lexicon() -> dict[str, str]:
     """The frozen head lexicon (P3). Empty when the file has not shipped yet."""
     try:
-        res = resources.files("fbl_core.classification").joinpath(
+        res = resources.files("fbl_core_at.classification").joinpath(
             "data", "oenace", "geschaeftszweig_lexicon.json"
         )
         data = json.loads(res.read_text(encoding="utf-8"))

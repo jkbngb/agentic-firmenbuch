@@ -11,8 +11,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from fbl_core.models import PublicProvenance
 from fbl_core.storage import CosmosStoreLike
+from fbl_core_at.models import PublicProvenance
 
 from ._common import (
     CONSOLIDATED,

@@ -32,7 +32,7 @@ def test_parse_intent_gf_age_filter() -> None:
 
 def test_run_tool_threads_sort_and_name_to_searcher() -> None:
     """The playground LLM tool forwards a ranking sort + name filter to the search layer."""
-    from fbl_core.models.mcp import SearchFilters, Sort
+    from fbl_core_at.models.mcp import SearchFilters, Sort
     from fbl_mcp_server.playground_llm import _run_tool
 
     seen: dict[str, object] = {}
@@ -55,7 +55,7 @@ def test_run_tool_threads_sort_and_name_to_searcher() -> None:
 
 def test_run_tool_threads_city_and_postal_code_to_searcher() -> None:
     """'größte Firmen aus Graz' must filter by city (a town), not fall back to Bundesland."""
-    from fbl_core.models.mcp import SearchFilters, Sort
+    from fbl_core_at.models.mcp import SearchFilters, Sort
     from fbl_mcp_server.playground_llm import _SEARCH_TOOL, _run_tool
 
     # The two location filters are advertised to the model (else it can only reach Bundesland).
@@ -75,7 +75,7 @@ def test_run_tool_threads_city_and_postal_code_to_searcher() -> None:
 
 
 def test_run_tool_ignores_malformed_sort() -> None:
-    from fbl_core.models.mcp import SearchFilters, Sort
+    from fbl_core_at.models.mcp import SearchFilters, Sort
     from fbl_mcp_server.playground_llm import _run_tool
 
     captured: dict[str, object] = {}

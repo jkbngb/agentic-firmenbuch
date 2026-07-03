@@ -27,8 +27,8 @@ from fbl_auth import (
     validate_bearer,
 )
 from fbl_core.config import Settings, get_settings
-from fbl_core.models import SearchFilters, Sort
 from fbl_core.storage import BlobStore, BlobStoreLike, CosmosStoreLike
+from fbl_core_at.models import SearchFilters, Sort
 
 from . import service
 from .errors import RateLimited, Unauthorized

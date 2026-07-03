@@ -11,7 +11,8 @@ from __future__ import annotations
 from lxml import etree
 
 from fbl_core.lineage import new_doc_id, stamp
-from fbl_core.mapping import (
+from fbl_core.models.meta import LineageRef, Meta
+from fbl_core_at.mapping import (
     BILANZ_FIELD_TO_CANONICAL,
     EBT_CANONICAL,
     GUV_FIELD_TO_CANONICAL,
@@ -19,7 +20,7 @@ from fbl_core.mapping import (
     MAPPING_VERSION,
     load_taxonomy,
 )
-from fbl_core.models.filing import (
+from fbl_core_at.models.filing import (
     Bilanz,
     FieldProvenance,
     FilingFormat,
@@ -28,7 +29,6 @@ from fbl_core.models.filing import (
     RevenueBasis,
     Signatory,
 )
-from fbl_core.models.meta import LineageRef, Meta
 
 from .people import extract_employees, extract_signatories, primary_signatory
 from .positions import ExtractResult, extract_hgb, extract_v4

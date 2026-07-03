@@ -5,18 +5,17 @@ from __future__ import annotations
 from typing import cast
 
 from fbl_core.lineage import lineage_ref, new_doc_id, stamp
-from fbl_core.models import (
+from fbl_core.models import Meta, MetricSeries
+from fbl_core_at.models import (
     ConsolidatedCompany,
     Derivations,
     DerivedCompany,
     Financials,
     Growth,
-    Meta,
-    MetricSeries,
     Ratios,
     Size,
 )
-from fbl_core.models.company import SizeClass
+from fbl_core_at.models.company import SizeClass
 
 from . import ratios as ratio_calc
 from .cohort import CohortStats, company_gkl

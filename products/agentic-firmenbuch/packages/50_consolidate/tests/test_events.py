@@ -9,7 +9,7 @@ floor suppresses pre-2026-07-01 events, dedup across re-runs, and history accumu
 from __future__ import annotations
 
 from fbl_consolidate import EVENTS_START, consolidate, derive_register_events, master_signature
-from fbl_core.models import ConsolidatedCompany, Location, Manager, MasterData, Money
+from fbl_core_at.models import ConsolidatedCompany, Location, Manager, MasterData, Money
 
 AFTER = "2026-07-15"  # after the go-live floor
 

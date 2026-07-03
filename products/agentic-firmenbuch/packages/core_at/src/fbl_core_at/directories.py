@@ -21,8 +21,9 @@ import io
 
 from pydantic import BaseModel, Field
 
+from fbl_core.storage import CosmosStoreLike
+
 from .esvg import esvg_kind, esvg_label
-from .storage import CosmosStoreLike
 
 # Cosmos container of register-sourced financial institutions (banks/insurers), keyed by FN.
 DIRECTORIES_CONTAINER = "00_directories"

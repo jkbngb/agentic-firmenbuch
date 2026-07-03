@@ -9,7 +9,7 @@ from __future__ import annotations
 from collections.abc import Iterable
 from dataclasses import dataclass, field
 
-from fbl_core.models import ConsolidatedCompany
+from fbl_core_at.models import ConsolidatedCompany
 
 from .growth import compute_growth
 

@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from fbl_core.formats import detect_xml_variant_bytes
+from fbl_core_at.formats import detect_xml_variant_bytes
 from fbl_firmenbuch_client import normalize_fnr
 
 FIXTURES = Path(__file__).resolve().parents[3] / "tests" / "fixtures" / "raw"

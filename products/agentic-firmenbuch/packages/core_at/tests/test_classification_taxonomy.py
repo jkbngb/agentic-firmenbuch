@@ -1,6 +1,6 @@
 """ÖNACE 2025 tree loads, indexes, and powers constrained candidate lists (issue #14)."""
 
-from fbl_core.classification.taxonomy import load_oenace_tree
+from fbl_core_at.classification.taxonomy import load_oenace_tree
 
 
 def test_levels_have_expected_counts() -> None:
@@ -46,7 +46,7 @@ def test_map_class_is_total_and_unambiguous() -> None:
     """P1 build gate (#34): every 2008 class the LLM may emit maps to exactly one valid
     2025 group. If this fails, the question to the model is too coarse — fix the
     crosswalk extraction, never ship."""
-    from fbl_core.classification.crosswalk import map_class
+    from fbl_core_at.classification.crosswalk import map_class
 
     t08, t25 = load_oenace_tree(2008), load_oenace_tree(2025)
     for code in t08.codes_at(4):
@@ -57,7 +57,7 @@ def test_map_class_is_total_and_unambiguous() -> None:
 
 def test_map_class_golden_cases() -> None:
     """The v1 failure class (#34): split groups must resolve to the right branch."""
-    from fbl_core.classification.crosswalk import map_class
+    from fbl_core_at.classification.crosswalk import map_class
 
     assert map_class("70.22") == "70.2"  # Unternehmensberatung stays consulting (BCG bug)
     assert map_class("70.21") == "73.3"  # PR goes to PR
@@ -72,7 +72,7 @@ def test_map_class_golden_cases() -> None:
 
 
 def test_ambiguous_classes_are_documented() -> None:
-    from fbl_core.classification.crosswalk import ambiguous_classes, map_class
+    from fbl_core_at.classification.crosswalk import ambiguous_classes, map_class
 
     amb = ambiguous_classes()
     assert len(amb) > 50  # the official correspondence is genuinely 1:n
@@ -82,6 +82,6 @@ def test_ambiguous_classes_are_documented() -> None:
 
 
 def test_map_group_legacy_reads_v1_docs() -> None:
-    from fbl_core.classification.crosswalk import map_group
+    from fbl_core_at.classification.crosswalk import map_group
 
     assert map_group("68.3") == "68.3"  # identity for stable groups (v1 docs only)

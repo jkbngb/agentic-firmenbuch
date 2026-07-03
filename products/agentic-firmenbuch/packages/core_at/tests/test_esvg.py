@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from fbl_core.esvg import ESVG_LABELS, esvg_kind, esvg_label
+from fbl_core_at.esvg import ESVG_LABELS, esvg_kind, esvg_label
 
 
 @pytest.mark.parametrize(

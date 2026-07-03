@@ -32,16 +32,16 @@ from collections.abc import Callable, Iterable
 
 import httpx
 
-from fbl_core.directories import (
+from fbl_core.lineage import now_utc_z
+from fbl_core.logging import get_logger
+from fbl_core.storage import RAW_CONTAINER, BlobStoreLike, CosmosStoreLike
+from fbl_core_at.directories import (
     DIRECTORIES_CONTAINER,
     FinancialInstitutionRecord,
     load_fi_directory,
     parse_eiopa_at,
     parse_oenb_list,
 )
-from fbl_core.lineage import now_utc_z
-from fbl_core.logging import get_logger
-from fbl_core.storage import RAW_CONTAINER, BlobStoreLike, CosmosStoreLike
 
 __all__ = [
     "DIRECTORIES_CONTAINER",

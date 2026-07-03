@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from fbl_core.lineage import content_hash
-from fbl_core.models.filing import ParsedFiling
+from fbl_core_at.models.filing import ParsedFiling
 from fbl_parse import parse_filing
 
 

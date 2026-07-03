@@ -6,7 +6,8 @@ from pathlib import Path
 
 from fbl_consolidate import consolidate
 from fbl_core.lineage import content_hash
-from fbl_core.models import Bilanz, FieldProvenance, GuV, MasterData, Meta, ParsedFiling, Signatory
+from fbl_core.models import Meta
+from fbl_core_at.models import Bilanz, FieldProvenance, GuV, MasterData, ParsedFiling, Signatory
 from fbl_parse import parse_filing
 
 
@@ -229,7 +230,7 @@ def test_master_data_populates_identity_and_location(fixtures_dir: Path) -> None
         name="Walter Wagner Transporte GmbH",
         legal_form="GES",
     )
-    from fbl_core.models import Location
+    from fbl_core_at.models import Location
 
     master.location = Location(bundesland="T", city="Innsbruck", postal_code="6020")
     cons = consolidate("490875a", _multiyear(fixtures_dir), master=master, prev=None, run_id="t")

@@ -20,7 +20,7 @@ import pytest
 from lxml import etree
 
 from fbl_consolidate import consolidate
-from fbl_core.mapping import canonical_for_hgb, canonical_for_v4
+from fbl_core_at.mapping import canonical_for_hgb, canonical_for_v4
 from fbl_derive import derive
 from fbl_parse import parse_filing
 from fbl_parse.xml_common import local_name
@@ -112,7 +112,7 @@ def test_parsed_to_consolidated_is_a_superset() -> None:
     assert every_passthrough <= set(cons.financials.passthrough)
     # the typed Bilanz map is an ergonomic VIEW keyed by model field; every one of its
     # canonicals appears in the full positions map (keyed by canonical name).
-    from fbl_core.mapping import BILANZ_FIELD_TO_CANONICAL
+    from fbl_core_at.mapping import BILANZ_FIELD_TO_CANONICAL
 
     typed_canonicals = {BILANZ_FIELD_TO_CANONICAL[f] for f in cons.financials.bilanz}
     assert typed_canonicals <= set(cons.financials.positions)
@@ -190,7 +190,7 @@ def test_master_data_carries_through_to_presentation() -> None:
     # signing manager must survive master → consolidated → derived → 10_presentation.
     # (The financial-filing completeness checks above never exercise master, so this is
     # the guard against silently dropping master fields — e.g. the court that was lost.)
-    from fbl_core.models import Court, Location, Manager, MasterData
+    from fbl_core_at.models import Court, Location, Manager, MasterData
 
     master = MasterData(
         fnr="490875a",
