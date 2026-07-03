@@ -1,4 +1,4 @@
-# 🇦🇹 `agentic-firmenbuch` — Austria product
+# `agentic-firmenbuch` — Austria product
 
 The live product over the Austrian **Firmenbuch** HVD. It owns every source-specific stage of
 the pipeline; it consumes the shared, source-agnostic packages
