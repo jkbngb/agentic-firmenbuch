@@ -7,7 +7,7 @@ into `packages/`.
 
 | Product | Status | Source |
 |---|---|---|
-| [🇦🇹 `agentic-firmenbuch`](agentic-firmenbuch/README.md) | **live** | Austrian Firmenbuch HVD (JustizOnline, CC BY 4.0) |
+| [`agentic-firmenbuch`](agentic-firmenbuch/README.md) | **live** | Austrian Firmenbuch HVD (JustizOnline, CC BY 4.0) |
 
 Additional source-specific products are added in their **own separate repositories** that consume
 `packages/{core,auth}` as a dependency — they are not scaffolded in this repo. The generic recipe
