@@ -269,11 +269,9 @@ def _cosmos_page(
     remaining = page_size - len(rows)
     if remaining > 0:  # boundary page or fully past the ranked bucket → draw from the rest
         b_offset = max(0, start - count_ranked)
-        # c.identity.name is indexed + always present → stable order for the field-less docs
-        sql_b = (
-            f"SELECT * FROM c WHERE {rest} ORDER BY c.identity.name "
-            f"OFFSET {b_offset} LIMIT {remaining}"
-        )
+        # c.id (= fnr) is a system property, always indexed + present → stable order for the
+        # field-less docs without needing a custom index path.
+        sql_b = f"SELECT * FROM c WHERE {rest} ORDER BY c.id OFFSET {b_offset} LIMIT {remaining}"
         rows += list(cosmos.query(PRESENTED, sql_b, params))
     return rows
 
@@ -282,11 +280,11 @@ def _sorted_nulls_last(
     docs: list[dict[str, Any]], sort_field: str, descending: bool
 ) -> list[dict[str, Any]]:
     """In-memory equivalent of :func:`_cosmos_page`'s ordering: docs with the sort value first
-    (by value, respecting direction), then the field-less docs by name — never interleaved."""
+    (by value, respecting direction), then the field-less docs by id/fnr — never interleaved."""
     path = _SORT_PATHS.get(sort_field)
     present = [d for d in docs if (_g(d, *path) if path else d.get("fnr")) is not None]
     absent = [d for d in docs if d not in present]
     present.sort(key=lambda d: d["fnr"])
     present.sort(key=lambda d: _sort_key(d, sort_field), reverse=descending)
-    absent.sort(key=lambda d: _g(d, "identity", "name") or d.get("fnr") or "")
+    absent.sort(key=lambda d: d.get("id") or d.get("fnr") or "")
     return present + absent
