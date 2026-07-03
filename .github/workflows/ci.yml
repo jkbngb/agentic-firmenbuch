@@ -23,13 +23,13 @@ jobs:
         run: uv sync --all-packages
 
       - name: Lint (ruff)
-        run: uv run ruff check packages tests/e2e
+        run: uv run ruff check packages products
 
       - name: Format check (ruff format)
-        run: uv run ruff format --check packages tests/e2e
+        run: uv run ruff format --check packages products
 
       - name: Types (mypy --strict)
-        run: uv run mypy packages
+        run: uv run mypy packages products
 
       - name: Tests (pytest + coverage)
         run: uv run pytest --cov --cov-report=term-missing --cov-fail-under=80
