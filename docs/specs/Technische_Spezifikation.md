@@ -60,8 +60,8 @@
 
 The repo is the **`agentic-first`** umbrella: source-agnostic **shared** packages under
 `packages/`, one **product** per source under `products/`. The Austrian pipeline is
-`products/agentic-firmenbuch/`; a second register (Germany, `agentic-unternehmensregister`)
-lives in a **separate private repo** that consumes `packages/` (see Appendix R + §3.5).
+`products/agentic-firmenbuch/`; any further source-specific product lives in its **own separate
+repository** that consumes `packages/` (see Appendix R + §3.5).
 
 ```
 agentic-first/                       # repo root (uv workspace)

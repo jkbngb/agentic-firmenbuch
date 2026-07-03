@@ -62,8 +62,8 @@ The headline documents:
 ## Monorepo layout (`agentic-first`)
 
 This repository is the **`agentic-first`** monorepo umbrella. It separates **source-agnostic
-shared code** from **per-source products**, so a second register can be added without touching
-the Austrian pipeline:
+shared code** from **per-source products**, so another source-specific product can be added without
+touching the Austrian pipeline:
 
 ```
 agentic-first/                       (this repo)
@@ -80,11 +80,11 @@ agentic-first/                       (this repo)
         └── tests/                   AT integration tests + golden fixtures
 ```
 
-The Germany product **`agentic-unternehmensregister`** lives in a **separate private repo** that
-consumes `packages/{core,auth}` as a dependency (it is not scaffolded here). The precise
+Additional source-specific products are added in their **own separate repositories** that consume
+`packages/{core,auth}` as a dependency (they are not scaffolded here). The precise
 1:1 / adapt / product-local reuse boundary is the **reuse table (Appendix R)** in the
-[Technische Spezifikation](docs/specs/Technische_Spezifikation.md), and the mechanism is in
-[docs/monorepo/DE_PRODUCT_SETUP.md](docs/monorepo/DE_PRODUCT_SETUP.md).
+[Technische Spezifikation](docs/specs/Technische_Spezifikation.md), and the generic recipe is in
+[docs/monorepo/ADDING_A_PRODUCT.md](docs/monorepo/ADDING_A_PRODUCT.md).
 
 **Product READMEs:** [🇦🇹 agentic-firmenbuch](products/agentic-firmenbuch/README.md) · shared [`core`](packages/core/README.md) · [`auth`](packages/auth/README.md)
 

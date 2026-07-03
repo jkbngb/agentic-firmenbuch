@@ -1,8 +1,8 @@
 # `packages/` — shared, source-agnostic code
 
 These packages carry **zero** Firmenbuch/UGB/ÖNACE knowledge and are reusable by any
-product in the `agentic-first` monorepo (the Austrian pipeline today, a second register
-tomorrow). The AT-specific stage packages live under
+product in the `agentic-first` monorepo (the Austrian pipeline today, another source-specific
+product tomorrow). The AT-specific stage packages live under
 [`products/agentic-firmenbuch/packages/`](../products/agentic-firmenbuch/README.md).
 
 The **[repo root README](../README.md) is the master index**; this file is the shared-package guide.

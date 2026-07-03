@@ -8,12 +8,12 @@ into `packages/`.
 | Product | Status | Source |
 |---|---|---|
 | [🇦🇹 `agentic-firmenbuch`](agentic-firmenbuch/README.md) | **live** | Austrian Firmenbuch HVD (JustizOnline, CC BY 4.0) |
-| 🇩🇪 `agentic-unternehmensregister` | separate **private** repo (not here) | German Handelsregister / Unternehmensregister |
 
-The Germany product is **not** scaffolded in this public monorepo (owner decision): it lives in
-its own private repo that consumes `packages/{core,auth}` as a dependency. The mechanism and the
-empty-slot template are in [docs/monorepo/DE_PRODUCT_SETUP.md](../docs/monorepo/DE_PRODUCT_SETUP.md).
-Bundesland/DACH scoping is a **filter/tier inside a product**, not its own slot.
+Additional source-specific products are added in their **own separate repositories** that consume
+`packages/{core,auth}` as a dependency — they are not scaffolded in this repo. The generic recipe
+and the mirror-the-existing-structure template are in
+[docs/monorepo/ADDING_A_PRODUCT.md](../docs/monorepo/ADDING_A_PRODUCT.md). Region scoping (a specific
+state/Bundesland/DACH) is a **filter/tier inside a product**, not its own slot.
 
 ---
 ↑ [Repo root (agentic-first)](../README.md)
