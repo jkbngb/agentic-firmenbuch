@@ -71,7 +71,7 @@ agentic-first/                       (this repo)
 │   ├── core/    (fbl_core)          lineage/meta + metric contracts, config, storage clients
 │   └── auth/    (fbl_auth)          signup, token issue/validate, metering, 00_accounts
 └── products/
-    └── agentic-firmenbuch/          🇦🇹 AUSTRIA product (live) — README below
+    └── agentic-firmenbuch/           AUSTRIA product (live) — README below
         ├── packages/
         │   ├── core_at/  (fbl_core_at)   UGB taxonomy, Firmenbuch domain models, ÖNACE, FI dirs
         │   ├── firmenbuch_client, 99_registry, 90_ingest, 70_parse,
@@ -86,7 +86,7 @@ Additional source-specific products are added in their **own separate repositori
 [Technische Spezifikation](docs/specs/Technische_Spezifikation.md), and the generic recipe is in
 [docs/monorepo/ADDING_A_PRODUCT.md](docs/monorepo/ADDING_A_PRODUCT.md).
 
-**Product READMEs:** [🇦🇹 agentic-firmenbuch](products/agentic-firmenbuch/README.md) · shared [`core`](packages/core/README.md) · [`auth`](packages/auth/README.md)
+**Product READMEs:** [agentic-firmenbuch](products/agentic-firmenbuch/README.md) · shared [`core`](packages/core/README.md) · [`auth`](packages/auth/README.md)
 
 ## Pipeline (numbered layers, `90 → 10`)
 ```
