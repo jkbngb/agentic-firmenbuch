@@ -8,6 +8,7 @@ members = [
     "fbl-auth",
     "fbl-consolidate",
     "fbl-core",
+    "fbl-core-at",
     "fbl-derive",
     "fbl-firmenbuch-client",
     "fbl-ingest",
@@ -26,6 +27,7 @@ dependencies = [
     { name = "fbl-auth" },
     { name = "fbl-consolidate" },
     { name = "fbl-core" },
+    { name = "fbl-core-at" },
     { name = "fbl-derive" },
     { name = "fbl-firmenbuch-client" },
     { name = "fbl-ingest" },
@@ -47,16 +49,17 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "fbl-auth", editable = "packages/auth" },
-    { name = "fbl-consolidate", editable = "packages/50_consolidate" },
+    { name = "fbl-consolidate", editable = "products/agentic-firmenbuch/packages/50_consolidate" },
     { name = "fbl-core", editable = "packages/core" },
-    { name = "fbl-derive", editable = "packages/30_derive" },
-    { name = "fbl-firmenbuch-client", editable = "packages/firmenbuch_client" },
-    { name = "fbl-ingest", editable = "packages/90_ingest" },
-    { name = "fbl-mcp-server", editable = "packages/mcp_server" },
-    { name = "fbl-orchestration", editable = "packages/orchestration" },
-    { name = "fbl-parse", editable = "packages/70_parse" },
-    { name = "fbl-present", editable = "packages/10_present" },
-    { name = "fbl-registry", editable = "packages/99_registry" },
+    { name = "fbl-core-at", editable = "products/agentic-firmenbuch/packages/core_at" },
+    { name = "fbl-derive", editable = "products/agentic-firmenbuch/packages/30_derive" },
+    { name = "fbl-firmenbuch-client", editable = "products/agentic-firmenbuch/packages/firmenbuch_client" },
+    { name = "fbl-ingest", editable = "products/agentic-firmenbuch/packages/90_ingest" },
+    { name = "fbl-mcp-server", editable = "products/agentic-firmenbuch/packages/mcp_server" },
+    { name = "fbl-orchestration", editable = "products/agentic-firmenbuch/packages/orchestration" },
+    { name = "fbl-parse", editable = "products/agentic-firmenbuch/packages/70_parse" },
+    { name = "fbl-present", editable = "products/agentic-firmenbuch/packages/10_present" },
+    { name = "fbl-registry", editable = "products/agentic-firmenbuch/packages/99_registry" },
 ]
 
 [package.metadata.requires-dev]
@@ -389,7 +392,7 @@ requires-dist = [
 [[package]]
 name = "fbl-consolidate"
 version = "1.0.0"
-source = { editable = "packages/50_consolidate" }
+source = { editable = "products/agentic-firmenbuch/packages/50_consolidate" }
 dependencies = [
     { name = "fbl-core" },
     { name = "pydantic" },
@@ -409,7 +412,6 @@ dependencies = [
     { name = "azure-cosmos" },
     { name = "azure-identity" },
     { name = "azure-storage-blob" },
-    { name = "lxml" },
     { name = "pydantic" },
     { name = "pydantic-settings" },
 ]
@@ -419,15 +421,31 @@ requires-dist = [
     { name = "azure-cosmos", specifier = ">=4.7" },
     { name = "azure-identity", specifier = ">=1.17" },
     { name = "azure-storage-blob", specifier = ">=12.20" },
-    { name = "lxml", specifier = ">=5.2" },
     { name = "pydantic", specifier = ">=2.7" },
     { name = "pydantic-settings", specifier = ">=2.3" },
 ]
 
 [[package]]
+name = "fbl-core-at"
+version = "1.0.0"
+source = { editable = "products/agentic-firmenbuch/packages/core_at" }
+dependencies = [
+    { name = "fbl-core" },
+    { name = "lxml" },
+    { name = "pydantic" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "fbl-core", editable = "packages/core" },
+    { name = "lxml", specifier = ">=5.2" },
+    { name = "pydantic", specifier = ">=2.7" },
+]
+
+[[package]]
 name = "fbl-derive"
 version = "1.0.0"
-source = { editable = "packages/30_derive" }
+source = { editable = "products/agentic-firmenbuch/packages/30_derive" }
 dependencies = [
     { name = "fbl-core" },
     { name = "pydantic" },
@@ -442,7 +460,7 @@ requires-dist = [
 [[package]]
 name = "fbl-firmenbuch-client"
 version = "1.0.0"
-source = { editable = "packages/firmenbuch_client" }
+source = { editable = "products/agentic-firmenbuch/packages/firmenbuch_client" }
 dependencies = [
     { name = "fbl-core" },
     { name = "httpx" },
@@ -461,7 +479,7 @@ requires-dist = [
 [[package]]
 name = "fbl-ingest"
 version = "1.0.0"
-source = { editable = "packages/90_ingest" }
+source = { editable = "products/agentic-firmenbuch/packages/90_ingest" }
 dependencies = [
     { name = "fbl-core" },
     { name = "fbl-firmenbuch-client" },
@@ -472,15 +490,15 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "fbl-core", editable = "packages/core" },
-    { name = "fbl-firmenbuch-client", editable = "packages/firmenbuch_client" },
-    { name = "fbl-registry", editable = "packages/99_registry" },
+    { name = "fbl-firmenbuch-client", editable = "products/agentic-firmenbuch/packages/firmenbuch_client" },
+    { name = "fbl-registry", editable = "products/agentic-firmenbuch/packages/99_registry" },
     { name = "pydantic", specifier = ">=2.7" },
 ]
 
 [[package]]
 name = "fbl-mcp-server"
 version = "1.0.0"
-source = { editable = "packages/mcp_server" }
+source = { editable = "products/agentic-firmenbuch/packages/mcp_server" }
 dependencies = [
     { name = "anthropic" },
     { name = "fbl-auth" },
@@ -501,7 +519,7 @@ requires-dist = [
 [[package]]
 name = "fbl-orchestration"
 version = "1.0.0"
-source = { editable = "packages/orchestration" }
+source = { editable = "products/agentic-firmenbuch/packages/orchestration" }
 dependencies = [
     { name = "anthropic" },
     { name = "fbl-auth" },
@@ -521,22 +539,22 @@ dependencies = [
 requires-dist = [
     { name = "anthropic", specifier = ">=0.40" },
     { name = "fbl-auth", editable = "packages/auth" },
-    { name = "fbl-consolidate", editable = "packages/50_consolidate" },
+    { name = "fbl-consolidate", editable = "products/agentic-firmenbuch/packages/50_consolidate" },
     { name = "fbl-core", editable = "packages/core" },
-    { name = "fbl-derive", editable = "packages/30_derive" },
-    { name = "fbl-firmenbuch-client", editable = "packages/firmenbuch_client" },
-    { name = "fbl-ingest", editable = "packages/90_ingest" },
-    { name = "fbl-mcp-server", editable = "packages/mcp_server" },
-    { name = "fbl-parse", editable = "packages/70_parse" },
-    { name = "fbl-present", editable = "packages/10_present" },
-    { name = "fbl-registry", editable = "packages/99_registry" },
+    { name = "fbl-derive", editable = "products/agentic-firmenbuch/packages/30_derive" },
+    { name = "fbl-firmenbuch-client", editable = "products/agentic-firmenbuch/packages/firmenbuch_client" },
+    { name = "fbl-ingest", editable = "products/agentic-firmenbuch/packages/90_ingest" },
+    { name = "fbl-mcp-server", editable = "products/agentic-firmenbuch/packages/mcp_server" },
+    { name = "fbl-parse", editable = "products/agentic-firmenbuch/packages/70_parse" },
+    { name = "fbl-present", editable = "products/agentic-firmenbuch/packages/10_present" },
+    { name = "fbl-registry", editable = "products/agentic-firmenbuch/packages/99_registry" },
     { name = "pydantic", specifier = ">=2.7" },
 ]
 
 [[package]]
 name = "fbl-parse"
 version = "1.0.0"
-source = { editable = "packages/70_parse" }
+source = { editable = "products/agentic-firmenbuch/packages/70_parse" }
 dependencies = [
     { name = "fbl-core" },
     { name = "lxml" },
@@ -553,7 +571,7 @@ requires-dist = [
 [[package]]
 name = "fbl-present"
 version = "1.0.0"
-source = { editable = "packages/10_present" }
+source = { editable = "products/agentic-firmenbuch/packages/10_present" }
 dependencies = [
     { name = "fbl-core" },
     { name = "pydantic" },
@@ -568,7 +586,7 @@ requires-dist = [
 [[package]]
 name = "fbl-registry"
 version = "1.0.0"
-source = { editable = "packages/99_registry" }
+source = { editable = "products/agentic-firmenbuch/packages/99_registry" }
 dependencies = [
     { name = "fbl-core" },
     { name = "pydantic" },

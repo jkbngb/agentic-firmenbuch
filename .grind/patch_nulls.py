@@ -11,7 +11,7 @@ from pathlib import Path
 
 from azure.cosmos import CosmosClient
 
-from fbl_core.classification.industry import build_industry_block
+from fbl_core_at.classification.industry import build_industry_block
 
 HERE = Path(__file__).resolve().parent
 

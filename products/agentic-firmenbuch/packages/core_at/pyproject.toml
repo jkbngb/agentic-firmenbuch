@@ -1,0 +1,22 @@
+[project]
+name = "fbl-core-at"
+version = "1.0.0"
+description = "Austria-specific domain for agentic-firmenbuch: UGB position mappings, Firmenbuch domain models, ÖNACE classification, OeNB/EIOPA directories."
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fbl-core",
+    "pydantic>=2.7",
+    "lxml>=5.2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fbl_core_at"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/fbl_core_at/mapping/appendix_position_mapping.json" = "fbl_core_at/mapping/appendix_position_mapping.json"
+# ÖNACE taxonomy + crosswalk data for the branch classifier (issue #14)
+"src/fbl_core_at/classification/data" = "fbl_core_at/classification/data"

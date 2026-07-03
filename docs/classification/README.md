@@ -1,7 +1,7 @@
 # Branch / industry (ÖNACE) classification — spec, status, target design
 
 How the free-text Firmenbuch **Geschäftszweig** becomes an official **ÖNACE 2025** industry code
-(issues #14, #23). Code lives in [`fbl_core.classification`](../../packages/core/src/fbl_core/classification/);
+(issues #14, #23). Code lives in [`fbl_core_at.classification`](../../products/agentic-firmenbuch/packages/core_at/src/fbl_core_at/classification/);
 official source tables in [`docs/reference/oenace/`](../reference/oenace/).
 
 This file is the **authoritative spec** for the feature: what is live today (v1), the known

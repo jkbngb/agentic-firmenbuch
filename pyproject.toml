@@ -7,6 +7,7 @@ requires-python = ">=3.12,<3.13"
 license = "MIT"
 dependencies = [
     "fbl-core",
+    "fbl-core-at",
     "fbl-registry",
     "fbl-parse",
     "fbl-firmenbuch-client",
@@ -31,10 +32,13 @@ dev = [
 package = false
 
 [tool.uv.workspace]
-members = ["packages/*"]
+# Shared, source-agnostic packages live in packages/; the Austria product's
+# stage packages live under products/agentic-firmenbuch/packages/ (agentic-first monorepo).
+members = ["packages/*", "products/agentic-firmenbuch/packages/*"]
 
 [tool.uv.sources]
 fbl-core = { workspace = true }
+fbl-core-at = { workspace = true }
 fbl-registry = { workspace = true }
 fbl-parse = { workspace = true }
 fbl-firmenbuch-client = { workspace = true }
@@ -52,7 +56,7 @@ fbl-mcp-server = { workspace = true }
 [tool.ruff]
 line-length = 100
 target-version = "py312"
-src = ["packages/core/src", "packages/99_registry/src", "packages/firmenbuch_client/src", "packages/90_ingest/src", "packages/70_parse/src", "packages/50_consolidate/src", "packages/30_derive/src", "packages/10_present/src", "packages/orchestration/src", "packages/auth/src", "packages/mcp_server/src"]
+src = ["packages/core/src", "packages/auth/src", "products/agentic-firmenbuch/packages/core_at/src", "products/agentic-firmenbuch/packages/99_registry/src", "products/agentic-firmenbuch/packages/firmenbuch_client/src", "products/agentic-firmenbuch/packages/90_ingest/src", "products/agentic-firmenbuch/packages/70_parse/src", "products/agentic-firmenbuch/packages/50_consolidate/src", "products/agentic-firmenbuch/packages/30_derive/src", "products/agentic-firmenbuch/packages/10_present/src", "products/agentic-firmenbuch/packages/orchestration/src", "products/agentic-firmenbuch/packages/mcp_server/src"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "N", "RUF"]
@@ -63,15 +67,15 @@ ignore = ["N999", "RUF001", "RUF002", "RUF003"]
 [tool.ruff.lint.per-file-ignores]
 "**/tests/**" = ["B011"]
 # Error class names mirror the §9 MCP error codes (NotFound/Unauthorized/...) on purpose.
-"packages/mcp_server/src/fbl_mcp_server/errors.py" = ["N818"]
+"products/agentic-firmenbuch/packages/mcp_server/src/fbl_mcp_server/errors.py" = ["N818"]
 
 [tool.mypy]
 python_version = "3.12"
 strict = true
 warn_unused_configs = true
-files = ["packages"]
+files = ["packages", "products"]
 # All package sources + the tests dirs that expose importable helper modules.
-mypy_path = ["packages/core/src", "packages/99_registry/src", "packages/firmenbuch_client/src", "packages/90_ingest/src", "packages/70_parse/src", "packages/50_consolidate/src", "packages/30_derive/src", "packages/10_present/src", "packages/orchestration/src", "packages/auth/src", "packages/mcp_server/src", "packages/70_parse/tests", "packages/firmenbuch_client/tests", "packages/90_ingest/tests", "packages/orchestration/tests"]
+mypy_path = ["packages/core/src", "packages/auth/src", "products/agentic-firmenbuch/packages/core_at/src", "products/agentic-firmenbuch/packages/99_registry/src", "products/agentic-firmenbuch/packages/firmenbuch_client/src", "products/agentic-firmenbuch/packages/90_ingest/src", "products/agentic-firmenbuch/packages/70_parse/src", "products/agentic-firmenbuch/packages/50_consolidate/src", "products/agentic-firmenbuch/packages/30_derive/src", "products/agentic-firmenbuch/packages/10_present/src", "products/agentic-firmenbuch/packages/orchestration/src", "products/agentic-firmenbuch/packages/mcp_server/src", "products/agentic-firmenbuch/packages/70_parse/tests", "products/agentic-firmenbuch/packages/firmenbuch_client/tests", "products/agentic-firmenbuch/packages/90_ingest/tests", "products/agentic-firmenbuch/packages/orchestration/tests"]
 explicit_package_bases = true
 namespace_packages = true
 # conftest.py exists once per tests dir (pytest plumbing); exclude to avoid the
@@ -83,9 +87,9 @@ module = ["azure.*", "lxml.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
-testpaths = ["packages", "tests"]
+testpaths = ["packages", "products"]
 python_files = ["test_*.py"]
 addopts = "-q --import-mode=importlib"
 
 [tool.coverage.run]
-source = ["fbl_core", "fbl_registry", "fbl_parse", "fbl_firmenbuch_client", "fbl_ingest", "fbl_consolidate", "fbl_derive", "fbl_present", "fbl_orchestration", "fbl_auth", "fbl_mcp_server"]
+source = ["fbl_core", "fbl_core_at", "fbl_registry", "fbl_parse", "fbl_firmenbuch_client", "fbl_ingest", "fbl_consolidate", "fbl_derive", "fbl_present", "fbl_orchestration", "fbl_auth", "fbl_mcp_server"]
