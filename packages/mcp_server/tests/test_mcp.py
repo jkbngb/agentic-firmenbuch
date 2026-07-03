@@ -217,8 +217,13 @@ def test_industry_block_served_on_detail_and_card() -> None:
 
     card = svc.search_companies(token, SearchFilters(name="Hausverwaltung"))["results"][0]
     assert card["geschaeftszweig"] == "Immobilienverwaltung" and card["industry_section"] is None
+    # no stored classification -> the division/group fields are null too, not guessed (#35)
+    assert card["oenace_division"] is None and card["oenace_group"] is None
     card2 = svc.search_companies(token, SearchFilters(name="Beratung Alt"))["results"][0]
     assert card2["industry_section"] == "N"
+    # division/group + German labels served on the card, symmetric with the oenace_* filters (#35)
+    assert card2["oenace_division"] == "70" and card2["oenace_group"] == "70.2"
+    assert card2["oenace_division_label"] and card2["oenace_group_label"] == "Unternehmensberatung"
 
 
 def test_search_filters_by_branch_and_location() -> None:
