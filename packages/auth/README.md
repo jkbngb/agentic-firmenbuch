@@ -28,7 +28,7 @@ Signup issues a working token; limits enforced (per-minute + per-day, with windo
 tokens never stored in plaintext. `ruff` + `mypy --strict` + `pytest` green.
 
 ## Place in the pipeline
-Used by [`mcp_server`](../mcp_server/README.md) to authorize every tool call. Auxiliary to
+Used by [`mcp_server`](../../products/agentic-firmenbuch/packages/mcp_server/README.md) to authorize every tool call. Auxiliary to
 the data pipeline (not a `90→10` layer).
 
 ---

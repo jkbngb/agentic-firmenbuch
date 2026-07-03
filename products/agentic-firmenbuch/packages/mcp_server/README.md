@@ -6,7 +6,7 @@ auth + rate limiting enforced before any tool runs.
 ## Tools (§9)
 | Tool | Returns |
 |---|---|
-| `describe_fields()` | **self-describing field catalog** — every field at each tier (card → profile → full record), code tables, and availability/null rules. Lets an agent discover the data shape without guessing from a card. Human page: [felder.html](https://www.agentic-firmenbuch.at/felder.html) / [docs/FIELD_REFERENCE.md](../../docs/FIELD_REFERENCE.md). |
+| `describe_fields()` | **self-describing field catalog** — every field at each tier (card → profile → full record), code tables, and availability/null rules. Lets an agent discover the data shape without guessing from a card. Human page: [felder.html](https://www.agentic-firmenbuch.at/felder.html) / [docs/FIELD_REFERENCE.md](../../../../docs/FIELD_REFERENCE.md). |
 | `search_companies(filters, sort, page, page_size)` | paginated `CompanyCard` results — a **compact summary card** (10 fields), NOT the full record. Filters incl. `name` (company-name substring), legal form, Bundesland, size class, financial ranges, growth, GuV flags, last-filing-year, `gf_age_min`. `sort.field` ∈ {bilanzsumme, revenue, equity_ratio, employees, last_filing_year}. Runs **server-side in Cosmos** (WHERE + ORDER BY + OFFSET/LIMIT); bundesland/legal_form full-name↔code mapping applied. |
 | `get_company_details(fnr)` | full served profile (internal hash chain omitted); each line item carries its `source_codes` + `paragraph_ref` (Part A) |
 | `get_company_history(fnr, metrics)` | per-metric time series, each with `source_codes`, `source_codes_by_year`, `ugb_paragraph` (Part A) |
@@ -25,12 +25,12 @@ summary card for ranking/scanning; `get_company_details` returns one company's f
 profile; `get_full_record` returns the superset (full 317-position taxonomy + lineage). An
 agent escalates from card → profile → full record as needed. `describe_fields` documents
 all three so the shape is discoverable, not guessed. Authoritative dictionary:
-[docs/FIELD_REFERENCE.md](../../docs/FIELD_REFERENCE.md) · public page
+[docs/FIELD_REFERENCE.md](../../../../docs/FIELD_REFERENCE.md) · public page
 [felder.html](https://www.agentic-firmenbuch.at/felder.html).
 
 **Document downloads (§7.2, ROADMAP P2.2).** `get_document` mints a User-Delegation SAS via
 `BlobStore.download_link`, so the managed identity needs the **`Storage Blob Delegator`** role
-in addition to `Storage Blob Data Contributor` (see [`infra/modules/rbac.bicep`](../../infra/modules/rbac.bicep));
+in addition to `Storage Blob Data Contributor` (see [`infra/modules/rbac.bicep`](../../../../infra/modules/rbac.bicep));
 without it `get_user_delegation_key` 403s. The banks/insurers whose PDF abschlüsse this serves
 are pulled into `90-raw` by the [`ingest-fi`](../orchestration/README.md) pipeline mode.
 
@@ -63,7 +63,7 @@ work; unauthorized + rate-limited paths covered; `NotFound` on missing FNR/doc.
 
 ## Place in the pipeline
 Reads what [`present`](../10_present/README.md) writes to `10_presentation`; authorizes via
-[`auth`](../auth/README.md). The serving end of the pipeline.
+[`auth`](../../../../packages/auth/README.md). The serving end of the pipeline.
 
 ---
-↑ [Repo root](../../README.md) · Specs: [Technische §8.9 / §9](../../docs/specs/Technische_Spezifikation.md)
+↑ [Repo root](../../../../README.md) · Specs: [Technische §8.9 / §9](../../../../docs/specs/Technische_Spezifikation.md)

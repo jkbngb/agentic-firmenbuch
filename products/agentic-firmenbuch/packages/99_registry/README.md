@@ -22,7 +22,7 @@ and reconciliation.
 - **Worklist selectors** drive the backfill variants: `ingestable_active_fnrs(priority=…)`
   (publication-required forms first), `active_fnrs_by_rechtsform(*forms)`, and
   `financial_institution_fnrs()` — active banks/insurers per the shared
-  [`classify_financial_institution`](../core/README.md) heuristic, the worklist for the
+  [`classify_financial_institution`](../core_at/README.md) heuristic, the worklist for the
   `ingest-fi` PDF pull (ROADMAP P2.2).
 
 ## Run it standalone
@@ -33,7 +33,7 @@ uv run pytest packages/99_registry
 ## Place in the pipeline
 The foundation. Populated/reconciled by [`90_ingest`](../90_ingest/README.md)
 (`sync_registry`) and updated daily by [`orchestration`](../orchestration/README.md).
-Depends only on [`core`](../core/README.md).
+Depends on shared [`core`](../../../../packages/core/README.md) + AT [`core_at`](../core_at/README.md).
 
 ---
-↑ [Repo root](../../README.md) · Specs: [Technische §15a.0](../../docs/specs/Technische_Spezifikation.md)
+↑ [Repo root](../../../../README.md) · Specs: [Technische §15a.0](../../../../docs/specs/Technische_Spezifikation.md)

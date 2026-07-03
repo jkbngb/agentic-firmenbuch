@@ -530,7 +530,7 @@ lands, large companies, recently-active) ahead of the long tail.
 
 `urkunde` fails on multi-MB filings with `"failed after N attempts: http 200"`
 — 38% of our large-file sample pulls. Root cause is in
-[`soap_client.py:_post`](../../packages/firmenbuch_client/src/fbl_firmenbuch_client/soap_client.py):
+[`soap_client.py:_post`](../../products/agentic-firmenbuch/packages/firmenbuch_client/src/fbl_firmenbuch_client/soap_client.py):
 a 200 response whose body can't be parsed as XML within the timeout falls into
 the retry path and eventually dead-letters. Fixes to implement & test:
 

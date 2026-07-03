@@ -2,8 +2,8 @@
 
 **Purpose:** shared **golden fixtures** (real Firmenbuch data) and, later,
 cross-package integration tests. Per-package unit tests live next to their code in
-`packages/*/tests/`; this directory holds the data they load and end-to-end checks
-that span stages.
+`products/agentic-firmenbuch/packages/*/tests/` (and shared `packages/*/tests/`); this
+directory holds the data they load and end-to-end checks that span stages.
 
 ## Fixtures (`tests/fixtures/`)
 | Path | What it is | Used by |
@@ -20,9 +20,9 @@ available** (not blocking, §16): a semantic **JAb 4.0** XML and a raw XML that
 
 ## Run
 ```bash
-uv run pytest                 # whole workspace (per-package + integration)
-uv run pytest packages/core   # one package
+uv run pytest                              # whole workspace (per-package + integration)
+uv run pytest products/agentic-firmenbuch  # the AT product only
 ```
 
 ---
-↑ [Repo root](../README.md) · Stages: [`core`](../packages/core/README.md) · [`parse`](../packages/70_parse/README.md)
+↑ [Repo root](../../../README.md) · [AT product](../README.md) · Stages: [`core`](../../../packages/core/README.md) · [`parse`](../packages/70_parse/README.md)

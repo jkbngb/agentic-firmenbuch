@@ -3,7 +3,7 @@
 **Layer:** `70_parsed` | **reads:** Blob `90-raw` | **writes:** Blob `70-parsed`
 
 **Purpose:** turn one raw Jahresabschluss filing (XML bytes) into the canonical
-[`ParsedFiling`](../core/src/fbl_core/models/filing.py) (§8.4). Pure function of the
+[`ParsedFiling`](../core_at/src/fbl_core_at/models/filing.py) (§8.4). Pure function of the
 input bytes — **idempotent**: identical content yields an identical `content_hash`.
 
 ## Inputs → outputs
@@ -65,7 +65,7 @@ GuV-presence correct on Bilanz-only fixtures. `ruff` + `mypy --strict` + `pytest
 
 ## Place in the pipeline
 **Previous:** `ingest` (`90_raw`, stage 5) · **Next:** `consolidate` (`50_consolidated`,
-stage 6). Shared contracts live in [`core`](../core/README.md).
+stage 6). Domain contracts live in [`core_at`](../core_at/README.md) (shared infra in [`core`](../../../../packages/core/README.md)).
 
 ---
-↑ [Repo root](../../README.md) · Specs: [Technische](../../docs/specs/Technische_Spezifikation.md) · [Fachliche](../../docs/specs/Fachliche_Spezifikation.md) · [Pipeline samples](../../docs/pipeline-step-samples.md) · Fixtures: [tests/](../../tests/README.md)
+↑ [Repo root](../../../../README.md) · Specs: [Technische](../../../../docs/specs/Technische_Spezifikation.md) · [Fachliche](../../../../docs/specs/Fachliche_Spezifikation.md) · [Pipeline samples](../../../../docs/pipeline-step-samples.md) · Fixtures: [tests/](../../tests/README.md)

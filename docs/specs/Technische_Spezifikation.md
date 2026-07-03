@@ -56,43 +56,61 @@
 
 ---
 
-## 3. Repository layout (monorepo, uv workspace)
+## 3. Repository layout (`agentic-first` monorepo, uv workspace)
+
+The repo is the **`agentic-first`** umbrella: source-agnostic **shared** packages under
+`packages/`, one **product** per source under `products/`. The Austrian pipeline is
+`products/agentic-firmenbuch/`; a second register (Germany, `agentic-unternehmensregister`)
+lives in a **separate private repo** that consumes `packages/` (see Appendix R + §3.5).
 
 ```
-agentic-firmenbuch/
-├── pyproject.toml                 # uv workspace root
-├── packages/
-│   ├── core/                      # shared: models, mappings, hashing, config, storage clients
+agentic-first/                       # repo root (uv workspace)
+├── pyproject.toml                   # workspace: members = packages/* + products/agentic-firmenbuch/packages/*
+├── packages/                        # SHARED — source-agnostic, zero Firmenbuch/UGB knowledge
+│   ├── core/   (fbl_core)           # lineage/meta + metric contracts, config, storage clients
 │   │   └── src/fbl_core/
-│   │       ├── models/            # Pydantic: filing.py, company.py, metric.py, meta.py, mcp.py
-│   │       ├── mapping/           # legacy_map.py, jab40_map.py, canonical.py
-│   │       ├── formats.py         # shared XML variant detection
-│   │       ├── lineage.py         # uuid, content_hash, lineage helpers
-│   │       ├── storage/           # blob.py, cosmos.py, base.py (Protocols), memory.py (fakes)
-│   │       ├── austria.py         # bundesland_from_plz
-│   │       ├── config.py          # settings (pydantic-settings)
+│   │       ├── models/              # meta.py, metric.py  (source-agnostic contracts only)
+│   │       ├── lineage.py           # uuid, content_hash, lineage helpers
+│   │       ├── storage/             # blob.py, cosmos.py, base.py (Protocols), memory.py (fakes)
+│   │       ├── config.py            # settings (pydantic-settings)
 │   │       └── logging.py
-│   ├── firmenbuch_client/         # SOAP adapter behind RegisterSource interface (fbl_firmenbuch_client)
-│   ├── 99_registry/               # LAYER 99_registry — company catalog + watermark (fbl_registry)
-│   ├── 90_ingest/                 # LAYER 90_raw — enumeration + change feed + raw download (fbl_ingest)
-│   ├── 70_parse/                  # LAYER 70_parsed — raw XML -> ParsedFiling (fbl_parse)
-│   ├── 50_consolidate/            # LAYER 50_consolidated — merge per company (fbl_consolidate)
-│   ├── 30_derive/                 # LAYER 30_derived — ratios/growth/percentiles (fbl_derive)
-│   ├── 10_present/                # LAYER 10_presentation — gated public doc (fbl_present)
-│   ├── orchestration/             # the Container Apps Job entrypoint: runs ingest..present (fbl_orchestration)
-│   ├── mcp_server/                # FastMCP app + tools + auth middleware (fbl_mcp_server)
-│   └── auth/                      # signup, token issue/validate, rate limit, metering (fbl_auth)
-├── infra/                         # Bicep modules
-├── tests/                         # cross-package integration + fixtures (legacy/jab40/pdf samples)
-└── docs/                          # both specs + pipeline step samples
+│   └── auth/   (fbl_auth)           # signup, token issue/validate, rate limit, metering, 00_accounts
+├── products/
+│   └── agentic-firmenbuch/          # AUSTRIA product
+│       ├── packages/
+│       │   ├── core_at/ (fbl_core_at)  # UGB mapping, Firmenbuch domain models (filing/company/mcp),
+│       │   │                           #   ÖNACE classification, OeNB/EIOPA dirs, austria/formats/esvg
+│       │   ├── firmenbuch_client/   # SOAP adapter behind RegisterSource interface (fbl_firmenbuch_client)
+│       │   ├── 99_registry/         # LAYER 99_registry — company catalog + watermark (fbl_registry)
+│       │   ├── 90_ingest/           # LAYER 90_raw — enumeration + change feed + raw download (fbl_ingest)
+│       │   ├── 70_parse/            # LAYER 70_parsed — raw XML -> ParsedFiling (fbl_parse)
+│       │   ├── 50_consolidate/      # LAYER 50_consolidated — merge per company (fbl_consolidate)
+│       │   ├── 30_derive/           # LAYER 30_derived — ratios/growth/percentiles (fbl_derive)
+│       │   ├── 10_present/          # LAYER 10_presentation — gated public doc (fbl_present)
+│       │   ├── orchestration/       # the Container Apps Job entrypoint: ingest..present (fbl_orchestration)
+│       │   └── mcp_server/          # FastMCP app + tools + auth middleware (fbl_mcp_server)
+│       └── tests/                   # AT integration + fixtures (legacy/jab40/pdf samples)
+├── infra/                           # Bicep modules
+└── docs/                            # both specs + pipeline step samples
 ```
 
 > **Layer-numbered package dirs.** Each pipeline-stage package directory carries its
 > layer-number prefix so the owner of every data layer is obvious. Python module names
 > cannot start with a digit, so the **importable** package keeps its `fbl_*` name (e.g.
 > dir `70_parse/` → `import fbl_parse`); the number is also a `LAYER` constant in each
-> stage package. `core`/`firmenbuch_client`/`orchestration`/`mcp_server`/`auth` are
-> un-numbered (not a single data layer).
+> stage package. `core`/`core_at`/`firmenbuch_client`/`orchestration`/`mcp_server`/`auth`
+> are un-numbered (not a single data layer).
+
+### 3.5 Shared vs product (the reuse boundary)
+
+The **hard rule**: dependency arrows only ever point **product → shared** (`fbl_core_at` →
+`fbl_core`), never back — so a shared package never learns anything Firmenbuch/UGB-specific and
+stays reusable by the next product. `core` (infra: lineage/meta + metric, config, storage) and
+`auth` are the only genuinely source-agnostic packages today and live in `packages/`. `core_at`
+is inherently source-specific. `30_derive` and `mcp_server` are algorithmically source-agnostic
+but currently bind to AT-shaped domain models, so they live in the product tagged
+*promotion-candidate* (they move to `packages/` once the domain models are abstracted — a later
+pass). The full per-package classification is **Appendix R**.
 
 ### 3.4 LAYER_MAP — layer ↔ package ↔ store ↔ model ↔ sample
 
@@ -1039,6 +1057,7 @@ The spec ships as a small set of files so the coding agent has machine-readable 
 | **C — Canonical positions & ratio formulas** | inline (this doc) | core position set + exact ratio formulas, caps, thresholds |
 | **D — Full canonical position taxonomy** | **`appendix_position_mapping.json`** (companion file → `core/mapping/`) | **all 317 canonical positions**, each with `label_de`, `category`, `hgb_codes`, `v4_elements`. The authoritative lookup table — copy in verbatim, don't hand-type. It is the **single source** for code ↔ canonical ↔ §-label: `paragraph_ref(code)` derives the human UGB reference from the code structure (`HGB_224_2_A_II` → `§224 Abs 2 A II`; `§231` GuV uses `Z`), and `paragraph_ref_for_canonical(name)` resolves it from the canonical's primary HGB code so a position parsed from a JAb 4.0 element still carries the official §-ref. Every served line item (`get_company_details`, `get_company_history`) exposes its `source_codes` + `paragraph_ref` (Part A). |
 | **E — Per-stage file formats + golden samples** | **`pipeline-step-samples.md`** (companion file) | the **defined file format for every pipeline stage** with a real chained example (FNR `093450b`) |
+| **R — Reuse boundary (shared vs product)** | inline (this doc, below) | per-package `1:1 shared` / `adapt` / `product-local` classification for the `agentic-first` monorepo split |
 | **Fixtures** | the two real XML files already provided | parser test fixtures (legacy + firmenbuch_2025) |
 
 ### Is there a defined file format for each pipeline step? — **Yes.**
@@ -1054,3 +1073,30 @@ Every stage has a **typed contract** (the Pydantic models in §6) **and** a **go
 | `99_registry` | Cosmos doc per FNR | registry doc (§15a.0) | — |
 
 So the agent never guesses a stage's shape: it reads the model (§6), the sample (Appendix E), and — for line items — the full taxonomy (Appendix D).
+
+---
+
+## Appendix R — Reuse boundary (shared vs product)
+
+The classification behind the `agentic-first` monorepo split (§3, §3.5). "Reuse" is judged by
+whether the code carries **Firmenbuch/UGB/ÖNACE knowledge**, not by whether its algorithm is
+generic. The hard rule: dependency arrows only ever point **product → shared**.
+
+| Package (`fbl_*`) | Location | Class | Rationale |
+|---|---|---|---|
+| `core` (lineage, config, logging, storage/, models/`meta`+`metric`) | `packages/core` | **1:1 shared** | pure infra + source-agnostic contracts; no Firmenbuch knowledge |
+| `auth` | `packages/auth` | **1:1 shared** | signup/token/metering/OAuth over `00_accounts`; only brand strings are product-specific (parameterise via config) |
+| `core_at` (`mapping`, `models/`filing·company·mcp, `classification`, `directories`, `financial_institution`, `austria`, `formats`, `esvg`) | `products/agentic-firmenbuch` | **product-local** | encodes UGB/ÖNACE/Austria; the domain models a second product would redefine |
+| `firmenbuch_client` | `products/agentic-firmenbuch` | **product-local** (pattern reusable) | the `RegisterSource` Protocol is a reusable seam; the SOAP/HVD impl is Austria-only |
+| `99_registry`, `90_ingest` | `products/agentic-firmenbuch` | **product-local** | AT enumeration/change-feed + registry semantics |
+| `70_parse` | `products/agentic-firmenbuch` | **product-local** | UGB XML (legacy + JAb 4.0) → canonical |
+| `50_consolidate` | `products/agentic-firmenbuch` | **adapt later** | merge/supersede framework is generic but operates on AT `ParsedFiling`/`ConsolidatedCompany` |
+| `30_derive` | `products/agentic-firmenbuch` | **promotion-candidate** | ratio/growth/cohort math is source-agnostic but binds to AT-shaped `ConsolidatedCompany`/`DerivedCompany`; promote to `packages/` after the domain models are abstracted |
+| `mcp_server` | `products/agentic-firmenbuch` | **promotion-candidate** | FastMCP app + OAuth/DCR + `McpService` framing is source-agnostic; the service layer + `CompanyCard`/`SearchFilters` are AT-shaped |
+| `orchestration` | `products/agentic-firmenbuch` | **adapt later** | the `--mode` runner/runlock/loaders framework is reusable; it currently wires the AT stages |
+
+**Why not promote `derive`/`mcp_server` now:** doing so under the "no logic change / keep the suite
+green" constraint would only be possible by dragging the AT-shaped Pydantic models into `packages/core`,
+which would contaminate the shared package worse than leaving the stages in the product. The clean
+promotion is a **model-abstraction pass** (source-agnostic domain protocols in `packages/`, concrete
+AT impls in the product) — tracked as a later V2 item, not part of the structural split.

@@ -47,4 +47,4 @@ computed. `ruff` + `mypy --strict` + `pytest` green.
 Depends only on `fbl_core` (does not import sibling stages, §3).
 
 ---
-↑ [Repo root](../../README.md) · Specs: [Technische §8.5](../../docs/specs/Technische_Spezifikation.md) · [Pipeline samples](../../docs/pipeline-step-samples.md)
+↑ [Repo root](../../../../README.md) · Specs: [Technische §8.5](../../../../docs/specs/Technische_Spezifikation.md) · [Pipeline samples](../../../../docs/pipeline-step-samples.md)

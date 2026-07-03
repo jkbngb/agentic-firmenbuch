@@ -32,4 +32,4 @@ doc is well-formed and carries **no officer name** (GDPR); and the MCP tools
 (`search_companies`, `get_company_details`, `get_company_history`) return valid responses.
 
 ---
-↑ [Repo root](../../README.md) · Fixtures: [tests/](../README.md)
+↑ [Repo root](../../../../README.md) · [AT product](../../README.md) · Fixtures: [tests/](../README.md)

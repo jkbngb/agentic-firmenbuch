@@ -28,7 +28,7 @@ fallback so the served `branch` block can be validated and labelled.
 Validated on a fresh, held-out 150-company set (two independent pipelines + adjudication, not
 the noisy third-party labels): **section ~92% · division ~89% · group ~74–82%**. Classifying in
 2008 and mapping to 2025 beats direct-2025 by ~4pp on section/division. Full method comparison
-and decisions: [`docs/classification/`](../../../../../docs/classification/README.md).
+and decisions: [`docs/classification/`](../../../../../../../docs/classification/README.md).
 
 See also the served field contract in `fbl_mcp_server` (`branch` block) and the deterministic
 serve-time fallback that `keyword.py` powers today.

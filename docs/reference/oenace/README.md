@@ -2,7 +2,7 @@
 
 Authoritative Statistik Austria classification tables behind the branch/industry feature
 (issue #14). The machine-readable copies that the code actually loads live with the package at
-[`fbl_core/classification/data/oenace/`](../../../packages/core/src/fbl_core/classification/data/oenace/);
+[`fbl_core_at/classification/data/oenace/`](../../../products/agentic-firmenbuch/packages/core_at/src/fbl_core_at/classification/data/oenace/);
 this folder documents provenance. Approach & results: [`docs/classification/`](../../classification/).
 
 ## Sources

@@ -6,7 +6,7 @@ rest of the pipeline depends on the capability, not the SOAP details. Read-only.
 
 ## Confirmed against the live API
 The behaviour here was **live-probed before building** — see
-[docs/API_PROBE_FINDINGS.md](../../docs/API_PROBE_FINDINGS.md). Headlines:
+[docs/API_PROBE_FINDINGS.md](../../../../docs/API_PROBE_FINDINGS.md). Headlines:
 - **Auth = `X-API-KEY` HTTP header** (not WS-Security).
 - **`auszug` works** and returns rich master data (name, address, Geschäftszweig,
   persons with birth dates) — so master data is available pipeline-wide.
@@ -32,7 +32,7 @@ The behaviour here was **live-probed before building** — see
 - **FNR normalization:** responses vary (`030435h` / `30435 h` / `30435h`) →
   `normalize_fnr` yields the canonical zero-padded form.
 - **Format detection** of downloaded documents uses the shared
-  [`fbl_core.formats`](../core/src/fbl_core/formats.py) (one source of truth with `parse`).
+  [`fbl_core_at.formats`](../core_at/src/fbl_core_at/formats.py) (one source of truth with `parse`).
 - **GDPR:** `auszug` person birth dates are reduced to **year only** at this boundary (§8.7).
 
 ## Run it standalone
@@ -49,8 +49,8 @@ VCR-style tests cover all six calls; format detection correct on the real sample
 
 ## Place in the pipeline
 Adapter used by **`ingest`** (Stage 5) to fetch raw artifacts and by `sync-registry`.
-Shared contracts/format-detection live in [`core`](../core/README.md); the downloaded
+Domain contracts/format-detection live in [`core_at`](../core_at/README.md); the downloaded
 XML is parsed by [`parse`](../70_parse/README.md).
 
 ---
-↑ [Repo root](../../README.md) · Specs: [Technische](../../docs/specs/Technische_Spezifikation.md) · [Fachliche](../../docs/specs/Fachliche_Spezifikation.md) · [API reference](../../docs/reference/JustizOnline_API_Complete_Reference.md) · [Probe findings](../../docs/API_PROBE_FINDINGS.md)
+↑ [Repo root](../../../../README.md) · Specs: [Technische](../../../../docs/specs/Technische_Spezifikation.md) · [Fachliche](../../../../docs/specs/Fachliche_Spezifikation.md) · [API reference](../../../../docs/reference/JustizOnline_API_Complete_Reference.md) · [Probe findings](../../../../docs/API_PROBE_FINDINGS.md)

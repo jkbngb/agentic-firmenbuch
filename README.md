@@ -56,8 +56,37 @@ The headline documents:
 | [docs/pipeline-step-samples.md](docs/pipeline-step-samples.md) | File format + golden sample for every pipeline stage. |
 | [docs/FIELD_REFERENCE.md](docs/FIELD_REFERENCE.md) | **Served field dictionary** – every field each MCP tool returns, with type + null rules. Public page: [felder.html](https://www.agentic-firmenbuch.at/felder.html). |
 | [ROADMAP.md](ROADMAP.md) + [docs/specs/Erweiterungen_Spezifikation.md](docs/specs/Erweiterungen_Spezifikation.md) | Forward plan – status/priorities + the V2 design (banks/insurers, GISA, Ediktsdatei). |
-| [docs/appendix_position_mapping.json](docs/appendix_position_mapping.json) | Full 317-entry canonical position taxonomy → copy to `core/mapping/`. |
+| [docs/appendix_position_mapping.json](docs/appendix_position_mapping.json) | Full 317-entry canonical position taxonomy → copied into `products/agentic-firmenbuch/packages/core_at/…/mapping/`. |
 | [docs/reference/](docs/reference/) | Official source material (API reference, JAb 4.0 XSDs/Excel). |
+
+## Monorepo layout (`agentic-first`)
+
+This repository is the **`agentic-first`** monorepo umbrella. It separates **source-agnostic
+shared code** from **per-source products**, so a second register can be added without touching
+the Austrian pipeline:
+
+```
+agentic-first/                       (this repo)
+├── packages/                        SHARED — source-agnostic, zero Firmenbuch/UGB knowledge
+│   ├── core/    (fbl_core)          lineage/meta + metric contracts, config, storage clients
+│   └── auth/    (fbl_auth)          signup, token issue/validate, metering, 00_accounts
+└── products/
+    └── agentic-firmenbuch/          🇦🇹 AUSTRIA product (live) — README below
+        ├── packages/
+        │   ├── core_at/  (fbl_core_at)   UGB taxonomy, Firmenbuch domain models, ÖNACE, FI dirs
+        │   ├── firmenbuch_client, 99_registry, 90_ingest, 70_parse,
+        │   │   50_consolidate, 30_derive, 10_present, mcp_server, orchestration
+        │   └── …
+        └── tests/                   AT integration tests + golden fixtures
+```
+
+The Germany product **`agentic-unternehmensregister`** lives in a **separate private repo** that
+consumes `packages/{core,auth}` as a dependency (it is not scaffolded here). The precise
+1:1 / adapt / product-local reuse boundary is the **reuse table (Appendix R)** in the
+[Technische Spezifikation](docs/specs/Technische_Spezifikation.md), and the mechanism is in
+[docs/monorepo/DE_PRODUCT_SETUP.md](docs/monorepo/DE_PRODUCT_SETUP.md).
+
+**Product READMEs:** [🇦🇹 agentic-firmenbuch](products/agentic-firmenbuch/README.md) · shared [`core`](packages/core/README.md) · [`auth`](packages/auth/README.md)
 
 ## Pipeline (numbered layers, `90 → 10`)
 ```
@@ -78,22 +107,30 @@ owner of every data layer is obvious. (Python module names can't start with a di
 the importable package keeps its `fbl_*` name; the number is also exposed as a `LAYER`
 constant in each stage package.)
 
+All AT stage packages live under `products/agentic-firmenbuch/packages/` (abbreviated `…/` below).
+
 | Layer | Package (dir) | import | Store / container | Pydantic model | Sample |
 |---|---|---|---|---|---|
-| `99_registry` | [`99_registry`](packages/99_registry/README.md) | `fbl_registry` | Cosmos `99_registry` | `RegistryDoc` | §15a.0 doc |
-| `90_raw` | [`90_ingest`](packages/90_ingest/README.md) | `fbl_ingest` | Blob `90-raw` | raw `Meta` + manifest | [Stage 0](docs/pipeline-step-samples.md) |
-| `70_parsed` | [`70_parse`](packages/70_parse/README.md) | `fbl_parse` | Blob `70-parsed` | `ParsedFiling` | [Stage 1](docs/pipeline-step-samples.md) |
-| `50_consolidated` | [`50_consolidate`](packages/50_consolidate/README.md) | `fbl_consolidate` | Cosmos `50_consolidated` | `ConsolidatedCompany` | [Stage 2](docs/pipeline-step-samples.md) |
-| `30_derived` | [`30_derive`](packages/30_derive/README.md) | `fbl_derive` | Cosmos `30_derived` | `DerivedCompany` | [Stage 3](docs/pipeline-step-samples.md) |
-| `10_presentation` | [`10_present`](packages/10_present/README.md) | `fbl_present` | Cosmos `10_presentation` | `PresentedCompany` | [Stage 4](docs/pipeline-step-samples.md) |
+| `99_registry` | [`…/99_registry`](products/agentic-firmenbuch/packages/99_registry/README.md) | `fbl_registry` | Cosmos `99_registry` | `RegistryDoc` | §15a.0 doc |
+| `90_raw` | [`…/90_ingest`](products/agentic-firmenbuch/packages/90_ingest/README.md) | `fbl_ingest` | Blob `90-raw` | raw `Meta` + manifest | [Stage 0](docs/pipeline-step-samples.md) |
+| `70_parsed` | [`…/70_parse`](products/agentic-firmenbuch/packages/70_parse/README.md) | `fbl_parse` | Blob `70-parsed` | `ParsedFiling` | [Stage 1](docs/pipeline-step-samples.md) |
+| `50_consolidated` | [`…/50_consolidate`](products/agentic-firmenbuch/packages/50_consolidate/README.md) | `fbl_consolidate` | Cosmos `50_consolidated` | `ConsolidatedCompany` | [Stage 2](docs/pipeline-step-samples.md) |
+| `30_derived` | [`…/30_derive`](products/agentic-firmenbuch/packages/30_derive/README.md) | `fbl_derive` | Cosmos `30_derived` | `DerivedCompany` | [Stage 3](docs/pipeline-step-samples.md) |
+| `10_presentation` | [`…/10_present`](products/agentic-firmenbuch/packages/10_present/README.md) | `fbl_present` | Cosmos `10_presentation` | `PresentedCompany` | [Stage 4](docs/pipeline-step-samples.md) |
 
-**Un-numbered** (not a single data layer): [`core`](packages/core/README.md) (`fbl_core`,
-shared models/mappings/lineage/storage), [`firmenbuch_client`](packages/firmenbuch_client/README.md)
-(`fbl_firmenbuch_client`, HVD SOAP adapter), [`orchestration`](packages/orchestration/README.md)
-(`fbl_orchestration`, the `--mode` Job entrypoint), [`mcp_server`](packages/mcp_server/README.md)
-(`fbl_mcp_server`, serving), [`auth`](packages/auth/README.md) (`fbl_auth`, `00_accounts`).
-Plus [`infra/`](infra/README.md) (Bicep), [`tests/`](tests/README.md) (fixtures), `docs/`
-(specs, incl. [API probe findings](docs/API_PROBE_FINDINGS.md)).
+**Un-numbered.** Shared (in `packages/`): [`core`](packages/core/README.md) (`fbl_core`,
+source-agnostic lineage/meta + metric contracts, config, storage) and
+[`auth`](packages/auth/README.md) (`fbl_auth`, `00_accounts`). AT-specific (in
+`products/agentic-firmenbuch/packages/`): [`core_at`](products/agentic-firmenbuch/packages/core_at/README.md)
+(`fbl_core_at`, UGB taxonomy + Firmenbuch domain models + ÖNACE + FI directories),
+[`firmenbuch_client`](products/agentic-firmenbuch/packages/firmenbuch_client/README.md)
+(`fbl_firmenbuch_client`, HVD SOAP adapter),
+[`orchestration`](products/agentic-firmenbuch/packages/orchestration/README.md)
+(`fbl_orchestration`, the `--mode` Job entrypoint),
+[`mcp_server`](products/agentic-firmenbuch/packages/mcp_server/README.md)
+(`fbl_mcp_server`, serving). Plus [`infra/`](infra/README.md) (Bicep),
+[`products/agentic-firmenbuch/tests/`](products/agentic-firmenbuch/tests/README.md) (fixtures),
+`docs/` (specs, incl. [API probe findings](docs/API_PROBE_FINDINGS.md)).
 
 ## Build status – Version 1 complete ✅
 All ten §15 build stages are implemented, each committed in order, each with a passing
@@ -111,17 +148,17 @@ push the FIRMENBUCH_API_KEY to Key Vault, build/push images, then run the Initia
 
 ## Develop
 ```bash
-uv sync                       # create the workspace venv
-uv run pytest                 # all fixture/unit/integration tests (offline)
-uv run mypy packages          # strict types
-uv run ruff check packages    # lint
+uv sync                            # create the workspace venv
+uv run pytest                      # all fixture/unit/integration tests (offline)
+uv run mypy packages products      # strict types (shared + products)
+uv run ruff check packages products  # lint
 ```
 **True end-to-end (live):** a separate, env-flag-guarded test runs a few real FNRs
 through every layer (API → `90_raw` → … → `10_presentation` → MCP). Skipped by default.
 ```bash
-FBL_E2E=1 uv run pytest tests/e2e -q     # needs FIRMENBUCH_API_KEY (env or .env)
+FBL_E2E=1 uv run pytest products/agentic-firmenbuch/tests/e2e -q  # needs FIRMENBUCH_API_KEY
 ```
-See [`tests/e2e/`](tests/e2e/README.md). It uses in-memory stores + a tiny real pull –
+See [`products/agentic-firmenbuch/tests/e2e/`](products/agentic-firmenbuch/tests/e2e/README.md). It uses in-memory stores + a tiny real pull –
 **no Azure, no full backfill** (deployment is manual after review).
 
 ## License & data

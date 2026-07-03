@@ -44,4 +44,4 @@ CAGRs with no other change. `ruff` + `mypy --strict` + `pytest` green.
 The universe-wide `CohortStats` is built once per run (by the orchestrator) and passed in.
 
 ---
-↑ [Repo root](../../README.md) · Specs: [Technische §8.6 / Appendix C](../../docs/specs/Technische_Spezifikation.md)
+↑ [Repo root](../../../../README.md) · Specs: [Technische §8.6 / Appendix C](../../../../docs/specs/Technische_Spezifikation.md)
