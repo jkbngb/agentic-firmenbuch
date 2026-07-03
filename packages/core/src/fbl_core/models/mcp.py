@@ -145,6 +145,12 @@ class CompanyCard(BaseModel):
     is_financial_institution: bool = False  # bank/insurer → UGB figures absent by design (P2.1)
     geschaeftszweig: str | None = None  # Firmenbuch free-text activity (the industry source text)
     industry_section: str | None = None  # ÖNACE 2025 section (A–V) from the industry block (#34)
+    oenace_division: str | None = None  # ÖNACE 2025 division (2-digit), e.g. "85" (#35)
+    oenace_division_label: str | None = (
+        None  # German division title, e.g. "Erziehung und Unterricht"
+    )
+    oenace_group: str | None = None  # ÖNACE 2025 group (3-digit), e.g. "85.5" (#35)
+    oenace_group_label: str | None = None  # German group title, e.g. "Sonstiger Unterricht"
 
 
 class SearchResponse(BaseModel):

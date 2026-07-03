@@ -217,10 +217,10 @@ def industry_block(doc: dict[str, Any]) -> dict[str, Any] | None:
 
 def _card(doc: dict[str, Any], directory: dict[str, str] | None = None) -> CompanyCard:
     gz = _g(doc, "company", "description")
-    # v2 stored block first, legacy v1 branch second — never a serve-time guess for codes.
-    stored_section = _g(doc, "industry", "oenace", "section") or _g(
-        doc, "branch", "oenace", "section"
-    )
+    # Serve section/division/group + German labels from the same label-correct block the
+    # detail view uses (v2 stored → legacy v1 branch → free text); never a serve-time code
+    # guess. Symmetric with the oenace_* search filters (#35).
+    oenace = (industry_block(doc) or {}).get("oenace") or {}
     return CompanyCard(
         fnr=doc["fnr"],
         name=_g(doc, "identity", "name") or doc["fnr"],
@@ -243,5 +243,9 @@ def _card(doc: dict[str, Any], directory: dict[str, str] | None = None) -> Compa
         geschaeftszweig=_g(doc, "industry", "geschaeftszweig")
         or _g(doc, "branch", "geschaeftszweig")
         or gz,
-        industry_section=stored_section,
+        industry_section=oenace.get("section"),
+        oenace_division=oenace.get("division"),
+        oenace_division_label=oenace.get("division_label_de"),
+        oenace_group=oenace.get("group"),
+        oenace_group_label=oenace.get("group_label_de"),
     )
