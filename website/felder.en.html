@@ -167,6 +167,10 @@
           <tr><td><code>has_guv_latest</code></td><td>bool</td><td>does the most recent statement have a P&amp;L?</td><td>– (always set)</td></tr>
           <tr><td><code>geschaeftszweig</code></td><td>string</td><td>line of business (Firmenbuch free text)</td><td>not registered (~15 %)</td></tr>
           <tr><td><code>industry_section</code></td><td>string</td><td>ÖNACE 2025 section <code>A</code>–<code>V</code> (details under <code>industry</code>)</td><td>no classification available</td></tr>
+          <tr><td><code>oenace_division</code></td><td>string</td><td>ÖNACE 2025 division (2-digit, e.g. <code>85</code>)</td><td>no classification available</td></tr>
+          <tr><td><code>oenace_division_label</code></td><td>string</td><td>German division title (e.g. <code>Erziehung und Unterricht</code>)</td><td>no classification available</td></tr>
+          <tr><td><code>oenace_group</code></td><td>string</td><td>ÖNACE 2025 group (3-digit, e.g. <code>85.5</code>)</td><td>no classification available</td></tr>
+          <tr><td><code>oenace_group_label</code></td><td>string</td><td>German group title (e.g. <code>Sonstiger Unterricht</code>)</td><td>no classification available</td></tr>
         </tbody>
       </table></div>
     </section>
@@ -378,7 +382,7 @@
           <tr><td><code>source</code> · <code>classified_from</code></td><td>string</td><td><code>lexicon</code> (verified mapping table) or <code>llm</code> · based on <code>geschaeftszweig</code> or <code>name</code></td></tr>
         </tbody>
       </table></div>
-      <p style="font-size:.92em">Without a Geschäftszweig, nothing is guessed: only unambiguous company names are classified (<code>classified_from: name</code>), otherwise <code>industry</code> stays empty. The search card carries <code>geschaeftszweig</code> and <code>industry_section</code>.</p>
+      <p style="font-size:.92em">Without a Geschäftszweig, nothing is guessed: only unambiguous company names are classified (<code>classified_from: name</code>), otherwise <code>industry</code> stays empty. The search card carries <code>geschaeftszweig</code>, <code>industry_section</code> and <code>oenace_division</code>/<code>oenace_group</code> with German labels.</p>
 
       <h3><code>management</code> · Management</h3>
       <div class="tablewrap"><table>

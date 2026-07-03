@@ -45,6 +45,10 @@ Kompakter Auszug. **Codes sind hier bereits als Labels ausgegeben** (z. B. `GmbH
 | `has_guv_latest` | bool | hat der jüngste Abschluss eine GuV? | – (immer gesetzt) |
 | `geschaeftszweig` | string | Geschäftszweig (Firmenbuch-Freitext) | nicht eingetragen (~15 %) |
 | `industry_section` | string | ÖNACE-2025-Abschnitt `A`–`V` (siehe `industry`) | keine Klassifizierung vorhanden |
+| `oenace_division` | string | ÖNACE-2025-Abteilung (2-Steller, z. B. `85`) | keine Klassifizierung vorhanden |
+| `oenace_division_label` | string | deutsche Abteilungs-Bezeichnung (z. B. `Erziehung und Unterricht`) | keine Klassifizierung vorhanden |
+| `oenace_group` | string | ÖNACE-2025-Gruppe (3-Steller, z. B. `85.5`) | keine Klassifizierung vorhanden |
+| `oenace_group_label` | string | deutsche Gruppen-Bezeichnung (z. B. `Sonstiger Unterricht`) | keine Klassifizierung vorhanden |
 
 ---
 

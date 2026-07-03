@@ -167,6 +167,10 @@
           <tr><td><code>has_guv_latest</code></td><td>bool</td><td>hat der jüngste Abschluss eine GuV?</td><td>– (immer gesetzt)</td></tr>
           <tr><td><code>geschaeftszweig</code></td><td>string</td><td>Geschäftszweig (Firmenbuch-Freitext)</td><td>nicht eingetragen (~15 %)</td></tr>
           <tr><td><code>industry_section</code></td><td>string</td><td>ÖNACE-2025-Abschnitt <code>A</code>–<code>V</code> (Details unter <code>industry</code>)</td><td>keine Klassifizierung vorhanden</td></tr>
+          <tr><td><code>oenace_division</code></td><td>string</td><td>ÖNACE-2025-Abteilung (2-Steller, z. B. <code>85</code>)</td><td>keine Klassifizierung vorhanden</td></tr>
+          <tr><td><code>oenace_division_label</code></td><td>string</td><td>deutsche Abteilungs-Bezeichnung (z. B. <code>Erziehung und Unterricht</code>)</td><td>keine Klassifizierung vorhanden</td></tr>
+          <tr><td><code>oenace_group</code></td><td>string</td><td>ÖNACE-2025-Gruppe (3-Steller, z. B. <code>85.5</code>)</td><td>keine Klassifizierung vorhanden</td></tr>
+          <tr><td><code>oenace_group_label</code></td><td>string</td><td>deutsche Gruppen-Bezeichnung (z. B. <code>Sonstiger Unterricht</code>)</td><td>keine Klassifizierung vorhanden</td></tr>
         </tbody>
       </table></div>
     </section>
@@ -378,7 +382,7 @@
           <tr><td><code>source</code> · <code>classified_from</code></td><td>string</td><td><code>lexicon</code> (verifizierte Zuordnungstabelle) oder <code>llm</code> · Basis <code>geschaeftszweig</code> oder <code>name</code></td></tr>
         </tbody>
       </table></div>
-      <p style="font-size:.92em">Ohne Geschäftszweig gilt: kein Raten. Nur eindeutige Firmennamen werden klassifiziert (<code>classified_from: name</code>), sonst ist <code>industry</code> leer. Auf der Such-Karte erscheinen <code>geschaeftszweig</code> und <code>industry_section</code>.</p>
+      <p style="font-size:.92em">Ohne Geschäftszweig gilt: kein Raten. Nur eindeutige Firmennamen werden klassifiziert (<code>classified_from: name</code>), sonst ist <code>industry</code> leer. Auf der Such-Karte erscheinen <code>geschaeftszweig</code>, <code>industry_section</code> sowie <code>oenace_division</code>/<code>oenace_group</code> samt deutschen Labels.</p>
 
       <h3><code>management</code> · Geschäftsführung</h3>
       <div class="tablewrap"><table>
