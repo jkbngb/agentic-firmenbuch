@@ -693,11 +693,11 @@ def test_companies_without_bilanzsumme_are_not_dropped_from_sorted_lists() -> No
     res = svc.search_companies(token, SearchFilters())  # default sort = bilanzsumme desc
     assert res["total"] == 4  # nothing hidden
     order = [r["fnr"] for r in res["results"]]
-    # ranked by bilanzsumme desc first, then the field-less banks by name (Alpha before Zeta)
-    assert order == ["011a", "022b", "044d", "033c"]
+    # ranked by bilanzsumme desc first, then the field-less banks by id (033c before 044d)
+    assert order == ["011a", "022b", "033c", "044d"]
 
     # paging across the boundary keeps both buckets reachable
     p1 = svc.search_companies(token, SearchFilters(), page=1, page_size=2)
     p2 = svc.search_companies(token, SearchFilters(), page=2, page_size=2)
     assert [r["fnr"] for r in p1["results"]] == ["011a", "022b"]
-    assert [r["fnr"] for r in p2["results"]] == ["044d", "033c"]
+    assert [r["fnr"] for r in p2["results"]] == ["033c", "044d"]
