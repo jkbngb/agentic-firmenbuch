@@ -30,7 +30,9 @@ from fbl_core.models import (
 )
 from fbl_core.models.company import CompanyMaster
 
-FIXTURES = Path(__file__).resolve().parents[3] / "tests" / "fixtures"
+FIXTURES = (
+    Path(__file__).resolve().parents[3] / "products" / "agentic-firmenbuch" / "tests" / "fixtures"
+)
 
 
 def _sample_parsed() -> ParsedFiling:

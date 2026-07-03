@@ -8,6 +8,8 @@ from fbl_core.directories import parse_oenb_list
 
 _FIXTURE = (
     Path(__file__).resolve().parents[3]
+    / "products"
+    / "agentic-firmenbuch"
     / "tests"
     / "fixtures"
     / "directories"
