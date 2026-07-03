@@ -21,7 +21,7 @@ def _presented(
     name: str,
     bundesland: str,
     gkl: str,
-    bilanzsumme: float,
+    bilanzsumme: float | None,
     has_guv_latest: bool,
     equity_ratio: float,
     profile: str,
@@ -672,3 +672,32 @@ def test_describe_fields_requires_auth() -> None:
 def test_build_app_registers_tools() -> None:
     app = build_app(_store(), Settings())
     assert app.name == "firmenbuch-live"
+
+
+def test_companies_without_bilanzsumme_are_not_dropped_from_sorted_lists() -> None:
+    """#32/#24: the default sort (bilanzsumme desc) must NOT hide the ~40% of companies
+    without a Bilanzsumme (banks/insurers etc.). They appear AFTER the ranked ones, by name,
+    never interleaved, never dropped."""
+    cosmos = InMemoryCosmosStore()
+    common: dict[str, Any] = dict(
+        bundesland="W", gkl="K", has_guv_latest=False, equity_ratio=0.5, profile="stable"
+    )
+    cosmos.upsert(PRESENTED, _presented("011a", name="Big GmbH", bilanzsumme=900000.0, **common))
+    cosmos.upsert(PRESENTED, _presented("022b", name="Small GmbH", bilanzsumme=100000.0, **common))
+    # a bank: no UGB Bilanzsumme at all
+    cosmos.upsert(PRESENTED, _presented("033c", name="Zeta Bank AG", bilanzsumme=None, **common))
+    cosmos.upsert(PRESENTED, _presented("044d", name="Alpha Bank AG", bilanzsumme=None, **common))
+    svc = McpService(cosmos, Settings(rate_limit_per_min=1000, rate_limit_per_day=10000))
+    token = signup("u@example.test", cosmos).token
+
+    res = svc.search_companies(token, SearchFilters())  # default sort = bilanzsumme desc
+    assert res["total"] == 4  # nothing hidden
+    order = [r["fnr"] for r in res["results"]]
+    # ranked by bilanzsumme desc first, then the field-less banks by name (Alpha before Zeta)
+    assert order == ["011a", "022b", "044d", "033c"]
+
+    # paging across the boundary keeps both buckets reachable
+    p1 = svc.search_companies(token, SearchFilters(), page=1, page_size=2)
+    p2 = svc.search_companies(token, SearchFilters(), page=2, page_size=2)
+    assert [r["fnr"] for r in p1["results"]] == ["011a", "022b"]
+    assert [r["fnr"] for r in p2["results"]] == ["044d", "033c"]

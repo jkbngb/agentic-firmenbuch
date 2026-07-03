@@ -186,31 +186,21 @@ def search_companies(
     sort_field = sort.field if sort else "bilanzsumme"
     descending = sort.descending if sort else True
     order_path = _SORT_PATHS.get(sort_field)
-    order_sql = (
-        f" ORDER BY c.{'.'.join(order_path)} {'DESC' if descending else 'ASC'}"
-        if order_path
-        else ""
-    )
 
     where_sql, params = _build_where(filters)
-    page_sql = f"SELECT * FROM c WHERE {where_sql}{order_sql} OFFSET {start} LIMIT {page_size}"
     count_sql = f"SELECT VALUE COUNT(1) FROM c WHERE {where_sql}"
-
-    rows = list(cosmos.query(PRESENTED, page_sql, params))
     raw_total = next(iter(cosmos.query(PRESENTED, count_sql, params)), 0)
 
-    # Defensive Python filter/sort: a no-op on a Cosmos page (already filtered/sorted),
-    # the real filter on the in-memory store (which returns every doc).
-    matched = [
-        d for d in rows if not str(d.get("id", "")).startswith("__") and _matches(d, filters)
-    ]
-    matched.sort(key=lambda d: d["fnr"])  # stable base order
-    matched.sort(key=lambda d: _sort_key(d, sort_field), reverse=descending)
-
-    if isinstance(raw_total, int):  # Cosmos: COUNT(1) → real total, page already offset
+    if isinstance(raw_total, int):  # Cosmos: COUNT(1) → real total; page server-side
         total = raw_total
-        page_docs = matched[:page_size]
-    else:  # in-memory fake: SQL ignored, every doc returned → paginate in Python
+        rows = _cosmos_page(cosmos, where_sql, params, order_path, descending, start, page_size)
+        page_docs = [d for d in rows if not str(d.get("id", "")).startswith("__")]
+    else:  # in-memory fake: SQL ignored, every doc returned → filter/sort/paginate in Python
+        rows = list(cosmos.query(PRESENTED, f"SELECT * FROM c WHERE {where_sql}", params))
+        matched = [
+            d for d in rows if not str(d.get("id", "")).startswith("__") and _matches(d, filters)
+        ]
+        matched = _sorted_nulls_last(matched, sort_field, descending)
         total = len(matched)
         page_docs = matched[start : start + page_size]
 
@@ -240,3 +230,63 @@ def _sort_key(doc: dict[str, Any], field: str) -> Any:
     path = _SORT_PATHS.get(field)
     value = _g(doc, *path) if path else doc.get("fnr")
     return value if value is not None else (0 if path else "")
+
+
+def _cosmos_page(
+    cosmos: CosmosStoreLike,
+    where_sql: str,
+    params: list[dict[str, Any]],
+    order_path: tuple[str, ...] | None,
+    descending: bool,
+    start: int,
+    page_size: int,
+) -> list[dict[str, Any]]:
+    """One server-side page, **without dropping the ~40% of companies that lack the sort field**
+    (#32). Cosmos ``ORDER BY`` silently omits docs where the path is undefined, so banks/insurers
+    (no UGB Bilanzsumme) and any company without the metric vanished from every list page while
+    still being counted. We therefore page in two ordered buckets — ranked docs (field present)
+    first, then the rest (field absent) ordered by name — and stitch across the boundary."""
+    if order_path is None:
+        sql = f"SELECT * FROM c WHERE {where_sql} OFFSET {start} LIMIT {page_size}"
+        return list(cosmos.query(PRESENTED, sql, params))
+
+    path = "c." + ".".join(order_path)
+    direction = "DESC" if descending else "ASC"
+    ranked = f"{where_sql} AND IS_DEFINED({path}) AND NOT IS_NULL({path})"
+    rest = f"{where_sql} AND (NOT IS_DEFINED({path}) OR IS_NULL({path}))"
+    _cr = next(
+        iter(cosmos.query(PRESENTED, f"SELECT VALUE COUNT(1) FROM c WHERE {ranked}", params)), 0
+    )
+    count_ranked = _cr if isinstance(_cr, int) else 0
+
+    rows: list[dict[str, Any]] = []
+    if start < count_ranked:
+        sql_a = (
+            f"SELECT * FROM c WHERE {ranked} ORDER BY {path} {direction} "
+            f"OFFSET {start} LIMIT {page_size}"
+        )
+        rows = list(cosmos.query(PRESENTED, sql_a, params))
+    remaining = page_size - len(rows)
+    if remaining > 0:  # boundary page or fully past the ranked bucket → draw from the rest
+        b_offset = max(0, start - count_ranked)
+        # c.identity.name is indexed + always present → stable order for the field-less docs
+        sql_b = (
+            f"SELECT * FROM c WHERE {rest} ORDER BY c.identity.name "
+            f"OFFSET {b_offset} LIMIT {remaining}"
+        )
+        rows += list(cosmos.query(PRESENTED, sql_b, params))
+    return rows
+
+
+def _sorted_nulls_last(
+    docs: list[dict[str, Any]], sort_field: str, descending: bool
+) -> list[dict[str, Any]]:
+    """In-memory equivalent of :func:`_cosmos_page`'s ordering: docs with the sort value first
+    (by value, respecting direction), then the field-less docs by name — never interleaved."""
+    path = _SORT_PATHS.get(sort_field)
+    present = [d for d in docs if (_g(d, *path) if path else d.get("fnr")) is not None]
+    absent = [d for d in docs if d not in present]
+    present.sort(key=lambda d: d["fnr"])
+    present.sort(key=lambda d: _sort_key(d, sort_field), reverse=descending)
+    absent.sort(key=lambda d: _g(d, "identity", "name") or d.get("fnr") or "")
+    return present + absent
