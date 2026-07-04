@@ -3,6 +3,11 @@
 **Purpose:** the FastMCP app exposing the Firmenbuch tools (§9) over `10_presentation`, with
 auth + rate limiting enforced before any tool runs.
 
+> **Tool definitions follow the cross-product [MCP Tool Design Standard](../../../../docs/MCP_TOOL_DESIGN.md):**
+> every tool declares MCP `ToolAnnotations` (read-only / idempotent / non-destructive), and each
+> docstring documents its parameters, output shape/ordering, and usage guidance vs sibling tools.
+> Any new MCP server we build (e.g. the German product) must meet the same standard.
+
 ## Tools (§9)
 | Tool | Returns |
 |---|---|

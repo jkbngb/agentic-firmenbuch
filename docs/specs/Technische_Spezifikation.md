@@ -639,6 +639,12 @@ DoD: a fresh Cowork session adds the connector by URL, signs in, and `search_com
 
 ## 9. MCP tool I/O contracts (`core/models/mcp.py`)
 
+> **Tool definitions follow [docs/MCP_TOOL_DESIGN.md](../MCP_TOOL_DESIGN.md)** (the cross-product
+> standard). Every tool carries MCP `ToolAnnotations` (`readOnlyHint`/`idempotentHint`/
+> `destructiveHint`) so behavior is declared structurally, and each docstring documents its
+> parameters (meaning + example + constraints + default), its output shape/ordering/edge cases, and
+> usage guidance vs sibling tools. Improving a description must never rename a tool (breaking change).
+
 ```python
 class SearchFilters(BaseModel):
     status: Literal["active", "inactive", "all"] = "all"   # both kept; 'inactive' = historical|deleted
