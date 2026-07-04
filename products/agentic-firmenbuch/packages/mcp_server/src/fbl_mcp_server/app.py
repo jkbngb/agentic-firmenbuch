@@ -236,6 +236,28 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
             headers={"Cache-Control": "public, max-age=86400"},
         )
 
+    @mcp.custom_route("/.well-known/glama.json", methods=["GET"])  # type: ignore[untyped-decorator]
+    async def _glama_wellknown(_request: Any) -> Any:
+        # Domain-ownership proof for the Glama MCP registry connector claim: publishing this
+        # file on the server's domain verifies we control it. The maintainer email is env-driven
+        # (GLAMA_MAINTAINER_EMAIL) so it can be changed without a rebuild.
+        import json as _json
+
+        from starlette.responses import Response
+
+        email = os.environ.get("GLAMA_MAINTAINER_EMAIL", "jakobneugebauer@pm.me")
+        body = _json.dumps(
+            {
+                "$schema": "https://glama.ai/mcp/schemas/connector.json",
+                "maintainers": [{"email": email}],
+            }
+        )
+        return Response(
+            body,
+            media_type="application/json",
+            headers={"Cache-Control": "public, max-age=3600"},
+        )
+
     # Friendly landing for humans who open the bare host in a browser. The MCP
     # protocol itself lives at ``/mcp`` (a bare GET there correctly returns 406);
     # without this, ``GET /`` would 404 with an unhelpful "Not Found".
