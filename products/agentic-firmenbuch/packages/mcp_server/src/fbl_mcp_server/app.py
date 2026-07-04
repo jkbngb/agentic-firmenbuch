@@ -324,12 +324,24 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
         page: int = 1,
         page_size: int = 25,
     ) -> dict[str, Any]:
-        """Filtered company search over the Austrian Firmenbuch.
+        """Filtered, ranked search over the Austrian Firmenbuch. Read-only.
 
-        Returns a COMPACT summary card per company (name, legal_form, bundesland, size,
-        Bilanzsumme, equity ratio, revenue, growth, has_guv) — NOT the full record. For one
-        company's full profile call get_company_details; for everything we hold (full
-        position taxonomy, per-year history, lineage) call get_full_record.
+        Parameters:
+        - filters (optional): a SearchFilters object; every field is optional and AND-combined
+          (name substring; legal_form; bundesland; size_gkl W/K/M/G; bilanzsumme / revenue /
+          equity_ratio / employees min+max ranges; growth_profile; has_guv; last_filing_year_min;
+          founded_year_min/max; gf_age_min; status active/inactive/all). Omit for an unfiltered
+          list. Full-name inputs like "Wien" or "GmbH" are mapped to stored codes automatically.
+        - sort (optional): {field, descending}; field in {bilanzsumme, revenue, equity_ratio,
+          employees, last_filing_year}; default bilanzsumme descending. Companies missing the sort
+          field sort last.
+        - page (optional, default 1) and page_size (optional, default 25, clamped to 1..100).
+
+        Returns the total match count plus a COMPACT summary card per company on the page (name,
+        legal_form, bundesland, size, Bilanzsumme, equity ratio, revenue, growth, has_guv, industry)
+        — NOT the full record. Use to find/rank companies; for one company's full profile call
+        get_company_details, for the complete record call get_full_record, for aggregates over a
+        whole group call get_cohort_summary.
         Field reference: https://www.agentic-firmenbuch.at/felder.html
         """
         return svc.search_companies(_http_token(ctx), filters, sort, page, page_size)
@@ -383,17 +395,32 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
 
     @mcp.tool(annotations=readonly)
     def get_full_record(ctx: ToolContext, fnr: str) -> dict[str, Any]:
-        """Complete per-company record (superset of the served profile): every position's
-        full history, unknown-code passthrough, completeness, guv_years (§5.1)."""
+        """Complete per-company record, the full superset we hold for one company. Read-only.
+
+        Parameter:
+        - fnr (required): Firmenbuchnummer, e.g. "123456a" (the `fnr` from a search card).
+
+        Returns everything: every position's full per-year history, unknown-code passthrough
+        (nothing dropped), completeness flags, guv_years, and lineage (§5.1). This is the heaviest
+        read. Use it when you need raw completeness; for the normal curated profile use
+        get_company_details, for a single metric's trend use get_company_history.
+        """
         return svc.get_full_record(_http_token(ctx), fnr)
 
     @mcp.tool(annotations=readonly)
     def get_document(ctx: ToolContext, doc_key: str) -> dict[str, Any]:
         """Get a time-limited download link to a company's official Jahresabschluss document.
-        Pass a filing's `document_ref` ("{fnr}:{stichtag}") from get_company_details, a bare FNR
-        (→ latest filing), or a legacy doc_key. Returns `download.url` (a short-lived signed link
-        — open it, don't expect bytes inline) plus the FI flag + caveat for banks/insurers, whose
-        figures live only in the PDF. `download` is null if nothing is ingested for that filing."""
+        Read-only.
+
+        Parameter:
+        - doc_key (required): a filing's `document_ref` ("{fnr}:{stichtag}") from
+          get_company_details, a bare FNR (-> latest filing), or a legacy doc_key.
+
+        Returns `download.url`, a short-lived signed link (open it, don't expect bytes inline), plus
+        the `financial_institution` flag + caveat for banks/insurers, whose figures live only in the
+        PDF. `download` is null if nothing is ingested for that filing. Use to fetch the original
+        filing artifact; for the already-parsed figures use get_company_details / get_full_record
+        instead of downloading."""
         return svc.get_document(_http_token(ctx), doc_key)
 
     @mcp.tool(annotations=readonly)
@@ -444,14 +471,29 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
 
     @mcp.tool(annotations=readonly)
     def get_coverage(ctx: ToolContext) -> dict[str, Any]:
-        """Internal coverage dashboard: XML vs PDF-only vs none, by format/status."""
+        """How much of the register we actually serve, as an aggregate dashboard. Read-only,
+        no parameters.
+
+        Returns coverage counts broken down by data availability — companies with parsed XML
+        financials vs PDF-only (linked but not machine-readable) vs none — and by format/status, so
+        you can gauge what share of the universe has usable financials. It is a dataset-wide
+        overview (served O(1) from a precomputed stats doc), NOT per-company data, no filters. Use
+        for "how complete is the data"; for the valid filter values use list_sectors, for one
+        group's aggregate figures use get_cohort_summary.
+        """
         return svc.get_coverage(_http_token(ctx))
 
     @mcp.tool(annotations=readonly)
     def get_my_usage(ctx: ToolContext, window: str = "today") -> dict[str, Any]:
-        """Your own API-key usage: call count and weighted compute-units, broken down
-        per tool. window ∈ {today, yesterday, month_to_date, last_30_days, all}.
-        Returns only your own key's usage — no other user's data, no e-mail."""
+        """Your own API-key usage: call count and weighted compute-units, per tool. Read-only.
+
+        Parameter:
+        - window (optional, default "today"): one of "today", "yesterday", "month_to_date",
+          "last_30_days", "all".
+
+        Returns only the calling key's own usage (totals + per-tool breakdown) for that window;
+        never another user's data and never the e-mail behind the key. Use to check your own
+        consumption against the free-tier rate limits."""
         return svc.get_my_usage(_http_token(ctx), window)
 
     return mcp
