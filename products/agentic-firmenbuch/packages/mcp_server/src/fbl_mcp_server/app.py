@@ -615,7 +615,17 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
     # The API key comes from the X-API-Key connection header (see _http_token); it is NOT a
     # tool argument, so the agent never has to know or pass it (and it never leaks into a
     # tool-call payload). `ctx: Context` is injected by FastMCP and excluded from the schema.
-    @mcp.tool()
+    #
+    # Every tool here is READ-ONLY: it queries our served snapshot and never writes, mutates,
+    # or calls a third party. We declare that via MCP tool annotations so a spec-aware client
+    # (and registries like Glama) can show "safe to call" without parsing the prose.
+    from mcp.types import ToolAnnotations
+
+    readonly = ToolAnnotations(
+        readOnlyHint=True, destructiveHint=False, idempotentHint=True, openWorldHint=False
+    )
+
+    @mcp.tool(annotations=readonly)
     def search_companies(
         ctx: ToolContext,
         filters: SearchFilters | None = None,
@@ -633,36 +643,60 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
         """
         return svc.search_companies(_http_token(ctx), filters, sort, page, page_size)
 
-    @mcp.tool()
+    @mcp.tool(annotations=readonly)
     def get_company_details(ctx: ToolContext, fnr: str) -> dict[str, Any]:
-        """Full served profile for one company by FNR (identity, location, financials with
-        per-year Bilanz + GuV, all ratios, growth, employees, filings, management).
+        """Full served profile for one company by FNR. Read-only.
+
+        Parameter:
+        - fnr (required): Firmenbuchnummer, e.g. "123456a" (the `fnr` from a search card).
+
+        Returns one company's identity, location, financials (per-year Bilanz + GuV), all computed
+        ratios, growth, employees, filings, and management. Use when you already know the company
+        (from search_companies); for the complete record (full position taxonomy, unknown-code
+        passthrough, per-year lineage) use get_full_record; for specific metric trends use
+        get_company_history.
         Field reference: https://www.agentic-firmenbuch.at/felder.html
         """
         return svc.get_company_details(_http_token(ctx), fnr)
 
-    @mcp.tool()
+    @mcp.tool(annotations=readonly)
     def describe_fields(ctx: ToolContext) -> dict[str, Any]:
-        """Catalog of every field the server can return, by tool tier (search card → full
-        profile → full record), with code tables and availability/null rules. Call this to
-        discover the full data shape before deciding which tool to use.
+        """Catalog of every field the server can return, by tool tier (search card -> full
+        profile -> full record), with code tables and availability/null rules. Read-only,
+        no parameters.
+
+        This describes the SCHEMA only (field names, types, code tables, null rules) so you can
+        pick the right tool and interpret its output. It returns no company data itself; for that
+        call search_companies (many) or get_company_details / get_full_record (one). Call this
+        once up front when unsure what a field means or which tool to use.
         Human-readable version: https://www.agentic-firmenbuch.at/felder.html"""
         return svc.describe_fields(_http_token(ctx))
 
-    @mcp.tool()
+    @mcp.tool(annotations=readonly)
     def get_company_history(
         ctx: ToolContext, fnr: str, metrics: list[str] | None = None
     ) -> dict[str, Any]:
-        """Per-metric time series for one company."""
+        """Per-metric multi-year time series for one company. Read-only.
+
+        Parameters:
+        - fnr (required): Firmenbuchnummer, e.g. "123456a" (the `fnr` from a search card).
+        - metrics (optional): list of metric names to return, e.g.
+          ["bilanzsumme", "umsatzerloese", "eigenkapital"]; omit to get every available series.
+          The card alias "revenue" is accepted for "umsatzerloese".
+
+        Returns, per requested metric, the yearly values (year -> value) plus latest/latest_year.
+        Use when you need the trend of specific figures; for a full one-shot profile use
+        get_company_details, for the complete record (all positions) use get_full_record.
+        """
         return svc.get_company_history(_http_token(ctx), fnr, metrics)
 
-    @mcp.tool()
+    @mcp.tool(annotations=readonly)
     def get_full_record(ctx: ToolContext, fnr: str) -> dict[str, Any]:
         """Complete per-company record (superset of the served profile): every position's
         full history, unknown-code passthrough, completeness, guv_years (§5.1)."""
         return svc.get_full_record(_http_token(ctx), fnr)
 
-    @mcp.tool()
+    @mcp.tool(annotations=readonly)
     def get_document(ctx: ToolContext, doc_key: str) -> dict[str, Any]:
         """Get a time-limited download link to a company's official Jahresabschluss document.
         Pass a filing's `document_ref` ("{fnr}:{stichtag}") from get_company_details, a bare FNR
@@ -671,27 +705,58 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
         figures live only in the PDF. `download` is null if nothing is ingested for that filing."""
         return svc.get_document(_http_token(ctx), doc_key)
 
-    @mcp.tool()
+    @mcp.tool(annotations=readonly)
     def list_sectors(ctx: ToolContext) -> dict[str, Any]:
-        """Legal-form + size-class taxonomy with counts."""
+        """Valid filter values for search_companies, with company counts. Read-only, no parameters.
+
+        Returns the legal-form (Rechtsform) codes and the size-class (`gkl`: W/K/M/G) values
+        present in the served dataset, each with its count. Call this first to discover the real
+        `legal_form` / `size_gkl` values to pass to search_companies or get_cohort_summary, instead
+        of guessing codes. For region/format coverage instead, use get_coverage.
+        """
         return svc.list_sectors(_http_token(ctx))
 
-    @mcp.tool()
+    @mcp.tool(annotations=readonly)
     def get_cohort_summary(ctx: ToolContext, dimension: str, value: str) -> dict[str, Any]:
-        """Aggregate summary for a cohort (gkl / bundesland / legal_form)."""
+        """Aggregate statistics for a cohort of companies. Read-only.
+
+        Parameters:
+        - dimension (required): which axis defines the cohort, one of "gkl" (size class),
+          "bundesland" (federal state), or "legal_form" (Rechtsform). The search-filter alias
+          "size_gkl" is accepted for "gkl".
+        - value (required): the cohort value on that axis, e.g. dimension="bundesland",
+          value="Wien" (full name or the code "W" both work); dimension="gkl", value="M".
+          Use list_sectors to see valid legal_form / gkl values.
+
+        Returns cohort counts plus distribution statistics (e.g. Bilanzsumme median; the exact
+        median is skipped for very large cohorts to keep the request fast), NOT per-company rows.
+        Use for "what does group X look like in aggregate"; for the individual companies use
+        search_companies, for one company use get_company_details.
+        """
         return svc.get_cohort_summary(_http_token(ctx), dimension, value)
 
-    @mcp.tool()
+    @mcp.tool(annotations=readonly)
     def find_peers(ctx: ToolContext, fnr: str, n: int = 10) -> dict[str, Any]:
-        """Nearest companies by Bilanzsumme within the same size class."""
+        """Find the companies most similar in size to a given one. Read-only.
+
+        Parameters:
+        - fnr (required): the reference company's Firmenbuchnummer, e.g. "123456a".
+        - n (optional, default 10, clamped to 1..50): how many peers to return.
+
+        Returns up to `n` companies in the SAME size class (`gkl`) as the reference, nearest to it
+        by Bilanzsumme (closest first), each as a compact card like search_companies. The reference
+        company itself is excluded. Returns an empty list if the FNR is unknown or has no
+        Bilanzsumme to rank against. Use for "companies comparable to X"; for arbitrary filtered
+        lists use search_companies, for group aggregates use get_cohort_summary.
+        """
         return svc.find_peers(_http_token(ctx), fnr, n)
 
-    @mcp.tool()
+    @mcp.tool(annotations=readonly)
     def get_coverage(ctx: ToolContext) -> dict[str, Any]:
         """Internal coverage dashboard: XML vs PDF-only vs none, by format/status."""
         return svc.get_coverage(_http_token(ctx))
 
-    @mcp.tool()
+    @mcp.tool(annotations=readonly)
     def get_my_usage(ctx: ToolContext, window: str = "today") -> dict[str, Any]:
         """Your own API-key usage: call count and weighted compute-units, broken down
         per tool. window ∈ {today, yesterday, month_to_date, last_30_days, all}.
