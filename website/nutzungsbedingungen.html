@@ -100,10 +100,14 @@
   <div class="wrap doc">
     <span class="eyebrow">Rechtliches</span>
     <h1>Nutzungsbedingungen</h1>
+    <div class="callout" style="border-color:rgba(25,195,125,.35)">
+      <p style="margin:0"><strong>ENTWURF – noch nicht rechtsverbindlich.</strong> Diese Fassung
+         wird vor Inkrafttreten anwaltlich geprüft. Sie stellt keine Rechtsberatung dar.</p>
+    </div>
     <p class="sub">Diese Nutzungsbedingungen regeln die Verwendung der Website und des Dienstes
-       <strong>Agentic-Firmenbuch.at</strong> (MCP-Server für Firmen- und Bilanzdaten aus dem
-       österreichischen Firmenbuch). Der Dienst wird kostenlos und ohne Gewähr bereitgestellt.</p>
-    <p class="meta">Anbieter: Jakob Neugebauer · Stand: 18. Juni 2026</p>
+       <strong>Agentic-Firmenbuch.at</strong> – einer <strong>Programmierschnittstelle (MCP-Server)</strong>
+       für Firmen- und Bilanzdaten aus dem österreichischen Firmenbuch.</p>
+    <p class="meta">Anbieter: Jakob Neugebauer · Stand: ENTWURF, 5. Juli 2026</p>
 
     <section class="block">
       <h2><span class="n">§1</span> Geltungsbereich</h2>
@@ -111,25 +115,113 @@
          jeder natürlichen oder juristischen Person, die die Website oder den Dienst nutzt
          („Nutzer"). <strong>Mit der Nutzung des Dienstes – insbesondere dem Verbinden mit dem
          MCP-Server bzw. jeder Abfrage über die Programmierschnittstelle, auch über einen
-         KI-Agenten – sowie mit der Anforderung eines API-Keys werden diese Bedingungen
-         vollumfänglich akzeptiert.</strong> Wer ihnen nicht zustimmt, darf den Dienst nicht
-         nutzen. Abweichende oder entgegenstehende Bedingungen des Nutzers gelten nicht.</p>
+         KI-Agenten – sowie mit der Anforderung eines API-Keys oder dem Abschluss eines
+         kostenpflichtigen Abonnements werden diese Bedingungen vollumfänglich akzeptiert.</strong>
+         Wer ihnen nicht zustimmt, darf den Dienst nicht nutzen. Abweichende oder entgegenstehende
+         Bedingungen des Nutzers gelten nicht.</p>
     </section>
 
     <section class="block">
       <h2><span class="n">§2</span> Leistung</h2>
       <p>Der Anbieter stellt einen <strong>MCP-Server</strong> bereit, der aufbereitete Daten aus dem
          österreichischen Firmenbuch (inkl. veröffentlichter Jahresabschlüsse) über eine
-         Programmierschnittstelle für KI-Agenten zugänglich macht. Der Dienst wird
-         <strong>kostenlos und ohne Gewähr</strong> bereitgestellt; ein Anspruch auf einen bestimmten
-         Funktionsumfang, eine bestimmte Datenabdeckung oder dauerhafte Bereitstellung besteht nicht.</p>
+         Programmierschnittstelle für KI-Agenten zugänglich macht. Gegenstand der Leistung ist
+         <strong>ausschließlich diese Schnittstelle</strong> samt der darüber bereitgestellten Daten.
+         Ein Anspruch auf einen bestimmten Funktionsumfang, eine bestimmte Datenabdeckung oder
+         dauerhafte Bereitstellung besteht nicht.</p>
     </section>
 
     <section class="block">
-      <h2><span class="n">§3</span> Registrierung &amp; API-Key</h2>
+      <h2><span class="n">§3</span> Eigener MCP-Client erforderlich</h2>
+      <div class="callout">
+        <p style="margin:0 0 10px"><strong>Der Anbieter liefert keinen Client, keine App und keine
+           Benutzeroberfläche mit.</strong> Zur Nutzung benötigt der Nutzer einen <strong>eigenen,
+           selbst bereitgestellten MCP-fähigen Client</strong> und bindet die Schnittstelle dort
+           <strong>selbst ein</strong> (Konfiguration, Verbindung, Betrieb liegen beim Nutzer).</p>
+        <p style="margin:0">Beispiele für solche Clients sind etwa <strong>Claude (Cowork, Desktop,
+           claude.ai)</strong>, Claude Code, Cursor oder GitHub Copilot. Der Anbieter steht mit
+           diesen Anbietern in keiner Verbindung, schuldet deren Verfügbarkeit nicht und übernimmt
+           keine Gewähr für deren Funktion, Kosten oder Bedingungen. Fällt der verwendete Client aus
+           oder ist er mit dem MCP-Standard inkompatibel, berührt das die Leistung des Anbieters nicht.</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§4</span> Leistungsumfang &amp; Tarife</h2>
+      <p>Der Zugang wird in folgenden Tarifen angeboten:</p>
       <ul>
-        <li>Voraussetzung ist eine <strong>verifizierte E-Mail-Adresse</strong> (Double-Opt-in). Es wird
-            kein Passwort und keine Zahlungsinformation erhoben.</li>
+        <li><strong>Free (kostenlos):</strong> Firmensuche mit Basisdaten sowie eine begrenzte Anzahl
+            vollständiger Einzelabfragen pro Monat. Kein Zugriff auf Screening-Listen, Kennzahlen-Historie,
+            Peer-/Kohorten-Auswertungen, den Volldatensatz oder Dokument-Downloads.</li>
+        <li><strong>Pro (kostenpflichtig):</strong> voller Funktionsumfang aller Abfrage-Tools ohne die
+            Free-Beschränkungen. Preis, Steuer und Laufzeit siehe §5–§7.</li>
+        <li><strong>Gast (Einladung):</strong> auf Einladung des Anbieters ein zeitlich befristeter
+            Test mit vollem Pro-Umfang; nach Ablauf gilt automatisch der Free-Tarif. Kein Entgelt,
+            keine Zahlungsdaten.</li>
+      </ul>
+      <p>Der Anbieter kann die Ausgestaltung der Tarife (Grenzen, enthaltene Tools) mit Wirkung für die
+         Zukunft anpassen (§15).</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§5</span> Preise &amp; Umsatzsteuer</h2>
+      <p>Der Pro-Tarif kostet <strong>EUR 79,00 pro Monat inklusive Umsatzsteuer</strong>
+         (Bruttopreis, monatlich wiederkehrend). Ein etwaiger Steuersatz ist im Preis enthalten und
+         wird auf der Rechnung ausgewiesen. Bei umsatzsteuerpflichtigen Unternehmern aus dem EU-Ausland
+         kann das <strong>Reverse-Charge-Verfahren</strong> zur Anwendung kommen; die Rechnung weist die
+         Umsatzsteuer dann entsprechend aus.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§6</span> Testphase</h2>
+      <p>Neue Pro-Abonnements beginnen mit einer <strong>kostenlosen Testphase von 14 Tagen</strong>.
+         Wird das Abonnement nicht vor Ablauf der Testphase gekündigt, geht es <strong>nahtlos in das
+         kostenpflichtige Monatsabonnement</strong> über; die erste Zahlung wird dann fällig. Innerhalb
+         der Testphase kann jederzeit ohne Kosten gekündigt werden.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§7</span> Laufzeit &amp; Kündigung</h2>
+      <p>Das Pro-Abonnement läuft <strong>monatlich</strong> und ist <strong>jederzeit zum Ende des
+         laufenden Abrechnungszeitraums kündbar</strong> – im Self-Service über das Kundenportal des
+         Zahlungsdienstleisters (§8). Nach Wirksamwerden der Kündigung endet der Pro-Zugang und der
+         Zugang wird auf den Free-Tarif zurückgestuft. Bereits gezahlte Entgelte für den laufenden
+         Zeitraum werden nicht anteilig erstattet, soweit gesetzlich zulässig.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§8</span> Zahlungsabwicklung (Stripe)</h2>
+      <p>Die Zahlungsabwicklung erfolgt über den Zahlungsdienstleister <strong>Stripe</strong>
+         (Stripe Payments Europe, Ltd.). Der Anbieter speichert <strong>keine vollständigen
+         Zahlungsdaten</strong> (z. B. Kartennummern); diese werden ausschließlich bei Stripe
+         verarbeitet. Rechnungen und die Verwaltung bzw. Kündigung des Abonnements erfolgen über das
+         <strong>Stripe-Kundenportal</strong>. Zur Datenverarbeitung siehe die
+         <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§9</span> Zahlungsverzug &amp; Sperre</h2>
+      <p>Kommt eine fällige Zahlung nicht zustande (z. B. fehlgeschlagene Abbuchung) oder wird das
+         Abonnement beendet, wird der Zugang <strong>ohne Nachfrist auf den Free-Tarif zurückgestuft</strong>.
+         Der Anbieter ist nicht verpflichtet, Pro-Funktionen bei Zahlungsausfall weiter bereitzustellen.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§10</span> Widerrufsrecht</h2>
+      <p><strong>Verbraucher</strong> (§ 1 KSchG / FAGG) haben bei online abgeschlossenen
+         kostenpflichtigen Verträgen grundsätzlich ein <strong>14-tägiges Widerrufsrecht</strong>.
+         Mit der Nutzung des Dienstes innerhalb der Testphase bzw. dem ausdrücklichen Verlangen des
+         sofortigen Leistungsbeginns kann das Widerrufsrecht nach Maßgabe des FAGG vorzeitig erlöschen;
+         hierüber wird im Bestellprozess gesondert informiert.</p>
+      <p>Gegenüber <strong>Unternehmern</strong> (B2B) besteht kein gesetzliches Widerrufsrecht; hier
+         gelten die Kündigungsregelungen nach §7.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§11</span> Registrierung &amp; API-Key</h2>
+      <ul>
+        <li>Voraussetzung ist eine <strong>verifizierte E-Mail-Adresse</strong> (Double-Opt-in). Für den
+            Free- und Gast-Tarif werden keine Zahlungsinformationen erhoben.</li>
         <li>Der ausgegebene <strong>API-Key ist persönlich und vertraulich</strong> zu behandeln und nicht
             an Dritte weiterzugeben. Der Nutzer haftet für die Nutzung über seinen Key.</li>
         <li>Bei Verdacht auf Missbrauch oder Kompromittierung kann der Nutzer jederzeit einen neuen Key
@@ -138,7 +230,7 @@
     </section>
 
     <section class="block">
-      <h2><span class="n">§4</span> Zulässige Nutzung</h2>
+      <h2><span class="n">§12</span> Zulässige Nutzung</h2>
       <p>Der Nutzer verpflichtet sich, den Dienst nicht missbräuchlich zu verwenden. Insbesondere untersagt sind:</p>
       <ul>
         <li>das Umgehen oder Überlasten der <strong>Rate-Limits</strong> bzw. technischer Schutzmaßnahmen;</li>
@@ -158,7 +250,7 @@
     </section>
 
     <section class="block">
-      <h2><span class="n">§5</span> Daten ohne Gewähr</h2>
+      <h2><span class="n">§13</span> Daten ohne Gewähr</h2>
       <div class="callout">
         <p style="margin:0"><strong>Die bereitgestellten Daten stammen aus dem österreichischen
            Firmenbuch und werden automatisiert aufbereitet. Sie werden „ohne Gewähr" bereitgestellt.</strong>
@@ -172,7 +264,7 @@
     </section>
 
     <section class="block">
-      <h2><span class="n">§6</span> Quelle &amp; Lizenz (CC BY 4.0)</h2>
+      <h2><span class="n">§14</span> Quelle &amp; Lizenz (CC BY 4.0)</h2>
       <p>Die zugrunde liegenden Daten stammen aus dem <strong>Österreichischen Firmenbuch / BMJ – Justiz</strong>
          und stehen unter der Lizenz <strong>Creative Commons Namensnennung 4.0 (CC BY 4.0)</strong>.</p>
       <p>Wer die über den Dienst bezogenen Daten weiterverwendet oder veröffentlicht, übernimmt die
@@ -181,14 +273,14 @@
     </section>
 
     <section class="block">
-      <h2><span class="n">§7</span> Verfügbarkeit</h2>
+      <h2><span class="n">§15</span> Verfügbarkeit</h2>
       <p>Es besteht <strong>keine Garantie auf Verfügbarkeit</strong>. Der Dienst kann
          jederzeit geändert, eingeschränkt, unterbrochen oder eingestellt werden. Wartung, Ausfälle
          oder Limits führen zu keinen Ansprüchen.</p>
     </section>
 
     <section class="block">
-      <h2><span class="n">§8</span> Haftungsausschluss</h2>
+      <h2><span class="n">§16</span> Haftungsausschluss</h2>
       <p>Die Nutzung des Dienstes und der Daten erfolgt <strong>ausschließlich auf eigene Gefahr und
          in eigener Verantwortung</strong>; sie erfolgt <strong>unter Ausschluss jeglicher
          Gewährleistung</strong> – insbesondere für Richtigkeit, Vollständigkeit und Aktualität der
@@ -198,21 +290,22 @@
     </section>
 
     <section class="block">
-      <h2><span class="n">§9</span> Laufzeit, Sperrung &amp; Löschung</h2>
+      <h2><span class="n">§17</span> Kontolöschung</h2>
       <p>Das Nutzungsverhältnis ist jederzeit beidseitig ohne Frist beendbar. Der Nutzer kann sein Konto
          und seinen Key über den Abmelde-/Löschweg entfernen lassen (<a href="datenschutz.html">siehe Datenschutz</a>).
-         Der Anbieter kann Zugänge bei Verstößen oder Einstellung des Dienstes deaktivieren.</p>
+         Ein laufendes kostenpflichtiges Abonnement ist zusätzlich nach §7 zu kündigen. Der Anbieter kann
+         Zugänge bei Verstößen oder Einstellung des Dienstes deaktivieren.</p>
     </section>
 
     <section class="block">
-      <h2><span class="n">§10</span> Änderungen der Bedingungen</h2>
+      <h2><span class="n">§18</span> Änderungen der Bedingungen</h2>
       <p>Der Anbieter kann diese Bedingungen mit Wirkung für die Zukunft anpassen, insbesondere bei
          Änderungen des Funktionsumfangs oder der Rechtslage. Die jeweils aktuelle Fassung ist auf
          dieser Seite abrufbar.</p>
     </section>
 
     <section class="block">
-      <h2><span class="n">§11</span> Schlussbestimmungen</h2>
+      <h2><span class="n">§19</span> Schlussbestimmungen</h2>
       <p>Es gilt österreichisches Recht. Gerichtsstand ist – soweit zulässig –
          Wien. Sollte eine Bestimmung unwirksam sein, bleibt die
          Wirksamkeit der übrigen Bestimmungen unberührt.</p>
