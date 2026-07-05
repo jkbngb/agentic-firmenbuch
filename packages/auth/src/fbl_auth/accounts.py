@@ -64,6 +64,11 @@ class Account(BaseModel):
     # ``free``. ``None`` for open-ended plans (free/pro/legacy). Stripe never sets this;
     # the subscription lifecycle drives pro up/downgrades via the plan field instead.
     plan_expires_at: str | None = None
+    # Stripe linkage (set by the billing webhook; None for free/guest/legacy accounts that
+    # never bought). The customer id lets us open the portal and match subscription events
+    # back to this account regardless of which e-mail/card paid.
+    stripe_customer_id: str | None = None
+    stripe_subscription_id: str | None = None
     status: str = "active"
     created_at: str = Field(default_factory=now_utc_z)
     usage: Usage = Field(default_factory=Usage)

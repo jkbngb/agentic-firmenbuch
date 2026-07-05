@@ -6,6 +6,7 @@ azure-communication-email
 httpx
 pydantic>=2
 pydantic-settings
+stripe>=11  # billing: Checkout/Portal sessions + webhook signature verification
 
 # Workspace packages reused by the Functions (account lifecycle, config, storage).
 # Relative paths resolve from this folder (api/). For Static Web Apps / Oryx builds that

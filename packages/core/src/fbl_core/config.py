@@ -93,6 +93,15 @@ class Settings(BaseSettings):
     # Where a gated free response points the user to upgrade. No dedicated pricing page yet;
     # onboarding covers key + plans. Override via UPGRADE_URL. (Set to /preise.html in Phase 4.)
     upgrade_url: str = "https://www.agentic-firmenbuch.at/onboarding.html"
+
+    # --- Stripe (billing). TEST mode first; keys ONLY via ENV / Key Vault, never in repo. ---
+    stripe_secret_key: str | None = None  # sk_test_… (test) / sk_live_… (go-live)
+    stripe_webhook_secret: str | None = None  # whsec_… (from the webhook endpoint config)
+    stripe_price_lookup_key: str = "pro_monthly"  # resolves to the Pro price id at request time
+    stripe_trial_days: int = 14  # 14-day free trial on checkout (subscription_data)
+    billing_success_url: str = "https://www.agentic-firmenbuch.at/willkommen.html"
+    billing_cancel_url: str = "https://www.agentic-firmenbuch.at/onboarding.html"
+    billing_portal_return_url: str = "https://www.agentic-firmenbuch.at/onboarding.html"
     schema_version: str = "1.0"
     metrics_version: str = "1.0"
 

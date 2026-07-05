@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import html
 import json
+import logging
 import os
 import uuid
 from typing import Any
@@ -26,10 +27,16 @@ from starlette.responses import HTMLResponse, JSONResponse, RedirectResponse, Re
 from starlette.routing import Route
 
 from fbl_auth import (
+    Account,
+    checkout_session_params,
     email_sender_from_settings,
+    handle_event,
+    portal_session_params,
     regenerate_request,
     signup_request,
     unsubscribe_request,
+    validate,
+    validate_bearer,
     verify_request,
 )
 from fbl_auth.turnstile import make_turnstile_verifier
@@ -336,6 +343,110 @@ async def notify_fixed(req: Request) -> Response:
     return JSONResponse({"ok": True})
 
 
+# --- Stripe billing (Aufgabe 2) -----------------------------------------------------------
+# Endpoints: start a Pro checkout, open the customer portal, receive webhooks. The plan-change
+# logic is the pure, unit-tested fbl_auth.billing; here we only do Stripe I/O (session creation
+# + signature verification). The stripe SDK is imported lazily so the rest of the API loads even
+# when it isn't installed (it's a container-only dep; keys come from ENV/Key Vault, never repo).
+
+_billing_log = logging.getLogger("fbl_billing")
+
+
+def _stripe() -> Any:
+    """The Stripe SDK with the secret key applied (test key in test mode). Raises if not
+    installed/configured — callers guard on ``_settings.stripe_secret_key`` first."""
+    import stripe
+
+    stripe.api_key = _settings.stripe_secret_key
+    return stripe
+
+
+def _billing_account(req: Request, body: dict[str, Any]) -> Account | None:
+    """Resolve the calling account from an X-API-Key header or an ``api_key`` body field
+    (same credential the MCP server accepts: API key or OAuth bearer)."""
+    token = req.headers.get("x-api-key", "") or str(body.get("api_key", "")).strip()
+    if not token:
+        return None
+    return validate(token, _cosmos) or validate_bearer(_cosmos, token)
+
+
+async def billing_checkout(req: Request) -> Response:
+    """Start a Pro subscription checkout for the calling account. Returns ``{url}`` to redirect
+    the browser to Stripe Checkout. Binds the purchase to the account via client_reference_id."""
+    if not _settings.stripe_secret_key:
+        return JSONResponse({"error": "billing not configured"}, status_code=503)
+    body = await _body(req)
+    account = _billing_account(req, body)
+    if account is None:
+        return JSONResponse({"error": "unauthorized"}, status_code=401)
+    try:
+        stripe = _stripe()
+        prices = stripe.Price.list(
+            lookup_keys=[_settings.stripe_price_lookup_key], expand=["data.product"]
+        )
+        if not prices.data:
+            _billing_log.error(
+                "checkout: no price for lookup_key=%s", _settings.stripe_price_lookup_key
+            )
+            return JSONResponse({"error": "price not available"}, status_code=500)
+        params = checkout_session_params(
+            account,
+            price_id=prices.data[0].id,
+            success_url=_settings.billing_success_url + "?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url=_settings.billing_cancel_url,
+            trial_days=_settings.stripe_trial_days,
+        )
+        session = stripe.checkout.Session.create(**params)
+    except Exception:
+        _billing_log.exception("checkout session creation failed")
+        return JSONResponse({"error": "checkout failed"}, status_code=502)
+    return JSONResponse({"url": session.url})
+
+
+async def billing_portal(req: Request) -> Response:
+    """Open the Stripe customer portal (self-service cancel + invoices) for the calling account."""
+    if not _settings.stripe_secret_key:
+        return JSONResponse({"error": "billing not configured"}, status_code=503)
+    body = await _body(req)
+    account = _billing_account(req, body)
+    if account is None:
+        return JSONResponse({"error": "unauthorized"}, status_code=401)
+    params = portal_session_params(account, return_url=_settings.billing_portal_return_url)
+    if params is None:
+        return JSONResponse({"error": "no subscription to manage"}, status_code=409)
+    try:
+        stripe = _stripe()
+        session = stripe.billing_portal.Session.create(**params)
+    except Exception:
+        _billing_log.exception("portal session creation failed")
+        return JSONResponse({"error": "portal failed"}, status_code=502)
+    return JSONResponse({"url": session.url})
+
+
+async def billing_webhook(req: Request) -> Response:
+    """Receive Stripe webhooks. Verifies the signature (STRIPE_WEBHOOK_SECRET) against the RAW
+    body, then applies the plan change idempotently via fbl_auth.billing.handle_event."""
+    secret = _settings.stripe_webhook_secret
+    if not secret or not _settings.stripe_secret_key:
+        return JSONResponse({"error": "webhook not configured"}, status_code=503)
+    payload = await req.body()  # RAW bytes — required for signature verification
+    signature = req.headers.get("stripe-signature", "")
+    try:
+        stripe = _stripe()
+        event = stripe.Webhook.construct_event(payload, signature, secret)
+    except Exception:
+        # Bad/absent signature (or malformed body) — never trust it.
+        return JSONResponse({"error": "invalid signature"}, status_code=400)
+    # Deep-convert the StripeObject to a plain dict (version-robust) for the pure handler.
+    event_dict = json.loads(str(event))
+    try:
+        result = handle_event(_cosmos, event_dict)
+    except Exception:
+        _billing_log.exception("webhook handling failed for event %s", event_dict.get("id"))
+        return JSONResponse({"error": "handling failed"}, status_code=500)
+    return JSONResponse(result)
+
+
 _DEFAULT_ORIGINS = [
     "https://www.agentic-firmenbuch.at",
     "https://agentic-firmenbuch.at",
@@ -356,13 +467,16 @@ app = Starlette(
         Route("/api/company/{fnr}", company, methods=["GET"]),
         Route("/api/feedback", feedback, methods=["POST"]),
         Route("/api/notify-fixed", notify_fixed, methods=["POST"]),
+        Route("/api/billing/checkout", billing_checkout, methods=["POST"]),
+        Route("/api/billing/portal", billing_portal, methods=["POST"]),
+        Route("/api/billing/webhook", billing_webhook, methods=["POST"]),
     ],
     middleware=[
         Middleware(
             CORSMiddleware,
             allow_origins=_cors_origins,
             allow_methods=["GET", "POST", "OPTIONS"],
-            allow_headers=["content-type"],
+            allow_headers=["content-type", "x-api-key"],
             max_age=3600,
         )
     ],
