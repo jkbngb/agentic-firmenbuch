@@ -258,7 +258,8 @@
   .hx-caret{display:inline-block;width:2px;height:1.05em;background:var(--hxm);vertical-align:-2px;margin-left:2px;animation:hxBlink 1s steps(1) infinite}
   @keyframes hxBlink{0%,55%{opacity:1}56%,100%{opacity:0}}
   .hx-status{margin-top:12px;align-self:flex-start;display:none;align-items:center;gap:8px;font-family:var(--font-m);font-size:12px;color:var(--hxd);border:1px solid var(--hxl);border-radius:999px;padding:7px 13px}
-  .hx-status.show{display:inline-flex}
+  .hx-status.show{display:inline-flex;animation:hxFadeIn .4s ease both}
+  @keyframes hxFadeIn{from{opacity:0}to{opacity:1}}
   .hx-dot{width:7px;height:7px;border-radius:50%;background:var(--hxm);animation:hxPulse 1.1s ease-in-out infinite}
   @keyframes hxPulse{0%,100%{opacity:1}50%{opacity:.35}}
   .hx-tick{display:none;color:var(--hxm);font-weight:700}
@@ -266,12 +267,13 @@
   .hx-status.done .hx-tick{display:inline}
   .hx-status.done{color:#c6cdd9;border-color:#2b3341}
   .hx-result{margin-top:14px;display:none}
-  .hx-result.show{display:block}
+  .hx-result.show{display:block;animation:hxFadeIn .5s ease both}
   .hx-rhead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-family:var(--font-m);font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#66707f;padding:0 2px 8px}
   .hx-rhead .hx-meta{letter-spacing:.02em;text-transform:none;color:var(--hxd);font-size:11px}
   .hx-table{border:1px solid var(--hxl);border-radius:10px;overflow:hidden;background:#101319}
-  .hx-row{display:grid;gap:14px;align-items:center;padding:11px 14px;border-top:1px solid #1c212b;font-size:13.5px;opacity:0;transform:translateY(10px);transition:opacity .6s ease,transform .6s cubic-bezier(.16,1,.3,1)}
-  .hx-row.in{opacity:1;transform:none}
+  .hx-row{display:grid;gap:14px;align-items:center;padding:11px 14px;border-top:1px solid #1c212b;font-size:13.5px;opacity:0}
+  .hx-row.in{animation:hxRowIn .62s cubic-bezier(.16,1,.3,1) both}
+  @keyframes hxRowIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
   .hx-row.hd{opacity:1;transform:none;border-top:0;background:#0f1218;padding:9px 14px}
   .hx-row.hd .hx-cell span{font-family:var(--font-m);font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#66707f}
   .hx-cell{min-width:0}
@@ -1469,7 +1471,7 @@ function play(i){clearAll();cur=i;selectTab(i);var doIntro=firstRun&&i===0;if(!d
   at(3300,function(){elCaret.style.display="none";elStatus.classList.add("show");});
   at(5100,function(){elStatus.classList.add("done");elStatusTxt.textContent="Firmenbuch abgefragt";});
   at(5450,function(){elResult.classList.add("show");});
-  for(var r2=0;r2<rows.length;r2++){(function(row,k){at(5700+k*650,function(){row.classList.add("in");});})(rows[r2],r2);}
+  for(var r2=0;r2<rows.length;r2++){(function(row,k){at(5650+k*320,function(){row.classList.add("in");});})(rows[r2],r2);}
   at(9200,function(){elSrcWrap.classList.add("show");});
   at(13500,function(){play(auto?(cur+1)%P.length:cur);});
 }
