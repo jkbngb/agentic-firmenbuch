@@ -25,7 +25,7 @@ Every manual resolution picks the dominant real-world activity; the full officia
 stays in `ambiguous_class_2008` so every choice is auditable.
 
 Run:  uv run --with openpyxl python scripts/extract_oenace_crosswalk.py
-Writes: products/agentic-firmenbuch/packages/core_at/src/fbl_core_at/classification/data/oenace/oenace2008_2025_crosswalk.json
+Writes: oenace2008_2025_crosswalk.json under fbl_core_at/classification/data/oenace/
 """
 
 from __future__ import annotations
@@ -38,7 +38,9 @@ from pathlib import Path
 import openpyxl
 
 ROOT = Path(__file__).resolve().parent.parent
-DATA = ROOT / "products/agentic-firmenbuch/packages/core_at/src/fbl_core_at/classification/data/oenace"
+DATA = (
+    ROOT / "products/agentic-firmenbuch/packages/core_at/src/fbl_core_at/classification/data/oenace"
+)
 XLSX = DATA / "OENACE2008_2025_Korrespondenz.xlsx"
 OUT = DATA / "oenace2008_2025_crosswalk.json"
 
