@@ -131,8 +131,11 @@ def _store() -> InMemoryCosmosStore:
 
 
 def _svc() -> tuple[McpService, str]:
+    # Pro token: these tests validate the underlying service (full data + every tool). The
+    # Free-plan feature gates (flattened card, monthly cap, Pro-only tools) are covered
+    # separately in test_plans.py; a Pro account bypasses them so this file stays about behavior.
     cosmos = _store()
-    token = signup("user@example.test", cosmos).token
+    token = signup("user@example.test", cosmos, tier="pro").token
     svc = McpService(cosmos, Settings(rate_limit_per_min=1000, rate_limit_per_day=10000))
     return svc, token
 
@@ -197,7 +200,7 @@ def test_industry_block_served_on_detail_and_card() -> None:
             },
         ),
     )
-    token = signup("u@example.test", cosmos).token
+    token = signup("u@example.test", cosmos, tier="pro").token  # asserts premium card fields
     svc = McpService(cosmos, Settings(rate_limit_per_min=1000, rate_limit_per_day=10000))
 
     # no stored classification -> honest gap: text served, codes null, no `branch` key
@@ -317,7 +320,7 @@ def test_search_card_exposes_seat_address() -> None:
         ),
     )
     svc = McpService(cosmos, Settings(rate_limit_per_min=1000, rate_limit_per_day=10000))
-    token = signup("u@example.test", cosmos).token
+    token = signup("u@example.test", cosmos, tier="pro").token  # street is a Pro card field
 
     card = svc.search_companies(token, SearchFilters(name="Bau Graz"))["results"][0]
     assert card["postal_code"] == "8010"
@@ -515,7 +518,7 @@ def test_full_record_returns_superset_and_redacts_names() -> None:
             "meta": {"data_version": 3, "schema_version": "1.0"},
         },
     )
-    token = signup("ops@example.test", cosmos).token
+    token = signup("ops@example.test", cosmos, tier="pro").token  # get_full_record is Pro-only
     svc = McpService(cosmos, Settings(expose_personal_data=False))
     full = svc.get_full_record(token, "070707x")["result"]
     assert full["financials"]["positions"]["aktiva"]["latest"] == 100.0  # full detail
@@ -609,7 +612,7 @@ def _fi_store_with_pdf() -> tuple[InMemoryCosmosStore, InMemoryBlobStore]:
 
 def test_get_document_returns_sas_download_for_fi_pdf() -> None:
     cosmos, blob = _fi_store_with_pdf()
-    token = signup("user@example.test", cosmos).token
+    token = signup("user@example.test", cosmos, tier="pro").token  # get_document is Pro-only
     svc = McpService(cosmos, Settings(rate_limit_per_min=1000, rate_limit_per_day=10000), blob)
 
     result = svc.get_document(token, "012345f:2024-12-31")["result"]
@@ -629,7 +632,7 @@ def test_get_document_returns_sas_download_for_fi_pdf() -> None:
 
 def test_get_document_resolves_bare_fnr_to_latest_filing() -> None:
     cosmos, blob = _fi_store_with_pdf()
-    token = signup("user@example.test", cosmos).token
+    token = signup("user@example.test", cosmos, tier="pro").token  # get_document is Pro-only
     svc = McpService(cosmos, Settings(rate_limit_per_min=1000, rate_limit_per_day=10000), blob)
     result = svc.get_document(token, "012345f")["result"]
     assert result["stichtag"] == "2024-12-31"

@@ -27,7 +27,7 @@ from fbl_core.config import Settings, get_settings
 from fbl_core.storage import BlobStore, BlobStoreLike, CosmosStoreLike
 from fbl_core_at.models import SearchFilters, Sort
 
-from . import service
+from . import plans, service
 from .errors import RateLimited, Unauthorized
 from .oauth_app import _OAuthChallenge, register_oauth_endpoints
 
@@ -76,6 +76,18 @@ class McpService:
             record_metered_usage(account, tool, self._cosmos)
         return account
 
+    # --- plan feature gating (Free vs full-access plans; see fbl_mcp_server.plans) ----------
+
+    def _plan(self, account: Account) -> str:
+        """The plan actually in force for this account (an expired guest reverts to free)."""
+        return plans.effective_plan(account.tier, account.plan_expires_at)
+
+    def _free_details_this_month(self, account: Account) -> int:
+        """Month-to-date ``get_company_details`` call count for this key (drives the free cap)."""
+        usage = get_usage(self._cosmos, account.token_hash, window="month_to_date")
+        stat = usage.get("by_tool", {}).get("get_company_details", {})
+        return int(stat.get("calls", 0))
+
     def search_companies(
         self,
         token: str,
@@ -84,14 +96,31 @@ class McpService:
         page: int = 1,
         page_size: int = 25,
     ) -> dict[str, Any]:
-        self._authorize(token, "search_companies")
-        return service.search_companies(self._cosmos, filters, sort, page, page_size).model_dump(
+        account = self._authorize(token, "search_companies")
+        resp = service.search_companies(self._cosmos, filters, sort, page, page_size).model_dump(
             mode="json"
         )
+        # Free plan: search stays open but each card is flattened to basic fields.
+        if not plans.is_full_access(self._plan(account)):
+            resp = plans.flatten_free_search_response(resp)
+        return resp
 
     def get_company_details(self, token: str, fnr: str) -> dict[str, Any]:
-        self._authorize(token, "get_company_details")
+        account = self._authorize(token, "get_company_details")
+        # Free plan: cap full profiles per month. ``_authorize`` has already metered THIS call,
+        # so the month-to-date count includes it; allow exactly ``cap`` successes by blocking
+        # once the count exceeds the cap.
+        if not plans.is_full_access(self._plan(account)):
+            cap = self._settings.free_details_per_month
+            if self._free_details_this_month(account) > cap:
+                return plans.gate_details_cap(cap, self._settings.upgrade_url)
         return service.get_company_details(self._cosmos, fnr)
+
+    def _gate_pro_only(self, account: Account, tool: str) -> dict[str, Any] | None:
+        """Return an upgrade gate if this Pro-only tool is called on the free plan, else None."""
+        if plans.is_full_access(self._plan(account)):
+            return None
+        return plans.gate_pro_only(tool, self._settings.upgrade_url)
 
     def describe_fields(self, token: str) -> dict[str, Any]:
         """Static catalog of every field the server can return, by tool tier (§9)."""
@@ -101,18 +130,27 @@ class McpService:
     def get_company_history(
         self, token: str, fnr: str, metrics: list[str] | None = None
     ) -> dict[str, Any]:
-        self._authorize(token, "get_company_history")
+        account = self._authorize(token, "get_company_history")
+        gate = self._gate_pro_only(account, "get_company_history")
+        if gate is not None:
+            return gate
         return service.get_company_history(self._cosmos, fnr, metrics)
 
     def get_full_record(self, token: str, fnr: str) -> dict[str, Any]:
         """The complete consolidated/derived record — full superset, nothing reduced (§5.1)."""
-        self._authorize(token, "get_full_record")
+        account = self._authorize(token, "get_full_record")
+        gate = self._gate_pro_only(account, "get_full_record")
+        if gate is not None:
+            return gate
         return service.get_full_record(
             self._cosmos, fnr, expose_personal_data=self._settings.expose_personal_data
         )
 
     def get_document(self, token: str, doc_key: str) -> dict[str, Any]:
-        self._authorize(token, "get_document")
+        account = self._authorize(token, "get_document")
+        gate = self._gate_pro_only(account, "get_document")
+        if gate is not None:
+            return gate
         return service.get_document(self._cosmos, doc_key, self._blob)
 
     def list_sectors(self, token: str) -> dict[str, Any]:
@@ -120,11 +158,17 @@ class McpService:
         return service.list_sectors(self._cosmos)
 
     def get_cohort_summary(self, token: str, dimension: str, value: str) -> dict[str, Any]:
-        self._authorize(token, "get_cohort_summary")
+        account = self._authorize(token, "get_cohort_summary")
+        gate = self._gate_pro_only(account, "get_cohort_summary")
+        if gate is not None:
+            return gate
         return service.get_cohort_summary(self._cosmos, dimension, value)
 
     def find_peers(self, token: str, fnr: str, n: int = 10) -> dict[str, Any]:
-        self._authorize(token, "find_peers")
+        account = self._authorize(token, "find_peers")
+        gate = self._gate_pro_only(account, "find_peers")
+        if gate is not None:
+            return gate
         return service.find_peers(self._cosmos, fnr, n)
 
     def get_coverage(self, token: str) -> dict[str, Any]:

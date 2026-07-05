@@ -73,9 +73,26 @@ class Settings(BaseSettings):
     rate_limit_per_day: int = 5000
     # Per-tier quota overrides as [per_min, per_day]; "free" falls back to the two above
     # so a paid tier is purely a config change (§8.10). Override via TIER_QUOTAS env (JSON).
+    # guest + legacy get Pro-level rate limits (guest = 14-day trial; legacy = grandfathered
+    # existing keys). Feature gating (which tools, free monthly cap) is separate — see
+    # fbl_mcp_server.plans — only "free" is feature-limited; every other plan is full-access.
     tier_quotas: dict[str, list[int]] = Field(
-        default_factory=lambda: {"pro": [600, 100_000], "enterprise": [3_000, 1_000_000]}
+        default_factory=lambda: {
+            "pro": [600, 100_000],
+            "guest": [600, 100_000],
+            "legacy": [600, 100_000],
+            "enterprise": [3_000, 1_000_000],
+        }
     )
+
+    # --- Billing / plan feature gates (config, not code) ---
+    # Free plan: monthly cap on full company profiles (get_company_details). The search stays
+    # usable (flattened card). Override via FREE_DETAILS_PER_MONTH. Chosen from real usage:
+    # casual testers who tried once ran ~6-22 total calls, few of them full profiles.
+    free_details_per_month: int = 10
+    # Where a gated free response points the user to upgrade. No dedicated pricing page yet;
+    # onboarding covers key + plans. Override via UPGRADE_URL. (Set to /preise.html in Phase 4.)
+    upgrade_url: str = "https://www.agentic-firmenbuch.at/onboarding.html"
     schema_version: str = "1.0"
     metrics_version: str = "1.0"
 

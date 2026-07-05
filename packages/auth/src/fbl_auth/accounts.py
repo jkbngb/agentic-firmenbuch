@@ -56,7 +56,14 @@ class Account(BaseModel):
     id: str  # == token_hash
     token_hash: str
     email: str
+    # The plan in force. Values: free, pro, guest, legacy (grandfathered), enterprise.
+    # Stored under the historical name ``tier`` (== plan) so no data migration is needed;
+    # ``quota_for`` maps it to rate-limit quotas, ``plans`` maps it to feature gates.
     tier: str = "free"
+    # For time-boxed plans (``guest``): ISO-8601 Z instant at which the plan reverts to
+    # ``free``. ``None`` for open-ended plans (free/pro/legacy). Stripe never sets this;
+    # the subscription lifecycle drives pro up/downgrades via the plan field instead.
+    plan_expires_at: str | None = None
     status: str = "active"
     created_at: str = Field(default_factory=now_utc_z)
     usage: Usage = Field(default_factory=Usage)
