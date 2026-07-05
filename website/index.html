@@ -243,8 +243,8 @@
      rises and expands to full height right before the "Firmenbuch wird abgefragt" status. Only
      the very first cycle; JS measures --hxFullH / --hxShift. Afterwards a fixed panel height so
      the surrounding layout never reflows. Not-yet-shown sections are display-toggled. */
-  .hx-panel{background:var(--hxp);border:1px solid var(--hxl);border-radius:14px;padding:18px;min-height:462px;display:flex;flex-direction:column;box-shadow:0 24px 60px -32px rgba(0,0,0,.8);transition:min-height .55s cubic-bezier(.4,0,.2,1)}
-  .hx-inner{transition:transform .55s cubic-bezier(.4,0,.2,1)}
+  .hx-panel{background:var(--hxp);border:1px solid var(--hxl);border-radius:14px;padding:18px;min-height:462px;display:flex;flex-direction:column;box-shadow:0 24px 60px -32px rgba(0,0,0,.8);transition:min-height .75s cubic-bezier(.16,1,.3,1)}
+  .hx-inner{transition:transform .75s cubic-bezier(.16,1,.3,1)}
   .hx-demo.hx-intro{min-height:var(--hxFullH,auto)}
   .hx-demo.hx-intro .hx-inner{transform:translateY(var(--hxShift,0px))}
   .hx-demo.hx-intro .hx-panel{min-height:0}
@@ -270,7 +270,7 @@
   .hx-rhead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-family:var(--font-m);font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#66707f;padding:0 2px 8px}
   .hx-rhead .hx-meta{letter-spacing:.02em;text-transform:none;color:var(--hxd);font-size:11px}
   .hx-table{border:1px solid var(--hxl);border-radius:10px;overflow:hidden;background:#101319}
-  .hx-row{display:grid;gap:14px;align-items:center;padding:11px 14px;border-top:1px solid #1c212b;font-size:13.5px;opacity:0;transform:translateY(6px);transition:opacity .45s ease,transform .45s ease}
+  .hx-row{display:grid;gap:14px;align-items:center;padding:11px 14px;border-top:1px solid #1c212b;font-size:13.5px;opacity:0;transform:translateY(10px);transition:opacity .6s ease,transform .6s cubic-bezier(.16,1,.3,1)}
   .hx-row.in{opacity:1;transform:none}
   .hx-row.hd{opacity:1;transform:none;border-top:0;background:#0f1218;padding:9px 14px}
   .hx-row.hd .hx-cell span{font-family:var(--font-m);font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#66707f}
@@ -1463,15 +1463,15 @@ function setSrc(p){elSrc.textContent="";elSrc.appendChild(document.createTextNod
 function selectTab(i){for(var k=0;k<tabs.length;k++)tabs[k].setAttribute("aria-selected",k===i?"true":"false");}
 function play(i){clearAll();cur=i;selectTab(i);var doIntro=firstRun&&i===0;if(!doIntro&&demo){demo.classList.remove("hx-intro");firstRun=false;}var p=P[i],rows=build(p);elMeta.textContent=p.meta;setSrc(p);elQ.textContent="";elCaret.style.display="inline-block";elStatus.className="hx-status";elStatusTxt.textContent="Firmenbuch wird abgefragt …";elResult.classList.remove("show");elSrcWrap.classList.remove("show");
   if(rm){elQ.textContent=p.q;elCaret.style.display="none";elStatus.className="hx-status show done";elStatusTxt.textContent="Firmenbuch abgefragt";elResult.classList.add("show");for(var r=0;r<rows.length;r++)rows[r].classList.add("in");elSrcWrap.classList.add("show");return;}
-  if(doIntro){demo.classList.add("hx-noanim");demo.classList.remove("hx-intro");var fullH=inner.offsetHeight;demo.classList.add("hx-intro");var compactH=inner.offsetHeight;demo.style.setProperty("--hxFullH",fullH+"px");demo.style.setProperty("--hxShift",Math.max(0,(fullH-compactH)/2)+"px");void demo.offsetHeight;demo.classList.remove("hx-noanim");firstRun=false;at(2100,function(){demo.classList.remove("hx-intro");});}
-  var n=0,len=p.q.length,step=Math.max(24,Math.round(2100/len));
+  if(doIntro){demo.classList.add("hx-noanim");demo.classList.remove("hx-intro");var fullH=inner.offsetHeight;demo.classList.add("hx-intro");var compactH=inner.offsetHeight;demo.style.setProperty("--hxFullH",fullH+"px");demo.style.setProperty("--hxShift",Math.max(0,(fullH-compactH)/2)+"px");void demo.offsetHeight;demo.classList.remove("hx-noanim");firstRun=false;at(2500,function(){demo.classList.remove("hx-intro");});}
+  var n=0,len=p.q.length,step=Math.max(30,Math.round(2500/len));
   typer=setInterval(function(){n++;elQ.textContent=p.q.slice(0,n);if(n>=len){clearInterval(typer);typer=null;}},step);
-  at(2400,function(){elCaret.style.display="none";elStatus.classList.add("show");});
-  at(3500,function(){elStatus.classList.add("done");elStatusTxt.textContent="Firmenbuch abgefragt";});
-  at(3800,function(){elResult.classList.add("show");});
-  for(var r2=0;r2<rows.length;r2++){(function(row,k){at(4000+k*480,function(){row.classList.add("in");});})(rows[r2],r2);}
-  at(6000,function(){elSrcWrap.classList.add("show");});
-  at(10000,function(){play(auto?(cur+1)%P.length:cur);});
+  at(3300,function(){elCaret.style.display="none";elStatus.classList.add("show");});
+  at(5100,function(){elStatus.classList.add("done");elStatusTxt.textContent="Firmenbuch abgefragt";});
+  at(5450,function(){elResult.classList.add("show");});
+  for(var r2=0;r2<rows.length;r2++){(function(row,k){at(5700+k*650,function(){row.classList.add("in");});})(rows[r2],r2);}
+  at(9200,function(){elSrcWrap.classList.add("show");});
+  at(13500,function(){play(auto?(cur+1)%P.length:cur);});
 }
 for(var t=0;t<tabs.length;t++){(function(k){tabs[k].addEventListener("click",function(){auto=false;play(k);});})(t);}
 document.addEventListener("visibilitychange",function(){if(!document.hidden&&!rm)play(cur);});
