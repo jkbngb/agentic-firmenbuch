@@ -230,9 +230,10 @@
   .trust-chip svg{width:18px;height:18px;opacity:.85}
   /* hero trust as pills (only in the hero) — badge icon + hover lift + subtle gradient so the
      stacked chips feel alive instead of sterile */
-  .hero .trust-chip{border:1px solid var(--line-2);border-radius:999px;padding:7px 14px 7px 8px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.008));font-size:13.5px;color:#c6cdd9;transition:transform .18s ease,border-color .18s ease,background .18s ease}
-  .hero .trust-chip:hover{transform:translateY(-1px);border-color:rgba(25,195,125,.45);background:linear-gradient(180deg,rgba(25,195,125,.07),rgba(255,255,255,.01))}
-  .hero .trust-chip svg{width:15px;height:15px;padding:5px;box-sizing:content-box;border-radius:999px;background:rgba(25,195,125,.13);border:1px solid rgba(25,195,125,.32);opacity:1}
+  .hero .trust-chip{position:relative;z-index:2;border:1px solid var(--line-2);border-radius:999px;padding:7px 14px 7px 8px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.008));font-size:13.5px;color:#c6cdd9;cursor:default;transition:transform .2s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease}
+  .hero .trust-chip:hover{transform:translateY(-2px);border-color:rgba(25,195,125,.6);background:linear-gradient(180deg,rgba(25,195,125,.12),rgba(25,195,125,.03));box-shadow:0 8px 22px -12px rgba(25,195,125,.5);color:var(--text)}
+  .hero .trust-chip svg{width:15px;height:15px;padding:5px;box-sizing:content-box;border-radius:999px;background:rgba(25,195,125,.13);border:1px solid rgba(25,195,125,.32);opacity:1;transition:background .2s ease}
+  .hero .trust-chip:hover svg{background:rgba(25,195,125,.28)}
   /* ---------- hero interactive demo (hx-*) ---------- */
   .hx-demo{position:relative;z-index:1;--hxbg:#0C0E12;--hxp:#13161d;--hxl:#242a36;--hxt:#e9ecf2;--hxd:#98a2b3;--hxm:#19C37D;--hxb:#19C37D}
   .hx-tabs{display:flex;gap:4px;padding:4px;background:#0f1218;border:1px solid var(--hxl);border-radius:12px;margin-bottom:10px}
@@ -260,8 +261,8 @@
   .hx-status{margin-top:12px;align-self:flex-start;display:none;align-items:center;gap:8px;font-family:var(--font-m);font-size:12px;color:var(--hxd);border:1px solid var(--hxl);border-radius:999px;padding:7px 13px}
   .hx-status.show{display:inline-flex;animation:hxFadeIn .4s ease both}
   @keyframes hxFadeIn{from{opacity:0}to{opacity:1}}
-  .hx-dot{width:7px;height:7px;border-radius:50%;background:var(--hxm);animation:hxPulse 1.1s ease-in-out infinite}
-  @keyframes hxPulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .hx-dot{width:7px;height:7px;border-radius:50%;background:var(--hxm);animation:hxPulse 2s ease-in-out infinite}
+  @keyframes hxPulse{0%,100%{opacity:1}50%{opacity:.45}}
   .hx-tick{display:none;color:var(--hxm);font-weight:700}
   .hx-status.done .hx-dot{display:none}
   .hx-status.done .hx-tick{display:inline}
@@ -272,8 +273,8 @@
   .hx-rhead .hx-meta{letter-spacing:.02em;text-transform:none;color:var(--hxd);font-size:11px}
   .hx-table{border:1px solid var(--hxl);border-radius:10px;overflow:hidden;background:#101319}
   .hx-row{display:grid;gap:14px;align-items:center;padding:11px 14px;border-top:1px solid #1c212b;font-size:13.5px;opacity:0}
-  .hx-row.in{animation:hxRowIn .62s cubic-bezier(.16,1,.3,1) both}
-  @keyframes hxRowIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .hx-row.in{animation:hxRowIn .45s ease both}
+  @keyframes hxRowIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   .hx-row.hd{opacity:1;transform:none;border-top:0;background:#0f1218;padding:9px 14px}
   .hx-row.hd .hx-cell span{font-family:var(--font-m);font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#66707f}
   .hx-cell{min-width:0}
@@ -1465,15 +1466,15 @@ function setSrc(p){elSrc.textContent="";elSrc.appendChild(document.createTextNod
 function selectTab(i){for(var k=0;k<tabs.length;k++)tabs[k].setAttribute("aria-selected",k===i?"true":"false");}
 function play(i){clearAll();cur=i;selectTab(i);var doIntro=firstRun&&i===0;if(!doIntro&&demo){firstRun=false;demo.style.minHeight="";inner.style.transform="";var _p=demo.querySelector(".hx-panel");if(_p){_p.style.minHeight="";_p.style.overflow="";_p.style.height="";}var _n=demo.querySelector(".hx-note");if(_n)_n.style.display="";}var p=P[i],rows=build(p);elMeta.textContent=p.meta;setSrc(p);elQ.textContent="";elCaret.style.display="inline-block";elStatus.className="hx-status";elStatusTxt.textContent="Firmenbuch wird abgefragt …";elResult.classList.remove("show");elSrcWrap.classList.remove("show");
   if(rm){elQ.textContent=p.q;elCaret.style.display="none";elStatus.className="hx-status show done";elStatusTxt.textContent="Firmenbuch abgefragt";elResult.classList.add("show");for(var r=0;r<rows.length;r++)rows[r].classList.add("in");elSrcWrap.classList.add("show");return;}
-  if(doIntro){var pnl=demo.querySelector(".hx-panel"),note=demo.querySelector(".hx-note");demo.classList.add("hx-noanim");var fullH=inner.offsetHeight,fullPanel=pnl.offsetHeight;pnl.style.minHeight="0";pnl.style.overflow="hidden";if(note)note.style.display="none";var compactPanel=pnl.offsetHeight,compactInner=inner.offsetHeight;pnl.style.height=compactPanel+"px";demo.style.minHeight=fullH+"px";inner.style.transform="translateY("+Math.max(0,(fullH-compactInner)/2)+"px)";void demo.offsetHeight;demo.classList.remove("hx-noanim");firstRun=false;at(3000,function(){inner.style.transform="translateY(0)";pnl.style.height=fullPanel+"px";at(1000,function(){pnl.style.minHeight="";pnl.style.overflow="";pnl.style.height="";demo.style.minHeight="";inner.style.transform="";if(note)note.style.display="";});});}
-  var n=0,len=p.q.length,step=Math.max(36,Math.round(3000/len));
+  if(doIntro){var pnl=demo.querySelector(".hx-panel"),note=demo.querySelector(".hx-note");demo.classList.add("hx-noanim");var fullH=inner.offsetHeight,fullPanel=pnl.offsetHeight;pnl.style.minHeight="0";pnl.style.overflow="hidden";if(note)note.style.display="none";var compactPanel=pnl.offsetHeight,compactInner=inner.offsetHeight;pnl.style.height=compactPanel+"px";demo.style.minHeight=fullH+"px";inner.style.transform="translateY("+Math.max(0,(fullH-compactInner)/2)+"px)";void demo.offsetHeight;demo.classList.remove("hx-noanim");firstRun=false;at(2600,function(){inner.style.transform="translateY(0)";pnl.style.height=fullPanel+"px";at(1000,function(){pnl.style.minHeight="";pnl.style.overflow="";pnl.style.height="";demo.style.minHeight="";inner.style.transform="";if(note)note.style.display="";});});}
+  var n=0,len=p.q.length,step=Math.max(20,Math.round(2500/len));
   typer=setInterval(function(){n++;elQ.textContent=p.q.slice(0,n);if(n>=len){clearInterval(typer);typer=null;}},step);
-  at(3950,function(){elCaret.style.display="none";elStatus.classList.add("show");});
-  at(5800,function(){elStatus.classList.add("done");elStatusTxt.textContent="Firmenbuch abgefragt";});
-  at(6150,function(){elResult.classList.add("show");});
-  for(var r2=0;r2<rows.length;r2++){(function(row,k){at(6350+k*340,function(){row.classList.add("in");});})(rows[r2],r2);}
-  at(9900,function(){elSrcWrap.classList.add("show");});
-  at(14500,function(){play(auto?(cur+1)%P.length:cur);});
+  at(3600,function(){elCaret.style.display="none";elStatus.classList.add("show");});
+  at(5500,function(){elStatus.classList.add("done");elStatusTxt.textContent="Firmenbuch abgefragt";});
+  at(5850,function(){elResult.classList.add("show");});
+  for(var r2=0;r2<rows.length;r2++){(function(row,k){at(6100+k*950,function(){row.classList.add("in");});})(rows[r2],r2);}
+  at(10000,function(){elSrcWrap.classList.add("show");});
+  at(13500,function(){play(auto?(cur+1)%P.length:cur);});
 }
 for(var t=0;t<tabs.length;t++){(function(k){tabs[k].addEventListener("click",function(){auto=false;play(k);});})(t);}
 document.addEventListener("visibilitychange",function(){if(!document.hidden&&!rm)play(cur);});
