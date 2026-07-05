@@ -56,6 +56,8 @@ fbl-mcp-server = { workspace = true }
 [tool.ruff]
 line-length = 100
 target-version = "py312"
+# Vendored third-party reference code, kept verbatim (only the hard-coded key was scrubbed) — not ours to lint.
+extend-exclude = ["docs/reference/stripe-sample"]
 src = ["packages/core/src", "packages/auth/src", "products/agentic-firmenbuch/packages/core_at/src", "products/agentic-firmenbuch/packages/99_registry/src", "products/agentic-firmenbuch/packages/firmenbuch_client/src", "products/agentic-firmenbuch/packages/90_ingest/src", "products/agentic-firmenbuch/packages/70_parse/src", "products/agentic-firmenbuch/packages/50_consolidate/src", "products/agentic-firmenbuch/packages/30_derive/src", "products/agentic-firmenbuch/packages/10_present/src", "products/agentic-firmenbuch/packages/orchestration/src", "products/agentic-firmenbuch/packages/mcp_server/src"]
 
 [tool.ruff.lint]
