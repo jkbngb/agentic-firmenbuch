@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
 <title>Agentic-Firmenbuch.at – Österreichisches Firmenbuch für KI-Agenten (MCP-Server)</title>
-<meta name="description" content="Offizielle Firmen- und Bilanzdaten aus dem österreichischen Firmenbuch, direkt im KI-Agenten. Als MCP-Server. In natürlicher Sprache fragen, geprüfte Daten erhalten. Kostenlos – nur eine verifizierte E-Mail-Adresse nötig." />
+<meta name="description" content="Offizielle Firmen- und Bilanzdaten aus dem österreichischen Firmenbuch, direkt im KI-Agenten. Als MCP-Server. In natürlicher Sprache fragen, geprüfte Daten erhalten. Kostenlos starten, Pro für 79 € pro Monat inkl. USt (14 Tage testen, monatlich kündbar)." />
 <link rel="canonical" href="https://www.agentic-firmenbuch.at/" />
 <link rel="alternate" hreflang="de" href="https://www.agentic-firmenbuch.at/" />
 <link rel="alternate" hreflang="en" href="https://www.agentic-firmenbuch.at/en.html" />
@@ -20,7 +20,7 @@
 <meta property="og:locale" content="de_AT" />
 <meta property="og:site_name" content="Agentic-Firmenbuch.at" />
 <meta property="og:title" content="Agentic-Firmenbuch.at – Österreichisches Firmenbuch für KI-Agenten" />
-<meta property="og:description" content="Offizielle Firmen- und Bilanzdaten aus dem österreichischen Firmenbuch als MCP-Server. In natürlicher Sprache fragen, geprüfte Daten erhalten. Kostenlos nutzbar." />
+<meta property="og:description" content="Offizielle Firmen- und Bilanzdaten aus dem österreichischen Firmenbuch als MCP-Server. In natürlicher Sprache fragen, geprüfte Daten erhalten. Kostenlos starten, Pro ab 79 € / Monat inkl. USt." />
 <meta property="og:url" content="https://www.agentic-firmenbuch.at/" />
 <meta property="og:image" content="https://www.agentic-firmenbuch.at/og-image.png" />
 <meta property="og:image:width" content="1200" />
@@ -43,12 +43,22 @@
   "url": "https://www.agentic-firmenbuch.at/",
   "inLanguage": "de-AT",
   "description": "MCP-Server, der Live-Firmen- und Bilanzdaten aus dem österreichischen Firmenbuch in KI-Agenten nutzbar macht.",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "EUR",
-    "description": "Kostenlos – nur eine verifizierte E-Mail-Adresse nötig."
-  },
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Free",
+      "price": "0",
+      "priceCurrency": "EUR",
+      "description": "Kostenlos starten: Firmensuche mit Basisdaten und begrenzte Einzelabfragen pro Monat."
+    },
+    {
+      "@type": "Offer",
+      "name": "Pro",
+      "price": "79",
+      "priceCurrency": "EUR",
+      "description": "Voller Funktionsumfang. 79 EUR pro Monat inkl. USt, 14 Tage kostenlos testen, monatlich kündbar."
+    }
+  ],
   "creator": { "@type": "Organization", "name": "Agentic-Firmenbuch.at" }
 }
 </script>
@@ -227,7 +237,19 @@
   .hx-tab{flex:1;border:0;background:transparent;color:var(--hxd);font-family:var(--font-b);font-size:13px;font-weight:600;line-height:1.2;padding:10px 6px;border-radius:8px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
   .hx-tab[aria-selected="true"]{background:var(--hxl);color:var(--hxt)}
   .hx-tab:hover:not([aria-selected="true"]){color:#c3cad6}
-  .hx-panel{background:var(--hxp);border:1px solid var(--hxl);border-radius:14px;padding:18px;min-height:462px;display:flex;flex-direction:column;box-shadow:0 24px 60px -32px rgba(0,0,0,.8)}
+  .hx-panel{background:var(--hxp);border:1px solid var(--hxl);border-radius:14px;padding:18px;min-height:462px;display:flex;flex-direction:column;box-shadow:0 24px 60px -32px rgba(0,0,0,.8);transition:min-height .6s cubic-bezier(.4,0,.2,1)}
+  /* First-load intro: the whole demo starts compact + vertically centered, then expands to
+     full height and rises into place right before the "Firmenbuch wird abgefragt" status.
+     Only the very first cycle (desktop, motion allowed); JS measures --hxFullH/--hxShift. */
+  .hx-inner{transition:transform .6s cubic-bezier(.4,0,.2,1)}
+  .hx-demo.hx-intro{min-height:var(--hxFullH,auto)}
+  .hx-demo.hx-intro .hx-inner{transform:translateY(var(--hxShift,0px))}
+  .hx-demo.hx-intro .hx-panel{min-height:0}
+  .hx-demo.hx-intro .hx-status,
+  .hx-demo.hx-intro .hx-result,
+  .hx-demo.hx-intro .hx-srcwrap,
+  .hx-demo.hx-intro .hx-note{display:none}
+  .hx-demo.hx-noanim .hx-inner,.hx-demo.hx-noanim .hx-panel{transition:none}
   .hx-srdesc{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);margin:-1px;padding:0;border:0}
   .hx-body{display:flex;flex-direction:column;flex:1;min-height:0}
   .hx-lbl{font-family:var(--font-m);font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#66707f;margin-bottom:8px}
@@ -528,7 +550,7 @@
   <div class="wrap hero-grid">
     <div class="hero-copy reveal">
       <h1 class="display">Das Firmenbuch antwortet jetzt <span class="grad">direkt auf Ihre Fragen.</span></h1>
-      <p class="lead"><strong>Fragen statt Suchen.</strong> Recherchieren Sie österreichische Unternehmen in natürlicher Sprache – Jede Aussage ist durch das Firmenbuch belegt.</p>
+      <p class="lead"><strong>Fragen statt Suchen.</strong> Recherchieren Sie österreichische Unternehmen in natürlicher Sprache – direkt auf Basis amtlicher Firmenbuchdaten.</p>
       <div class="hero-cta">
         <a href="#start" class="btn btn-primary btn-lg">Verbinden</a>
         <a href="playground.html" class="btn btn-ghost btn-lg">Im Playground testen</a>
@@ -560,6 +582,7 @@
     <div class="visual reveal">
       <div class="glow"></div>
       <div class="hx-demo">
+        <div class="hx-inner">
         <div class="hx-tabs" role="tablist" aria-label="Beispiele nach Rolle">
           <button class="hx-tab" id="hxTab0" role="tab" aria-selected="true" type="button">M&amp;A &amp; Nachfolge</button>
           <button class="hx-tab" id="hxTab1" role="tab" aria-selected="false" type="button">Vertrieb</button>
@@ -578,6 +601,7 @@
             <div class="hx-srcwrap" id="hxSrcWrap"><span class="hx-src" id="hxSrc"></span></div>
           </div>
           <div class="hx-note">Beispieldaten zur Veranschaulichung. Echte Abfragen liefern amtliche Firmenbuch-Daten.</div>
+        </div>
         </div>
       </div>
     </div>
@@ -857,7 +881,7 @@
               <div class="pg-result" id="pgResult"></div>
               <div class="pg-badge">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01" stroke-linecap="round"/></svg>
-                <span>Beispielausgabe zur Veranschaulichung. Mit einem kostenlosen <a href="#start">API-Key</a> liefert der Server echte Daten aus dem Firmenbuch.</span>
+                <span>Beispielausgabe zur Veranschaulichung. Mit einem <a href="#start">API-Key</a> liefert der Server echte Daten aus dem Firmenbuch.</span>
               </div>
             </div>
           </div>
@@ -953,19 +977,19 @@
 })();
 </script>
 
-<!-- ======================= KOSTENLOS STARTEN ======================= -->
+<!-- ======================= ZUGANG / PLÄNE ======================= -->
 <section id="start" class="signup">
   <div class="wrap">
     <div class="signup-card reveal">
       <div class="signup-grid">
         <div class="signup-intro">
           <span class="eyebrow">Verbinden</span>
-          <h2 class="h2" style="margin-top:14px">Kostenloser Zugang.</h2>
-          <p class="lead">Entweder direkt über <strong>Claude Cowork</strong> ohne API-Schlüssel oder über <strong>API-Key</strong> in Claude Code, VS Code und allen anderen MCP-fähigen Clients. Voraussetzung ist eine verifizierte E-Mail-Adresse.</p>
+          <h2 class="h2" style="margin-top:14px">Kostenlos starten, Pro für den vollen Funktionsumfang.</h2>
+          <p class="lead">Du verbindest deinen <strong>eigenen MCP-Client</strong> – etwa <strong>Claude Cowork</strong> ohne API-Schlüssel oder per <strong>API-Key</strong> in Claude Code, VS Code, Cursor und allen MCP-fähigen Clients. Den Client bringst du selbst mit; wir stellen die Schnittstelle bereit. Voraussetzung ist eine verifizierte E-Mail-Adresse.</p>
           <div class="free-points">
-            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round"/></svg> Kostenlos nutzbar</div>
-            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round"/></svg> Kein Passwort, keine Kreditkarte</div>
-            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round"/></svg> Nur verifizierte E-Mail nötig</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round"/></svg> <strong>Free:</strong> Firmensuche mit Basisdaten und begrenzte Einzelabfragen pro Monat</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round"/></svg> <strong>Pro:</strong> voller Umfang – 79 € / Monat inkl. USt, 14 Tage kostenlos testen, monatlich kündbar</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round"/></svg> Kein Passwort; für Free keine Kreditkarte nötig</div>
           </div>
           <p class="signup-foot">Mit dem Verbinden bzw. der Nutzung des MCP-Servers werden die <a href="nutzungsbedingungen.html">Allgemeinen Geschäftsbedingungen</a> akzeptiert. Die Nutzung des Services erfolgt unter Ausschluss jeglicher Gewährleistung.</p>
         </div>
@@ -1096,8 +1120,12 @@
     </div>
     <div class="faq reveal">
       <details>
-        <summary>Ist das kostenlos? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
-        <div class="ans">Die Nutzung ist kostenlos, mit einem Fair-Use-Rate-Limit pro API-Key. Erforderlich ist ausschließlich eine verifizierte E-Mail-Adresse – kein Passwort, keine Kreditkarte.</div>
+        <summary>Was kostet das? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
+        <div class="ans">Es gibt einen kostenlosen <strong>Free</strong>-Zugang (Firmensuche mit Basisdaten und eine begrenzte Anzahl vollständiger Einzelabfragen pro Monat) – dafür ist nur eine verifizierte E-Mail-Adresse nötig, kein Passwort, keine Kreditkarte. <strong>Pro</strong> schaltet den vollen Funktionsumfang frei und kostet <strong>79 € pro Monat inkl. USt</strong>, mit <strong>14 Tagen kostenlosem Test</strong> und <strong>monatlicher Kündigung</strong>.</div>
+      </details>
+      <details>
+        <summary>Brauche ich einen eigenen MCP-Client? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
+        <div class="ans">Ja. Agentic-Firmenbuch stellt ausschließlich die <strong>Schnittstelle (den MCP-Server)</strong> bereit – ein Client wird nicht mitgeliefert. Du nutzt einen eigenen MCP-fähigen Client, zum Beispiel <strong>Claude (Cowork, Desktop, claude.ai)</strong>, Claude Code, Cursor oder GitHub Copilot, und bindest die Schnittstelle dort selbst ein.</div>
       </details>
       <details>
         <summary>Woher kommen die Daten? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
@@ -1425,14 +1453,19 @@ var tabs=[$("hxTab0"),$("hxTab1"),$("hxTab2")];
 var elQ=$("hxQ"),elCaret=$("hxCaret"),elStatus=$("hxStatus"),elStatusTxt=$("hxStatusTxt"),elResult=$("hxResult"),elMeta=$("hxMeta"),elTable=$("hxTable"),elSrcWrap=$("hxSrcWrap"),elSrc=$("hxSrc");
 if(!elQ||!elTable) return;
 var cur=0,auto=true,timers=[],typer=null;
+var demo=document.querySelector(".hx-demo"),inner=document.querySelector(".hx-inner");
+// First-load intro only on desktop with motion allowed; otherwise render full immediately.
+var canIntro=!rm&&!!demo&&!!inner&&window.matchMedia&&window.matchMedia("(min-width:961px)").matches;
+var firstRun=canIntro;
 function clearAll(){for(var i=0;i<timers.length;i++)clearTimeout(timers[i]);timers=[];if(typer){clearInterval(typer);typer=null;}}
 function at(t,f){timers.push(setTimeout(f,t));}
 function cell(c){var d=document.createElement("div");var cls="hx-cell";if(c.right)cls+=" r";if(c.num)cls+=" m";if(c.pos)cls+=" pos";if(c.lab)cls+=" lab";d.className=cls;var s=document.createElement("span");s.textContent=c.v;d.appendChild(s);if(c.sub){var u=document.createElement("small");u.textContent=c.sub;d.appendChild(u);}return d;}
 function build(p){elTable.innerHTML="";var rows=[],i,r,c;if(p.head){var h=document.createElement("div");h.className="hx-row hd";h.style.gridTemplateColumns=p.grid;for(i=0;i<p.head.length;i++)h.appendChild(cell({v:p.head[i],right:i>0}));elTable.appendChild(h);}for(r=0;r<p.rows.length;r++){var row=document.createElement("div");row.className="hx-row";row.style.gridTemplateColumns=p.grid;for(c=0;c<p.rows[r].length;c++)row.appendChild(cell(p.rows[r][c]));elTable.appendChild(row);rows.push(row);}return rows;}
 function setSrc(p){elSrc.textContent="";elSrc.appendChild(document.createTextNode(p.srcPre));var b=document.createElement("b");b.textContent=p.srcLink;elSrc.appendChild(b);}
 function selectTab(i){for(var k=0;k<tabs.length;k++)tabs[k].setAttribute("aria-selected",k===i?"true":"false");}
-function play(i){clearAll();cur=i;selectTab(i);var p=P[i],rows=build(p);elMeta.textContent=p.meta;setSrc(p);elQ.textContent="";elCaret.style.display="inline-block";elStatus.className="hx-status";elStatusTxt.textContent="Firmenbuch wird abgefragt …";elResult.classList.remove("show");elSrcWrap.classList.remove("show");
+function play(i){clearAll();cur=i;selectTab(i);var doIntro=firstRun&&i===0&&canIntro;if(!doIntro&&demo){demo.classList.remove("hx-intro");firstRun=false;}var p=P[i],rows=build(p);elMeta.textContent=p.meta;setSrc(p);elQ.textContent="";elCaret.style.display="inline-block";elStatus.className="hx-status";elStatusTxt.textContent="Firmenbuch wird abgefragt …";elResult.classList.remove("show");elSrcWrap.classList.remove("show");
   if(rm){elQ.textContent=p.q;elCaret.style.display="none";elStatus.className="hx-status show done";elStatusTxt.textContent="Firmenbuch abgefragt";elResult.classList.add("show");for(var r=0;r<rows.length;r++)rows[r].classList.add("in");elSrcWrap.classList.add("show");return;}
+  if(doIntro){demo.classList.add("hx-noanim");demo.classList.remove("hx-intro");var fullInner=inner.offsetHeight;demo.classList.add("hx-intro");var compactInner=inner.offsetHeight;demo.style.setProperty("--hxFullH",fullInner+"px");demo.style.setProperty("--hxShift",Math.max(0,(fullInner-compactInner)/2)+"px");void demo.offsetHeight;demo.classList.remove("hx-noanim");firstRun=false;at(2600,function(){demo.classList.remove("hx-intro");});}
   var n=0,len=p.q.length,step=Math.max(20,Math.round(2500/len));
   typer=setInterval(function(){n++;elQ.textContent=p.q.slice(0,n);if(n>=len){clearInterval(typer);typer=null;}},step);
   at(3000,function(){elCaret.style.display="none";elStatus.classList.add("show");});
