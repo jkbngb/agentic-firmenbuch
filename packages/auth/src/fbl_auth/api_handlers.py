@@ -19,6 +19,7 @@ from .signup_flow import (
     check_ip_throttle,
     is_plausible_email,
     regenerate,
+    request_guest_access,
     request_verification,
     unsubscribe,
     verify,
@@ -86,6 +87,55 @@ def signup_request(
         ttl_hours=ttl_hours,
         now=now,
     )
+    return 202, {"status": "pending", "message": _PENDING_MSG}
+
+
+def try_guest_request(
+    payload: dict[str, Any],
+    ip: str | None,
+    cosmos: CosmosStoreLike,
+    *,
+    email_sender: EmailSender,
+    verify_url: Callable[[str], str],
+    turnstile_secret: str | None = None,
+    turnstile_verifier: TurnstileVerifier | None = None,
+    ip_limit: int = 5,
+    now: datetime | None = None,
+) -> tuple[int, dict[str, str]]:
+    """POST /api/try → redeem a guest invite code + send the verify mail (Aufgabe 3).
+
+    Same double-opt-in as signup, but the confirmed key lands on the ``guest`` plan. Invalid /
+    expired / already-used codes are rejected up front (400) so the user gets a clear message.
+    """
+    if ip and not check_ip_throttle(ip, cosmos, limit=ip_limit, now=now):
+        return 429, {"error": "rate_limited", "message": "Zu viele Anfragen. Bitte später erneut."}
+    email = str(payload.get("email", "")).strip().lower()
+    if not is_plausible_email(email):
+        return 400, {
+            "error": "invalid_email",
+            "message": "Bitte gib eine gültige E-Mail-Adresse ein.",
+        }
+    code = str(payload.get("code", "")).strip()
+    if not code:
+        return 400, {"error": "missing_code", "message": "Bitte gib deinen Einladungscode ein."}
+    if not payload.get("consent"):
+        return 400, {
+            "error": "consent_required",
+            "message": "Bitte stimme der Datenschutzerklärung zu.",
+        }
+    if not _turnstile_ok(
+        str(payload.get("turnstile_token", "")), ip, turnstile_secret, turnstile_verifier
+    ):
+        return 400, {"error": "turnstile_failed", "message": "Sicherheitsprüfung fehlgeschlagen."}
+
+    token = request_guest_access(
+        email, code, cosmos, email_sender=email_sender, verify_url=verify_url, now=now
+    )
+    if token is None:
+        return 400, {
+            "error": "invalid_code",
+            "message": "Dieser Einladungscode ist ungültig, abgelaufen oder bereits eingelöst.",
+        }
     return 202, {"status": "pending", "message": _PENDING_MSG}
 
 

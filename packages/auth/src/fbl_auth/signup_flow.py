@@ -28,6 +28,7 @@ from fbl_core.storage import CosmosStoreLike
 
 from .accounts import ACCOUNTS_CONTAINER, Account, hash_token, issue_token
 from .email import EmailSender
+from .invites import get_invite, invite_is_valid, mark_redeemed
 from .metrics import bump_metric
 
 _FMT = "%Y-%m-%dT%H:%M:%SZ"
@@ -150,13 +151,31 @@ def verify(
             other["status"] = "revoked"
             cosmos.upsert(ACCOUNTS_CONTAINER, other)
 
+    # Guest invite (Aufgabe 3): if this signup carried a still-valid invite code, issue the key
+    # on the time-boxed ``guest`` plan (full Pro for N days, then auto-free) instead of ``free``.
+    tier = "free"
+    plan_expires_at: str | None = None
+    invite = get_invite(cosmos, pending.consent.get("invite_code"))
+    if invite is not None and invite_is_valid(invite, now):
+        tier = "guest"
+        plan_expires_at = (now + timedelta(days=invite.guest_days)).strftime(_FMT)
+
     api_key = api_key or issue_token()
     akh = hash_token(api_key)
-    account = Account(id=akh, token_hash=akh, email=pending.email, tier="free", status="active")
+    account = Account(
+        id=akh,
+        token_hash=akh,
+        email=pending.email,
+        tier=tier,
+        plan_expires_at=plan_expires_at,
+        status="active",
+    )
     cosmos.upsert(ACCOUNTS_CONTAINER, account.model_dump(mode="json"))
 
     pending.status = "consumed"  # one-time use (no hard delete in the store)
     cosmos.upsert(ACCOUNTS_CONTAINER, pending.model_dump(mode="json"))
+    if invite is not None and tier == "guest":
+        mark_redeemed(cosmos, invite, pending.email, now=now)  # single-use
 
     email_sender.send_key(pending.email, api_key)
     bump_metric(cosmos, "signups_verified", now=now)  # privacy-friendly daily counter
@@ -181,6 +200,37 @@ def regenerate(
         verify_url=verify_url,
         consent={"regenerate": "true"},
         ttl_hours=ttl_hours,
+        now=now,
+        token=token,
+    )
+
+
+def request_guest_access(
+    email: str,
+    code: str,
+    cosmos: CosmosStoreLike,
+    *,
+    email_sender: EmailSender,
+    verify_url: Callable[[str], str],
+    now: datetime | None = None,
+    token: str | None = None,
+) -> str | None:
+    """Redeem a guest invite code (Aufgabe 3): validate the code, then send the normal
+    double-opt-in verify link carrying the code. On verify the key is issued on the ``guest``
+    plan. Returns the verify token, or ``None`` if the code is invalid/expired/already used.
+
+    The code is re-checked at verify time too, so a code consumed between request and click
+    still can't grant guest (it falls back to a normal free key).
+    """
+    invite = get_invite(cosmos, code)
+    if invite is None or not invite_is_valid(invite, now):
+        return None
+    return request_verification(
+        email,
+        cosmos,
+        email_sender=email_sender,
+        verify_url=verify_url,
+        consent={"invite_code": invite.code},
         now=now,
         token=token,
     )

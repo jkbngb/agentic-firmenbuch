@@ -34,6 +34,7 @@ from fbl_auth import (
     portal_session_params,
     regenerate_request,
     signup_request,
+    try_guest_request,
     unsubscribe_request,
     validate,
     validate_bearer,
@@ -126,6 +127,22 @@ async def signup(req: Request) -> Response:
         turnstile_verifier=_turnstile,
         ip_limit=_settings.signup_ip_limit_per_min,
         ttl_hours=_settings.verify_token_ttl_hours,
+    )
+    return JSONResponse(payload, status_code=status)
+
+
+async def try_guest(req: Request) -> Response:
+    """POST /api/try → redeem a guest invite code (Aufgabe 3). Sends the double-opt-in verify
+    mail; the confirmed key lands on the guest plan (full Pro for the invite's trial window)."""
+    status, payload = try_guest_request(
+        await _body(req),
+        _ip(req),
+        _cosmos,
+        email_sender=_email,
+        verify_url=_verify_url,
+        turnstile_secret=_settings.turnstile_secret,
+        turnstile_verifier=_turnstile,
+        ip_limit=_settings.signup_ip_limit_per_min,
     )
     return JSONResponse(payload, status_code=status)
 
@@ -460,6 +477,7 @@ app = Starlette(
         Route("/api/health", health, methods=["GET"]),
         Route("/api/demo", demo, methods=["GET"]),
         Route("/api/signup", signup, methods=["POST"]),
+        Route("/api/try", try_guest, methods=["POST"]),
         Route("/api/verify", verify, methods=["GET", "POST"]),
         Route("/api/regenerate", regenerate, methods=["POST"]),
         Route("/api/unsubscribe", unsubscribe, methods=["POST"]),
