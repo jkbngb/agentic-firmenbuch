@@ -227,7 +227,19 @@
   .hx-tab{flex:1;border:0;background:transparent;color:var(--hxd);font-family:var(--font-b);font-size:13px;font-weight:600;line-height:1.2;padding:10px 6px;border-radius:8px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
   .hx-tab[aria-selected="true"]{background:var(--hxl);color:var(--hxt)}
   .hx-tab:hover:not([aria-selected="true"]){color:#c3cad6}
-  .hx-panel{background:var(--hxp);border:1px solid var(--hxl);border-radius:14px;padding:18px;min-height:462px;display:flex;flex-direction:column;box-shadow:0 24px 60px -32px rgba(0,0,0,.8)}
+  .hx-panel{background:var(--hxp);border:1px solid var(--hxl);border-radius:14px;padding:18px;min-height:462px;display:flex;flex-direction:column;box-shadow:0 24px 60px -32px rgba(0,0,0,.8);transition:min-height .6s cubic-bezier(.4,0,.2,1)}
+  /* First-load intro: the whole demo starts compact + vertically centered, then expands to
+     full height and rises into place right before the "Firmenbuch wird abgefragt" status.
+     Only the very first cycle (desktop, motion allowed); JS measures --hxFullH/--hxShift. */
+  .hx-inner{transition:transform .6s cubic-bezier(.4,0,.2,1)}
+  .hx-demo.hx-intro{min-height:var(--hxFullH,auto)}
+  .hx-demo.hx-intro .hx-inner{transform:translateY(var(--hxShift,0px))}
+  .hx-demo.hx-intro .hx-panel{min-height:0}
+  .hx-demo.hx-intro .hx-status,
+  .hx-demo.hx-intro .hx-result,
+  .hx-demo.hx-intro .hx-srcwrap,
+  .hx-demo.hx-intro .hx-note{display:none}
+  .hx-demo.hx-noanim .hx-inner,.hx-demo.hx-noanim .hx-panel{transition:none}
   .hx-srdesc{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);margin:-1px;padding:0;border:0}
   .hx-body{display:flex;flex-direction:column;flex:1;min-height:0}
   .hx-lbl{font-family:var(--font-m);font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#66707f;margin-bottom:8px}
@@ -528,7 +540,7 @@
   <div class="wrap hero-grid">
     <div class="hero-copy reveal">
       <h1 class="display">Das Firmenbuch antwortet jetzt <span class="grad">direkt auf Ihre Fragen.</span></h1>
-      <p class="lead"><strong>Fragen statt Suchen.</strong> Recherchieren Sie österreichische Unternehmen in natürlicher Sprache – Jede Aussage ist durch das Firmenbuch belegt.</p>
+      <p class="lead"><strong>Fragen statt Suchen.</strong> Recherchieren Sie österreichische Unternehmen in natürlicher Sprache – direkt auf Basis amtlicher Firmenbuchdaten.</p>
       <div class="hero-cta">
         <a href="#start" class="btn btn-primary btn-lg">Verbinden</a>
         <a href="playground.html" class="btn btn-ghost btn-lg">Im Playground testen</a>
@@ -560,6 +572,7 @@
     <div class="visual reveal">
       <div class="glow"></div>
       <div class="hx-demo">
+        <div class="hx-inner">
         <div class="hx-tabs" role="tablist" aria-label="Beispiele nach Rolle">
           <button class="hx-tab" id="hxTab0" role="tab" aria-selected="true" type="button">M&amp;A &amp; Nachfolge</button>
           <button class="hx-tab" id="hxTab1" role="tab" aria-selected="false" type="button">Vertrieb</button>
@@ -578,6 +591,7 @@
             <div class="hx-srcwrap" id="hxSrcWrap"><span class="hx-src" id="hxSrc"></span></div>
           </div>
           <div class="hx-note">Beispieldaten zur Veranschaulichung. Echte Abfragen liefern amtliche Firmenbuch-Daten.</div>
+        </div>
         </div>
       </div>
     </div>
@@ -1425,14 +1439,19 @@ var tabs=[$("hxTab0"),$("hxTab1"),$("hxTab2")];
 var elQ=$("hxQ"),elCaret=$("hxCaret"),elStatus=$("hxStatus"),elStatusTxt=$("hxStatusTxt"),elResult=$("hxResult"),elMeta=$("hxMeta"),elTable=$("hxTable"),elSrcWrap=$("hxSrcWrap"),elSrc=$("hxSrc");
 if(!elQ||!elTable) return;
 var cur=0,auto=true,timers=[],typer=null;
+var demo=document.querySelector(".hx-demo"),inner=document.querySelector(".hx-inner");
+// First-load intro only on desktop with motion allowed; otherwise render full immediately.
+var canIntro=!rm&&!!demo&&!!inner&&window.matchMedia&&window.matchMedia("(min-width:961px)").matches;
+var firstRun=canIntro;
 function clearAll(){for(var i=0;i<timers.length;i++)clearTimeout(timers[i]);timers=[];if(typer){clearInterval(typer);typer=null;}}
 function at(t,f){timers.push(setTimeout(f,t));}
 function cell(c){var d=document.createElement("div");var cls="hx-cell";if(c.right)cls+=" r";if(c.num)cls+=" m";if(c.pos)cls+=" pos";if(c.lab)cls+=" lab";d.className=cls;var s=document.createElement("span");s.textContent=c.v;d.appendChild(s);if(c.sub){var u=document.createElement("small");u.textContent=c.sub;d.appendChild(u);}return d;}
 function build(p){elTable.innerHTML="";var rows=[],i,r,c;if(p.head){var h=document.createElement("div");h.className="hx-row hd";h.style.gridTemplateColumns=p.grid;for(i=0;i<p.head.length;i++)h.appendChild(cell({v:p.head[i],right:i>0}));elTable.appendChild(h);}for(r=0;r<p.rows.length;r++){var row=document.createElement("div");row.className="hx-row";row.style.gridTemplateColumns=p.grid;for(c=0;c<p.rows[r].length;c++)row.appendChild(cell(p.rows[r][c]));elTable.appendChild(row);rows.push(row);}return rows;}
 function setSrc(p){elSrc.textContent="";elSrc.appendChild(document.createTextNode(p.srcPre));var b=document.createElement("b");b.textContent=p.srcLink;elSrc.appendChild(b);}
 function selectTab(i){for(var k=0;k<tabs.length;k++)tabs[k].setAttribute("aria-selected",k===i?"true":"false");}
-function play(i){clearAll();cur=i;selectTab(i);var p=P[i],rows=build(p);elMeta.textContent=p.meta;setSrc(p);elQ.textContent="";elCaret.style.display="inline-block";elStatus.className="hx-status";elStatusTxt.textContent="Firmenbuch wird abgefragt …";elResult.classList.remove("show");elSrcWrap.classList.remove("show");
+function play(i){clearAll();cur=i;selectTab(i);var doIntro=firstRun&&i===0&&canIntro;if(!doIntro&&demo){demo.classList.remove("hx-intro");firstRun=false;}var p=P[i],rows=build(p);elMeta.textContent=p.meta;setSrc(p);elQ.textContent="";elCaret.style.display="inline-block";elStatus.className="hx-status";elStatusTxt.textContent="Firmenbuch wird abgefragt …";elResult.classList.remove("show");elSrcWrap.classList.remove("show");
   if(rm){elQ.textContent=p.q;elCaret.style.display="none";elStatus.className="hx-status show done";elStatusTxt.textContent="Firmenbuch abgefragt";elResult.classList.add("show");for(var r=0;r<rows.length;r++)rows[r].classList.add("in");elSrcWrap.classList.add("show");return;}
+  if(doIntro){demo.classList.add("hx-noanim");demo.classList.remove("hx-intro");var fullInner=inner.offsetHeight;demo.classList.add("hx-intro");var compactInner=inner.offsetHeight;demo.style.setProperty("--hxFullH",fullInner+"px");demo.style.setProperty("--hxShift",Math.max(0,(fullInner-compactInner)/2)+"px");void demo.offsetHeight;demo.classList.remove("hx-noanim");firstRun=false;at(2600,function(){demo.classList.remove("hx-intro");});}
   var n=0,len=p.q.length,step=Math.max(20,Math.round(2500/len));
   typer=setInterval(function(){n++;elQ.textContent=p.q.slice(0,n);if(n>=len){clearInterval(typer);typer=null;}},step);
   at(3000,function(){elCaret.style.display="none";elStatus.classList.add("show");});
