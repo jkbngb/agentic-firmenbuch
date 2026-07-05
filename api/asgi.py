@@ -134,14 +134,14 @@ async def signup(req: Request) -> Response:
 async def try_guest(req: Request) -> Response:
     """POST /api/try → redeem a guest invite code (Aufgabe 3). Sends the double-opt-in verify
     mail; the confirmed key lands on the guest plan (full Pro for the invite's trial window)."""
+    # No Turnstile here: the single-use invite code + per-IP throttle are the anti-abuse gate,
+    # so the /try page stays a simple form. (Turnstile can be added later if needed.)
     status, payload = try_guest_request(
         await _body(req),
         _ip(req),
         _cosmos,
         email_sender=_email,
         verify_url=_verify_url,
-        turnstile_secret=_settings.turnstile_secret,
-        turnstile_verifier=_turnstile,
         ip_limit=_settings.signup_ip_limit_per_min,
     )
     return JSONResponse(payload, status_code=status)
