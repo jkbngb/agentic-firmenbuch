@@ -228,20 +228,28 @@
   .trust-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
   .trust-chip{display:inline-flex;align-items:center;gap:9px;font-size:14px;font-weight:500;color:var(--dim)}
   .trust-chip svg{width:18px;height:18px;opacity:.85}
-  /* hero trust as pills (only in the hero) */
-  .hero .trust-chip{border:1px solid var(--line-2);border-radius:999px;padding:7px 13px;background:rgba(255,255,255,.02);font-size:13.5px}
-  .hero .trust-chip svg{width:15px;height:15px}
+  /* hero trust as pills (only in the hero) — badge icon + hover lift + subtle gradient so the
+     stacked chips feel alive instead of sterile */
+  .hero .trust-chip{border:1px solid var(--line-2);border-radius:999px;padding:7px 14px 7px 8px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.008));font-size:13.5px;color:#c6cdd9;transition:transform .18s ease,border-color .18s ease,background .18s ease}
+  .hero .trust-chip:hover{transform:translateY(-1px);border-color:rgba(25,195,125,.45);background:linear-gradient(180deg,rgba(25,195,125,.07),rgba(255,255,255,.01))}
+  .hero .trust-chip svg{width:15px;height:15px;padding:5px;box-sizing:content-box;border-radius:999px;background:rgba(25,195,125,.13);border:1px solid rgba(25,195,125,.32);opacity:1}
   /* ---------- hero interactive demo (hx-*) ---------- */
   .hx-demo{position:relative;z-index:1;--hxbg:#0C0E12;--hxp:#13161d;--hxl:#242a36;--hxt:#e9ecf2;--hxd:#98a2b3;--hxm:#19C37D;--hxb:#19C37D}
   .hx-tabs{display:flex;gap:4px;padding:4px;background:#0f1218;border:1px solid var(--hxl);border-radius:12px;margin-bottom:10px}
   .hx-tab{flex:1;border:0;background:transparent;color:var(--hxd);font-family:var(--font-b);font-size:13px;font-weight:600;line-height:1.2;padding:10px 6px;border-radius:8px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
   .hx-tab[aria-selected="true"]{background:var(--hxl);color:var(--hxt)}
   .hx-tab:hover:not([aria-selected="true"]){color:#c3cad6}
-  /* Fixed box height so the surrounding layout never reflows as the demo cycles. Not-yet-shown
-     sections (status/result/source) are display-toggled, and the query->result timeline is fast,
-     so the reserved box fills quickly instead of sitting empty. */
-  .hx-panel{background:var(--hxp);border:1px solid var(--hxl);border-radius:14px;padding:18px;min-height:462px;display:flex;flex-direction:column;box-shadow:0 24px 60px -32px rgba(0,0,0,.8)}
-  .hx-inner{display:contents}
+  /* First-load intro: the whole demo (tabs + box) starts compact + vertically centered, then
+     rises and expands to full height right before the "Firmenbuch wird abgefragt" status. Only
+     the very first cycle; JS measures --hxFullH / --hxShift. Afterwards a fixed panel height so
+     the surrounding layout never reflows. Not-yet-shown sections are display-toggled. */
+  .hx-panel{background:var(--hxp);border:1px solid var(--hxl);border-radius:14px;padding:18px;min-height:462px;display:flex;flex-direction:column;box-shadow:0 24px 60px -32px rgba(0,0,0,.8);transition:min-height .55s cubic-bezier(.4,0,.2,1)}
+  .hx-inner{transition:transform .55s cubic-bezier(.4,0,.2,1)}
+  .hx-demo.hx-intro{min-height:var(--hxFullH,auto)}
+  .hx-demo.hx-intro .hx-inner{transform:translateY(var(--hxShift,0px))}
+  .hx-demo.hx-intro .hx-panel{min-height:0}
+  .hx-demo.hx-intro .hx-note{display:none}
+  .hx-demo.hx-noanim .hx-inner,.hx-demo.hx-noanim .hx-panel{transition:none}
   .hx-srdesc{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);margin:-1px;padding:0;border:0}
   .hx-body{display:flex;flex-direction:column;flex:1;min-height:0}
   .hx-lbl{font-family:var(--font-m);font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#66707f;margin-bottom:8px}
@@ -1445,22 +1453,25 @@ var tabs=[$("hxTab0"),$("hxTab1"),$("hxTab2")];
 var elQ=$("hxQ"),elCaret=$("hxCaret"),elStatus=$("hxStatus"),elStatusTxt=$("hxStatusTxt"),elResult=$("hxResult"),elMeta=$("hxMeta"),elTable=$("hxTable"),elSrcWrap=$("hxSrcWrap"),elSrc=$("hxSrc");
 if(!elQ||!elTable) return;
 var cur=0,auto=true,timers=[],typer=null;
+var demo=document.querySelector(".hx-demo"),inner=document.querySelector(".hx-inner");
+var firstRun=!rm&&!!demo&&!!inner;  // compact-centered intro only on the very first load
 function clearAll(){for(var i=0;i<timers.length;i++)clearTimeout(timers[i]);timers=[];if(typer){clearInterval(typer);typer=null;}}
 function at(t,f){timers.push(setTimeout(f,t));}
 function cell(c){var d=document.createElement("div");var cls="hx-cell";if(c.right)cls+=" r";if(c.num)cls+=" m";if(c.pos)cls+=" pos";if(c.lab)cls+=" lab";d.className=cls;var s=document.createElement("span");s.textContent=c.v;d.appendChild(s);if(c.sub){var u=document.createElement("small");u.textContent=c.sub;d.appendChild(u);}return d;}
 function build(p){elTable.innerHTML="";var rows=[],i,r,c;if(p.head){var h=document.createElement("div");h.className="hx-row hd";h.style.gridTemplateColumns=p.grid;for(i=0;i<p.head.length;i++)h.appendChild(cell({v:p.head[i],right:i>0}));elTable.appendChild(h);}for(r=0;r<p.rows.length;r++){var row=document.createElement("div");row.className="hx-row";row.style.gridTemplateColumns=p.grid;for(c=0;c<p.rows[r].length;c++)row.appendChild(cell(p.rows[r][c]));elTable.appendChild(row);rows.push(row);}return rows;}
 function setSrc(p){elSrc.textContent="";elSrc.appendChild(document.createTextNode(p.srcPre));var b=document.createElement("b");b.textContent=p.srcLink;elSrc.appendChild(b);}
 function selectTab(i){for(var k=0;k<tabs.length;k++)tabs[k].setAttribute("aria-selected",k===i?"true":"false");}
-function play(i){clearAll();cur=i;selectTab(i);var p=P[i],rows=build(p);elMeta.textContent=p.meta;setSrc(p);elQ.textContent="";elCaret.style.display="inline-block";elStatus.className="hx-status";elStatusTxt.textContent="Firmenbuch wird abgefragt …";elResult.classList.remove("show");elSrcWrap.classList.remove("show");
+function play(i){clearAll();cur=i;selectTab(i);var doIntro=firstRun&&i===0;if(!doIntro&&demo){demo.classList.remove("hx-intro");firstRun=false;}var p=P[i],rows=build(p);elMeta.textContent=p.meta;setSrc(p);elQ.textContent="";elCaret.style.display="inline-block";elStatus.className="hx-status";elStatusTxt.textContent="Firmenbuch wird abgefragt …";elResult.classList.remove("show");elSrcWrap.classList.remove("show");
   if(rm){elQ.textContent=p.q;elCaret.style.display="none";elStatus.className="hx-status show done";elStatusTxt.textContent="Firmenbuch abgefragt";elResult.classList.add("show");for(var r=0;r<rows.length;r++)rows[r].classList.add("in");elSrcWrap.classList.add("show");return;}
-  var n=0,len=p.q.length,step=Math.max(20,Math.round(1600/len));
+  if(doIntro){demo.classList.add("hx-noanim");demo.classList.remove("hx-intro");var fullH=inner.offsetHeight;demo.classList.add("hx-intro");var compactH=inner.offsetHeight;demo.style.setProperty("--hxFullH",fullH+"px");demo.style.setProperty("--hxShift",Math.max(0,(fullH-compactH)/2)+"px");void demo.offsetHeight;demo.classList.remove("hx-noanim");firstRun=false;at(2100,function(){demo.classList.remove("hx-intro");});}
+  var n=0,len=p.q.length,step=Math.max(24,Math.round(2100/len));
   typer=setInterval(function(){n++;elQ.textContent=p.q.slice(0,n);if(n>=len){clearInterval(typer);typer=null;}},step);
-  at(1900,function(){elCaret.style.display="none";elStatus.classList.add("show");});
-  at(2900,function(){elStatus.classList.add("done");elStatusTxt.textContent="Firmenbuch abgefragt";});
-  at(3200,function(){elResult.classList.add("show");});
-  for(var r2=0;r2<rows.length;r2++){(function(row,k){at(3400+k*450,function(){row.classList.add("in");});})(rows[r2],r2);}
-  at(5200,function(){elSrcWrap.classList.add("show");});
-  at(9000,function(){play(auto?(cur+1)%P.length:cur);});
+  at(2400,function(){elCaret.style.display="none";elStatus.classList.add("show");});
+  at(3500,function(){elStatus.classList.add("done");elStatusTxt.textContent="Firmenbuch abgefragt";});
+  at(3800,function(){elResult.classList.add("show");});
+  for(var r2=0;r2<rows.length;r2++){(function(row,k){at(4000+k*480,function(){row.classList.add("in");});})(rows[r2],r2);}
+  at(6000,function(){elSrcWrap.classList.add("show");});
+  at(10000,function(){play(auto?(cur+1)%P.length:cur);});
 }
 for(var t=0;t<tabs.length;t++){(function(k){tabs[k].addEventListener("click",function(){auto=false;play(k);});})(t);}
 document.addEventListener("visibilitychange",function(){if(!document.hidden&&!rm)play(cur);});
