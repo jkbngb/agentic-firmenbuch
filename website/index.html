@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
 <title>Agentic-Firmenbuch.at – Österreichisches Firmenbuch für KI-Agenten (MCP-Server)</title>
-<meta name="description" content="Offizielle Firmen- und Bilanzdaten aus dem österreichischen Firmenbuch, direkt im KI-Agenten. Als MCP-Server. In natürlicher Sprache fragen, geprüfte Daten erhalten. Kostenlos – nur eine verifizierte E-Mail-Adresse nötig." />
+<meta name="description" content="Offizielle Firmen- und Bilanzdaten aus dem österreichischen Firmenbuch, direkt im KI-Agenten. Als MCP-Server. In natürlicher Sprache fragen, geprüfte Daten erhalten. Kostenlos starten, Pro für 79 € pro Monat inkl. USt (14 Tage testen, monatlich kündbar)." />
 <link rel="canonical" href="https://www.agentic-firmenbuch.at/" />
 <link rel="alternate" hreflang="de" href="https://www.agentic-firmenbuch.at/" />
 <link rel="alternate" hreflang="en" href="https://www.agentic-firmenbuch.at/en.html" />
@@ -20,7 +20,7 @@
 <meta property="og:locale" content="de_AT" />
 <meta property="og:site_name" content="Agentic-Firmenbuch.at" />
 <meta property="og:title" content="Agentic-Firmenbuch.at – Österreichisches Firmenbuch für KI-Agenten" />
-<meta property="og:description" content="Offizielle Firmen- und Bilanzdaten aus dem österreichischen Firmenbuch als MCP-Server. In natürlicher Sprache fragen, geprüfte Daten erhalten. Kostenlos nutzbar." />
+<meta property="og:description" content="Offizielle Firmen- und Bilanzdaten aus dem österreichischen Firmenbuch als MCP-Server. In natürlicher Sprache fragen, geprüfte Daten erhalten. Kostenlos starten, Pro ab 79 € / Monat inkl. USt." />
 <meta property="og:url" content="https://www.agentic-firmenbuch.at/" />
 <meta property="og:image" content="https://www.agentic-firmenbuch.at/og-image.png" />
 <meta property="og:image:width" content="1200" />
@@ -43,12 +43,22 @@
   "url": "https://www.agentic-firmenbuch.at/",
   "inLanguage": "de-AT",
   "description": "MCP-Server, der Live-Firmen- und Bilanzdaten aus dem österreichischen Firmenbuch in KI-Agenten nutzbar macht.",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "EUR",
-    "description": "Kostenlos – nur eine verifizierte E-Mail-Adresse nötig."
-  },
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Free",
+      "price": "0",
+      "priceCurrency": "EUR",
+      "description": "Kostenlos starten: Firmensuche mit Basisdaten und begrenzte Einzelabfragen pro Monat."
+    },
+    {
+      "@type": "Offer",
+      "name": "Pro",
+      "price": "79",
+      "priceCurrency": "EUR",
+      "description": "Voller Funktionsumfang. 79 EUR pro Monat inkl. USt, 14 Tage kostenlos testen, monatlich kündbar."
+    }
+  ],
   "creator": { "@type": "Organization", "name": "Agentic-Firmenbuch.at" }
 }
 </script>
@@ -871,7 +881,7 @@
               <div class="pg-result" id="pgResult"></div>
               <div class="pg-badge">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01" stroke-linecap="round"/></svg>
-                <span>Beispielausgabe zur Veranschaulichung. Mit einem kostenlosen <a href="#start">API-Key</a> liefert der Server echte Daten aus dem Firmenbuch.</span>
+                <span>Beispielausgabe zur Veranschaulichung. Mit einem <a href="#start">API-Key</a> liefert der Server echte Daten aus dem Firmenbuch.</span>
               </div>
             </div>
           </div>
@@ -967,19 +977,19 @@
 })();
 </script>
 
-<!-- ======================= KOSTENLOS STARTEN ======================= -->
+<!-- ======================= ZUGANG / PLÄNE ======================= -->
 <section id="start" class="signup">
   <div class="wrap">
     <div class="signup-card reveal">
       <div class="signup-grid">
         <div class="signup-intro">
           <span class="eyebrow">Verbinden</span>
-          <h2 class="h2" style="margin-top:14px">Kostenloser Zugang.</h2>
-          <p class="lead">Entweder direkt über <strong>Claude Cowork</strong> ohne API-Schlüssel oder über <strong>API-Key</strong> in Claude Code, VS Code und allen anderen MCP-fähigen Clients. Voraussetzung ist eine verifizierte E-Mail-Adresse.</p>
+          <h2 class="h2" style="margin-top:14px">Kostenlos starten. Mit Pro voll aufdrehen.</h2>
+          <p class="lead">Du verbindest deinen <strong>eigenen MCP-Client</strong> – etwa <strong>Claude Cowork</strong> ohne API-Schlüssel oder per <strong>API-Key</strong> in Claude Code, VS Code, Cursor und allen MCP-fähigen Clients. Den Client bringst du selbst mit; wir stellen die Schnittstelle bereit. Voraussetzung ist eine verifizierte E-Mail-Adresse.</p>
           <div class="free-points">
-            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round"/></svg> Kostenlos nutzbar</div>
-            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round"/></svg> Kein Passwort, keine Kreditkarte</div>
-            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round"/></svg> Nur verifizierte E-Mail nötig</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round"/></svg> <strong>Free:</strong> Firmensuche mit Basisdaten und begrenzte Einzelabfragen pro Monat</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round"/></svg> <strong>Pro:</strong> voller Umfang – 79 € / Monat inkl. USt, 14 Tage kostenlos testen, monatlich kündbar</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round"/></svg> Kein Passwort; für Free keine Kreditkarte nötig</div>
           </div>
           <p class="signup-foot">Mit dem Verbinden bzw. der Nutzung des MCP-Servers werden die <a href="nutzungsbedingungen.html">Allgemeinen Geschäftsbedingungen</a> akzeptiert. Die Nutzung des Services erfolgt unter Ausschluss jeglicher Gewährleistung.</p>
         </div>
@@ -1110,8 +1120,12 @@
     </div>
     <div class="faq reveal">
       <details>
-        <summary>Ist das kostenlos? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
-        <div class="ans">Die Nutzung ist kostenlos, mit einem Fair-Use-Rate-Limit pro API-Key. Erforderlich ist ausschließlich eine verifizierte E-Mail-Adresse – kein Passwort, keine Kreditkarte.</div>
+        <summary>Was kostet das? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
+        <div class="ans">Es gibt einen kostenlosen <strong>Free</strong>-Zugang (Firmensuche mit Basisdaten und eine begrenzte Anzahl vollständiger Einzelabfragen pro Monat) – dafür ist nur eine verifizierte E-Mail-Adresse nötig, kein Passwort, keine Kreditkarte. <strong>Pro</strong> schaltet den vollen Funktionsumfang frei und kostet <strong>79 € pro Monat inkl. USt</strong>, mit <strong>14 Tagen kostenlosem Test</strong> und <strong>monatlicher Kündigung</strong>.</div>
+      </details>
+      <details>
+        <summary>Brauche ich einen eigenen MCP-Client? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
+        <div class="ans">Ja. Agentic-Firmenbuch stellt ausschließlich die <strong>Schnittstelle (den MCP-Server)</strong> bereit – ein Client wird nicht mitgeliefert. Du nutzt einen eigenen MCP-fähigen Client, zum Beispiel <strong>Claude (Cowork, Desktop, claude.ai)</strong>, Claude Code, Cursor oder GitHub Copilot, und bindest die Schnittstelle dort selbst ein.</div>
       </details>
       <details>
         <summary>Woher kommen die Daten? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
