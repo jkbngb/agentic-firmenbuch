@@ -226,12 +226,49 @@ async def playground(req: Request) -> Response:
     )
 
 
-async def company(req: Request) -> Response:
-    """Public, rate-limited served-record fetch for the playground's detail view.
+def _public_company_teaser(payload: dict[str, Any]) -> dict[str, Any]:
+    """Reduce a full get_company_details payload to the FREE-tier basic view.
 
-    Returns exactly what an MCP client's ``get_company_details`` returns — the served
-    ``10_presentation`` doc (officer names already withheld at write time, §8.7). A light
-    per-IP/global daily cap keeps it from being a bulk-scrape vector.
+    The public/playground endpoint is unauthenticated, so it must not hand out the full Pro
+    profile (financials, ratios, history, filings). It returns the same basic fields a free
+    plan sees on a search card; the full record requires an API key + plan.
+    """
+    result = payload.get("result") or {}
+    ident = result.get("identity") or {}
+    loc = result.get("location") or {}
+    size = result.get("size") or {}
+    industry = result.get("industry") if isinstance(result.get("industry"), dict) else {}
+    oenace = (industry.get("oenace") or {}) if isinstance(industry, dict) else {}
+    fin_latest = (result.get("financials") or {}).get("latest") or {}
+    teaser: dict[str, Any] = {
+        "fnr": result.get("fnr") or ident.get("fnr"),
+        "identity": {k: ident.get(k) for k in ("fnr", "name", "legal_form", "status")},
+        "location": {k: loc.get(k) for k in ("bundesland", "postal_code", "city")},
+        "size": {"gkl": size.get("gkl"), "bilanzsumme_band": size.get("bilanzsumme_band")},
+        "industry": {
+            "section": oenace.get("section"),
+            "geschaeftszweig": industry.get("geschaeftszweig"),
+        },
+        "bilanzsumme_latest": fin_latest.get("bilanzsumme"),
+    }
+    if result.get("financial_institution"):
+        teaser["financial_institution"] = result["financial_institution"]
+    return {
+        "result": teaser,
+        "plan_note": (
+            "Basisdaten (kostenloser Zugang). Das vollstaendige Profil mit Kennzahlen und "
+            "Historie gibt es mit einem API-Key: https://www.agentic-firmenbuch.at/#start"
+        ),
+    }
+
+
+async def company(req: Request) -> Response:
+    """Public, rate-limited BASIC company teaser for the playground's detail view.
+
+    Returns only the free-tier basic fields (identity, location, size, industry section,
+    latest Bilanzsumme). The full ``get_company_details`` profile requires an API key + plan,
+    so this unauthenticated endpoint is not a paywall bypass. A light per-IP/global daily cap
+    keeps it from being a bulk-scrape vector.
     """
     from datetime import UTC, datetime
 
@@ -251,7 +288,7 @@ async def company(req: Request) -> Response:
             json.dumps({"error": "ip_cap"}), status_code=429, media_type="application/json"
         )
     try:
-        payload = service.get_company_details(_cosmos, fnr)
+        payload = _public_company_teaser(service.get_company_details(_cosmos, fnr))
     except Exception:
         return Response(
             json.dumps({"error": "not_found"}), status_code=404, media_type="application/json"
