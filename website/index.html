@@ -243,11 +243,11 @@
      rises and expands to full height right before the "Firmenbuch wird abgefragt" status. Only
      the very first cycle; JS measures --hxFullH / --hxShift. Afterwards a fixed panel height so
      the surrounding layout never reflows. Not-yet-shown sections are display-toggled. */
-  .hx-panel{background:var(--hxp);border:1px solid var(--hxl);border-radius:14px;padding:18px;min-height:462px;display:flex;flex-direction:column;box-shadow:0 24px 60px -32px rgba(0,0,0,.8);transition:min-height .75s cubic-bezier(.16,1,.3,1)}
-  .hx-inner{transition:transform .75s cubic-bezier(.16,1,.3,1)}
+  .hx-panel{background:var(--hxp);border:1px solid var(--hxl);border-radius:14px;padding:18px;min-height:462px;display:flex;flex-direction:column;box-shadow:0 24px 60px -32px rgba(0,0,0,.8);transition:height .9s cubic-bezier(.4,0,.2,1)}
+  .hx-inner{transition:transform .9s cubic-bezier(.4,0,.2,1)}
   .hx-demo.hx-intro{min-height:var(--hxFullH,auto)}
   .hx-demo.hx-intro .hx-inner{transform:translateY(var(--hxShift,0px))}
-  .hx-demo.hx-intro .hx-panel{min-height:0}
+  .hx-demo.hx-intro .hx-panel{min-height:0;overflow:hidden}
   .hx-demo.hx-intro .hx-note{display:none}
   .hx-demo.hx-noanim .hx-inner,.hx-demo.hx-noanim .hx-panel{transition:none}
   .hx-srdesc{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);margin:-1px;padding:0;border:0}
@@ -1463,17 +1463,17 @@ function cell(c){var d=document.createElement("div");var cls="hx-cell";if(c.righ
 function build(p){elTable.innerHTML="";var rows=[],i,r,c;if(p.head){var h=document.createElement("div");h.className="hx-row hd";h.style.gridTemplateColumns=p.grid;for(i=0;i<p.head.length;i++)h.appendChild(cell({v:p.head[i],right:i>0}));elTable.appendChild(h);}for(r=0;r<p.rows.length;r++){var row=document.createElement("div");row.className="hx-row";row.style.gridTemplateColumns=p.grid;for(c=0;c<p.rows[r].length;c++)row.appendChild(cell(p.rows[r][c]));elTable.appendChild(row);rows.push(row);}return rows;}
 function setSrc(p){elSrc.textContent="";elSrc.appendChild(document.createTextNode(p.srcPre));var b=document.createElement("b");b.textContent=p.srcLink;elSrc.appendChild(b);}
 function selectTab(i){for(var k=0;k<tabs.length;k++)tabs[k].setAttribute("aria-selected",k===i?"true":"false");}
-function play(i){clearAll();cur=i;selectTab(i);var doIntro=firstRun&&i===0;if(!doIntro&&demo){demo.classList.remove("hx-intro");firstRun=false;}var p=P[i],rows=build(p);elMeta.textContent=p.meta;setSrc(p);elQ.textContent="";elCaret.style.display="inline-block";elStatus.className="hx-status";elStatusTxt.textContent="Firmenbuch wird abgefragt …";elResult.classList.remove("show");elSrcWrap.classList.remove("show");
+function play(i){clearAll();cur=i;selectTab(i);var doIntro=firstRun&&i===0;if(!doIntro&&demo){firstRun=false;demo.style.minHeight="";inner.style.transform="";var _p=demo.querySelector(".hx-panel");if(_p){_p.style.minHeight="";_p.style.overflow="";_p.style.height="";}var _n=demo.querySelector(".hx-note");if(_n)_n.style.display="";}var p=P[i],rows=build(p);elMeta.textContent=p.meta;setSrc(p);elQ.textContent="";elCaret.style.display="inline-block";elStatus.className="hx-status";elStatusTxt.textContent="Firmenbuch wird abgefragt …";elResult.classList.remove("show");elSrcWrap.classList.remove("show");
   if(rm){elQ.textContent=p.q;elCaret.style.display="none";elStatus.className="hx-status show done";elStatusTxt.textContent="Firmenbuch abgefragt";elResult.classList.add("show");for(var r=0;r<rows.length;r++)rows[r].classList.add("in");elSrcWrap.classList.add("show");return;}
-  if(doIntro){demo.classList.add("hx-noanim");demo.classList.remove("hx-intro");var fullH=inner.offsetHeight;demo.classList.add("hx-intro");var compactH=inner.offsetHeight;demo.style.setProperty("--hxFullH",fullH+"px");demo.style.setProperty("--hxShift",Math.max(0,(fullH-compactH)/2)+"px");void demo.offsetHeight;demo.classList.remove("hx-noanim");firstRun=false;at(2500,function(){demo.classList.remove("hx-intro");});}
-  var n=0,len=p.q.length,step=Math.max(30,Math.round(2500/len));
+  if(doIntro){var pnl=demo.querySelector(".hx-panel"),note=demo.querySelector(".hx-note");demo.classList.add("hx-noanim");var fullH=inner.offsetHeight,fullPanel=pnl.offsetHeight;pnl.style.minHeight="0";pnl.style.overflow="hidden";if(note)note.style.display="none";var compactPanel=pnl.offsetHeight,compactInner=inner.offsetHeight;pnl.style.height=compactPanel+"px";demo.style.minHeight=fullH+"px";inner.style.transform="translateY("+Math.max(0,(fullH-compactInner)/2)+"px)";void demo.offsetHeight;demo.classList.remove("hx-noanim");firstRun=false;at(3000,function(){inner.style.transform="translateY(0)";pnl.style.height=fullPanel+"px";at(1000,function(){pnl.style.minHeight="";pnl.style.overflow="";pnl.style.height="";demo.style.minHeight="";inner.style.transform="";if(note)note.style.display="";});});}
+  var n=0,len=p.q.length,step=Math.max(36,Math.round(3000/len));
   typer=setInterval(function(){n++;elQ.textContent=p.q.slice(0,n);if(n>=len){clearInterval(typer);typer=null;}},step);
-  at(3300,function(){elCaret.style.display="none";elStatus.classList.add("show");});
-  at(5100,function(){elStatus.classList.add("done");elStatusTxt.textContent="Firmenbuch abgefragt";});
-  at(5450,function(){elResult.classList.add("show");});
-  for(var r2=0;r2<rows.length;r2++){(function(row,k){at(5650+k*320,function(){row.classList.add("in");});})(rows[r2],r2);}
-  at(9200,function(){elSrcWrap.classList.add("show");});
-  at(13500,function(){play(auto?(cur+1)%P.length:cur);});
+  at(3950,function(){elCaret.style.display="none";elStatus.classList.add("show");});
+  at(5800,function(){elStatus.classList.add("done");elStatusTxt.textContent="Firmenbuch abgefragt";});
+  at(6150,function(){elResult.classList.add("show");});
+  for(var r2=0;r2<rows.length;r2++){(function(row,k){at(6350+k*340,function(){row.classList.add("in");});})(rows[r2],r2);}
+  at(9900,function(){elSrcWrap.classList.add("show");});
+  at(14500,function(){play(auto?(cur+1)%P.length:cur);});
 }
 for(var t=0;t<tabs.length;t++){(function(k){tabs[k].addEventListener("click",function(){auto=false;play(k);});})(t);}
 document.addEventListener("visibilitychange",function(){if(!document.hidden&&!rm)play(cur);});
