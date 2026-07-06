@@ -6,7 +6,7 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="mask-icon" href="favicon.svg" color="#19C37D" />
 <title>Terms of Service – Agentic-Firmenbuch.at</title>
-<meta name="description" content="Terms of Service of Agentic-Firmenbuch.at: service, permitted use, data without warranty and the CC-BY-4.0 attribution." />
+<meta name="description" content="Terms of Service of Agentic-Firmenbuch.at: plans (Free/Pro/Guest), prices incl. VAT, trial period, cancellation, payment via Stripe, data without warranty, liability and CC-BY-4.0 attribution." />
 <link rel="canonical" href="https://www.agentic-firmenbuch.at/nutzungsbedingungen.en.html" />
 <link rel="alternate" hreflang="de" href="https://www.agentic-firmenbuch.at/nutzungsbedingungen.html" />
 <link rel="alternate" hreflang="en" href="https://www.agentic-firmenbuch.at/nutzungsbedingungen.en.html" />
@@ -87,7 +87,7 @@
     </a>
     <div class="nav-r">
       <a class="lang-toggle" href="nutzungsbedingungen.html" hreflang="de" lang="de" aria-label="Auf Deutsch ansehen">DE</a>
-  
+
     <a class="back" href="en.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
       Back to home
@@ -103,122 +103,280 @@
     </div>
     <span class="eyebrow">Legal</span>
     <h1>Terms of Service</h1>
-    <p class="sub">These Terms of Service govern the use of the website and the service
-       <strong>Agentic-Firmenbuch.at</strong> (MCP server for company and financial-statement data from the
-       Austrian Firmenbuch). The service is provided free of charge and without warranty.</p>
-    <p class="meta">Provider: Jakob Neugebauer · As of: 18 June 2026</p>
+    <p class="sub">These Terms of Service (General Terms and Conditions) govern the use of the website and the
+       service <strong>Agentic-Firmenbuch.at</strong> – a hosted <strong>application programming interface
+       (MCP server)</strong> for company and financial-statement data from the Austrian Firmenbuch.</p>
+    <p class="meta">As of: 5 July 2026</p>
 
     <section class="block">
-      <h2><span class="n">§1</span> Scope</h2>
-      <p>These terms apply between Jakob Neugebauer ("Provider") and
-         any natural or legal person who uses the website or the service
-         ("User"). <strong>By using the service – in particular by connecting to the
-         MCP server or by any query through the application programming interface, including via
-         an AI agent – as well as by requesting an API key, these terms are accepted
-         in full.</strong> Anyone who does not agree to them may not use the service.
-         Deviating or conflicting terms of the User do not apply.</p>
+      <h2><span class="n">§1</span> Scope &amp; Contracting Parties</h2>
+      <p>These terms apply between the operator of the website Agentic-Firmenbuch.at ("Provider"; full details
+         see <a href="impressum.html">Legal Notice</a>) and any natural or legal person who uses the website
+         or the service ("User"). They apply to all present and future services, even if in an individual case
+         no express reference is made to them. <strong>By using the service – in particular by connecting to
+         the MCP server or by any query through the interface, including via an AI agent – as well as by
+         requesting an API key or entering into a paid subscription, these terms are accepted in full.</strong>
+         Deviating or conflicting terms and conditions of the User apply only if the Provider has acknowledged
+         them in writing.</p>
     </section>
 
     <section class="block">
-      <h2><span class="n">§2</span> Service</h2>
-      <p>The Provider operates an <strong>MCP server</strong> that makes processed data from the
-         Austrian Firmenbuch (including published annual financial statements) accessible through an
-         application programming interface for AI agents. The service is provided
-         <strong>free of charge and without warranty</strong>; there is no claim to any particular
-         feature set, data coverage, or continued availability.</p>
+      <h2><span class="n">§2</span> Description of Service</h2>
+      <p>The Provider operates an <strong>MCP server</strong> that makes prepared data from the Austrian
+         Firmenbuch (including published annual financial statements) accessible to AI agents through an
+         application programming interface. The subject of the service is <strong>exclusively this
+         interface</strong> together with the data provided through it. There is no entitlement to any
+         particular scope of functionality, any particular data coverage, any particular availability or
+         permanent provision (see also §17).</p>
+      <p>The Provider points out that an <strong>accessible design</strong> (including within the meaning of
+         the Austrian Accessibility Act – BaFG, in force since 28 June 2025) is not separately agreed unless
+         it has been individually requested.</p>
     </section>
 
     <section class="block">
-      <h2><span class="n">§3</span> Registration &amp; API key</h2>
+      <h2><span class="n">§3</span> Own MCP Client Required</h2>
+      <div class="callout">
+        <p style="margin:0 0 10px"><strong>The Provider does not supply any client, app or user
+           interface.</strong> To use the service, the User needs their <strong>own, self-provided
+           MCP-capable client</strong> and integrates the interface there <strong>themselves</strong>
+           (configuration, connection and operation are the User's responsibility).</p>
+        <p style="margin:0">Examples of such clients include <strong>Claude (Cowork, Desktop,
+           claude.ai)</strong>, Claude Code, Cursor or GitHub Copilot. The Provider has no connection with
+           these providers, does not owe their availability and gives no warranty for their function, cost or
+           terms. If the client used fails or is incompatible with the MCP standard, this does not affect the
+           Provider's service.</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§4</span> Scope of Service &amp; Plans</h2>
+      <p>Access is offered in the following plans:</p>
       <ul>
-        <li>A <strong>verified email address</strong> (double opt-in) is required. No password and no
-            payment information is collected.</li>
-        <li>The issued <strong>API key is personal and confidential</strong> and must not be
-            shared with third parties. The User is liable for use made through their key.</li>
-        <li>If misuse or compromise is suspected, the User may at any time request a new key
-            (the old one becomes invalid) or have their account deleted.</li>
+        <li><strong>Free (free of charge):</strong> company search with basic data as well as a limited number
+            of full individual queries per month. No access to screening lists, key-figure history,
+            peer/cohort analyses, the full dataset or document downloads.</li>
+        <li><strong>Pro (paid):</strong> full functionality of all query tools without the Free restrictions.
+            For price, tax and term see §5–§7.</li>
+        <li><strong>Guest (by invitation):</strong> a time-limited trial with full Pro scope on the Provider's
+            invitation; after it expires the Free plan applies automatically. No charge, no payment data.</li>
+      </ul>
+      <p>The Provider may adjust the configuration of the plans (limits, included tools) with effect for the
+         future (§23).</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§5</span> Prices &amp; VAT</h2>
+      <p>The Pro plan costs <strong>EUR 79.00 per month including VAT</strong> (gross price, recurring
+         monthly). The applicable tax rate is included in the price and is shown on the invoice. For
+         VAT-registered businesses from other EU countries, the <strong>reverse-charge procedure</strong> may
+         apply; the invoice then shows the VAT accordingly.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§6</span> Trial Period</h2>
+      <p>New Pro subscriptions begin with a <strong>free trial period of 14 days</strong>. If the subscription
+         is not cancelled before the end of the trial period, it <strong>transitions seamlessly into the paid
+         monthly subscription</strong>; the first payment then becomes due. Within the trial period,
+         cancellation is possible at any time free of charge.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§7</span> Term &amp; Cancellation</h2>
+      <p>The Pro subscription runs <strong>monthly</strong> and can be <strong>cancelled at any time to the
+         end of the current billing period</strong> – on a self-service basis through the payment service
+         provider's customer portal (§8). Once the cancellation takes effect, Pro access ends and is
+         downgraded to the Free plan. Fees already paid for the current period are not refunded on a pro-rata
+         basis, to the extent legally permissible.</p>
+      <p>The right of both contracting parties to <strong>extraordinary termination for good cause</strong>
+         remains unaffected. For the Provider, good cause exists in particular in the event of a significant
+         breach of §13.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§8</span> Payment Processing (Stripe)</h2>
+      <p>Payment processing is handled by the payment service provider <strong>Stripe</strong>
+         (Stripe Payments Europe, Ltd.). The Provider does not store <strong>any full payment data</strong>
+         (e.g. card numbers); these are processed exclusively by Stripe. Invoices as well as the management and
+         cancellation of the subscription are handled through the <strong>Stripe customer portal</strong>.
+         For the processing of data, see the <a href="datenschutz.html">Privacy Policy</a>.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§9</span> Payment Default &amp; Suspension</h2>
+      <p>If a due payment is not completed (e.g. a failed charge) or the subscription is terminated, access is
+         <strong>downgraded to the Free plan without a grace period</strong>. The Provider is not obliged to
+         continue providing Pro features in the event of a payment default. Statutory consequences of default
+         remain unaffected.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§10</span> Right of Withdrawal</h2>
+      <p><strong>Consumers</strong> (§ 1 KSchG / FAGG) generally have a <strong>14-day right of
+         withdrawal</strong> for paid contracts concluded online. By using the service within the trial period
+         or by expressly requesting immediate commencement of performance, the right of withdrawal may lapse
+         early in accordance with the FAGG; separate information about this is provided during the ordering
+         process.</p>
+      <p>There is no statutory right of withdrawal towards <strong>businesses</strong> (B2B); here the
+         cancellation rules under §7 apply.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§11</span> Registration &amp; API Key</h2>
+      <ul>
+        <li>A <strong>verified e-mail address</strong> (double opt-in) is a prerequisite. No payment
+            information is collected for the Free and Guest plans.</li>
+        <li>The issued <strong>API key is personal and confidential</strong> and must not be passed on to
+            third parties. The User is liable for use through their key.</li>
+        <li>If misuse or compromise is suspected, the User may request a new key at any time (the old one
+            becomes invalid) or have their account deleted.</li>
       </ul>
     </section>
 
     <section class="block">
-      <h2><span class="n">§4</span> Permitted use</h2>
-      <p>The User undertakes not to use the service abusively. In particular, the following are prohibited:</p>
+      <h2><span class="n">§12</span> User's Duties to Cooperate</h2>
+      <p>The User cooperates to the extent necessary for the provision of the service. In particular:</p>
+      <ul>
+        <li>They provide a suitable <strong>own MCP client</strong> including network connectivity (§3) and
+            set up the connection themselves.</li>
+        <li>They keep the <strong>access credentials required for use (API key, logins) confidential</strong>
+            and secure them against access by third parties.</li>
+        <li>They ensure that their own use – in particular the further processing of retrieved data –
+            complies with the legal requirements applicable to them.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§13</span> Permitted Use</h2>
+      <p>The User undertakes not to use the service abusively. The following are prohibited in particular:</p>
       <ul>
         <li>circumventing or overloading the <strong>rate limits</strong> or technical protective measures;</li>
-        <li>automated bulk queries beyond fair use, as well as any attempt to systematically
-            replicate the entire dataset;</li>
-        <li>the systematic extraction or further processing of <strong>personal data</strong>
-            (in particular the names of authorised representatives) to build proprietary databases,
-            address lists, or marketing inventories. This information originates from the public Firmenbuch and
-            may be used for <strong>individual queries</strong>; any further-reaching
-            <strong>commercial reuse</strong> of Firmenbuch data is restricted under Austrian
-            law;</li>
-        <li>use for unlawful purposes, in particular contrary to data-protection, competition or
-            copyright law;</li>
+        <li>automated mass queries beyond fair-use levels as well as any attempt to systematically reproduce
+            the entire dataset;</li>
+        <li>the systematic extraction or further processing of <strong>personal data</strong> (in particular
+            the names of persons authorised to represent) to build up one's own databases, address or
+            marketing records. This information originates from the public Firmenbuch and may be used for
+            the <strong>individual query</strong>; any further-reaching <strong>commercial re-use</strong> of
+            Firmenbuch data is restricted under Austrian law;</li>
+        <li>use for unlawful purposes, in particular contrary to data-protection, competition or copyright
+            requirements;</li>
         <li>reverse engineering of the infrastructure as well as interference with security or availability.</li>
       </ul>
-      <p>The Provider may suspend access (API key) without prior notice in the event of violations.</p>
+      <p>In the event of breaches, the Provider may suspend access (API key) without prior notice.</p>
     </section>
 
     <section class="block">
-      <h2><span class="n">§5</span> Data without warranty</h2>
+      <h2><span class="n">§14</span> Rights of Use</h2>
+      <p>The User receives a <strong>non-exclusive, non-transferable, non-sublicensable right, limited to the
+         term of the contract</strong>, to use the interface and the data provided through it for their own
+         use within the framework of these terms. No further rights are granted. For the underlying Firmenbuch
+         data, the licence under §16 additionally applies.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§15</span> Data Without Warranty</h2>
       <div class="callout">
-        <p style="margin:0"><strong>The data provided originates from the Austrian
-           Firmenbuch and is processed automatically. It is provided "without warranty".</strong>
-           The Provider gives no warranty as to accuracy, completeness, timeliness or
-           fitness for a particular purpose. <strong>Use of the service and the data is
-           at your own risk and on your own responsibility.</strong></p>
+        <p style="margin:0"><strong>The data provided originates from the Austrian Firmenbuch and is prepared
+           in an automated manner. It is provided "without warranty".</strong> The Provider gives no warranty
+           for correctness, completeness, timeliness or fitness for a particular purpose. <strong>Use of the
+           service and the data is entirely at your own risk and your own responsibility.</strong></p>
       </div>
-      <p>The data does <strong>not constitute legal, tax or investment advice</strong> and does not replace
-         an official Firmenbuch extract. The official Firmenbuch is always authoritative.
-         Decisions based on the data are made by the User on their own responsibility.</p>
+      <p>The data does <strong>not constitute legal, tax or investment advice</strong> and does not replace an
+         official Firmenbuch extract. The official Firmenbuch is always authoritative. The User makes decisions
+         based on the data on their own responsibility.</p>
     </section>
 
     <section class="block">
-      <h2><span class="n">§6</span> Source &amp; licence (CC BY 4.0)</h2>
-      <p>The underlying data originates from the <strong>Austrian Firmenbuch / BMJ – Justiz</strong>
-         and is licensed under <strong>Creative Commons Attribution 4.0 (CC BY 4.0)</strong>.</p>
-      <p>Anyone who reuses or publishes data obtained through the service assumes the
-         <strong>obligation to attribute the source</strong> and shall state: <em>"Österreichisches Firmenbuch / BMJ – Justiz,
-         CC BY 4.0"</em>. This attribution obligation is passed on to the User through their use.</p>
+      <h2><span class="n">§16</span> Source &amp; Licence (CC BY 4.0)</h2>
+      <p>The underlying data originates from the <strong>Austrian Firmenbuch / BMJ – Justiz</strong> and is
+         made available under the <strong>Creative Commons Attribution 4.0 (CC BY 4.0)</strong> licence.</p>
+      <p>Anyone who re-uses or publishes the data obtained through the service assumes the
+         <strong>obligation to state the source</strong> and names: <em>"Austrian Firmenbuch / BMJ – Justiz,
+         CC BY 4.0"</em>. This attribution obligation is passed on to the User with use.</p>
     </section>
 
     <section class="block">
-      <h2><span class="n">§7</span> Availability</h2>
-      <p>There is <strong>no guarantee of availability</strong>. The service may
-         be changed, restricted, interrupted or discontinued at any time. Maintenance, outages
-         or limits do not give rise to any claims.</p>
+      <h2><span class="n">§17</span> Availability &amp; Force Majeure</h2>
+      <p>There is <strong>no guarantee of availability</strong>. The service may be changed, restricted,
+         interrupted or discontinued at any time. Maintenance, outages or limits give rise to no claims.</p>
+      <p>To the extent and for as long as the provision of the service is prevented or delayed by
+         <strong>force majeure</strong> (e.g. natural disasters, strike, failure of the power or
+         telecommunications supply, failure of third-party inputs, sovereign interventions, changes in the law
+         taking effect after conclusion of the contract), this does not constitute a breach of contract.</p>
     </section>
 
     <section class="block">
-      <h2><span class="n">§8</span> Exclusion of liability</h2>
-      <p>Use of the service and the data is <strong>at your own risk and
-         on your own responsibility</strong>; it takes place <strong>under exclusion of any
-         warranty</strong> – in particular regarding accuracy, completeness and timeliness of
-         the data, as well as for direct or indirect damages, consequential damages, loss of data,
-         lost profit or damages from decisions made on the basis of the data
-         provided. Mandatory statutory liability provisions remain unaffected.</p>
+      <h2><span class="n">§18</span> Warranty</h2>
+      <p>Towards <strong>businesses</strong>, the warranty period – to the extent applicable at all for the
+         paid service – is <strong>six (6) months</strong>; an obligation to update within the meaning of § 7
+         VGG is excluded to the extent legally permissible, and the right to raise the defence of defectiveness
+         under § 933 para. 3 ABGB is excluded. If a defect is based on the User's failure to cooperate (§12),
+         free-of-charge rectification of the defect is excluded.</p>
+      <p>Towards <strong>consumers</strong>, the <strong>statutory warranty rights</strong> (in particular
+         under the VGG/ABGB) apply unchanged; the above restrictions do not apply to consumers.</p>
     </section>
 
     <section class="block">
-      <h2><span class="n">§9</span> Term, suspension &amp; deletion</h2>
-      <p>The usage relationship may be terminated by either party at any time without notice. The User may have their account
-         and key removed via the unsubscribe/deletion process (<a href="datenschutz.en.html">see Privacy</a>).
-         The Provider may deactivate accounts in the event of violations or upon discontinuation of the service.</p>
+      <h2><span class="n">§19</span> Liability</h2>
+      <p>The Provider is liable for culpably caused damage only in the case of <strong>intent and gross
+         negligence</strong>. For <strong>indirect damage</strong> – such as lost profit, costs of a business
+         interruption, data losses or third-party claims – as well as for damage arising from decisions made
+         on the basis of the data provided, liability is excluded. For culpably caused personal injury, the
+         Provider is liable in accordance with the statutory provisions. Mandatory statutory grounds for
+         liability (in particular under the Product Liability Act as well as claims that cannot be waived
+         towards consumers) remain unaffected. The Provider is not liable for disruptions to the
+         telecommunications or client infrastructure of the User or third parties (§3).</p>
     </section>
 
     <section class="block">
-      <h2><span class="n">§10</span> Changes to the terms</h2>
-      <p>The Provider may amend these terms with effect for the future, in particular in case of
-         changes to the feature set or to the legal framework. The current version is available on
-         this page at any time.</p>
+      <h2><span class="n">§20</span> Data Protection</h2>
+      <p>The processing of personal data (including on registration, payment and use as well as in relation to
+         personal data published in the Firmenbuch) is described in the
+         <a href="datenschutz.html">Privacy Policy</a> in accordance with Art. 13/14 GDPR.</p>
     </section>
 
     <section class="block">
-      <h2><span class="n">§11</span> Final provisions</h2>
-      <p>Austrian law applies. Place of jurisdiction is – to the extent permitted –
-         Vienna. Should any provision be invalid, the
-         validity of the remaining provisions remains unaffected.</p>
+      <h2><span class="n">§21</span> Confidentiality</h2>
+      <p>Each contracting party treats the other's trade secrets that become known to it in connection with the
+         contract as confidential and does not make them accessible to third parties, unless they are generally
+         known, were already known to the recipient without any obligation of confidentiality, or must be
+         disclosed on the basis of a final official or judicial decision.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§22</span> Account Deletion</h2>
+      <p>The usage relationship may be terminated by either party at any time without notice. The User can have
+         their account and key removed via the unsubscribe/deletion route (<a href="datenschutz.html">see
+         Privacy Policy</a>). An ongoing paid subscription must additionally be cancelled under §7. The
+         Provider may deactivate access in the event of breaches or discontinuation of the service.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§23</span> Changes to the Terms</h2>
+      <p>The Provider may adjust these terms with effect for the future, in particular in the event of changes
+         to the scope of functionality or the legal situation. The current version in each case is available on
+         this page. Material changes to ongoing paid subscriptions are notified to the User in advance; in this
+         case they may cancel with effect from when the change takes effect.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§24</span> Final Provisions</h2>
+      <p>Amendments and additions require the written form; this also applies to the waiver of the written-form
+         requirement. Should individual provisions be or become invalid or unenforceable, the validity of the
+         remaining provisions remains unaffected; the invalid provision is to be replaced by a valid rule that
+         comes closest to its economic purpose. <strong>Austrian law</strong> applies to the exclusion of its
+         conflict-of-law rules and the UN Convention on Contracts for the International Sale of Goods. Towards
+         businesses, the court with subject-matter jurisdiction in <strong>Vienna</strong> is agreed as the
+         place of jurisdiction; towards consumers, the statutory jurisdictions apply.</p>
+    </section>
+
+    <section class="block">
+      <h2><span class="n">§25</span> Dispute Resolution</h2>
+      <p>In the event of disputes arising from this contract that cannot be settled amicably, the involvement
+         of a registered mediator (ZivMediatG) specialising in business mediation is recommended as a
+         business-friendly means of dispute resolution. <strong>Consumers</strong> additionally have the option
+         of online dispute resolution via the platform of the European Commission (ec.europa.eu/consumers/odr).
+         The Provider is not obliged to participate in a dispute-resolution procedure before a consumer
+         arbitration body, but participates voluntarily to the extent provided by law.</p>
     </section>
   </div>
 </main>
@@ -227,11 +385,11 @@
   <div class="wrap foot">
     <div class="foot-links">
       <a href="en.html">Home</a>
-      <a href="impressum.en.html">Imprint</a>
+      <a href="impressum.en.html">Legal Notice</a>
       <a href="datenschutz.en.html">Privacy</a>
       <a href="onboarding.en.html">How to connect</a>
     </div>
-    <small>© <span id="y"></span> Agentic-Firmenbuch.at · Österreichisches Firmenbuch / BMJ – Justiz, CC BY 4.0</small>
+    <small>© <span id="y"></span> Agentic-Firmenbuch.at · Austrian Firmenbuch / BMJ – Justiz, CC BY 4.0</small>
   </div>
 </footer>
 <script>document.getElementById("y").textContent=new Date().getFullYear();</script>

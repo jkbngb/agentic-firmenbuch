@@ -53,6 +53,9 @@
   .sub{color:var(--dim);font-size:1.05rem;max-width:62ch}
   .meta{font-family:var(--font-m);font-size:12.5px;color:var(--faint);margin-top:18px}
 
+  .callout{background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid rgba(25,195,125,.35);border-radius:var(--r-lg);padding:18px 22px;margin-top:24px}
+  .callout p{color:var(--dim);margin:0}
+
   .toc{background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid var(--line);border-radius:var(--r-lg);padding:22px 26px;margin-top:34px}
   .toc h2{font-family:var(--font-d);font-weight:600;font-size:.95rem;color:var(--faint);letter-spacing:.04em;text-transform:uppercase;margin-bottom:14px;padding:0}
   .toc ol{list-style:none;counter-reset:t;display:grid;grid-template-columns:1fr 1fr;gap:8px 26px}
@@ -79,9 +82,6 @@
   .ident dt{font-size:13px;color:var(--faint);font-family:var(--font-m);letter-spacing:.02em;padding-top:2px}
   .ident dd{color:var(--text)}
   .note{font-size:13.5px;color:var(--faint);border-top:1px solid var(--line);margin-top:44px;padding-top:20px}
-
-  .translation-banner{background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid rgba(25,195,125,.22);border-left:3px solid var(--accent);border-radius:var(--r-md);padding:14px 18px;margin-top:22px;color:var(--dim);font-size:14.5px}
-  .translation-banner strong{color:var(--text);font-weight:600}
 
   footer{border-top:1px solid var(--line);padding-block:34px 40px;margin-top:60px}
   .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:center}
@@ -111,7 +111,7 @@
     </a>
     <div class="nav-r">
       <a class="lang-toggle" href="datenschutz.html" hreflang="de" lang="de" aria-label="Auf Deutsch ansehen">DE</a>
-  
+
     <a class="back" href="en.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
       Back to home
@@ -125,10 +125,10 @@
     <span class="eyebrow">Legal</span>
     <h1>Privacy Policy</h1>
     <p class="sub">This notice informs you, in accordance with the General Data Protection Regulation (GDPR) and the Austrian Data Protection Act (DSG), about the processing of personal data when using this website and the Agentic-Firmenbuch.at service.</p>
-    <p class="meta">As of: 18 June 2026</p>
+    <p class="meta">As of: 5 July 2026</p>
 
-    <div class="translation-banner">
-      This is an informal translation. The <strong>legally binding version</strong> is the <a href="datenschutz.html" hreflang="de">German Datenschutzerklärung</a>.
+    <div class="callout">
+      <p><strong>This is an informal translation.</strong> The <strong>legally binding version</strong> is the <a href="datenschutz.html" hreflang="de" lang="de">German Datenschutzerklärung</a>.</p>
     </div>
 
     <nav class="toc" aria-label="Table of contents">
@@ -143,110 +143,122 @@
         <li><a href="#cookies">Cookies</a></li>
         <li><a href="#empfaenger">Recipients &amp; Processors</a></li>
         <li><a href="#speicherdauer">Retention Period</a></li>
-        <li><a href="#rechte">Data Subject Rights</a></li>
+        <li><a href="#rechte">Your Rights</a></li>
         <li><a href="#aenderungen">Changes</a></li>
       </ol>
     </nav>
 
     <section class="block" id="verantwortlicher">
       <h2><span class="n">01</span> Data Controller</h2>
-      <p>The data controller within the meaning of Art. 4 No. 7 DSGVO (GDPR) is:</p>
+      <p>The controller responsible for the data processing within the meaning of Art. 4 No. 7 GDPR is:</p>
       <div class="ident">
         <dl>
           <dt>Name / Company</dt><dd>Jakob Neugebauer</dd>
           <dt>Address</dt><dd>Postgasse 8b, 1010 Vienna, Austria</dd>
-          <dt>E-mail</dt><dd><a href="mailto:office@jngb.online">office@jngb.online</a></dd>
+          <dt>E-Mail</dt><dd><a href="mailto:office@jngb.online">office@jngb.online</a></dd>
         </dl>
       </div>
     </section>
 
     <section class="block" id="anmeldung">
       <h2><span class="n">02</span> Sign-up &amp; Issuance of the API Key</h2>
-      <p>When you sign up for free access, we process the following data:</p>
+      <p>When you sign up for access, we process the following data:</p>
       <ul>
-        <li><strong>E-mail address</strong> – for verification (double opt-in) and issuance of the API key.</li>
-        <li><strong>Time of sign-up and confirmation</strong> as well as the <strong>confirmation IP address</strong> – as proof of consent.</li>
-        <li><strong>Generated API key</strong> – to authenticate requests to the MCP server.</li>
+        <li><strong>E-mail address</strong> – for verification (double opt-in) and for issuing the API key.</li>
+        <li><strong>Time of sign-up and of confirmation</strong> as well as the <strong>confirmation IP address</strong> – as evidence of consent.</li>
+        <li><strong>Generated API key</strong> – for authenticating requests to the MCP server.</li>
       </ul>
-      <p><strong>Purpose:</strong> provision of the service, verification of the e-mail address and abuse prevention.</p>
-      <p><strong>Legal basis:</strong> contract performance or pre-contractual measures (Art. 6 (1) lit. b DSGVO / GDPR) as well as consent given as part of the double opt-in (Art. 6 (1) lit. a DSGVO / GDPR). Consent can be withdrawn at any time with effect for the future.</p>
-      <p><strong>Usage data per API key:</strong> To provide the service, enforce fair-use limits (rate limiting) and prevent abuse, we log per API key <strong>which tools are called, how often and when</strong> (aggregated daily counters). The key is stored only as a <strong>hash</strong>; the usage log contains <strong>neither the content of your queries nor your e-mail address</strong>. <strong>Legal basis:</strong> contract performance (Art. 6 (1) lit. b GDPR) and our legitimate interest in stable, abuse-free operation (Art. 6 (1) lit. f GDPR). <strong>Retention:</strong> at most 12 months, then deleted automatically.</p>
+      <p><strong>Purpose:</strong> provision of the service, verification of the e-mail address and prevention of misuse.</p>
+      <p><strong>Legal basis:</strong> performance of a contract or pre-contractual measures (Art. 6 (1) (b) GDPR) as well as consent within the framework of the double opt-in (Art. 6 (1) (a) GDPR). Consent can be withdrawn at any time with effect for the future.</p>
+      <p><strong>Usage data per API key:</strong> To provide the service, to enforce fair-use limits (rate limit) and to prevent misuse, we log per API key <strong>which tools are queried how often and when</strong> (aggregated counters per day). The key is stored only as a <strong>hash value</strong>; the usage log contains <strong>neither the content of the queries nor the e-mail address</strong>. <strong>Legal basis:</strong> performance of a contract (Art. 6 (1) (b) GDPR) and our legitimate interest in stable, misuse-free operation (Art. 6 (1) (f) GDPR). <strong>Retention period:</strong> a maximum of 12 months, then automatic deletion.</p>
     </section>
 
     <section class="block" id="firmenbuch">
-      <h2><span class="n">03</span> Firmenbuch data &amp; personal data of company officers</h2>
-      <p>On a <strong>per-query</strong> basis the service returns data from the Austrian <strong>Firmenbuch</strong> (the Ministry of Justice / JustizOnline High Value Dataset, CC BY 4.0). This includes <strong>personal data of company officers</strong> (e.g. managing directors, board members, authorised signatories): name, role and type of representation, plus the <strong>year of birth</strong> and the age derived from it.</p>
-      <p><strong>Data minimisation:</strong> of birth data, only the <strong>year</strong> is processed and returned, never the day or month.</p>
-      <p><strong>Purpose:</strong> providing business information on Austrian companies (e.g. for credit, succession or counterparty checks) via per-query lookup. <strong>Legal basis:</strong> legitimate interest in providing publicly available register information (Art. 6(1)(f) GDPR). The data is publicly accessible in the Firmenbuch on a statutory basis (Firmenbuchgesetz).</p>
-      <p><strong>No mass processing:</strong> systematic bulk extraction, profiling and any disclosure or resale of the personal data are technically limited and prohibited under the <a href="nutzungsbedingungen.en.html">terms of use</a>.</p>
-      <p><strong>Data-subject rights:</strong> affected individuals may exercise their rights against the controller (see the Data Subject Rights section). The service reflects the official register; changes to an entry must primarily be made at the Firmenbuch court.</p>
+      <h2><span class="n">03</span> Firmenbuch Data &amp; Personal Data of Officers</h2>
+      <p>On an <strong>individual query</strong>, the service delivers data from the Austrian <strong>Firmenbuch</strong> (High Value Dataset of the BMJ/JustizOnline, CC BY 4.0). This also includes <strong>personal data of officers</strong> (e.g. managing directors, board members, authorised signatories): name, function and type of representation as well as the <strong>year of birth</strong> or the age calculated from it.</p>
+      <p><strong>Data minimisation:</strong> Of birth dates, exclusively the <strong>year</strong> is processed and delivered, never the day or month.</p>
+      <p><strong>Purpose:</strong> provision of business information on Austrian companies (e.g. for creditworthiness, succession or business-partner checks) by way of individual query. <strong>Legal basis:</strong> legitimate interest in providing publicly accessible register information (Art. 6 (1) (f) GDPR). The data is in any case accessible in the public Firmenbuch on a statutory basis (Firmenbuch Act).</p>
+      <p><strong>No mass processing:</strong> Systematic mass extraction, profiling as well as the disclosure or resale of the personal data are technically limited and prohibited under the <a href="nutzungsbedingungen.html">Terms of Service</a>.</p>
+      <p><strong>Your rights:</strong> Affected persons can assert their rights towards the controller (see the section Your Rights). The service reflects the official register status; changes to an entry are to be initiated primarily at the Firmenbuch court.</p>
     </section>
 
     <section class="block" id="turnstile">
       <h2><span class="n">04</span> Cloudflare Turnstile</h2>
-      <p>To protect the sign-up form against automated requests (spam/bots), we use <strong>Cloudflare Turnstile</strong>, a service of Cloudflare, Inc. Turnstile checks whether an entry comes from a human without using classic captcha puzzles; in doing so, technical information (e.g. IP address, browser characteristics) is processed. Cloudflare states that it does <strong>not set tracking cookies</strong> for advertising purposes in this context.</p>
-      <p><strong>Legal basis:</strong> legitimate interest in secure, abuse-free operation (Art. 6 (1) lit. f DSGVO / GDPR). To the extent that data is transferred to third countries, such transfers are based on Standard Contractual Clauses (SCC) or the EU-US Data Privacy Framework. Details: <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare privacy notice</a>.</p>
+      <p>To protect the sign-up form against automated requests (spam/bots), we use <strong>Cloudflare Turnstile</strong>, a service of Cloudflare, Inc. Turnstile checks whether the input comes from a human without classic captcha puzzles; in doing so, technical information (e.g. IP address, browser characteristics) is processed. Cloudflare states that it does <strong>not set any tracking cookies</strong> for advertising purposes for this.</p>
+      <p><strong>Legal basis:</strong> legitimate interest in secure, misuse-free operation (Art. 6 (1) (f) GDPR). Insofar as data is transferred to third countries, this is based on Standard Contractual Clauses (SCC) or the EU-US Data Privacy Framework. Details: <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare Privacy Policy</a>.</p>
     </section>
 
     <section class="block" id="server">
       <h2><span class="n">05</span> Server Logs &amp; Hosting</h2>
-      <p>The website is hosted with <strong>Microsoft Azure</strong> (Static Web Apps / Functions, Germany West Central region, EU). When the site is accessed, technically necessary data is automatically processed in server log files: IP address (truncated where possible), date and time, requested resource, referrer, browser and operating system identifier.</p>
-      <p><strong>Purpose:</strong> delivery of the website, stability and security. <strong>Legal basis:</strong> legitimate interest (Art. 6 (1) lit. f DSGVO / GDPR). A data processing agreement pursuant to Art. 28 DSGVO (GDPR) is in place with the hosting provider.</p>
+      <p>The website is hosted with <strong>Microsoft Azure</strong> (Static Web Apps / Functions, Germany West Central region, EU). When the site is accessed, technically necessary data is automatically processed in server log files: IP address (shortened where possible), date and time, requested resource, referrer, browser and operating-system identifier.</p>
+      <p><strong>Purpose:</strong> delivery of the website, stability and security. <strong>Legal basis:</strong> legitimate interest (Art. 6 (1) (f) GDPR). A data-processing agreement in accordance with Art. 28 GDPR is in place with the host.</p>
     </section>
 
     <section class="block" id="fonts">
       <h2><span class="n">06</span> Fonts</h2>
-      <p>This website loads fonts via the <strong>Google Fonts CDN</strong> (Google Ireland Ltd.). The visitor's IP address is transmitted to Google in the process. <strong>Legal basis:</strong> legitimate interest in a consistent, performant presentation (Art. 6 (1) lit. f DSGVO / GDPR).</p>
+      <p>This website loads fonts via the <strong>Google Fonts CDN</strong> (Google Ireland Ltd.). In doing so, the visitor's IP address is transmitted to Google. <strong>Legal basis:</strong> legitimate interest in a consistent, performant presentation (Art. 6 (1) (f) GDPR).</p>
     </section>
 
     <section class="block" id="cookies">
       <h2><span class="n">07</span> Cookies</h2>
-      <p>We use <strong>no tracking or marketing cookies</strong> and no web analytics tool. We merely store – if the browser permits – a technically necessary piece of information in local storage (localStorage) in order not to display the one-time cookie notice again. This information remains on the respective device and is not transmitted to us.</p>
+      <p>We use <strong>no tracking or marketing cookies</strong> and no web-analytics tool. Only – if the browser permits it – a technically necessary piece of information is stored in local storage (localStorage) so that the one-time cookie notice is not shown again. This information remains on the respective device and is not transmitted to us.</p>
     </section>
 
     <section class="block" id="empfaenger">
-      <h2><span class="n">08</span> Recipients &amp; Processors</h2>
-      <p>Data is only passed on to service providers that support us in providing the service, to the extent necessary and on the basis of data processing agreements:</p>
+      <h2><span class="n">08</span> Recipients, Processors &amp; Payment Processing</h2>
+      <p>Data is only disclosed to service providers who support us in providing the service, to the extent necessary and on the basis of data-processing agreements:</p>
       <ul>
         <li>Hosting / infrastructure provider: Microsoft Ireland Operations Ltd. (Azure, EU region)</li>
-        <li>E-mail delivery (confirmation / transactional e-mails): Microsoft (Azure Communication Services)</li>
+        <li>E-mail dispatch (confirmation / transactional e-mails): Microsoft (Azure Communication Services)</li>
         <li>Bot protection: Cloudflare, Inc. (Turnstile)</li>
+        <li>Payment processing (only for the paid Pro subscription): Stripe Payments Europe, Ltd.</li>
       </ul>
+      <p><strong>Payment processing via Stripe:</strong> For the paid Pro subscription, we use the payment
+         service provider <strong>Stripe</strong> (Stripe Payments Europe, Ltd., Ireland). When a subscription
+         is concluded or managed, the data required for this – in particular
+         <strong>e-mail address, payment-method and invoicing data as well as a customer identifier (Stripe customer ID)</strong>
+         – is processed by Stripe. <strong>Full payment data (e.g. card numbers) is processed exclusively by
+         Stripe and is not stored with us</strong>; we essentially receive from Stripe the payment or
+         subscription status and the customer identifier in order to assign the plan to the account.
+         <strong>Legal basis:</strong> performance of a contract (Art. 6 (1) (b) GDPR) as well as compliance
+         with legal – in particular tax-related – obligations (Art. 6 (1) (c) GDPR). Insofar as a transfer to
+         third countries takes place, this is based on Standard Contractual Clauses (SCC). Details:
+         <a href="https://stripe.com/at/privacy" target="_blank" rel="noopener">Stripe Privacy Policy</a>.</p>
       <p>The Firmenbuch data retrieved via the MCP server is not transferred to third parties for advertising purposes.</p>
     </section>
 
     <section class="block" id="speicherdauer">
       <h2><span class="n">09</span> Retention Period</h2>
-      <p>We store personal data only for as long as it is necessary for the stated purposes or as long as statutory retention obligations exist. Sign-up and API key data are deleted as soon as the account or key is revoked or deletion is requested, and no later than after 12 months of inactivity.</p>
+      <p>We store personal data only for as long as is necessary for the stated purposes or for as long as statutory retention obligations exist. Sign-up and API-key data is deleted as soon as the account or the key is revoked or requested for deletion, at the latest after 12 months of inactivity.</p>
     </section>
 
     <section class="block" id="rechte">
-      <h2><span class="n">10</span> Data Subject Rights</h2>
+      <h2><span class="n">10</span> Your Rights</h2>
       <p>Under the GDPR, you have the following rights:</p>
       <ul>
-        <li>Access (Art. 15), rectification (Art. 16) and erasure (Art. 17)</li>
-        <li>Restriction of processing (Art. 18) and data portability (Art. 20)</li>
-        <li>Objection to processing based on legitimate interests (Art. 21)</li>
-        <li>Withdrawal of consent given, with effect for the future (Art. 7 (3))</li>
+        <li>access (Art. 15), rectification (Art. 16) and erasure (Art. 17)</li>
+        <li>restriction of processing (Art. 18) and data portability (Art. 20)</li>
+        <li>objection to processing based on legitimate interests (Art. 21)</li>
+        <li>withdrawal of consent given, with effect for the future (Art. 7 (3))</li>
       </ul>
-      <p>To exercise these rights, a message to <a href="mailto:office@jngb.online">office@jngb.online</a> is sufficient. You also have the right to lodge a complaint with the supervisory authority – in Austria, the <strong>Austrian Data Protection Authority</strong> (<a href="https://www.dsb.gv.at" target="_blank" rel="noopener">www.dsb.gv.at</a>).</p>
+      <p>To exercise them, a message to <a href="mailto:office@jngb.online">office@jngb.online</a> is sufficient. In addition, you have the right to lodge a complaint with the supervisory authority – in Austria the <strong>Austrian Data Protection Authority</strong> (<a href="https://www.dsb.gv.at" target="_blank" rel="noopener">www.dsb.gv.at</a>).</p>
     </section>
 
     <section class="block" id="aenderungen">
-      <h2><span class="n">11</span> Changes to This Notice</h2>
-      <p>We adapt this Privacy Policy when the service or the legal situation changes. The version published on this page applies at any given time.</p>
+      <h2><span class="n">11</span> Changes to this Notice</h2>
+      <p>We adapt this Privacy Policy if the service or the legal situation changes. The version published on this page applies in each case.</p>
     </section>
 
-    <p class="note">See also the <a href="impressum.en.html">Imprint</a>.</p>
+    <p class="note">See also the <a href="impressum.html">Legal Notice</a>.</p>
   </div>
 </main>
 
 <footer>
   <div class="wrap foot">
-    <small>© <span id="year">2026</span> Agentic-Firmenbuch.at · Austrian Firmenbuch / BMJ – Ministry of Justice, CC BY 4.0</small>
+    <small>© <span id="year">2026</span> Agentic-Firmenbuch.at · Austrian Firmenbuch / BMJ – Justiz, CC BY 4.0</small>
     <nav class="foot-links" aria-label="Footer">
       <a href="en.html">Home</a>
-      <a href="impressum.en.html">Imprint</a>
+      <a href="impressum.en.html">Legal Notice</a>
       <a href="datenschutz.en.html">Privacy</a>
     </nav>
   </div>
