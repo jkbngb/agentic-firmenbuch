@@ -18,6 +18,7 @@ dependencies = [
     "fbl-orchestration",
     "fbl-auth",
     "fbl-mcp-server",
+    "stripe>=11",
 ]
 
 [dependency-groups]
