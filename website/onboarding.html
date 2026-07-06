@@ -60,6 +60,29 @@
   .copy{position:absolute;top:9px;right:9px;font-family:var(--font-m);font-size:11px;color:var(--dim);background:var(--surface-2);
     border:1px solid var(--line-2);border-radius:8px;padding:5px 9px;cursor:pointer}
   .copy:hover{color:var(--text)}
+  .chooser{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0 8px}
+  @media(max-width:640px){.chooser{grid-template-columns:1fr}}
+  .ch-btn{text-align:left;background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-md);padding:15px 16px;cursor:pointer;color:var(--text);transition:border-color .15s,background .15s;font-family:inherit}
+  .ch-btn:hover{border-color:rgba(255,255,255,.24)}
+  .ch-btn[aria-selected="true"]{border-color:var(--accent);background:linear-gradient(180deg,rgba(25,195,125,.1),rgba(25,195,125,.02))}
+  .ch-btn .ch-t{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .ch-btn .ch-s{font-size:12.5px;color:var(--dim);margin-top:3px}
+  .ch-badge{font-family:var(--font-m);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:#06130d;background:var(--accent);border-radius:999px;padding:2px 7px;font-weight:700}
+  .client-panel{margin-top:8px;animation:cpIn .25s ease}
+  .client-panel[hidden]{display:none}
+  @keyframes cpIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  ol.num{list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:11px;margin:10px 0 14px}
+  ol.num li{counter-increment:s;padding-left:36px;position:relative;color:var(--dim)}
+  ol.num li::before{content:counter(s);position:absolute;left:0;top:-1px;width:24px;height:24px;border-radius:50%;background:rgba(25,195,125,.14);border:1px solid rgba(25,195,125,.4);color:var(--accent);font-family:var(--font-m);font-size:12px;display:grid;place-items:center}
+  .ref-wrap{margin-top:44px}
+  .ref-wrap>.ref-h{font-family:var(--font-d);font-weight:600;font-size:1.15rem;margin-bottom:6px}
+  details.ref{border:1px solid var(--line);border-radius:var(--r-md);padding:0 18px;margin-top:10px;background:rgba(255,255,255,.015)}
+  details.ref>summary{cursor:pointer;list-style:none;padding:15px 0;font-family:var(--font-b);font-weight:600;font-size:1.02rem;color:var(--text);display:flex;align-items:center;gap:11px}
+  details.ref>summary::-webkit-details-marker{display:none}
+  details.ref>summary::before{content:"+";color:var(--accent);font-family:var(--font-m);font-size:1.15rem;width:13px;text-align:center}
+  details.ref[open]>summary::before{content:"\2212"}
+  details.ref[open]>summary{border-bottom:1px solid var(--line);margin-bottom:14px}
+  details.ref>*:not(summary):last-child{margin-bottom:16px}
   .pill{font-family:var(--font-m);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);
     border:1px solid var(--line-2);border-radius:999px;padding:3px 9px;background:rgba(25,195,125,.1)}
   .soon{color:var(--faint);border-color:var(--line);background:transparent}
@@ -107,43 +130,64 @@
        <span class="ph">DEIN_API_KEY</span> durch den eigenen Schlüssel ersetzen.</p>
 
     <section class="block">
-      <h2><span class="n">0</span> Voraussetzung</h2>
-      <ul>
-        <li>Ein <strong>API-Key</strong> aus der Bestätigungs-E-Mail. Noch keiner?
-            <a href="index.html#start">Hier kostenlos anfordern</a>.</li>
-        <li>Server-Adresse: <span class="ph">https://mcp.agentic-firmenbuch.at/mcp</span></li>
-      </ul>
-    </section>
-
-    <section class="block">
-      <h2><span class="n">1</span> Claude Code <span class="pill">Terminal</span></h2>
-      <p>Nur für Claude <strong>Code</strong> (das Terminal-Tool). Für die <strong>Desktop-App</strong>
-         gilt stattdessen <strong>Schritt&nbsp;2</strong>. Ein Befehl, <strong>als eine Zeile</strong>
-         einfügen (macOS, Linux, Windows/PowerShell identisch):</p>
-      <p style="font-size:.92em">Terminal öffnen: <strong>macOS</strong> → ⌘ + Leertaste, „Terminal" tippen · <strong>Windows</strong> → Startmenü, „PowerShell" · <strong>Linux</strong> → das jeweilige Terminal-Programm.</p>
-      <div class="codewrap">
-        <button class="copy" type="button">Kopieren</button>
-        <pre><code>claude mcp add --scope user --transport http agentic-firmenbuch https://mcp.agentic-firmenbuch.at/mcp --header "X-API-Key: DEIN_API_KEY"</code></pre>
+      <h2 style="font-size:1.4rem">Wähle deinen Client</h2>
+      <p>Am einfachsten geht es mit <strong>Claude Cowork</strong> – ganz ohne API-Key. Tool wählen,
+         die Schritte erscheinen darunter.</p>
+      <div class="chooser" role="tablist" aria-label="Client wählen">
+        <button class="ch-btn" role="tab" id="ct-cowork" aria-controls="cp-cowork" aria-selected="true" type="button">
+          <span class="ch-t">Claude Cowork / Desktop <span class="ch-badge">am einfachsten</span></span>
+          <span class="ch-s">Per Klick · kein API-Key</span>
+        </button>
+        <button class="ch-btn" role="tab" id="ct-code" aria-controls="cp-code" aria-selected="false" type="button">
+          <span class="ch-t">Claude Code</span>
+          <span class="ch-s">Terminal · ein Befehl</span>
+        </button>
+        <button class="ch-btn" role="tab" id="ct-other" aria-controls="cp-other" aria-selected="false" type="button">
+          <span class="ch-t">VS Code · Cursor · …</span>
+          <span class="ch-s">Mit API-Key (mcp.json)</span>
+        </button>
       </div>
-      <p><strong>Verbindung testen:</strong> einen neuen Chat öffnen und z. B. fragen: <em>„Bist du mit dem Agentic-Firmenbuch-Server verbunden, und welche Werkzeuge stellt er bereit?"</em> – nennt der Agent die Firmenbuch-Werkzeuge (Unternehmen suchen, Kennzahlen, Historie …), ist die Verbindung aktiv.</p>
-    </section>
 
-    <section class="block">
-      <h2><span class="n">2</span> Weitere MCP-Clients <span class="pill">VS Code · Cursor · …</span></h2>
-      <p>Jeder MCP-Client, der entfernte HTTP-Server mit Header-Authentifizierung unterstützt –
-         <strong>VS Code</strong> (GitHub Copilot), <strong>Cursor</strong> und weitere – verbindet sich
-         mit denselben zwei Angaben:</p>
-      <ul>
-        <li>Adresse: <span class="ph">https://mcp.agentic-firmenbuch.at/mcp</span> · Typ <code>http</code></li>
-        <li>Header: <span class="ph">X-API-Key: DEIN_API_KEY</span></li>
-      </ul>
-      <p>Die genauen Schritte stehen in der offiziellen Doku des Tools:
-         <a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers" target="_blank" rel="noopener">VS Code (MCP)</a>
-         · <a href="https://cursor.com/docs/mcp" target="_blank" rel="noopener">Cursor (MCP)</a>. Üblicherweise als
-         <code>mcp.json</code>-Eintrag:</p>
-      <div class="codewrap">
-        <button class="copy" type="button">Kopieren</button>
-        <pre><code>{
+      <div class="client-panel" id="cp-cowork" role="tabpanel" aria-labelledby="ct-cowork">
+        <p>Für die <strong>Claude Desktop-App</strong> (Tabs Chat &amp; Cowork) brauchst du
+           <strong>keinen API-Key</strong> – die Verbindung läuft über einen Connector mit
+           einmaliger Anmeldung per E-Mail.</p>
+        <ol class="num">
+          <li>In Claude: <strong>Einstellungen → Konnektoren → Benutzerdefinierten Connector hinzufügen</strong>.</li>
+          <li>Name <span class="ph">Agentic-Firmenbuch</span>, Adresse <span class="ph">https://mcp.agentic-firmenbuch.at/mcp</span>.</li>
+          <li><strong>Verbinden</strong> wählen → im Browser deine E-Mail eingeben → Bestätigungslink öffnen. Fertig.</li>
+        </ol>
+        <p><a href="cowork.html">Bebilderte Schritt-für-Schritt-Anleitung ansehen →</a></p>
+        <p style="font-size:.92em;color:var(--faint)">Pro gekauft? Einfach dieselbe E-Mail verwenden –
+           Cowork und ein API-Key nutzen dasselbe Konto, Pro ist sofort aktiv.</p>
+      </div>
+
+      <div class="client-panel" id="cp-code" role="tabpanel" aria-labelledby="ct-code" hidden>
+        <p>Voraussetzung: dein <strong>API-Key</strong> aus der E-Mail (<span class="ph">DEIN_API_KEY</span>
+           ersetzen). Ein Befehl, <strong>als eine Zeile</strong> einfügen – macOS, Linux,
+           Windows/PowerShell identisch:</p>
+        <p style="font-size:.92em">Terminal öffnen: <strong>macOS</strong> → ⌘ + Leertaste, „Terminal" · <strong>Windows</strong> → „PowerShell" · <strong>Linux</strong> → dein Terminal.</p>
+        <div class="codewrap">
+          <button class="copy" type="button">Kopieren</button>
+          <pre><code>claude mcp add --scope user --transport http agentic-firmenbuch https://mcp.agentic-firmenbuch.at/mcp --header "X-API-Key: DEIN_API_KEY"</code></pre>
+        </div>
+        <p><strong>Testen:</strong> neuen Chat öffnen und fragen <em>„Bist du mit dem Agentic-Firmenbuch-Server verbunden, welche Werkzeuge hast du?"</em> – nennt der Agent die Firmenbuch-Werkzeuge, läuft es.</p>
+      </div>
+
+      <div class="client-panel" id="cp-other" role="tabpanel" aria-labelledby="ct-other" hidden>
+        <p>Jeder MCP-Client mit HTTP + Header-Authentifizierung (<strong>VS Code</strong>/Copilot,
+           <strong>Cursor</strong> u. a.) verbindet sich mit denselben zwei Angaben
+           (<span class="ph">DEIN_API_KEY</span> ersetzen):</p>
+        <ul>
+          <li>Adresse: <span class="ph">https://mcp.agentic-firmenbuch.at/mcp</span> · Typ <code>http</code></li>
+          <li>Header: <span class="ph">X-API-Key: DEIN_API_KEY</span></li>
+        </ul>
+        <p>Offizielle Doku:
+           <a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers" target="_blank" rel="noopener">VS Code (MCP)</a>
+           · <a href="https://cursor.com/docs/mcp" target="_blank" rel="noopener">Cursor (MCP)</a>. Üblich als <code>mcp.json</code>-Eintrag:</p>
+        <div class="codewrap">
+          <button class="copy" type="button">Kopieren</button>
+          <pre><code>{
   "mcpServers": {
     "agentic-firmenbuch": {
       "type": "http",
@@ -152,18 +196,8 @@
     }
   }
 }</code></pre>
+        </div>
       </div>
-      <p style="font-size:.92em;color:var(--faint)">Hinweis: Diese Clients sind MCP-konform; die genaue
-         Bedienung folgt der jeweiligen Hersteller-Doku.</p>
-    </section>
-
-    <section class="block">
-      <h2><span class="n">3</span> Claude Cowork &amp; Desktop-App <span class="pill">per Klick · kein Key</span></h2>
-      <p>Für die <strong>Claude Desktop-App</strong> (Tabs Chat &amp; Cowork) ist kein API-Key nötig –
-         die Verbindung erfolgt per Connector mit einmaliger Anmeldung per E-Mail. Die bebilderte
-         Schritt-für-Schritt-Anleitung (Einstellungen → Konnektoren → Connector mit der Adresse
-         <span class="ph">https://mcp.agentic-firmenbuch.at/mcp</span>):</p>
-      <p></p>
     </section>
 
     <section class="block">
@@ -178,8 +212,10 @@
       und <a href="felder.html">Datenfelder</a>.</p>
     </section>
 
-    <section class="block">
-      <h2><span class="n">5</span> Verfügbare Werkzeuge (MCP-Tools)</h2>
+    <div class="ref-wrap">
+    <p class="ref-h">Mehr Details – bei Bedarf aufklappen</p>
+    <details class="ref">
+      <summary>Verfügbare Werkzeuge (MCP-Tools)</summary>
       <p>Der Server stellt dem KI-Tool diese Werkzeuge bereit. Der Agent wählt sie selbst
          passend zur Frage – ein direkter Aufruf ist nicht nötig.</p>
       <ul>
@@ -197,10 +233,9 @@
             GmbHs in der Steiermark).</li>
         <li><strong>find_peers</strong> – vergleichbare Unternehmen nach Größenklasse und Bilanzsumme.</li>
       </ul>
-    </section>
-
-    <section class="block">
-      <h2><span class="n">6</span> Welche Daten geliefert werden</h2>
+    </details>
+    <details class="ref">
+      <summary>Welche Daten geliefert werden</summary>
       <p>Pro Unternehmen, strukturiert und mit Herkunftsnachweis:</p>
       <ul>
         <li><strong>Identität</strong> – Firmenname, Firmenbuchnummer, Rechtsform, Status
@@ -218,10 +253,9 @@
         <li><strong>Originaldokumente &amp; Herkunft</strong> – Liste der Jahresabschlüsse + Quelle und
             Lizenz (CC&nbsp;BY&nbsp;4.0).</li>
       </ul>
-    </section>
-
-    <section class="block">
-      <h2><span class="n">7</span> Datenquelle, Aktualität &amp; Datenschutz</h2>
+    </details>
+    <details class="ref">
+      <summary>Datenquelle, Aktualität &amp; Datenschutz</summary>
       <ul>
         <li><strong>Quelle</strong> – Österreichisches Firmenbuch / JustizOnline (BMJ – Justiz),
             genutzt unter <strong>CC&nbsp;BY&nbsp;4.0</strong>. Daten ohne Gewähr.</li>
@@ -230,18 +264,20 @@
             öffentlichen Firmenbuch und werden für die Einzelabfrage ausgeliefert; Geburtsdaten nur
             jahresgenau (Alter/Geburtsjahr, kein Tag/Monat). Massenextraktion und Weiterverkauf sind untersagt.</li>
       </ul>
-    </section>
-
-    <section class="block">
-      <h2><span class="n">8</span> Fair-Use &amp; Key verwalten</h2>
+    </details>
+    <details class="ref">
+      <summary>Fair-Use, Key &amp; Support</summary>
       <ul>
         <li><strong>Free</strong> kostenlos mit Fair-Use-Limit; <strong>Pro</strong> (79 € / Monat inkl. USt, 14 Tage testen, monatlich kündbar) für den vollen Umfang.</li>
         <li>Key verloren oder kompromittiert? <a href="index.html#start">Neuen Key anfordern</a> –
             der alte wird sofort ungültig.</li>
         <li>Der Key ist wie ein Passwort zu behandeln und nicht weiterzugeben
             (<a href="nutzungsbedingungen.html">Nutzungsbedingungen</a>).</li>
+        <li><strong>Fragen oder Probleme?</strong> Schreib einfach an
+            <a href="mailto:office@jngb.online">office@jngb.online</a> – wir helfen gern.</li>
       </ul>
-    </section>
+    </details>
+    </div>
   </div>
 </main>
 
@@ -259,6 +295,19 @@
 </footer>
 <script>
   document.getElementById("y").textContent=new Date().getFullYear();
+  (function(){
+    var tabs=document.querySelectorAll(".ch-btn");
+    tabs.forEach(function(t){
+      t.addEventListener("click",function(){
+        tabs.forEach(function(o){
+          var sel=(o===t);
+          o.setAttribute("aria-selected",sel?"true":"false");
+          var p=document.getElementById(o.getAttribute("aria-controls"));
+          if(p) p.hidden=!sel;
+        });
+      });
+    });
+  })();
   document.querySelectorAll(".copy").forEach(function(btn){
     btn.addEventListener("click",function(){
       var code=btn.parentElement.querySelector("code").innerText;

@@ -507,7 +507,8 @@ def _ensure_buyer_account(event: dict[str, Any]) -> None:
     if "@" not in email or _account_by_email(email) is not None:
         return
     try:
-        create_account(email, _cosmos, email_sender=_email)  # free account + e-mail the API key
+        rec = create_account(email, _cosmos)  # create the account + issue the key (no mail yet)
+        _email.send_key(email, rec.token)  # rich, OAuth-first welcome e-mail with the key
         _billing_log.info("billing: provisioned account for a new Pro buyer")
     except Exception:
         _billing_log.exception("billing: failed provisioning account for new buyer")

@@ -21,6 +21,9 @@ from fbl_core.config import Settings
 logger = logging.getLogger(__name__)
 
 _BRAND = "Agentic-Firmenbuch.at"
+_SUPPORT = "office@jngb.online"
+_MCP_URL = "https://mcp.agentic-firmenbuch.at/mcp"
+_COWORK_GUIDE = "https://www.agentic-firmenbuch.at/cowork.html"
 
 
 # --- message bodies (German; HTML + plaintext) ---------------------------------------------
@@ -64,26 +67,26 @@ def _copilot_cmd(api_key: str) -> str:
 
 def _key_text(api_key: str, *, onboarding_url: str) -> str:
     return (
-        f"Danke fürs Bestätigen. Hier ist dein API-Key für {_BRAND}.\n"
-        "Bitte sicher aufbewahren (er wird nur einmal angezeigt):\n\n"
+        f"Willkommen bei {_BRAND}. Dein Zugang ist bereit.\n\n"
+        "── Am einfachsten: Claude Cowork / Claude Desktop (kein Key nötig) ──\n"
+        "Per Klick verbinden über einen Connector mit einmaliger E-Mail-Anmeldung –\n"
+        "diesen API-Key brauchst du dafür NICHT. In Claude:\n"
+        "Einstellungen → Konnektoren → Connector hinzufügen mit der Adresse:\n"
+        f"  {_MCP_URL}\n"
+        f"Bebilderte Schritt-für-Schritt-Anleitung: {_COWORK_GUIDE}\n\n"
+        "── Mit API-Key: Claude Code, VS Code, Cursor & andere ──\n"
+        "Dein API-Key (wird nur einmal angezeigt – bitte sicher aufbewahren):\n\n"
         f"    {api_key}\n\n"
-        "Verbinden – einfach den passenden Befehl ins Terminal kopieren\n"
-        "(Key ist schon eingesetzt):\n\n"
-        "── A) Claude Code (Terminal, macOS / Windows / Linux) ──\n"
-        f"  {_code_cmd(api_key)}\n\n"
-        "── B) VS Code (GitHub Copilot, macOS / Windows / Linux) ──\n"
-        f"  {_copilot_cmd(api_key)}\n\n"
-        "── Verbindung mit Claude Cowork? ──\n"
-        "Diese Clients benötigen keinen API-Key. Den Connector in Claude unter\n"
-        "Einstellungen → Konnektoren mit dieser Adresse hinzufügen und per\n"
-        "E-Mail anmelden: https://mcp.agentic-firmenbuch.at/mcp\n"
-        "Bebilderte Schritt-für-Schritt-Anleitung:\n"
-        "  https://www.agentic-firmenbuch.at/cowork.html\n\n"
-        "Anderes Tool (Cursor, …)? Volle Anleitung: "
-        f"{onboarding_url}\n\n"
+        "Einfach den passenden Befehl ins Terminal kopieren (Key ist schon eingesetzt):\n\n"
+        "  A) Claude Code (Terminal, macOS / Windows / Linux)\n"
+        f"     {_code_cmd(api_key)}\n\n"
+        "  B) VS Code (GitHub Copilot)\n"
+        f"     {_copilot_cmd(api_key)}\n\n"
+        f"Volle Anleitung für alle Clients (Cursor, …): {onboarding_url}\n\n"
         "Testen: in einem neuen Chat fragen „Bist du mit dem Agentic-Firmenbuch-Server "
         'verbunden, welche Werkzeuge hast du?". Nennt der Agent die Firmenbuch-Werkzeuge, '
         "ist alles bereit.\n\n"
+        f"Fragen oder Probleme? Schreib einfach an {_SUPPORT} – wir helfen gern.\n\n"
         "Neuen Key brauchen? Jederzeit auf der Website anfordern.\n\n"
         "Mit der Nutzung des Dienstes (Verbinden mit dem MCP-Server) gelten die Allgemeinen "
         "Geschäftsbedingungen: https://www.agentic-firmenbuch.at/nutzungsbedingungen.html "
@@ -154,28 +157,34 @@ def _key_html(api_key: str, *, onboarding_url: str) -> str:
         "padding:12px 14px;margin:16px 0 0;color:#11503a;font-size:13.5px"
     )
     inner = (
-        f"<p>Danke fürs Bestätigen. Hier ist dein API-Key für <strong>{_BRAND}</strong> "
-        "(wird nur einmal angezeigt, bitte sicher aufbewahren):</p>"
+        f"<p>Willkommen bei <strong>{_BRAND}</strong>. Dein Zugang ist bereit.</p>"
+        f'<div style="{soon}"><strong>Am einfachsten: Claude Cowork / Claude Desktop – '
+        "kein Key nötig.</strong><br>Per Klick verbinden über einen Connector mit einmaliger "
+        "E-Mail-Anmeldung. In Claude: <strong>Einstellungen → Konnektoren</strong> → Connector "
+        f"hinzufügen mit <code>{_MCP_URL}</code>. "
+        f'<a href="{_COWORK_GUIDE}" target="_blank" rel="noopener" style="color:#0f9d63">'
+        "Bebilderte Anleitung ansehen</a>.</div>"
+        f'<p style="{lbl}">Mit API-Key: Claude Code, VS Code, Cursor &amp; andere</p>'
+        '<p style="margin:0 0 4px;font-size:13.5px;color:#6b7280">Dein API-Key '
+        "(nur einmal angezeigt, bitte sicher aufbewahren):</p>"
         f'<div style="{_BOX}">{api_key}</div>'
-        '<p style="margin:26px 0 0"><strong>Verbinden</strong> – einfach den passenden Befehl '
-        "ins Terminal kopieren, der Key ist schon eingesetzt:</p>"
+        '<p style="margin:20px 0 0;font-size:13.5px">Passenden Befehl ins Terminal kopieren, '
+        "der Key ist schon eingesetzt:</p>"
         f'<p style="{lbl}">A) Claude Code (Terminal, macOS / Windows / Linux)</p>'
         f'<div style="{_BOX}">{code}</div>'
-        f'<p style="{lbl}">B) VS Code (GitHub Copilot, macOS / Windows / Linux)</p>'
+        f'<p style="{lbl}">B) VS Code (GitHub Copilot)</p>'
         f'<div style="{_BOX}">{copilot}</div>'
-        f'<div style="{soon}"><strong>Verbindung mit Claude Cowork?</strong> '
-        "Diese Clients benötigen keinen API-Key. Den Connector in Claude unter "
-        "<strong>Einstellungen → Konnektoren</strong> mit "
-        "<code>https://mcp.agentic-firmenbuch.at/mcp</code> hinzufügen und per E-Mail anmelden. "
-        '<a href="https://www.agentic-firmenbuch.at/cowork.html" target="_blank" rel="noopener" '
-        'style="color:#0f9d63">Bebilderte Anleitung ansehen</a>.</div>'
         '<p style="margin:18px 0 0;font-size:13.5px">Anderes Tool (Cursor, …)? '
         f'<a href="{onboarding_url}" target="_blank" rel="noopener" style="color:#0f9d63">'
         "Volle Anleitung</a></p>"
         '<p style="margin:22px 0 0"><strong>Testen</strong>: in einem neuen Chat fragen '
         "&bdquo;Bist du mit dem Agentic-Firmenbuch-Server verbunden, welche Werkzeuge hast "
         "du?&ldquo;. Nennt der Agent die Firmenbuch-Werkzeuge, ist alles bereit.</p>"
-        '<p style="color:#6b7280;font-size:13px;margin-top:24px">Neuen Key brauchen? Jederzeit '
+        '<p style="margin:20px 0 0;font-size:13.5px;color:#374151;background:#f3f4f6;'
+        'border-radius:8px;padding:11px 13px"><strong>Fragen oder Probleme?</strong> '
+        f'Schreib einfach an <a href="mailto:{_SUPPORT}" style="color:#0f9d63">{_SUPPORT}</a> '
+        "– wir helfen gern.</p>"
+        '<p style="color:#6b7280;font-size:13px;margin-top:20px">Neuen Key brauchen? Jederzeit '
         "auf der Website anfordern.</p>"
     )
     return _shell(inner)
