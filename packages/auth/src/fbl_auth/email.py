@@ -240,6 +240,37 @@ def _legacy_text(token: str) -> str:
     )
 
 
+def _cancel_subject() -> str:
+    return f"Kündigung bestätigt – {_BRAND}"
+
+
+def _cancel_text(access_until: str) -> str:
+    return (
+        "Deine Kündigung ist bestätigt.\n\n"
+        f"Du behältst deinen vollen Pro-Zugang noch bis {access_until}. Bis dahin ändert sich "
+        "nichts – alle Pro-Funktionen bleiben nutzbar.\n\n"
+        "Danach wechselt dein Zugang automatisch auf den kostenlosen Free-Tarif. Du musst nichts "
+        "weiter tun, und es wird nichts mehr berechnet.\n\n"
+        f"Du kannst jederzeit wieder auf Pro upgraden. Fragen? Schreib an {_SUPPORT}.\n"
+    )
+
+
+def _cancel_html(access_until: str) -> str:
+    safe = html.escape(access_until)
+    inner = (
+        "<p>Deine <strong>Kündigung ist bestätigt</strong>. Danke, dass du dabei warst!</p>"
+        f"<p>Du behältst deinen vollen <strong>Pro-Zugang noch bis {safe}</strong>. Bis dahin "
+        "ändert sich nichts – alle Pro-Funktionen bleiben nutzbar.</p>"
+        "<p>Danach wechselt dein Zugang automatisch auf den kostenlosen "
+        "<strong>Free-Tarif</strong>. Du musst nichts weiter tun, und es wird nichts mehr "
+        "berechnet.</p>"
+        '<p style="font-size:13.5px;color:#374151;background:#f3f4f6;border-radius:8px;'
+        'padding:11px 13px">Du kannst jederzeit wieder auf Pro upgraden. Fragen? Schreib an '
+        f'<a href="mailto:{_SUPPORT}" style="color:#0f9d63">{_SUPPORT}</a> – wir helfen gern.</p>'
+    )
+    return _shell(inner)
+
+
 class EmailSender(Protocol):
     """Delivers the signup/verify/key emails to an address. Returns True iff accepted."""
 
@@ -248,6 +279,9 @@ class EmailSender(Protocol):
     def send_key(self, to: str, api_key: str) -> bool: ...
 
     def send_oauth_login(self, to: str, login_url: str, client_name: str) -> bool: ...
+
+    def send_subscription_canceled(self, to: str, access_until: str) -> bool:  # billing goodbye
+        ...
 
     def send_token(self, to: str, token: str) -> bool:  # legacy single-step path
         ...
@@ -277,6 +311,10 @@ class NullEmailSender:
 
     def send_token(self, to: str, token: str) -> bool:
         logger.info("ACS not configured; skipping token email to %s", to)
+        return False
+
+    def send_subscription_canceled(self, to: str, access_until: str) -> bool:
+        logger.info("ACS not configured; skipping cancellation email to %s (until %s)", to, access_until)  # noqa: E501
         return False
 
 
@@ -336,6 +374,11 @@ class AcsEmailSender:
 
     def send_token(self, to: str, token: str) -> bool:
         return self._send(to, _legacy_subject(), _legacy_text(token))
+
+    def send_subscription_canceled(self, to: str, access_until: str) -> bool:
+        return self._send(
+            to, _cancel_subject(), _cancel_text(access_until), html=_cancel_html(access_until)
+        )
 
     def send_alert(self, to: str, subject: str, text: str) -> bool:
         """Plain-text ops alert (pipeline anomaly) to the operator — no HTML."""

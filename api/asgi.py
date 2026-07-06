@@ -532,7 +532,7 @@ async def billing_webhook(req: Request) -> Response:
     event_dict = json.loads(str(event))
     _ensure_buyer_account(event_dict)  # new-buyer: create account + e-mail the key, on payment
     try:
-        result = handle_event(_cosmos, event_dict)
+        result = handle_event(_cosmos, event_dict, email_sender=_email)
     except Exception:
         _billing_log.exception("webhook handling failed for event %s", event_dict.get("id"))
         return JSONResponse({"error": "handling failed"}, status_code=500)

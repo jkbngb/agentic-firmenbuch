@@ -20,21 +20,57 @@ Rules (owner decisions, see gtm/output/STRIPE_BUILD_PLAN.md):
 from __future__ import annotations
 
 import logging
-from typing import Any
+from contextlib import suppress
+from datetime import UTC, datetime
+from typing import TYPE_CHECKING, Any
 
 from fbl_core.lineage import now_utc_z
 from fbl_core.storage import CosmosStoreLike
 
 from .accounts import ACCOUNTS_CONTAINER, Account
 
+if TYPE_CHECKING:
+    from .email import EmailSender
+
 BILLING_EVENTS_CONTAINER = "00_billing_events"
 
 CHECKOUT_COMPLETED = "checkout.session.completed"
+SUBSCRIPTION_UPDATED = "customer.subscription.updated"
 SUBSCRIPTION_DELETED = "customer.subscription.deleted"
 PAYMENT_FAILED = "invoice.payment_failed"
-HANDLED_EVENTS = frozenset({CHECKOUT_COMPLETED, SUBSCRIPTION_DELETED, PAYMENT_FAILED})
+HANDLED_EVENTS = frozenset(
+    {CHECKOUT_COMPLETED, SUBSCRIPTION_UPDATED, SUBSCRIPTION_DELETED, PAYMENT_FAILED}
+)
 
 logger = logging.getLogger(__name__)
+
+
+def _period_end_ts(sub: dict[str, Any]) -> int | None:
+    """The unix timestamp the current paid/trial period ends (access-until).
+
+    Robust across Stripe API versions: prefer the subscription's ``current_period_end``
+    (or ``cancel_at`` / ``trial_end``); fall back to the first item's period end.
+    """
+    for key in ("current_period_end", "cancel_at", "trial_end"):
+        v = sub.get(key)
+        if isinstance(v, (int, float)) and v > 0:
+            return int(v)
+    items = (sub.get("items") or {}).get("data") or []
+    if items:
+        v = items[0].get("current_period_end")
+        if isinstance(v, (int, float)) and v > 0:
+            return int(v)
+    return None
+
+
+def _iso_from_ts(ts: int) -> str:
+    """ISO-8601 Z instant (stored on the account as the informational plan_expires_at)."""
+    return datetime.fromtimestamp(ts, tz=UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _display_from_ts(ts: int) -> str:
+    """Human date for the goodbye email, e.g. ``31.07.2026`` (locale-free)."""
+    return datetime.fromtimestamp(ts, tz=UTC).strftime("%d.%m.%Y")
 
 
 # --- account lookup / persistence ----------------------------------------------
@@ -142,11 +178,48 @@ def apply_subscription_ended(cosmos: CosmosStoreLike, obj: dict[str, Any]) -> Ac
     return _save(cosmos, account)
 
 
-def handle_event(cosmos: CosmosStoreLike, event: dict[str, Any]) -> dict[str, Any]:
+def apply_subscription_scheduled_cancel(
+    cosmos: CosmosStoreLike, sub: dict[str, Any], *, email_sender: EmailSender | None = None
+) -> tuple[str, Account | None]:
+    """Handle ``customer.subscription.updated``: a portal cancellation schedules the end for the
+    period end (``cancel_at_period_end``) — the user keeps full Pro access until then, so we do
+    NOT downgrade here. We record the end date on the account and send the goodbye email ONCE.
+
+    Returns ``(outcome, account)``. ``.updated`` fires for many reasons; we act only on a
+    newly-set / cleared cancellation and dedupe the email via the stored ``plan_expires_at``.
+    """
+    account = _account_by_customer(cosmos, sub.get("customer"))
+    if account is None or account.tier != "pro":
+        return "no_change", account
+
+    if sub.get("cancel_at_period_end"):
+        ts = _period_end_ts(sub)
+        end_iso = _iso_from_ts(ts) if ts else None
+        if account.plan_expires_at == end_iso:
+            return "cancel_scheduled_dup", account  # already recorded + emailed this cancellation
+        account.plan_expires_at = end_iso  # informational for a pro account (see effective_plan)
+        _save(cosmos, account)
+        if email_sender is not None and account.email and ts:
+            with suppress(Exception):  # a mail failure must never fail the webhook
+                email_sender.send_subscription_canceled(account.email, _display_from_ts(ts))
+        return "cancel_scheduled", account
+
+    # cancel_at_period_end is false: if we had a pending cancellation recorded, it was reversed.
+    if account.plan_expires_at is not None:
+        account.plan_expires_at = None
+        _save(cosmos, account)
+        return "cancel_reversed", account
+    return "no_change", account
+
+
+def handle_event(
+    cosmos: CosmosStoreLike, event: dict[str, Any], *, email_sender: EmailSender | None = None
+) -> dict[str, Any]:
     """Dispatch a verified Stripe event to the right handler, idempotently.
 
     Returns a small status dict for logging/response. Unhandled event types are ignored;
-    duplicates (by event id, already in ``00_billing_events``) are a no-op.
+    duplicates (by event id, already in ``00_billing_events``) are a no-op. ``email_sender``
+    (optional) sends the cancellation-confirmation goodbye email on a scheduled cancellation.
     """
     event_type = event.get("type", "")
     event_id = event.get("id")
@@ -159,7 +232,11 @@ def handle_event(cosmos: CosmosStoreLike, event: dict[str, Any]) -> dict[str, An
     if event_type == CHECKOUT_COMPLETED:
         account = apply_checkout_completed(cosmos, obj)
         outcome = "upgraded" if account else "unmatched"
-    else:
+    elif event_type == SUBSCRIPTION_UPDATED:
+        outcome, account = apply_subscription_scheduled_cancel(
+            cosmos, obj, email_sender=email_sender
+        )
+    else:  # SUBSCRIPTION_DELETED (period end reached) or PAYMENT_FAILED → access truly ends
         account = apply_subscription_ended(cosmos, obj)
         outcome = "downgraded" if account else "no_change"
 

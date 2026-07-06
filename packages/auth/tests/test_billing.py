@@ -48,6 +48,97 @@ def _payment_failed_event(event_id: str, customer: str) -> dict[str, Any]:
     }
 
 
+def _sub_updated_event(
+    event_id: str, customer: str, *, cancel_at_period_end: bool, period_end: int = 1793491200
+) -> dict[str, Any]:
+    return {
+        "id": event_id,
+        "type": "customer.subscription.updated",
+        "data": {
+            "object": {
+                "object": "subscription",
+                "customer": customer,
+                "cancel_at_period_end": cancel_at_period_end,
+                "current_period_end": period_end,
+            }
+        },
+    }
+
+
+class _RecordingEmail:
+    """Minimal EmailSender double: records only the cancellation goodbye calls."""
+
+    def __init__(self) -> None:
+        self.canceled: list[tuple[str, str]] = []
+
+    def send_subscription_canceled(self, to: str, access_until: str) -> bool:
+        self.canceled.append((to, access_until))
+        return True
+
+
+def _make_pro(cosmos: InMemoryCosmosStore, customer: str, sub: str = "s") -> str:
+    """Sign up + run a checkout so the account is pro and bound to *customer*. Returns token."""
+    token = signup("buyer@example.test", cosmos).token
+    handle_event(
+        cosmos,
+        _checkout_event(
+            "evt_setup_" + customer,
+            client_reference_id=None,
+            email="buyer@example.test",
+            customer=customer,
+            sub=sub,
+        ),
+    )
+    return token
+
+
+def test_scheduled_cancel_keeps_pro_until_period_end_and_emails_once() -> None:
+    cosmos = InMemoryCosmosStore()
+    token = _make_pro(cosmos, "cus_c1")
+    assert validate(token, cosmos).tier == "pro"  # type: ignore[union-attr]
+    email = _RecordingEmail()
+
+    ev1 = _sub_updated_event("evt_u1", "cus_c1", cancel_at_period_end=True)
+    out = handle_event(cosmos, ev1, email_sender=email)
+    assert out["outcome"] == "cancel_scheduled"
+    acct = validate(token, cosmos)
+    assert acct.tier == "pro"  # type: ignore[union-attr]  # access kept until period end
+    assert acct.plan_expires_at is not None  # type: ignore[union-attr]  # end recorded
+    assert email.canceled == [("buyer@example.test", "01.11.2026")]  # goodbye with date
+
+    # a second identical updated event must NOT re-send the goodbye
+    ev2 = _sub_updated_event("evt_u2", "cus_c1", cancel_at_period_end=True)
+    out2 = handle_event(cosmos, ev2, email_sender=email)
+    assert out2["outcome"] == "cancel_scheduled_dup"
+    assert len(email.canceled) == 1
+
+
+def test_scheduled_cancel_then_deleted_downgrades_at_period_end() -> None:
+    cosmos = InMemoryCosmosStore()
+    token = _make_pro(cosmos, "cus_c2")
+    ev3 = _sub_updated_event("evt_u3", "cus_c2", cancel_at_period_end=True)
+    handle_event(cosmos, ev3, email_sender=_RecordingEmail())
+    assert validate(token, cosmos).tier == "pro"  # type: ignore[union-attr]
+    out = handle_event(cosmos, _sub_deleted_event("evt_del", "cus_c2"))
+    assert out["outcome"] == "downgraded"
+    acct = validate(token, cosmos)
+    assert acct.tier == "free"  # type: ignore[union-attr]
+    assert acct.plan_expires_at is None  # type: ignore[union-attr]
+
+
+def test_cancel_reversed_clears_scheduled_end() -> None:
+    cosmos = InMemoryCosmosStore()
+    token = _make_pro(cosmos, "cus_c3")
+    ev4 = _sub_updated_event("evt_u4", "cus_c3", cancel_at_period_end=True)
+    handle_event(cosmos, ev4, email_sender=_RecordingEmail())
+    ev5 = _sub_updated_event("evt_u5", "cus_c3", cancel_at_period_end=False)
+    out = handle_event(cosmos, ev5)
+    assert out["outcome"] == "cancel_reversed"
+    acct = validate(token, cosmos)
+    assert acct.tier == "pro"  # type: ignore[union-attr]  # still pro, cancellation undone
+    assert acct.plan_expires_at is None  # type: ignore[union-attr]
+
+
 def test_checkout_completed_upgrades_by_client_reference_id() -> None:
     cosmos = InMemoryCosmosStore()
     rec = signup("buyer@example.test", cosmos)  # default free
