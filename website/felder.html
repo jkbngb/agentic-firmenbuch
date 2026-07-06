@@ -171,6 +171,8 @@
           <tr><td><code>oenace_division_label</code></td><td>string</td><td>deutsche Abteilungs-Bezeichnung (z. B. <code>Erziehung und Unterricht</code>)</td><td>keine Klassifizierung vorhanden</td></tr>
           <tr><td><code>oenace_group</code></td><td>string</td><td>ÖNACE-2025-Gruppe (3-Steller, z. B. <code>85.5</code>)</td><td>keine Klassifizierung vorhanden</td></tr>
           <tr><td><code>oenace_group_label</code></td><td>string</td><td>deutsche Gruppen-Bezeichnung (z. B. <code>Sonstiger Unterricht</code>)</td><td>keine Klassifizierung vorhanden</td></tr>
+          <tr><td><code>oenace_division_2008</code> / <code>oenace_division_2008_label</code></td><td>string</td><td>ÖNACE-<strong>2008</strong>-Abteilung + Titel (z. B. <code>45</code> Kfz-Handel; in 2025 auf 46/47 aufgeteilt)</td><td>keine Klassifizierung vorhanden</td></tr>
+          <tr><td><code>oenace_group_2008</code> / <code>oenace_group_2008_label</code></td><td>string</td><td>ÖNACE-2008-Gruppe + Titel (z. B. <code>45.1</code>)</td><td>keine Klassifizierung vorhanden</td></tr>
         </tbody>
       </table></div>
     </section>
@@ -378,11 +380,13 @@
           <tr><td><code>oenace.group</code> / <code>group_label_de</code> / <code>group_label_en</code></td><td>string</td><td>Gruppe (z. B. <code>68.3</code>) + Titel DE/EN</td></tr>
           <tr><td><code>oenace.version</code></td><td>string</td><td><code>OENACE_2025</code></td></tr>
           <tr><td><code>nace.section</code> / <code>division</code> / <code>group</code> + <code>*_label</code></td><td>string</td><td>EU NACE Rev. 2.1: identische Codes, offizielle englische Titel, <code>version</code> = <code>NACE_REV_2.1</code></td></tr>
+          <tr><td><code>oenace_2008.section</code> / <code>division</code> / <code>group</code> / <code>class</code> + <code>*_label_de</code>/<code>*_label_en</code></td><td>string</td><td>der ÖNACE-<strong>2008</strong>-Zwilling, symmetrisch zu <code>oenace</code> aufgebaut – die Fassung, in der der Klassifikator vorhersagt; <code>version</code> = <code>OENACE_2008</code></td></tr>
           <tr><td><code>code_2008</code></td><td>string</td><td>zugewiesene ÖNACE-2008-Klasse (4-Steller, z. B. <code>70.22</code>); alles Weitere ist deterministische Ableitung</td></tr>
           <tr><td><code>source</code> · <code>classified_from</code></td><td>string</td><td><code>lexicon</code> (verifizierte Zuordnungstabelle) oder <code>llm</code> · Basis <code>geschaeftszweig</code> oder <code>name</code></td></tr>
         </tbody>
       </table></div>
-      <p style="font-size:.92em">Ohne Geschäftszweig gilt: kein Raten. Nur eindeutige Firmennamen werden klassifiziert (<code>classified_from: name</code>), sonst ist <code>industry</code> leer. Auf der Such-Karte erscheinen <code>geschaeftszweig</code>, <code>industry_section</code> sowie <code>oenace_division</code>/<code>oenace_group</code> samt deutschen Labels.</p>
+      <p style="font-size:.92em">Ohne Geschäftszweig gilt: kein Raten. Nur eindeutige Firmennamen werden klassifiziert (<code>classified_from: name</code>), sonst ist <code>industry</code> leer. Auf der Such-Karte erscheinen <code>geschaeftszweig</code>, <code>industry_section</code> sowie <code>oenace_division</code>/<code>oenace_group</code> (2025) und <code>oenace_division_2008</code>/<code>oenace_group_2008</code> samt deutschen Labels.</p>
+      <p style="font-size:.92em"><strong>Zwei Fassungen, beide durchsuchbar.</strong> Die Codes sind <strong>ÖNACE 2025</strong> (= NACE Rev. 2.1); zusätzlich wird die <strong>ÖNACE 2008</strong>-Fassung geführt. Die Filter <code>oenace_section</code>/<code>oenace_division</code>/<code>oenace_group</code> matchen <strong>beide</strong> Fassungen – eine Abfrage in der älteren Systematik läuft also nie ins Leere. Achtung auf die Unterschiede: der Kfz-Handel ist in ÖNACE 2008 die Abteilung <code>45</code>, in ÖNACE 2025 auf <code>46</code>/<code>47</code> aufgeteilt. Die Umschlüsselung ist die offizielle Statistik-Austria-Korrespondenztabelle (deterministisch). <code>list_sectors</code> zeigt, welche Abteilungen je Fassung vorkommen.</p>
 
       <h3><code>management</code> · Geschäftsführung</h3>
       <div class="tablewrap"><table>
@@ -437,7 +441,7 @@
           <tr><td><code>founded_year_min</code> / <code>_max</code></td><td>Gründungsjahr von / bis</td></tr>
           <tr><td><code>gf_age_min</code></td><td>primärer GF mindestens X Jahre (Nachfolge-Screen)</td></tr>
           <tr><td><code>manager_name</code></td><td>Teilstring im Namen der vertretungsbefugten Person (öffentliche Firmenbuchdaten)</td></tr>
-          <tr><td><code>oenace_section</code> / <code>oenace_division</code> / <code>oenace_group</code></td><td>Branche nach ÖNACE 2025: Abschnitt (<code>A</code>–<code>V</code>), Abteilung (<code>68</code>) oder Gruppe (<code>68.3</code>, präzise Peers)</td></tr>
+          <tr><td><code>oenace_section</code> / <code>oenace_division</code> / <code>oenace_group</code></td><td>Branche: Abschnitt (<code>A</code>–<code>V</code>), Abteilung (<code>68</code>) oder Gruppe (<code>68.3</code>, präzise Peers). Matcht <strong>ÖNACE 2025 und ÖNACE 2008</strong> – z. B. Kfz-Handel als <code>45</code> (2008) oder <code>46</code>/<code>47</code> (2025)</td></tr>
           <tr><td><code>geschaeftszweig</code></td><td>Teilstring im Geschäftszweig-Freitext</td></tr>
           <tr><td><code>postal_code</code> / <code>city</code></td><td>PLZ-Präfix (<code>1010</code> exakt, <code>10</code> = alle 10xx) bzw. Ort (Teilstring)</td></tr>
           <tr><td><code>status</code></td><td><code>active</code> / <code>inactive</code> / <code>all</code></td></tr>
@@ -608,6 +612,14 @@
       <span class="ck">"group"</span>:          <span class="cs">"70.2"</span>,
       <span class="ck">"group_label"</span>:    <span class="cs">"Business and other management consultancy activities"</span>,
       <span class="ck">"version"</span>:        <span class="cs">"NACE_REV_2.1"</span>
+    },
+    <span class="ck">"oenace_2008"</span>: {                          <span class="cc">// ÖNACE-2008-Zwilling, symmetrisch – auch durchsuchbar</span>
+      <span class="ck">"section"</span>:           <span class="cs">"M"</span>,
+      <span class="ck">"division"</span>:          <span class="cs">"70"</span>,
+      <span class="ck">"division_label_de"</span>: <span class="cs">"Verwaltung und Führung von Unternehmen; Unternehmensberatung"</span>,
+      <span class="ck">"group"</span>:             <span class="cs">"70.2"</span>,
+      <span class="ck">"class"</span>:             <span class="cs">"70.22"</span>,
+      <span class="ck">"version"</span>:           <span class="cs">"OENACE_2008"</span>
     },
     <span class="ck">"code_2008"</span>:       <span class="cs">"70.22"</span>,       <span class="cc">// zugewiesene ÖNACE-2008-Klasse</span>
     <span class="ck">"source"</span>:          <span class="cs">"llm"</span>,          <span class="cc">// oder "lexicon"</span>

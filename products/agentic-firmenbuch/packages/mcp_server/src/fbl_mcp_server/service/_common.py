@@ -14,6 +14,7 @@ from fbl_core.storage import CosmosStoreLike
 from fbl_core_at.classification.industry import (
     build_industry_block,
     industry_from_legacy_branch,
+    oenace_2008_block,
 )
 from fbl_core_at.financial_institution import classify_financial_institution
 from fbl_core_at.models import CompanyCard, PublicProvenance
@@ -220,7 +221,12 @@ def _card(doc: dict[str, Any], directory: dict[str, str] | None = None) -> Compa
     # Serve section/division/group + German labels from the same label-correct block the
     # detail view uses (v2 stored → legacy v1 branch → free text); never a serve-time code
     # guess. Symmetric with the oenace_* search filters (#35).
-    oenace = (industry_block(doc) or {}).get("oenace") or {}
+    ind = industry_block(doc) or {}
+    oenace = ind.get("oenace") or {}
+    # The ÖNACE 2008 twin: use the stored block if present (post-regrind), else expand the
+    # stored 2008 code deterministically at serve time (no re-grind needed) so `oenace_division`
+    # / `oenace_group` results are self-explanatory whichever vintage was queried.
+    oenace08 = ind.get("oenace_2008") or oenace_2008_block(ind.get("code_2008")) or {}
     return CompanyCard(
         fnr=doc["fnr"],
         name=_g(doc, "identity", "name") or doc["fnr"],
@@ -248,4 +254,8 @@ def _card(doc: dict[str, Any], directory: dict[str, str] | None = None) -> Compa
         oenace_division_label=oenace.get("division_label_de"),
         oenace_group=oenace.get("group"),
         oenace_group_label=oenace.get("group_label_de"),
+        oenace_division_2008=oenace08.get("division"),
+        oenace_division_2008_label=oenace08.get("division_label_de"),
+        oenace_group_2008=oenace08.get("group"),
+        oenace_group_2008_label=oenace08.get("group_label_de"),
     )
