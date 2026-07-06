@@ -739,29 +739,56 @@
   </div>
 </section>
 
-<!-- ======================= SO FUNKTIONIERT'S ======================= -->
-<section id="ablauf">
+<!-- ======================= FÜR ENTWICKLER ======================= -->
+<section id="entwickler">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="eyebrow">So funktioniert's</span>
-      <h2 class="h2">Verbunden in Minuten.</h2>
-      <p class="lead" style="max-width:62ch;margin:14px auto 0"><strong>Claude Cowork</strong> verbindet sich per Klick über Einstellungen <strong>in der App</strong> mit E-Mail-Login – ohne API-Key (<a href="cowork.html">siehe Anleitung</a>). Mit API-Key, für Claude Code, VS Code und Cursor, in drei Schritten:</p>
+      <span class="eyebrow">Verbinden</span>
+      <h2 class="h2">Ein standardkonformer MCP-Server – in Minuten verbunden.</h2>
+      <p class="lead">Der Dienst wird über das <b style="color:var(--text)">Model Context Protocol</b> angesprochen – kompatibel mit Claude, Claude&nbsp;Code, VS Code und jedem MCP-Client. Authentifizierung per <b style="color:var(--text)">X-API-Key</b>-Header; kein SDK erforderlich, Konfiguration über Server-URL und Key.</p>
+      <div class="hero-cta" style="margin-top:24px">
+        <a href="onboarding.html" class="btn btn-primary">Zur Anleitung</a>
+        <a href="https://github.com/jkbngb/agentic-firmenbuch" target="_blank" rel="noopener" class="btn btn-ghost"><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true" style="vertical-align:-3px;margin-right:7px"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-1.8c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg>Open Source auf GitHub</a>
+      </div>
     </div>
-    <div class="steps">
-      <div class="step reveal">
-        <div class="no">1</div>
-        <h3>E-Mail eintragen</h3>
-        <p>E-Mail-Adresse eintragen. Kein Passwort, keine Kreditkarte, kein Verkaufsgespräch.</p>
+    <div class="dev-grid">
+      <div class="code reveal">
+        <div class="code-top">
+          <span class="fn">mcp.config.json</span>
+          <button class="copy-btn" id="copyBtn" type="button" aria-label="Code kopieren">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
+            <span id="copyLabel">Kopieren</span>
+          </button>
+        </div>
+<pre id="codeBlock"><span class="t-punc">{</span>
+  <span class="t-key">"mcpServers"</span><span class="t-punc">: {</span>
+    <span class="t-key">"agentic-firmenbuch"</span><span class="t-punc">: {</span>
+      <span class="t-key">"url"</span><span class="t-punc">:</span> <span class="t-str">"https://mcp.agentic-firmenbuch.at/mcp"</span><span class="t-punc">,</span>
+      <span class="t-key">"headers"</span><span class="t-punc">: {</span>
+        <span class="t-key">"X-API-Key"</span><span class="t-punc">:</span> <span class="t-str">"API_KEY"</span>
+      <span class="t-punc">}</span>
+    <span class="t-punc">}</span>
+  <span class="t-punc">}</span>
+<span class="t-punc">}</span></pre>
       </div>
-      <div class="step reveal">
-        <div class="no">2</div>
-        <h3>E-Mail bestätigen</h3>
-        <p>Es wird ein Bestätigungslink gesendet (Double-Opt-in); ein Klick genügt zur Verifizierung.</p>
-      </div>
-      <div class="step reveal">
-        <div class="no">3</div>
-        <h3>API-Key erhalten &amp; verbinden</h3>
-        <p>Der API-Key wird sofort zugestellt und im KI-Tool hinterlegt.</p>
+      <div class="dev-cards">
+        <div class="card dev-card reveal">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 4l6 6-9 9H5v-6z" stroke-linejoin="round"/><path d="M11 7l6 6" /></svg> Werkzeuge</h3>
+          <ul>
+            <li>Unternehmen suchen &amp; filtern (Region, Größe, Kennzahlen)</li>
+            <li>Detail- und Verlaufsdaten je Unternehmen</li>
+            <li>Originaldokumente verlinken (Jahresabschlüsse)</li>
+            <li>Größen- und Regions-Übersichten</li>
+          </ul>
+        </div>
+        <div class="card dev-card reveal">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"/></svg> Fair-Use-Limits</h3>
+          <ul>
+            <li>Rate-Limit pro API-Key (Fair Use)</li>
+            <li>Keine nutzungsabhängigen Kosten</li>
+            <li>Höhere Limits auf Anfrage</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -1115,61 +1142,6 @@
         </div>
           </div><!-- /signup-connect -->
           <p class="signup-foot">Mit dem Verbinden bzw. der Nutzung des MCP-Servers werden die <a href="nutzungsbedingungen.html">Allgemeinen Geschäftsbedingungen</a> akzeptiert. Die Nutzung des Services erfolgt unter Ausschluss jeglicher Gewährleistung.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ======================= FÜR ENTWICKLER ======================= -->
-<section id="entwickler">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Verbinden</span>
-      <h2 class="h2">Ein standardkonformer MCP-Server – in Minuten verbunden.</h2>
-      <p class="lead">Der Dienst wird über das <b style="color:var(--text)">Model Context Protocol</b> angesprochen – kompatibel mit Claude, Claude&nbsp;Code, VS Code und jedem MCP-Client. Authentifizierung per <b style="color:var(--text)">X-API-Key</b>-Header; kein SDK erforderlich, Konfiguration über Server-URL und Key.</p>
-      <div class="hero-cta" style="margin-top:24px">
-        <a href="onboarding.html" class="btn btn-primary">Zur Anleitung</a>
-        <a href="https://github.com/jkbngb/agentic-firmenbuch" target="_blank" rel="noopener" class="btn btn-ghost"><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true" style="vertical-align:-3px;margin-right:7px"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-1.8c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg>Open Source auf GitHub</a>
-      </div>
-    </div>
-    <div class="dev-grid">
-      <div class="code reveal">
-        <div class="code-top">
-          <span class="fn">mcp.config.json</span>
-          <button class="copy-btn" id="copyBtn" type="button" aria-label="Code kopieren">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
-            <span id="copyLabel">Kopieren</span>
-          </button>
-        </div>
-<pre id="codeBlock"><span class="t-punc">{</span>
-  <span class="t-key">"mcpServers"</span><span class="t-punc">: {</span>
-    <span class="t-key">"agentic-firmenbuch"</span><span class="t-punc">: {</span>
-      <span class="t-key">"url"</span><span class="t-punc">:</span> <span class="t-str">"https://mcp.agentic-firmenbuch.at/mcp"</span><span class="t-punc">,</span>
-      <span class="t-key">"headers"</span><span class="t-punc">: {</span>
-        <span class="t-key">"X-API-Key"</span><span class="t-punc">:</span> <span class="t-str">"API_KEY"</span>
-      <span class="t-punc">}</span>
-    <span class="t-punc">}</span>
-  <span class="t-punc">}</span>
-<span class="t-punc">}</span></pre>
-      </div>
-      <div class="dev-cards">
-        <div class="card dev-card reveal">
-          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 4l6 6-9 9H5v-6z" stroke-linejoin="round"/><path d="M11 7l6 6" /></svg> Werkzeuge</h3>
-          <ul>
-            <li>Unternehmen suchen &amp; filtern (Region, Größe, Kennzahlen)</li>
-            <li>Detail- und Verlaufsdaten je Unternehmen</li>
-            <li>Originaldokumente verlinken (Jahresabschlüsse)</li>
-            <li>Größen- und Regions-Übersichten</li>
-          </ul>
-        </div>
-        <div class="card dev-card reveal">
-          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"/></svg> Fair-Use-Limits</h3>
-          <ul>
-            <li>Rate-Limit pro API-Key (Fair Use)</li>
-            <li>Keine nutzungsabhängigen Kosten</li>
-            <li>Höhere Limits auf Anfrage</li>
-          </ul>
-        </div>
-      </div>
     </div>
   </div>
 </section>
