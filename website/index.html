@@ -341,9 +341,10 @@
   .about-copy p + p{margin-top:18px}
   .about-right{display:flex;flex-direction:column;gap:16px}
   .flow{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
-  .flow-vert{flex-direction:column;align-items:stretch;gap:8px;margin-top:0}
-  .flow-vert span{text-align:center}
-  .flow-vert .arr{padding:0;color:var(--faint)}
+  .flow-rail{justify-content:center;align-items:center;gap:14px;margin-top:clamp(40px,5vw,60px);padding-top:clamp(30px,4vw,46px);border-top:1px solid var(--line)}
+  .flow-rail span:not(.arr){padding:10px 18px;font-size:13px}
+  .flow-rail .arr{color:var(--accent);font-size:15px;padding:0}
+  @media(max-width:620px){.flow-rail{gap:8px}.flow-rail span:not(.arr){padding:8px 12px;font-size:12px}}
   .flow span{font-family:var(--font-m);font-size:12.5px;color:var(--dim);padding:8px 13px;border:1px solid var(--line-2);border-radius:999px;background:rgba(255,255,255,.025)}
   .flow .arr{border:none;background:none;color:var(--faint);padding:8px 0}
   .inside{background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid var(--line);border-radius:var(--r-xl);padding:24px;box-shadow:var(--shadow)}
@@ -464,10 +465,11 @@
   .succ-copy:hover{color:var(--text)}
 
   /* developer */
-  .dev-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,4vw,44px);align-items:stretch;margin-top:48px}
-  @media(max-width:880px){.dev-grid{grid-template-columns:1fr}}
-  .code{background:#08090C;border:1px solid var(--line-2);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
-  .code pre{flex:1 1 auto}
+  .dev-hero{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,52px);align-items:center;margin-top:44px}
+  @media(max-width:880px){.dev-hero{grid-template-columns:1fr;gap:28px}}
+  .dev-cards-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:clamp(28px,3.5vw,44px)}
+  @media(max-width:680px){.dev-cards-row{grid-template-columns:1fr}}
+  .code{background:#08090C;border:1px solid var(--line-2);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow)}
   .code-top{display:flex;align-items:center;justify-content:space-between;padding:11px 15px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02)}
   .code-top .fn{font-family:var(--font-m);font-size:12px;color:var(--dim);display:flex;align-items:center;gap:8px}
   .code-top .fn::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--mint)}
@@ -476,8 +478,7 @@
   .copy-btn svg{width:14px;height:14px}
   pre{margin:0;padding:18px 18px;overflow-x:auto;font-family:var(--font-m);font-size:13.5px;line-height:1.7;color:#C7CEDC;-webkit-overflow-scrolling:touch}
   .t-key{color:#7BE9BD}.t-str{color:var(--mint)}.t-punc{color:var(--faint)}
-  .dev-cards{display:flex;flex-direction:column;gap:16px}
-  .dev-cards .dev-card{flex:1 1 0;display:flex;flex-direction:column;justify-content:center}
+  .dev-card{display:flex;flex-direction:column}
   .dev-card h3{font-size:1.08rem;display:flex;align-items:center;gap:10px}
   .dev-card h3 svg{width:19px;height:19px;color:var(--accent)}
   .dev-card ul{list-style:none;margin-top:14px;display:flex;flex-direction:column;gap:10px}
@@ -497,12 +498,14 @@
 
   /* footer */
   footer{border-top:1px solid var(--line);padding-block:48px 40px;margin-top:40px}
-  .foot-grid{display:flex;flex-wrap:wrap;justify-content:space-between;gap:28px;align-items:flex-start}
-  .foot-brand{max-width:32ch}
+  .foot-grid{display:flex;flex-wrap:wrap;justify-content:space-between;gap:40px 28px;align-items:flex-start}
+  .foot-brand{max-width:30ch}
   .foot-brand p{color:var(--faint);font-size:13.5px;margin-top:14px;line-height:1.6}
-  .foot-links{display:flex;gap:26px;flex-wrap:wrap}
-  .foot-links a{color:var(--dim);font-size:14px;transition:color .15s}
-  .foot-links a:hover{color:var(--text)}
+  .foot-cols{display:flex;gap:clamp(44px,7vw,96px)}
+  .foot-col{display:flex;flex-direction:column;gap:11px}
+  .foot-col h4{font-family:var(--font-m);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:5px}
+  .foot-col a{color:var(--dim);font-size:14px;transition:color .15s}
+  .foot-col a:hover{color:var(--text)}
   .foot-bottom{margin-top:34px;padding-top:22px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px 26px;align-items:center}
   .foot-bottom small{color:var(--faint);font-size:12.5px}
   .foot-legal{display:flex;flex-wrap:wrap;gap:20px}
@@ -639,8 +642,7 @@
         <p style="margin-top:24px">Das <b style="color:var(--text)">Firmenbuch</b> ist das amtliche Unternehmensregister Österreichs – mit Stammdaten und den <b style="color:var(--text)">veröffentlichten Jahresabschlüssen</b> aller eingetragenen Firmen. Diese Daten werden ausgelesen, zu Kennzahlen ausgewertet und maschinenlesbar über einen <b style="color:var(--text)">MCP-Server</b> bereitgestellt.</p>
         <p>Nach einmaliger Einrichtung im KI-Tool beantwortet der Agent Anfragen in <b style="color:var(--text)">natürlicher Sprache</b> mit <b style="color:var(--text)">aktuellen Originaldaten direkt aus dem Register</b> – nicht mit halluzinierten Werten.</p>
       </div>
-      <div class="about-right reveal">
-      <aside class="inside">
+      <aside class="inside reveal">
         <h3>Was steckt drin?</h3>
         <ul>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 5h14v14H5zM5 9h14M9 5v14" stroke-linejoin="round"/></svg><span><b>Stammdaten</b> – Firmenname, Rechtsform, Sitz, Status, Geschäftsführung &amp; Vertretung.</span></li>
@@ -650,16 +652,15 @@
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l6-4 6 4v13M9 21v-5h6v5" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Größenklasse, Alter &amp; Mitarbeiter</b> sowie Peer-Vergleich fürs Benchmarking (wo veröffentlicht).</span></li>
         </ul>
       </aside>
-      <div class="flow flow-vert">
-        <span>Firmenbuch</span>
-        <span class="arr">↓</span>
-        <span>Aufbereitung &amp; Kennzahlen</span>
-        <span class="arr">↓</span>
-        <span>MCP-Server</span>
-        <span class="arr">↓</span>
-        <span>KI-Agent</span>
-      </div>
-      </div><!-- /about-right -->
+    </div>
+    <div class="flow flow-rail reveal">
+      <span>Firmenbuch</span>
+      <span class="arr">→</span>
+      <span>Aufbereitung &amp; Kennzahlen</span>
+      <span class="arr">→</span>
+      <span>MCP-Server</span>
+      <span class="arr">→</span>
+      <span>KI-Agent</span>
     </div>
   </div>
 </section>
@@ -747,7 +748,8 @@
 <!-- ======================= FÜR ENTWICKLER ======================= -->
 <section id="entwickler">
   <div class="wrap">
-    <div class="sec-head reveal">
+    <div class="dev-hero">
+      <div class="sec-head reveal">
       <span class="eyebrow">Verbinden</span>
       <h2 class="h2">Ein standardkonformer MCP-Server – in Minuten verbunden.</h2>
       <p class="lead">Der Dienst wird über das <b style="color:var(--text)">Model Context Protocol</b> angesprochen – kompatibel mit Claude, Claude&nbsp;Code, VS Code und jedem MCP-Client. Authentifizierung per <b style="color:var(--text)">X-API-Key</b>-Header; kein SDK erforderlich, Konfiguration über Server-URL und Key.</p>
@@ -755,8 +757,7 @@
         <a href="onboarding.html" class="btn btn-primary">Zur Anleitung</a>
         <a href="https://github.com/jkbngb/agentic-firmenbuch" target="_blank" rel="noopener" class="btn btn-ghost"><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true" style="vertical-align:-3px;margin-right:7px"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-1.8c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg>Open Source auf GitHub</a>
       </div>
-    </div>
-    <div class="dev-grid">
+      </div>
       <div class="code reveal">
         <div class="code-top">
           <span class="fn">mcp.config.json</span>
@@ -776,7 +777,8 @@
   <span class="t-punc">}</span>
 <span class="t-punc">}</span></pre>
       </div>
-      <div class="dev-cards">
+    </div><!-- /dev-hero -->
+    <div class="dev-cards-row">
         <div class="card dev-card reveal">
           <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 4l6 6-9 9H5v-6z" stroke-linejoin="round"/><path d="M11 7l6 6" /></svg> Werkzeuge</h3>
           <ul>
@@ -795,7 +797,6 @@
           </ul>
         </div>
       </div>
-    </div>
   </div>
 </section>
 
@@ -1173,7 +1174,7 @@
       </details>
       <details>
         <summary>Wie verwalte oder kündige ich mein Abo? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
-        <div class="ans"><strong>Jederzeit und in einem Klick.</strong> Öffne <a href="kuendigen.html">Abo verwalten/kündigen</a> und gib deine E-Mail-Adresse ein. Du erhältst einen Link zum <strong>Stripe-Kundenportal</strong>, in dem du kündigen, die Zahlungsmethode ändern oder deine Rechnungen einsehen kannst. Ein Login-Konto brauchst du dafür nicht. Die Kündigung wird <strong>sofort</strong> wirksam; der Zugang wechselt anschließend auf den kostenlosen Free-Tarif.</div>
+        <div class="ans"><strong>Jederzeit und in einem Klick.</strong> Öffne <a href="kuendigen.html">Abo verwalten/kündigen</a> und gib deine E-Mail-Adresse ein. Du erhältst einen Link zum <strong>Stripe-Kundenportal</strong>, in dem du kündigen, die Zahlungsmethode ändern oder deine Rechnungen einsehen kannst. Ein Login-Konto brauchst du dafür nicht. Dein Zugang bleibt <strong>bis zum Ende der bereits bezahlten Periode</strong> voll aktiv (auch eine laufende Testphase) und wechselt danach automatisch auf den kostenlosen Free-Tarif.</div>
       </details>
       <details>
         <summary>Was ist im Service enthalten? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
@@ -1237,15 +1238,21 @@
         </a>
         <p>Offizielle Firmen- und Bilanzdaten aus dem österreichischen Firmenbuch – als MCP-Server für KI-Agenten.</p>
       </div>
-      <nav class="foot-links" aria-label="Footer">
-        <a href="onboarding.html">Anleitung</a>
-        <a href="felder.html">Datenfelder</a>
-        <a href="#anwendungen">Anwendungen</a>
-        <a href="playground.html">Playground</a>
-        <a href="feedback.html">Feedback</a>
-        <a href="https://github.com/jkbngb/agentic-firmenbuch" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://www.linkedin.com/in/jakob-neugebauer/" target="_blank" rel="noopener">LinkedIn</a>
-      </nav>
+      <div class="foot-cols">
+        <nav class="foot-col" aria-label="Produkt">
+          <h4>Produkt</h4>
+          <a href="onboarding.html">Anleitung</a>
+          <a href="felder.html">Datenfelder</a>
+          <a href="playground.html">Playground</a>
+          <a href="#anwendungen">Anwendungen</a>
+        </nav>
+        <nav class="foot-col" aria-label="Ressourcen">
+          <h4>Ressourcen</h4>
+          <a href="feedback.html">Feedback</a>
+          <a href="https://github.com/jkbngb/agentic-firmenbuch" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://www.linkedin.com/in/jakob-neugebauer/" target="_blank" rel="noopener">LinkedIn</a>
+        </nav>
+      </div>
     </div>
     <div class="foot-bottom">
       <small>© <span id="year">2026</span> Agentic-Firmenbuch.at</small>
