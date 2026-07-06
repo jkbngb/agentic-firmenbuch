@@ -96,7 +96,6 @@ class Settings(BaseSettings):
             "thomas.gaar@gmail.com",
             "thomas.gaar@coachfident.com",
             "team@coachfident.com",
-            "jakobneugebauer@pm.me",
         ]
     )
     privileged_email_domains: list[str] = Field(default_factory=lambda: ["coachfident.com"])
