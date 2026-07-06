@@ -32,6 +32,8 @@ suffix. Two buckets:
 | [`specs/Distribution_Spezifikation.md`](specs/Distribution_Spezifikation.md) | The go-to-market layer — marketing site, email signup, automated API-key delivery, bot protection, legal. |
 | [`FIELD_REFERENCE.md`](FIELD_REFERENCE.md) | Served-field dictionary — every field each MCP tool returns, with type + null-rules. User-facing twin: the public [`felder.html`](https://www.agentic-firmenbuch.at/felder.html) page. |
 | [`pipeline-step-samples.md`](pipeline-step-samples.md) | File-format reference — one golden sample document per pipeline stage (also the test fixtures). |
+| [`billing/README.md`](billing/README.md) | **Billing & subscriptions** — plans + feature gating, the Stripe checkout→webhook money flow, no-login cancellation, endpoints, ENV, local test, and the go-live checklist. |
+| [`architecture/data-collection.md`](architecture/data-collection.md) | Public-facing architecture write-up of how the register mirror stays complete, fresh and lossless (basis for an engineering blog post). |
 
 ### Supporting evidence
 
