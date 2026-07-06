@@ -226,6 +226,10 @@
   .trust{margin-top:38px;display:flex;flex-direction:column;gap:12px}
   .trust-label{font-family:var(--font-m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
   .trust-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
+  /* hero: first two chips side by side, the two longer ones full width -> less sterile column */
+  .hero .trust-row{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px}
+  .hero .trust-chip:nth-child(n+3){grid-column:1 / -1}
+  @media(max-width:600px){.hero .trust-row{grid-template-columns:1fr}}
   .trust-chip{display:inline-flex;align-items:center;gap:9px;font-size:14px;font-weight:500;color:var(--dim)}
   .trust-chip svg{width:18px;height:18px;opacity:.85}
   /* hero trust as pills (only in the hero) — badge icon + hover lift + subtle gradient so the
@@ -284,8 +288,8 @@
   .hx-cell.m span{font-family:var(--font-m);font-size:12.5px;font-variant-numeric:tabular-nums lining-nums}
   .hx-cell.pos span{color:var(--hxm)}
   .hx-cell.lab span{color:var(--hxd);font-size:12.5px}
-  .hx-srcwrap{padding-top:14px;display:none}
-  .hx-srcwrap.show{display:block}
+  .hx-srcwrap{padding-top:14px;opacity:0;transition:opacity .4s ease}
+  .hx-srcwrap.show{opacity:1}
   .hx-src{display:inline-block;font-family:var(--font-m);font-size:11.5px;line-height:1.5;color:var(--hxd);border:1px solid var(--hxl);background:#0f1218;border-radius:8px;padding:8px 12px}
   .hx-src b{color:var(--hxb);font-weight:500}
   .hx-note{font-family:var(--font-m);font-size:10.5px;line-height:1.5;letter-spacing:.02em;color:#6b7688;margin-top:12px;padding-top:11px;border-top:1px solid var(--hxl);display:flex;align-items:center;gap:8px}
@@ -1464,22 +1468,25 @@ function cell(c){var d=document.createElement("div");var cls="hx-cell";if(c.righ
 function build(p){elTable.innerHTML="";var rows=[],i,r,c;if(p.head){var h=document.createElement("div");h.className="hx-row hd";h.style.gridTemplateColumns=p.grid;for(i=0;i<p.head.length;i++)h.appendChild(cell({v:p.head[i],right:i>0}));elTable.appendChild(h);}for(r=0;r<p.rows.length;r++){var row=document.createElement("div");row.className="hx-row";row.style.gridTemplateColumns=p.grid;for(c=0;c<p.rows[r].length;c++)row.appendChild(cell(p.rows[r][c]));elTable.appendChild(row);rows.push(row);}return rows;}
 function setSrc(p){elSrc.textContent="";elSrc.appendChild(document.createTextNode(p.srcPre));var b=document.createElement("b");b.textContent=p.srcLink;elSrc.appendChild(b);}
 function selectTab(i){for(var k=0;k<tabs.length;k++)tabs[k].setAttribute("aria-selected",k===i?"true":"false");}
-function play(i){clearAll();cur=i;selectTab(i);var doIntro=firstRun&&i===0;if(!doIntro&&demo){firstRun=false;demo.style.minHeight="";inner.style.transform="";var _p=demo.querySelector(".hx-panel");if(_p){_p.style.minHeight="";_p.style.overflow="";_p.style.height="";}var _n=demo.querySelector(".hx-note");if(_n)_n.style.display="";}var p=P[i],rows=build(p);elMeta.textContent=p.meta;setSrc(p);elQ.textContent="";elCaret.style.display="inline-block";elStatus.className="hx-status";elStatusTxt.textContent="Firmenbuch wird abgefragt …";elResult.classList.remove("show");elSrcWrap.classList.remove("show");
+function play(i){clearAll();cur=i;selectTab(i);var doIntro=firstRun&&i===0;if(!doIntro&&demo){firstRun=false;demo.style.minHeight="";inner.style.transform="";var _p=demo.querySelector(".hx-panel");if(_p){_p.style.minHeight="";_p.style.overflow="";_p.style.height="";}var _n=demo.querySelector(".hx-note");if(_n)_n.style.display="";elSrcWrap.style.display="";}var p=P[i],rows=build(p);elMeta.textContent=p.meta;setSrc(p);elQ.textContent="";elCaret.style.display="inline-block";elStatus.className="hx-status";elStatusTxt.textContent="Firmenbuch wird abgefragt …";elResult.classList.remove("show");elSrcWrap.classList.remove("show");
   if(rm){elQ.textContent=p.q;elCaret.style.display="none";elStatus.className="hx-status show done";elStatusTxt.textContent="Firmenbuch abgefragt";elResult.classList.add("show");for(var r=0;r<rows.length;r++)rows[r].classList.add("in");elSrcWrap.classList.add("show");return;}
-  if(doIntro){var pnl=demo.querySelector(".hx-panel"),note=demo.querySelector(".hx-note");demo.classList.add("hx-noanim");var fullH=inner.offsetHeight,fullPanel=pnl.offsetHeight;pnl.style.minHeight="0";pnl.style.overflow="hidden";if(note)note.style.display="none";var compactPanel=pnl.offsetHeight,compactInner=inner.offsetHeight;pnl.style.height=compactPanel+"px";demo.style.minHeight=fullH+"px";inner.style.transform="translateY("+Math.max(0,(fullH-compactInner)/2)+"px)";void demo.offsetHeight;demo.classList.remove("hx-noanim");firstRun=false;at(2600,function(){inner.style.transform="translateY(0)";pnl.style.height=fullPanel+"px";at(1000,function(){pnl.style.minHeight="";pnl.style.overflow="";pnl.style.height="";demo.style.minHeight="";inner.style.transform="";if(note)note.style.display="";});});}
-  var n=0,len=p.q.length,step=Math.max(20,Math.round(2500/len));
+  if(doIntro){var pnl=demo.querySelector(".hx-panel"),note=demo.querySelector(".hx-note");demo.classList.add("hx-noanim");var fullH=inner.offsetHeight,fullPanel=pnl.offsetHeight;pnl.style.minHeight="0";pnl.style.overflow="hidden";if(note)note.style.display="none";elSrcWrap.style.display="none";var compactPanel=pnl.offsetHeight,compactInner=inner.offsetHeight;pnl.style.height=compactPanel+"px";demo.style.minHeight=fullH+"px";inner.style.transform="translateY("+Math.max(0,(fullH-compactInner)/2)+"px)";void demo.offsetHeight;demo.classList.remove("hx-noanim");firstRun=false;at(3100,function(){inner.style.transform="translateY(0)";pnl.style.height=fullPanel+"px";at(1000,function(){pnl.style.minHeight="";pnl.style.overflow="";pnl.style.height="";demo.style.minHeight="";inner.style.transform="";if(note)note.style.display="";elSrcWrap.style.display="";});});}
+  var n=0,len=p.q.length,step=Math.max(24,Math.round(3000/len));
   typer=setInterval(function(){n++;elQ.textContent=p.q.slice(0,n);if(n>=len){clearInterval(typer);typer=null;}},step);
-  at(3600,function(){elCaret.style.display="none";elStatus.classList.add("show");});
-  at(5500,function(){elStatus.classList.add("done");elStatusTxt.textContent="Firmenbuch abgefragt";});
-  at(5850,function(){elResult.classList.add("show");});
-  for(var r2=0;r2<rows.length;r2++){(function(row,k){at(6100+k*950,function(){row.classList.add("in");});})(rows[r2],r2);}
-  at(10000,function(){elSrcWrap.classList.add("show");});
-  at(13500,function(){play(auto?(cur+1)%P.length:cur);});
+  at(4100,function(){elCaret.style.display="none";elStatus.classList.add("show");});
+  at(5300,function(){elStatus.classList.add("done");elStatusTxt.textContent="Firmenbuch abgefragt";});
+  at(5600,function(){elResult.classList.add("show");});
+  for(var r2=0;r2<rows.length;r2++){(function(row,k){at(5750+k*500,function(){row.classList.add("in");});})(rows[r2],r2);}
+  var lastRowT=5750+(rows.length-1)*500;
+  at(lastRowT+200,function(){elSrcWrap.classList.add("show");});
+  at(lastRowT+3600,function(){play(auto?(cur+1)%P.length:cur);});
 }
 for(var t=0;t<tabs.length;t++){(function(k){tabs[k].addEventListener("click",function(){auto=false;play(k);});})(t);}
 document.addEventListener("visibilitychange",function(){if(!document.hidden&&!rm)play(cur);});
 play(0);
 })();
+/* FAQ accordion: only one open at a time */
+(function(){var faq=document.querySelector(".faq");if(!faq)return;var items=faq.querySelectorAll("details");for(var i=0;i<items.length;i++){(function(d){d.addEventListener("toggle",function(){if(d.open){for(var j=0;j<items.length;j++){if(items[j]!==d)items[j].open=false;}}});})(items[i]);}})();
 </script>
 </body>
 </html>
