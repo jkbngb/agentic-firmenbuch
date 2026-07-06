@@ -226,6 +226,10 @@ def describe_fields() -> dict[str, Any]:
                         "level + version (ÖNACE 2025)",
                         "nace.{section,division,group} + {level}_label (EN) + version "
                         "(NACE Rev. 2.1; codes identical to oenace by construction)",
+                        "oenace_2008.{section,division,group,class} + {level}_label_de/_label_en "
+                        "+ version (ÖNACE 2008) — the vintage the classifier predicted in, "
+                        "expanded symmetrically to oenace via the official Statistik Austria "
+                        "table; motor-vehicle trade is division 45 here (46/47 in ÖNACE 2025)",
                         "code_2008 (assigned ÖNACE 2008 class), source (lexicon/llm), "
                         "classified_from (geschaeftszweig/name)",
                     ],
@@ -283,6 +287,13 @@ def describe_fields() -> dict[str, Any]:
             "often file a Bilanz only).",
             "employees is frequently null — the Firmenbuch reports headcount only sparsely.",
             "growth.profile is null until at least 2 comparable years exist.",
+            "ÖNACE codes are ÖNACE 2025 (= NACE Rev. 2.1). The oenace_section/oenace_division/"
+            "oenace_group search filters match BOTH ÖNACE 2025 AND ÖNACE 2008, so a query in "
+            "either vintage returns results — no dead end for using the older codes. Note the "
+            "vintages differ: motor-vehicle trade is division 45 in ÖNACE 2008 but 46/47 in "
+            "2025; the old Information section split J→J+K, shifting later section letters. Call "
+            "list_sectors to see which divisions exist in each vintage, or filter by the "
+            "geschaeftszweig free text.",
             "GDPR: officer names ARE served (public Firmenbuch data, per-query lookup); birth "
             "data is year only (birth_year / age) — never month or day.",
         ],
