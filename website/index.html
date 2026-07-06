@@ -638,10 +638,11 @@
       <aside class="inside reveal">
         <h3>Was steckt drin?</h3>
         <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 5h14v14H5zM5 9h14M9 5v14" stroke-linejoin="round"/></svg><span><b>Stammdaten</b> – Firmenname, Rechtsform, Sitz, Status, Geschäftsführung.</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 19V5m0 14h16M8 15v-4m4 4V8m4 7v-6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Bilanz-Zeitreihen</b> – mehrjährige Verläufe aus den Jahresabschlüssen.</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Kennzahlen</b> – Eigenkapitalquote, Verschuldung, Wachstum – berechnet.</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h7l2 2h7v9H4z" stroke-linejoin="round"/></svg><span><b>Größenklasse</b> &amp; Alter der Geschäftsführung (wo veröffentlicht).</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 5h14v14H5zM5 9h14M9 5v14" stroke-linejoin="round"/></svg><span><b>Stammdaten</b> – Firmenname, Rechtsform, Sitz, Status, Geschäftsführung &amp; Vertretung.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h7l2 2h7v9H4z" stroke-linejoin="round"/></svg><span><b>Branche</b> – ÖNACE-Klassifikation (2025 &amp; 2008) plus Geschäftszweig, filter- und durchsuchbar für gezieltes Screening.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 19V5m0 14h16M8 15v-4m4 4V8m4 7v-6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Bilanz &amp; GuV</b> – mehrjährige Zeitreihen inkl. Umsatz &amp; Ergebnis (wo veröffentlicht).</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Kennzahlen</b> – Eigenkapitalquote, Verschuldung, Margen, Wachstum – fertig berechnet.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l6-4 6 4v13M9 21v-5h6v5" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Größenklasse, Alter &amp; Mitarbeiter</b> sowie Peer-Vergleich fürs Benchmarking (wo veröffentlicht).</span></li>
         </ul>
       </aside>
     </div>
@@ -820,6 +821,23 @@
   .pg-badge{margin-top:14px;font-size:12.5px;color:var(--faint);display:flex;align-items:flex-start;gap:8px;line-height:1.5}
   .pg-badge svg{flex:none;width:15px;height:15px;color:var(--accent);margin-top:1px}
   .pg-badge a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+
+  /* Plan cards (Free / Pro) in the Verbinden section */
+  .plan-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0 4px}
+  @media(max-width:560px){.plan-cards{grid-template-columns:1fr}}
+  .plan{position:relative;display:flex;flex-direction:column;border:1px solid var(--line-2);border-radius:16px;padding:20px 18px;background:rgba(255,255,255,.02)}
+  .plan-pro{border-color:rgba(25,195,125,.5);background:linear-gradient(180deg,rgba(25,195,125,.09),rgba(25,195,125,.015))}
+  .plan-name{font-family:var(--font-m);font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+  .plan-pro .plan-name{color:var(--accent)}
+  .plan-price{font-family:var(--font-d);font-weight:700;font-size:2rem;letter-spacing:-.02em;color:var(--text);margin:6px 0 0;line-height:1.05}
+  .plan-price span{font-family:var(--font-b);font-weight:500;font-size:.78rem;letter-spacing:0;color:var(--faint);margin-left:6px}
+  .plan-feat{list-style:none;margin:14px 0 18px;padding:0;display:flex;flex-direction:column;gap:9px;font-size:14px;color:var(--dim);flex:1 1 auto}
+  .plan-feat li{position:relative;padding-left:18px;line-height:1.4}
+  .plan-feat li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+  .plan-badge{position:absolute;top:-11px;right:16px;background:var(--accent);color:#06130d;font-family:var(--font-b);font-size:11px;font-weight:700;letter-spacing:.02em;padding:3px 10px;border-radius:999px}
+  .plan .btn{width:100%;justify-content:center}
+  .pro-email{margin-top:14px;padding:16px;border:1px solid rgba(25,195,125,.3);border-radius:14px;background:rgba(25,195,125,.05)}
+  .pro-email .field{margin-bottom:10px}
 </style>
 <section id="playground">
   <div class="wrap">
@@ -992,10 +1010,38 @@
           <span class="eyebrow">Verbinden</span>
           <h2 class="h2" style="margin-top:14px">Kostenlos starten, Pro für den vollen Funktionsumfang.</h2>
           <p class="lead">Du verbindest deinen <strong>eigenen MCP-Client</strong> – etwa <strong>Claude Cowork</strong> ohne API-Schlüssel oder per <strong>API-Key</strong> in Claude Code, VS Code, Cursor und allen MCP-fähigen Clients. Den Client bringst du selbst mit; wir stellen die Schnittstelle bereit. Voraussetzung ist eine verifizierte E-Mail-Adresse.</p>
-          <div class="free-points">
-            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round"/></svg> <strong>Free:</strong> Firmensuche mit Basisdaten und begrenzte Einzelabfragen pro Monat</div>
-            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round"/></svg> <strong>Pro:</strong> voller Umfang – 79 € / Monat inkl. USt, 14 Tage kostenlos testen, monatlich kündbar</div>
-            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round"/></svg> Kein Passwort; für Free keine Kreditkarte nötig</div>
+          <div class="plan-cards">
+            <div class="plan">
+              <div class="plan-name">Free</div>
+              <div class="plan-price">0 €<span>/ Monat</span></div>
+              <ul class="plan-feat">
+                <li>Firmensuche mit Basisdaten</li>
+                <li>Branche, Sitz &amp; Größenklasse</li>
+                <li>Begrenzte Detail-Abfragen pro Monat</li>
+                <li>Kein Passwort, keine Kreditkarte</li>
+              </ul>
+              <button type="button" class="btn btn-ghost btn-lg" id="freeStart">Kostenlos verbinden</button>
+            </div>
+            <div class="plan plan-pro">
+              <span class="plan-badge">14 Tage gratis</span>
+              <div class="plan-name">Pro</div>
+              <div class="plan-price">79 €<span>/ Monat inkl. USt</span></div>
+              <ul class="plan-feat">
+                <li>Voller Datenumfang je Firma</li>
+                <li>Screening, Peer-Vergleich &amp; Listen</li>
+                <li>Kennzahlen-Historie &amp; Export</li>
+                <li>Monatlich kündbar</li>
+              </ul>
+              <button type="button" class="btn btn-primary btn-lg" id="proStart">Pro starten →</button>
+            </div>
+          </div>
+          <div class="pro-email" id="proEmail" hidden>
+            <div class="field">
+              <label for="proEmailInput">E-Mail-Adresse deines Zugangs</label>
+              <input type="email" id="proEmailInput" inputmode="email" autocomplete="email" placeholder="name@firma.at" />
+            </div>
+            <button type="button" class="btn btn-primary btn-lg" id="proGo" style="width:100%">Weiter zu Stripe – 14 Tage gratis →</button>
+            <p class="form-note" id="proNote">Du wirst zur sicheren Stripe-Checkout-Seite weitergeleitet. Voraussetzung: Für diese E-Mail besteht bereits ein (kostenloser) Zugang.</p>
           </div>
           <p class="signup-foot">Mit dem Verbinden bzw. der Nutzung des MCP-Servers werden die <a href="nutzungsbedingungen.html">Allgemeinen Geschäftsbedingungen</a> akzeptiert. Die Nutzung des Services erfolgt unter Ausschluss jeglicher Gewährleistung.</p>
         </div>
@@ -1499,6 +1545,54 @@ play(0);
 })();
 /* FAQ accordion: only one open at a time */
 (function(){var faq=document.querySelector(".faq");if(!faq)return;var items=faq.querySelectorAll("details");for(var i=0;i<items.length;i++){(function(d){d.addEventListener("toggle",function(){if(d.open){for(var j=0;j<items.length;j++){if(items[j]!==d)items[j].open=false;}}});})(items[i]);}})();
+</script>
+<script>
+/* Pro checkout + Free connect CTA (billing) */
+(function(){
+  var API=(window.API_BASE||"https://api.agentic-firmenbuch.at").replace(/\/+$/,"");
+  var proStart=document.getElementById("proStart"),
+      proBox=document.getElementById("proEmail"),
+      proInput=document.getElementById("proEmailInput"),
+      proGo=document.getElementById("proGo"),
+      proNote=document.getElementById("proNote"),
+      freeStart=document.getElementById("freeStart");
+  if(proStart&&proBox){
+    proStart.addEventListener("click",function(){
+      proBox.hidden=false; proStart.style.display="none";
+      if(proInput) proInput.focus();
+      proBox.scrollIntoView({behavior:"smooth",block:"nearest"});
+    });
+  }
+  function checkout(){
+    if(!proInput) return;
+    var email=(proInput.value||"").trim();
+    if(email.indexOf("@")<1){proInput.focus();return;}
+    var label=proGo.textContent; proGo.disabled=true; proGo.textContent="Wird geöffnet …";
+    fetch(API+"/api/billing/checkout",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({email:email})})
+      .then(function(r){return r.json().catch(function(){return {};}).then(function(j){return {s:r.status,j:j};});})
+      .then(function(res){
+        if(res.j&&res.j.url){window.location.href=res.j.url;return;}
+        proGo.disabled=false; proGo.textContent=label;
+        if(res.s===404){
+          proNote.innerHTML='Zu dieser E-Mail besteht noch kein Zugang. Fordere rechts zuerst einen <strong>kostenlosen Key</strong> an – danach hier Pro starten.';
+        }else if(res.s===503){
+          proNote.textContent="Die Zahlung ist gerade nicht verfügbar. Bitte später erneut versuchen.";
+        }else{
+          proNote.textContent="Das hat gerade nicht geklappt. Bitte in einem Moment erneut versuchen.";
+        }
+      })
+      .catch(function(){proGo.disabled=false; proGo.textContent=label; proNote.textContent="Netzwerkfehler – bitte erneut versuchen.";});
+  }
+  if(proGo) proGo.addEventListener("click",checkout);
+  if(proInput) proInput.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();checkout();}});
+  if(freeStart){
+    freeStart.addEventListener("click",function(){
+      var keyTab=document.getElementById("tab-key"); if(keyTab) keyTab.click();
+      var em=document.getElementById("email");
+      if(em){em.scrollIntoView({behavior:"smooth",block:"center"}); setTimeout(function(){em.focus();},350);}
+    });
+  }
+})();
 </script>
 </body>
 </html>
