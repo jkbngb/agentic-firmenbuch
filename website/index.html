@@ -335,11 +335,12 @@
   .card:hover{border-color:var(--line-2);transform:translateY(-3px)}
 
   /* was ist das */
-  .about-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(26px,4vw,52px);align-items:start;margin-top:54px}
+  .about-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(26px,4vw,52px);align-items:center;margin-top:54px}
   @media(max-width:880px){.about-grid{grid-template-columns:1fr;gap:30px}}
   .about-copy p{color:var(--dim);font-size:1.08rem;max-width:54ch}
   .about-copy p + p{margin-top:18px}
   .flow{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+  .about-grid + .flow{justify-content:center;margin-top:clamp(34px,4vw,52px)}
   .flow span{font-family:var(--font-m);font-size:12.5px;color:var(--dim);padding:8px 13px;border:1px solid var(--line-2);border-radius:999px;background:rgba(255,255,255,.025)}
   .flow .arr{border:none;background:none;color:var(--faint);padding:8px 0}
   .inside{background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid var(--line);border-radius:var(--r-xl);padding:24px;box-shadow:var(--shadow)}
@@ -497,8 +498,11 @@
   .foot-links{display:flex;gap:26px;flex-wrap:wrap}
   .foot-links a{color:var(--dim);font-size:14px;transition:color .15s}
   .foot-links a:hover{color:var(--text)}
-  .foot-bottom{margin-top:34px;padding-top:22px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;align-items:center}
+  .foot-bottom{margin-top:34px;padding-top:22px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px 26px;align-items:center}
   .foot-bottom small{color:var(--faint);font-size:12.5px}
+  .foot-legal{display:flex;flex-wrap:wrap;gap:20px}
+  .foot-legal a{color:var(--faint);font-size:12.5px;transition:color .15s}
+  .foot-legal a:hover{color:var(--text)}
   .src{font-family:var(--font-m);font-size:11.5px;color:var(--faint)}
 
   /* cookie */
@@ -631,15 +635,6 @@
       <div class="about-copy reveal">
         <p>Das <b style="color:var(--text)">Firmenbuch</b> ist das amtliche Unternehmensregister Österreichs – mit Stammdaten und den <b style="color:var(--text)">veröffentlichten Jahresabschlüssen</b> aller eingetragenen Firmen. Diese Daten werden ausgelesen, zu Kennzahlen ausgewertet und maschinenlesbar über einen <b style="color:var(--text)">MCP-Server</b> bereitgestellt.</p>
         <p>Nach einmaliger Einrichtung im KI-Tool beantwortet der Agent Anfragen in <b style="color:var(--text)">natürlicher Sprache</b> mit <b style="color:var(--text)">aktuellen Originaldaten direkt aus dem Register</b> – nicht mit halluzinierten Werten.</p>
-        <div class="flow">
-          <span>Firmenbuch</span>
-          <span class="arr">→</span>
-          <span>Aufbereitung &amp; Kennzahlen</span>
-          <span class="arr">→</span>
-          <span>MCP-Server</span>
-          <span class="arr">→</span>
-          <span>KI-Agent</span>
-        </div>
       </div>
       <aside class="inside reveal">
         <h3>Was steckt drin?</h3>
@@ -651,6 +646,15 @@
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l6-4 6 4v13M9 21v-5h6v5" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Größenklasse, Alter &amp; Mitarbeiter</b> sowie Peer-Vergleich fürs Benchmarking (wo veröffentlicht).</span></li>
         </ul>
       </aside>
+    </div>
+    <div class="flow reveal">
+      <span>Firmenbuch</span>
+      <span class="arr">→</span>
+      <span>Aufbereitung &amp; Kennzahlen</span>
+      <span class="arr">→</span>
+      <span>MCP-Server</span>
+      <span class="arr">→</span>
+      <span>KI-Agent</span>
     </div>
   </div>
 </section>
@@ -1179,15 +1183,19 @@
     </div>
     <div class="faq reveal">
       <details>
-        <summary>Was kostet das? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
+        <summary>Was kostet Agentic-Firmenbuch? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
         <div class="ans">Es gibt einen kostenlosen <strong>Free</strong>-Zugang (Firmensuche mit Basisdaten und eine begrenzte Anzahl vollständiger Einzelabfragen pro Monat) – dafür ist nur eine verifizierte E-Mail-Adresse nötig, kein Passwort, keine Kreditkarte. <strong>Pro</strong> schaltet den vollen Funktionsumfang frei und kostet <strong>79 € pro Monat inkl. USt</strong>, mit <strong>14 Tagen kostenlosem Test</strong> und <strong>monatlicher Kündigung</strong>.</div>
+      </details>
+      <details>
+        <summary>Was ist ein MCP-Server? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
+        <div class="ans">MCP (Model Context Protocol) ist ein offener Standard, über den KI-Tools externe Datenquellen und Werkzeuge ansprechen. Ein MCP-Server stellt diese Werkzeuge bereit – einmal mit dem KI-Tool verbinden und die Firmenbuch-Daten danach direkt im Gespräch nutzen.</div>
       </details>
       <details>
         <summary>Brauche ich einen eigenen MCP-Client? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
         <div class="ans">Ja. Agentic-Firmenbuch stellt ausschließlich die <strong>Schnittstelle (den MCP-Server)</strong> bereit – ein Client wird nicht mitgeliefert. Du nutzt einen eigenen MCP-fähigen Client, zum Beispiel <strong>Claude (Cowork, Desktop, claude.ai)</strong>, Claude Code, Cursor oder GitHub Copilot, und bindest die Schnittstelle dort selbst ein.</div>
       </details>
       <details>
-        <summary>Wie kündige ich mein Pro-Abo? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
+        <summary>Wie verwalte oder kündige ich mein Abo? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
         <div class="ans"><strong>Jederzeit und in einem Klick.</strong> Öffne <a href="kuendigen.html">Abo verwalten/kündigen</a> und gib deine E-Mail-Adresse ein. Du erhältst einen Link zum <strong>Stripe-Kundenportal</strong>, in dem du kündigen, die Zahlungsmethode ändern oder deine Rechnungen einsehen kannst. Ein Login-Konto brauchst du dafür nicht. Die Kündigung wird <strong>sofort</strong> wirksam; der Zugang wechselt anschließend auf den kostenlosen Free-Tarif.</div>
       </details>
       <details>
@@ -1217,10 +1225,6 @@
       <details>
         <summary>Für welche Unternehmen gibt es Kennzahlen? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
         <div class="ans">Finanzkennzahlen liegen nur dort vor, wo ein Jahresabschluss veröffentlicht wurde. Ein Großteil der Unternehmen reicht ausschließlich eine Bilanz ein, weshalb Umsatz und Gewinn-und-Verlust-Rechnung nur bei einer Minderheit verfügbar sind. Der Wert <code>size_gkl</code> bezeichnet die UGB-Einreichgrößenklasse, nicht die tatsächliche Bilanzsumme. Ein Branchen- bzw. NACE-Filter ist derzeit noch nicht verfügbar.</div>
-      </details>
-      <details>
-        <summary>Was ist ein MCP-Server? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
-        <div class="ans">MCP (Model Context Protocol) ist ein offener Standard, über den KI-Tools externe Datenquellen und Werkzeuge ansprechen. Ein MCP-Server stellt diese Werkzeuge bereit – einmal mit dem KI-Tool verbinden und die Firmenbuch-Daten danach direkt im Gespräch nutzen.</div>
       </details>
       <details>
         <summary>Welche Tools werden unterstützt? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
@@ -1257,22 +1261,23 @@
         <p>Offizielle Firmen- und Bilanzdaten aus dem österreichischen Firmenbuch – als MCP-Server für KI-Agenten.</p>
       </div>
       <nav class="foot-links" aria-label="Footer">
-        <a href="playground.html">Playground</a>
-      <a href="felder.html">Datenfelder</a>
         <a href="onboarding.html">Anleitung</a>
-        <a href="feedback.html">Feedback</a>
+        <a href="felder.html">Datenfelder</a>
         <a href="#anwendungen">Anwendungen</a>
-        <a href="#entwickler">Verbinden</a>
+        <a href="playground.html">Playground</a>
+        <a href="feedback.html">Feedback</a>
         <a href="https://github.com/jkbngb/agentic-firmenbuch" target="_blank" rel="noopener">GitHub</a>
         <a href="https://www.linkedin.com/in/jakob-neugebauer/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="kuendigen.html">Abo kündigen</a>
-        <a href="impressum.html">Impressum</a>
-        <a href="datenschutz.html">Datenschutz</a>
-        <a href="nutzungsbedingungen.html">Nutzungsbedingungen</a>
       </nav>
     </div>
     <div class="foot-bottom">
       <small>© <span id="year">2026</span> Agentic-Firmenbuch.at</small>
+      <nav class="foot-legal" aria-label="Rechtliches">
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+        <a href="nutzungsbedingungen.html">Nutzungsbedingungen</a>
+        <a href="kuendigen.html">Abo kündigen</a>
+      </nav>
     </div>
   </div>
 </footer>
