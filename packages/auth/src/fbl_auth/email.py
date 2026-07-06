@@ -241,7 +241,7 @@ def _legacy_text(token: str) -> str:
 
 
 def _cancel_subject() -> str:
-    return f"Kündigung bestätigt – {_BRAND}"
+    return f"Kündigung bestätigt · Cancellation confirmed – {_BRAND}"
 
 
 def _cancel_text(access_until: str) -> str:
@@ -251,13 +251,20 @@ def _cancel_text(access_until: str) -> str:
         "nichts – alle Pro-Funktionen bleiben nutzbar.\n\n"
         "Danach wechselt dein Zugang automatisch auf den kostenlosen Free-Tarif. Du musst nichts "
         "weiter tun, und es wird nichts mehr berechnet.\n\n"
-        f"Du kannst jederzeit wieder auf Pro upgraden. Fragen? Schreib an {_SUPPORT}.\n"
+        f"Du kannst jederzeit wieder auf Pro upgraden. Fragen? Schreib an {_SUPPORT}.\n\n"
+        "—\n\n"
+        "Your cancellation is confirmed.\n\n"
+        f"You keep full Pro access until {access_until}. Nothing changes until then – all Pro "
+        "features stay available.\n\n"
+        "After that, your access automatically switches to the free plan. You don't need to do "
+        "anything, and you won't be charged again.\n\n"
+        f"You can upgrade to Pro again anytime. Questions? Write to {_SUPPORT}.\n"
     )
 
 
 def _cancel_html(access_until: str) -> str:
     safe = html.escape(access_until)
-    inner = (
+    de = (
         "<p>Deine <strong>Kündigung ist bestätigt</strong>. Danke, dass du dabei warst!</p>"
         f"<p>Du behältst deinen vollen <strong>Pro-Zugang noch bis {safe}</strong>. Bis dahin "
         "ändert sich nichts – alle Pro-Funktionen bleiben nutzbar.</p>"
@@ -268,7 +275,19 @@ def _cancel_html(access_until: str) -> str:
         'padding:11px 13px">Du kannst jederzeit wieder auf Pro upgraden. Fragen? Schreib an '
         f'<a href="mailto:{_SUPPORT}" style="color:#0f9d63">{_SUPPORT}</a> – wir helfen gern.</p>'
     )
-    return _shell(inner)
+    en = (
+        '<hr style="border:none;border-top:1px solid #e6e8eb;margin:22px 0">'
+        '<div style="color:#6b7280;font-size:14px;line-height:1.6">'
+        "<p>Your <strong>cancellation is confirmed</strong>. Thanks for being with us!</p>"
+        f"<p>You keep full <strong>Pro access until {safe}</strong>. Nothing changes until then – "
+        "all Pro features stay available.</p>"
+        "<p>After that, your access automatically switches to the free plan. You don't need to do "
+        "anything, and you won't be charged again.</p>"
+        "<p>You can upgrade to Pro again anytime. Questions? Write to "
+        f'<a href="mailto:{_SUPPORT}" style="color:#0f9d63">{_SUPPORT}</a>.</p>'
+        "</div>"
+    )
+    return _shell(de + en)
 
 
 class EmailSender(Protocol):
@@ -279,9 +298,6 @@ class EmailSender(Protocol):
     def send_key(self, to: str, api_key: str) -> bool: ...
 
     def send_oauth_login(self, to: str, login_url: str, client_name: str) -> bool: ...
-
-    def send_subscription_canceled(self, to: str, access_until: str) -> bool:  # billing goodbye
-        ...
 
     def send_token(self, to: str, token: str) -> bool:  # legacy single-step path
         ...
@@ -314,7 +330,9 @@ class NullEmailSender:
         return False
 
     def send_subscription_canceled(self, to: str, access_until: str) -> bool:
-        logger.info("ACS not configured; skipping cancellation email to %s (until %s)", to, access_until)  # noqa: E501
+        logger.info(
+            "ACS not configured; skipping cancellation email to %s (until %s)", to, access_until
+        )
         return False
 
 

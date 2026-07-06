@@ -22,15 +22,23 @@ from __future__ import annotations
 import logging
 from contextlib import suppress
 from datetime import UTC, datetime
-from typing import TYPE_CHECKING, Any
+from typing import Any, Protocol
 
 from fbl_core.lineage import now_utc_z
 from fbl_core.storage import CosmosStoreLike
 
 from .accounts import ACCOUNTS_CONTAINER, Account
 
-if TYPE_CHECKING:
-    from .email import EmailSender
+
+class _CancellationMailer(Protocol):
+    """The narrow email capability billing needs (the full EmailSender satisfies it).
+
+    Kept separate from EmailSender so the goodbye mail is an optional, injected dependency
+    and adding it never forces every EmailSender implementer/stub to grow a method.
+    """
+
+    def send_subscription_canceled(self, to: str, access_until: str) -> bool: ...
+
 
 BILLING_EVENTS_CONTAINER = "00_billing_events"
 
@@ -179,7 +187,7 @@ def apply_subscription_ended(cosmos: CosmosStoreLike, obj: dict[str, Any]) -> Ac
 
 
 def apply_subscription_scheduled_cancel(
-    cosmos: CosmosStoreLike, sub: dict[str, Any], *, email_sender: EmailSender | None = None
+    cosmos: CosmosStoreLike, sub: dict[str, Any], *, email_sender: _CancellationMailer | None = None
 ) -> tuple[str, Account | None]:
     """Handle ``customer.subscription.updated``: a portal cancellation schedules the end for the
     period end (``cancel_at_period_end``) — the user keeps full Pro access until then, so we do
@@ -213,7 +221,10 @@ def apply_subscription_scheduled_cancel(
 
 
 def handle_event(
-    cosmos: CosmosStoreLike, event: dict[str, Any], *, email_sender: EmailSender | None = None
+    cosmos: CosmosStoreLike,
+    event: dict[str, Any],
+    *,
+    email_sender: _CancellationMailer | None = None,
 ) -> dict[str, Any]:
     """Dispatch a verified Stripe event to the right handler, idempotently.
 
