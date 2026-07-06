@@ -173,33 +173,38 @@ def handle_event(cosmos: CosmosStoreLike, event: dict[str, Any]) -> dict[str, An
 
 
 def checkout_session_params(
-    account: Account,
+    account: Account | None,
     *,
     price_id: str,
     success_url: str,
     cancel_url: str,
     trial_days: int,
+    email: str | None = None,
 ) -> dict[str, Any]:
     """Kwargs for ``stripe.checkout.Session.create`` for a Pro subscription checkout.
 
-    Binds the purchase to our account via ``client_reference_id`` so the webhook can match it
-    back regardless of which e-mail/card pays. Reuses an existing Stripe customer when known,
-    otherwise prefills the account e-mail.
+    For an existing *account*, binds the purchase via ``client_reference_id`` so the webhook can
+    match it regardless of which e-mail/card pays. For a **new buyer** (``account is None``) it
+    is bound by the ``email`` Stripe collects — the account is created on payment (webhook), so
+    no account/e-mail is ever produced without a real checkout. Reuses a known Stripe customer.
     """
     params: dict[str, Any] = {
         "mode": "subscription",
         "line_items": [{"price": price_id, "quantity": 1}],
-        "client_reference_id": account.id,
         "success_url": success_url,
         "cancel_url": cancel_url,
         "allow_promotion_codes": True,
     }
     if trial_days > 0:
         params["subscription_data"] = {"trial_period_days": trial_days}
-    if account.stripe_customer_id:
-        params["customer"] = account.stripe_customer_id
-    elif account.email:
-        params["customer_email"] = account.email
+    if account is not None:
+        params["client_reference_id"] = account.id
+        if account.stripe_customer_id:
+            params["customer"] = account.stripe_customer_id
+        elif account.email:
+            params["customer_email"] = account.email
+    elif email:
+        params["customer_email"] = email
     return params
 
 

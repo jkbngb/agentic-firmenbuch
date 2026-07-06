@@ -188,6 +188,18 @@ def test_checkout_params_reuse_existing_customer() -> None:
     assert "subscription_data" not in p  # trial_days=0 -> no trial block
 
 
+def test_checkout_params_new_buyer_binds_by_email() -> None:
+    # No account yet (new buyer): bind by the e-mail Stripe collects, no client_reference_id.
+    # The account is created on payment (webhook), so nothing is produced without a sale.
+    p = checkout_session_params(
+        None, price_id="price_x", success_url="s", cancel_url="c", trial_days=14, email="new@b.test"
+    )
+    assert "client_reference_id" not in p
+    assert p["customer_email"] == "new@b.test"
+    assert p["subscription_data"] == {"trial_period_days": 14}
+    assert p["mode"] == "subscription"
+
+
 def test_portal_params_none_without_customer() -> None:
     acc = Account(id="acct:3", token_hash="acct:3", email="a@b.test")
     assert portal_session_params(acc, return_url="r") is None

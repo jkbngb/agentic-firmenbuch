@@ -41,6 +41,9 @@ from fbl_auth import (
     validate_bearer,
     verify_request,
 )
+from fbl_auth import (
+    signup as create_account,
+)
 from fbl_auth.turnstile import make_turnstile_verifier
 from fbl_core.config import Settings
 from fbl_core.storage import RAW_CONTAINER, BlobStore, CosmosStore
@@ -432,13 +435,16 @@ async def billing_checkout(req: Request) -> Response:
         return JSONResponse({"error": "billing not configured"}, status_code=503)
     body = await _body(req)
     account = _billing_account(req, body)
-    if account is None:  # no API key -> allow starting checkout by e-mail (an account must exist)
-        email = str(body.get("email", "")).strip().lower()
-        account = _account_by_email(email) if "@" in email else None
-    if account is None:
+    email = str(body.get("email", "")).strip().lower()
+    if account is None and "@" in email:
+        # Reuse the account already tied to this e-mail (repeat buyer); otherwise it's a NEW
+        # buyer — start checkout by e-mail. The account is created only on payment (webhook),
+        # so no dead-end "get a free key first" and no account/e-mail produced without a sale.
+        account = _account_by_email(email)
+    if account is None and "@" not in email:
         return JSONResponse(
-            {"error": "no_account", "message": "Bitte zuerst einen kostenlosen API-Key anfordern."},
-            status_code=404,
+            {"error": "invalid_email", "message": "Bitte eine gültige E-Mail-Adresse angeben."},
+            status_code=400,
         )
     try:
         stripe = _stripe()
@@ -456,6 +462,7 @@ async def billing_checkout(req: Request) -> Response:
             success_url=_settings.billing_success_url + "?session_id={CHECKOUT_SESSION_ID}",
             cancel_url=_settings.billing_cancel_url,
             trial_days=_settings.stripe_trial_days,
+            email=email or None,
         )
         session = stripe.checkout.Session.create(**params)
     except Exception:
@@ -484,6 +491,28 @@ async def billing_portal(req: Request) -> Response:
     return JSONResponse({"url": session.url})
 
 
+def _ensure_buyer_account(event: dict[str, Any]) -> None:
+    """New-buyer provisioning, triggered ONLY by a real completed checkout: if the session has no
+    account bound (no ``client_reference_id``), create a free account from the e-mail Stripe
+    collected and e-mail its API key. ``handle_event`` then upgrades that account to ``pro`` by
+    e-mail. Because it runs on payment, no account/e-mail is ever produced without a sale.
+    Idempotent: skips when the e-mail already has an account (safe on webhook retries)."""
+    if event.get("type") != "checkout.session.completed":
+        return
+    obj = (event.get("data") or {}).get("object") or {}
+    if obj.get("client_reference_id"):  # an existing account is already bound to this checkout
+        return
+    email = obj.get("customer_email") or (obj.get("customer_details") or {}).get("email") or ""
+    email = email.strip().lower()
+    if "@" not in email or _account_by_email(email) is not None:
+        return
+    try:
+        create_account(email, _cosmos, email_sender=_email)  # free account + e-mail the API key
+        _billing_log.info("billing: provisioned account for a new Pro buyer")
+    except Exception:
+        _billing_log.exception("billing: failed provisioning account for new buyer")
+
+
 async def billing_webhook(req: Request) -> Response:
     """Receive Stripe webhooks. Verifies the signature (STRIPE_WEBHOOK_SECRET) against the RAW
     body, then applies the plan change idempotently via fbl_auth.billing.handle_event."""
@@ -500,6 +529,7 @@ async def billing_webhook(req: Request) -> Response:
         return JSONResponse({"error": "invalid signature"}, status_code=400)
     # Deep-convert the StripeObject to a plain dict (version-robust) for the pure handler.
     event_dict = json.loads(str(event))
+    _ensure_buyer_account(event_dict)  # new-buyer: create account + e-mail the key, on payment
     try:
         result = handle_event(_cosmos, event_dict)
     except Exception:
