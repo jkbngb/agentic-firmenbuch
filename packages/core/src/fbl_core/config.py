@@ -85,6 +85,22 @@ class Settings(BaseSettings):
         }
     )
 
+    # --- Privileged accounts (config, not code) ---
+    # Emails/domains that always get full (``legacy``-equivalent) access regardless of what
+    # ``Account.tier`` says or whether they've ever paid — e.g. the owner's own test/partner
+    # accounts. Checked in fbl_auth.accounts.is_privileged, applied in McpService (plan +
+    # rate-limit quota), so it survives any future migration/signup bug that leaves the stored
+    # tier wrong. Override via PRIVILEGED_EMAILS / PRIVILEGED_EMAIL_DOMAINS env (JSON list).
+    privileged_emails: list[str] = Field(
+        default_factory=lambda: [
+            "thomas.gaar@gmail.com",
+            "thomas.gaar@coachfident.com",
+            "team@coachfident.com",
+            "jakobneugebauer@pm.me",
+        ]
+    )
+    privileged_email_domains: list[str] = Field(default_factory=lambda: ["coachfident.com"])
+
     # --- Billing / plan feature gates (config, not code) ---
     # Free plan: monthly cap on full company profiles (get_company_details). The search stays
     # usable (flattened card). Override via FREE_DETAILS_PER_MONTH. Chosen from real usage:

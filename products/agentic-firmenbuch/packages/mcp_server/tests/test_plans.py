@@ -179,6 +179,31 @@ def test_legacy_plan_has_full_access() -> None:
     assert resp["results"][0]["equity_ratio_latest"] == 0.42  # not flattened
 
 
+def test_privileged_email_gets_full_access_even_on_free_tier() -> None:
+    cosmos = _store()
+    # simulate an account that is still (wrongly) "free" in storage.
+    token = signup("thomas.gaar@coachfident.com", cosmos, tier="free").token
+    svc = _svc(cosmos, privileged_email_domains=["coachfident.com"])
+    assert "upgrade_required" not in svc.find_peers(token, "030435h")
+    resp = svc.search_companies(token, SearchFilters(name="Alpha"))
+    assert resp["results"][0]["equity_ratio_latest"] == 0.42  # not flattened
+    assert "upgrade_required" not in svc.get_company_details(token, "030435h")
+
+
+def test_privileged_exact_email_match_also_grants_full_access() -> None:
+    cosmos = _store()
+    token = signup("thomas.gaar@gmail.com", cosmos, tier="free").token
+    svc = _svc(cosmos, privileged_emails=["thomas.gaar@gmail.com"])
+    assert "upgrade_required" not in svc.get_cohort_summary(token, "gkl", "K")
+
+
+def test_non_privileged_free_email_stays_gated() -> None:
+    cosmos = _store()
+    token = signup("someone-else@example.test", cosmos, tier="free").token
+    svc = _svc(cosmos, privileged_email_domains=["coachfident.com"])
+    assert svc.find_peers(token, "030435h").get("upgrade_required") is True
+
+
 def test_guest_full_access_then_expires_to_free() -> None:
     cosmos = _store()
     rec = signup("guest@example.test", cosmos, tier="guest")

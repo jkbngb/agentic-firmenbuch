@@ -24,6 +24,22 @@ ACCOUNTS_CONTAINER = "00_accounts"
 logger = logging.getLogger(__name__)
 
 
+def is_privileged(email: str | None, settings: Settings) -> bool:
+    """Whether *email* is on the always-full-access list (owner override, §Privileged accounts).
+
+    Independent of ``Account.tier``/Stripe status by design: it must keep working even if a
+    migration or signup bug leaves the stored tier wrong. Matches the exact email or its
+    domain against ``settings.privileged_emails`` / ``privileged_email_domains`` (case-insensitive).
+    """
+    email_l = (email or "").strip().lower()
+    if "@" not in email_l:
+        return False
+    domain = email_l.rsplit("@", 1)[1]
+    if email_l in {e.strip().lower() for e in settings.privileged_emails}:
+        return True
+    return domain in {d.strip().lower().lstrip("@") for d in settings.privileged_email_domains}
+
+
 def quota_for(tier: str, settings: Settings) -> tuple[int, int]:
     """Resolve ``(per_min, per_day)`` for a tier (§8.10).
 

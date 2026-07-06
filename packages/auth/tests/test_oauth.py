@@ -5,10 +5,12 @@ from __future__ import annotations
 from datetime import UTC, datetime, timedelta
 
 from fbl_auth import (
+    ACCOUNTS_CONTAINER,
     OAUTH_TOKENS,
     consume_code,
     consume_refresh,
     get_client,
+    get_or_create_account_by_email,
     hash_token,
     issue_code,
     issue_token_pair,
@@ -24,6 +26,54 @@ def _store_with_account() -> tuple[InMemoryCosmosStore, str]:
     cosmos = InMemoryCosmosStore()
     rec = signup("u@example.com", cosmos)
     return cosmos, rec.account.id
+
+
+def test_get_or_create_ignores_stale_pending_signup_with_same_email() -> None:
+    """Regression: a leftover ``pending_signup`` doc (double-opt-in verify, ``status:
+    "consumed"``) sharing the caller's email must never be mistaken for their real account —
+    that resolves OAuth tokens to a dead row, so `validate_bearer`'s `status == "active"`
+    check fails on EVERY subsequent call, and reconnecting can never fix it (the same stale
+    doc is found again every time)."""
+    cosmos = InMemoryCosmosStore()
+    email = "thomas@example.com"
+    real = signup(email, cosmos, tier="legacy").account
+    cosmos.upsert(
+        ACCOUNTS_CONTAINER,
+        {
+            "id": "sha256:stalepending",
+            "token_hash": "sha256:stalepending",
+            "kind": "pending_signup",
+            "email": email,
+            "status": "consumed",
+            "verify_token_hash": "sha256:stalepending",
+            "verify_expires_at": "2020-01-01T00:00:00Z",
+        },
+    )
+    resolved = get_or_create_account_by_email(cosmos, email)
+    assert resolved.id == real.id
+    assert resolved.tier == "legacy"
+    assert resolved.status == "active"
+
+
+def test_get_or_create_still_creates_new_account_when_only_pending_signup_exists() -> None:
+    cosmos = InMemoryCosmosStore()
+    email = "brandnew@example.com"
+    cosmos.upsert(
+        ACCOUNTS_CONTAINER,
+        {
+            "id": "sha256:onlypending",
+            "token_hash": "sha256:onlypending",
+            "kind": "pending_signup",
+            "email": email,
+            "status": "consumed",
+            "verify_token_hash": "sha256:onlypending",
+            "verify_expires_at": "2020-01-01T00:00:00Z",
+        },
+    )
+    created = get_or_create_account_by_email(cosmos, email)
+    assert created.email == email
+    assert created.status == "active"
+    assert created.id != "sha256:onlypending"
 
 
 def test_register_client_is_public_pkce_only() -> None:

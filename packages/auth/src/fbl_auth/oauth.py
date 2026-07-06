@@ -60,8 +60,18 @@ def get_or_create_account_by_email(cosmos: CosmosStoreLike, email: str) -> Accou
     """
     email = email.strip().lower()
     existing = list(cosmos.query_by_field(ACCOUNTS, "email", email))
-    if existing:
-        return Account.model_validate(existing[0])
+    # ``00_accounts`` also holds non-Account docs that carry an ``email`` field: pending
+    # double-opt-in signups (``kind="pending_signup"``, e.g. verified-and-consumed but never
+    # promoted to a real Account) and revoked/inactive accounts. Picking one of those up here
+    # silently mints OAuth tokens against a dead row -- every later call then fails
+    # ``validate_bearer``'s ``status == "active"`` check, and reconnecting never fixes it
+    # because the same dead row is found again every time. Same filter as
+    # ``signup_flow.verify``'s revoke-prior-keys check: real + active only.
+    real = [
+        d for d in existing if d.get("kind") != "pending_signup" and d.get("status") == "active"
+    ]
+    if real:
+        return Account.model_validate(real[0])
     rid = "acct:" + secrets.token_urlsafe(24)
     acc = Account(id=rid, token_hash=rid, email=email)
     cosmos.upsert(ACCOUNTS, acc.model_dump(mode="json"))

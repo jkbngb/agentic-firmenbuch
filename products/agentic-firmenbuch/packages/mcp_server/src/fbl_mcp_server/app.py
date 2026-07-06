@@ -17,6 +17,7 @@ from fbl_auth import (
     Account,
     check_rate_limit,
     get_usage,
+    is_privileged,
     quota_for,
     record_metered_usage,
     record_usage,
@@ -65,7 +66,11 @@ class McpService:
         account = validate(token, self._cosmos) or validate_bearer(self._cosmos, token)
         if account is None:
             raise Unauthorized("invalid or unknown token")
-        per_min, per_day = quota_for(account.tier, self._settings)
+        # Privileged accounts (owner override, independent of Account.tier) get Pro-level
+        # quota too, so a stale/free tier on record never rate-limits them either.
+        privileged = is_privileged(account.email, self._settings)
+        quota_tier = plans.PLAN_LEGACY if privileged else account.tier
+        per_min, per_day = quota_for(quota_tier, self._settings)
         decision = check_rate_limit(account, per_min=per_min, per_day=per_day)
         if not decision.allowed:
             raise RateLimited(decision.reason or "rate limited")
@@ -79,7 +84,14 @@ class McpService:
     # --- plan feature gating (Free vs full-access plans; see fbl_mcp_server.plans) ----------
 
     def _plan(self, account: Account) -> str:
-        """The plan actually in force for this account (an expired guest reverts to free)."""
+        """The plan actually in force for this account (an expired guest reverts to free).
+
+        Privileged accounts (owner override, e.g. Thomas Gaar / coachfident.com) always resolve
+        to full access here regardless of the stored ``tier`` — this is the one place ALL
+        feature gating reads the plan from, so it can't be bypassed by a stale/wrong tier.
+        """
+        if is_privileged(account.email, self._settings):
+            return plans.PLAN_LEGACY
         return plans.effective_plan(account.tier, account.plan_expires_at)
 
     def _free_details_this_month(self, account: Account) -> int:
