@@ -73,3 +73,40 @@ def test_coverage_requires_auth() -> None:
     svc = McpService(InMemoryCosmosStore(), Settings())
     with pytest.raises(Unauthorized):
         svc.get_coverage("bad-token")
+
+
+def test_store_stats_persists_sectors_before_coverage() -> None:
+    """store_stats writes the sectors aggregate (incl. ÖNACE divisions) in its own upsert first,
+    so the discovery surface lands even if the heavy coverage pass is interrupted. Also guards the
+    presented-count path that must not materialise every doc (the refresh-stats OOM)."""
+    from fbl_mcp_server.service import store_stats
+    from fbl_mcp_server.service.stats import STATS_ID, list_sectors
+
+    presented = "10_presentation"
+    cosmos = InMemoryCosmosStore()
+    cosmos.upsert(REGISTRY, _registry_doc("a", "active", ["legacy_finanzonline"]))
+    cosmos.upsert(
+        presented,
+        {
+            "id": "011111a",
+            "fnr": "011111a",
+            "identity": {"legal_form": "GES", "status": "active"},
+            "size": {"gkl": "K"},
+            "industry": {
+                "oenace": {"division": "47"},
+                "code_2008": "45.11",
+            },
+        },
+    )
+    stats = store_stats(cosmos, include_coverage=True)
+    assert "45" in stats["sectors"]["oenace_divisions_2008"]
+    assert "47" in stats["sectors"]["oenace_divisions_2025"]
+    # the persisted __stats__ doc carries both sectors and coverage
+    stored_doc = cosmos.get(presented, STATS_ID)
+    assert stored_doc is not None
+    stored = stored_doc["stats"]
+    assert stored["sectors"]["oenace_divisions_2008"]["45"] == 1
+    assert stored["coverage"]["total_companies"] == 1
+    # and list_sectors serves the divisions with official labels from the stored doc
+    divs = list_sectors(cosmos)["result"]["oenace_divisions"]
+    assert divs["2008"]["divisions"]["45"]["label_de"]

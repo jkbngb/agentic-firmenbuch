@@ -54,7 +54,11 @@ def coverage_summary(cosmos: CosmosStoreLike) -> dict[str, Any]:
             pdf_only += 1
         else:
             with_xml += 1
-    presented = sum(1 for _ in _all_presented(cosmos))
+    # Count presented docs server-side — materialising all ~340k full presentation docs into a
+    # list here OOM-killed the 2Gi refresh-stats job (silent since ~2026-06). Fall back to the
+    # streaming count only on the in-memory test store (where the COUNT SQL is ignored).
+    pc = _count_where(cosmos, PRESENTED, "NOT STARTSWITH(c.id, '__')", [])
+    presented = pc if pc is not None else sum(1 for _ in _all_presented(cosmos))
     parse_success = _parse_success_rates(cosmos)
     return {
         "schema_version": "1.0",
@@ -175,13 +179,23 @@ def store_stats(cosmos: CosmosStoreLike, *, include_coverage: bool = True) -> di
     them O(1). Called by the pipeline (and a one-off populate); never from a request path."""
     from fbl_core.lineage import now_utc_z
 
+    def _persist(stats: dict[str, Any]) -> None:
+        cosmos.upsert(
+            PRESENTED,
+            {"id": STATS_ID, "fnr": STATS_ID, "stats": stats, "computed_at": now_utc_z()},
+        )
+
+    # Persist the cheap sectors aggregate (legal-form/size taxonomy + ÖNACE-division discovery
+    # surface) in its OWN upsert first, keeping any prior coverage, so it lands even if the heavy
+    # coverage scan below is slow or fails. Coverage is then computed and merged in a second pass.
+    existing = _load_stats(cosmos) or {}
     stats: dict[str, Any] = {"sectors": _compute_sectors(cosmos)}
+    if existing.get("coverage"):
+        stats["coverage"] = existing["coverage"]
+    _persist(stats)
     if include_coverage:
         stats["coverage"] = coverage_summary(cosmos)["result"]
-    cosmos.upsert(
-        PRESENTED,
-        {"id": STATS_ID, "fnr": STATS_ID, "stats": stats, "computed_at": now_utc_z()},
-    )
+        _persist(stats)
     return stats
 
 
