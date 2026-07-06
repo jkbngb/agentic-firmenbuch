@@ -6,6 +6,7 @@ from typing import Any
 from fbl_core_at.classification.industry import (
     build_industry_block,
     industry_from_legacy_branch,
+    oenace_2008_block,
 )
 
 
@@ -92,3 +93,43 @@ def test_legacy_branch_translates_to_v2_shape() -> None:
     assert b["oenace"]["group_label_de"]  # canonical label, not the stored one
     assert b["nace"]["version"] == "NACE_REV_2.1"
     assert industry_from_legacy_branch(None) is None
+
+
+def test_oenace_2008_block_expands_class_symmetrically() -> None:
+    """A stored 2008 class expands into the same section/division/group/class shape as the
+    2025 block, with official DE/EN labels — a pure deterministic tree lookup."""
+    blk = oenace_2008_block("70.22")
+    assert blk is not None
+    assert (blk["division"], blk["group"], blk["class"]) == ("70", "70.2", "70.22")
+    assert blk["version"] == "OENACE_2008"
+    assert blk["section"] and blk["section"].isalpha() and len(blk["section"]) == 1
+    for lvl in ("section", "division", "group", "class"):
+        assert blk[f"{lvl}_label_de"] and blk[f"{lvl}_label_en"]
+    # invalid / empty → nothing to say
+    assert oenace_2008_block("00.99") is None
+    assert oenace_2008_block(None) is None
+    assert oenace_2008_block("") is None
+
+
+def test_oenace_2008_twin_keeps_the_pre_2025_division() -> None:
+    """The crosswalk case behind the zero-result bug: car dealers are ÖNACE 2008 division 45,
+    which the 2025 vintage splits into 46/47. The served block must carry BOTH so a caller can
+    filter/read either vintage."""
+    b = build_industry_block("Handel mit Kraftwagen", "45.11", "llm")
+    assert b is not None and b["oenace"] is not None and b["oenace_2008"] is not None
+    assert b["oenace"]["division"] == "47"  # ÖNACE 2025 (retail)
+    assert b["oenace_2008"]["division"] == "45"  # ÖNACE 2008 (motor-vehicle trade)
+    assert b["oenace_2008"]["group"] == "45.1"
+    assert b["oenace_2008"]["version"] == "OENACE_2008"
+
+
+def test_legacy_branch_carries_oenace_2008_twin() -> None:
+    legacy: dict[str, Any] = {
+        "geschaeftszweig": "Handel mit Kraftwagen",
+        "oenace": {"section": "G", "division": "47", "group": "47.8"},
+        "source": "llm",
+        "code_2008": "45.11",
+    }
+    b = industry_from_legacy_branch(legacy)
+    assert b is not None and b["oenace_2008"] is not None
+    assert b["oenace_2008"]["division"] == "45"

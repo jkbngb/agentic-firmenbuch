@@ -151,6 +151,13 @@ class CompanyCard(BaseModel):
     )
     oenace_group: str | None = None  # ÖNACE 2025 group (3-digit), e.g. "85.5" (#35)
     oenace_group_label: str | None = None  # German group title, e.g. "Sonstiger Unterricht"
+    # ÖNACE 2008 twin — the vintage the classifier predicted in (motor-vehicle trade is
+    # division "45" here, split across 46/47 in 2025). Search filters match BOTH vintages, so
+    # a card is self-explanatory whichever code a caller queried. Deterministic 2008-tree lookup.
+    oenace_division_2008: str | None = None  # e.g. "45" (Kfz-Handel u. -Reparatur)
+    oenace_division_2008_label: str | None = None  # German 2008 division title
+    oenace_group_2008: str | None = None  # e.g. "45.1"
+    oenace_group_2008_label: str | None = None  # German 2008 group title
 
 
 class SearchResponse(BaseModel):
