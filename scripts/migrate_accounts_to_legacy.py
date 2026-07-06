@@ -25,6 +25,8 @@ from __future__ import annotations
 
 import argparse
 
+from pydantic import ValidationError
+
 from fbl_auth.accounts import ACCOUNTS_CONTAINER, Account
 from fbl_core.config import get_settings
 from fbl_core.storage import CosmosStore
@@ -43,10 +45,16 @@ def main() -> None:
         raise SystemExit("COSMOS_ENDPOINT is not set — refusing to run.")
     cosmos = CosmosStore(settings.cosmos_endpoint, settings.cosmos_database)
 
-    scanned = migrated = skipped = 0
+    scanned = migrated = skipped = non_account = 0
     for raw in cosmos.iter_all(ACCOUNTS_CONTAINER):
         scanned += 1
-        account = Account.model_validate(raw)
+        try:
+            account = Account.model_validate(raw)
+        except ValidationError:
+            # 00_accounts also holds non-account records (e.g. OAuth/usage docs keyed by
+            # sha256:… without an email) — anything that doesn't parse as an Account is skipped.
+            non_account += 1
+            continue
         # Only active accounts; leave pending/unsubscribed as-is.
         if account.status != "active" or account.tier in _KEEP:
             skipped += 1
@@ -62,7 +70,10 @@ def main() -> None:
             print(f"  would migrate {label}… {old} -> legacy")
 
     mode = "APPLIED" if args.commit else "DRY RUN (no writes)"
-    print(f"\n{mode}: scanned={scanned} migrated={migrated} skipped={skipped}")
+    print(
+        f"\n{mode}: scanned={scanned} migrated={migrated} "
+        f"skipped={skipped} non_account={non_account}"
+    )
     if not args.commit and migrated:
         print("Re-run with --commit to apply.")
 
