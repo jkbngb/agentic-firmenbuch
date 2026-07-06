@@ -30,6 +30,7 @@ from fbl_auth import (
     Account,
     checkout_session_params,
     email_sender_from_settings,
+    find_accounts_by_email,
     handle_event,
     portal_session_params,
     regenerate_request,
@@ -431,8 +432,14 @@ async def billing_checkout(req: Request) -> Response:
         return JSONResponse({"error": "billing not configured"}, status_code=503)
     body = await _body(req)
     account = _billing_account(req, body)
+    if account is None:  # no API key -> allow starting checkout by e-mail (an account must exist)
+        email = str(body.get("email", "")).strip().lower()
+        account = _account_by_email(email) if "@" in email else None
     if account is None:
-        return JSONResponse({"error": "unauthorized"}, status_code=401)
+        return JSONResponse(
+            {"error": "no_account", "message": "Bitte zuerst einen kostenlosen API-Key anfordern."},
+            status_code=404,
+        )
     try:
         stripe = _stripe()
         prices = stripe.Price.list(
@@ -501,6 +508,51 @@ async def billing_webhook(req: Request) -> Response:
     return JSONResponse(result)
 
 
+def _account_by_email(email: str) -> Account | None:
+    """Active account for an e-mail (or any match), or None. Used by the no-login billing flows."""
+    rows = list(find_accounts_by_email(email, _cosmos))
+    active = [r for r in rows if r.get("status") == "active"]
+    chosen = active[0] if active else (rows[0] if rows else None)
+    return Account.model_validate(chosen) if chosen else None
+
+
+async def billing_manage(req: Request) -> Response:
+    """No-login subscription management (cancel/invoices): the user submits their e-mail and, if it
+    has a Pro subscription, we e-mail a magic link to the Stripe customer portal. We always respond
+    the same way so the endpoint can't be used to probe which e-mails have a subscription, and only
+    the mailbox owner can reach the portal (the link goes to their inbox, never to the caller)."""
+    if not _settings.stripe_secret_key:
+        return JSONResponse({"error": "billing not configured"}, status_code=503)
+    body = await _body(req)
+    email = str(body.get("email", "")).strip().lower()
+    if "@" not in email:
+        return JSONResponse({"error": "invalid email"}, status_code=400)
+    generic = JSONResponse({"ok": True})  # identical response regardless (no enumeration)
+    account = _account_by_email(email)
+    if account is None or not account.stripe_customer_id:
+        return generic
+    try:
+        stripe = _stripe()
+        params = portal_session_params(account, return_url=_settings.billing_portal_return_url)
+        session = stripe.billing_portal.Session.create(**params)
+    except Exception:
+        _billing_log.exception("manage: portal session failed")
+        return JSONResponse({"error": "please try again later"}, status_code=502)
+    text = (
+        "Hallo,\n\n"
+        "über diesen Link kannst du dein Agentic-Firmenbuch Pro-Abo verwalten oder kündigen "
+        "(sicheres Stripe-Kundenportal):\n\n"
+        f"{session.url}\n\n"
+        "Der Link ist zeitlich begrenzt gültig. Wenn du das nicht angefordert hast, ignoriere "
+        "diese E-Mail.\n\nViele Grüße\nAgentic-Firmenbuch.at"
+    )
+    try:
+        _email.send_alert(email, "Dein Abo verwalten oder kündigen", text)
+    except Exception:
+        _billing_log.exception("manage: email delivery failed")
+    return generic
+
+
 _DEFAULT_ORIGINS = [
     "https://www.agentic-firmenbuch.at",
     "https://agentic-firmenbuch.at",
@@ -524,6 +576,7 @@ app = Starlette(
         Route("/api/notify-fixed", notify_fixed, methods=["POST"]),
         Route("/api/billing/checkout", billing_checkout, methods=["POST"]),
         Route("/api/billing/portal", billing_portal, methods=["POST"]),
+        Route("/api/billing/manage", billing_manage, methods=["POST"]),
         Route("/api/billing/webhook", billing_webhook, methods=["POST"]),
     ],
     middleware=[
