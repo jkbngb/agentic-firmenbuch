@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="mask-icon" href="favicon.svg" color="#19C37D" />
-<title>Abo verwalten oder kündigen – Agentic-Firmenbuch.at</title>
-<meta name="description" content="Agentic-Firmenbuch Pro-Abo verwalten oder kündigen: E-Mail eingeben, du bekommst einen Link zum Stripe-Kundenportal." />
-<link rel="canonical" href="https://www.agentic-firmenbuch.at/kuendigen.html" />
+<title>Manage or cancel subscription – Agentic-Firmenbuch.at</title>
+<meta name="description" content="Manage or cancel your Agentic-Firmenbuch Pro subscription: enter your e-mail and you receive a link to the Stripe customer portal." />
+<link rel="canonical" href="https://www.agentic-firmenbuch.at/kuendigen.en.html" />
 <link rel="alternate" hreflang="de" href="https://www.agentic-firmenbuch.at/kuendigen.html" />
 <link rel="alternate" hreflang="en" href="https://www.agentic-firmenbuch.at/kuendigen.en.html" />
 <link rel="alternate" hreflang="x-default" href="https://www.agentic-firmenbuch.at/kuendigen.html" />
@@ -76,7 +76,7 @@
 <body>
 <header>
   <div class="wrap nav">
-    <a class="brand" href="index.html" aria-label="Agentic-Firmenbuch.at – Startseite">
+    <a class="brand" href="en.html" aria-label="Agentic-Firmenbuch.at – Home">
       <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
         <rect x="1" y="1" width="30" height="30" rx="9" fill="#14161B" stroke="#19C37D" stroke-opacity=".5"/>
         <rect x="8" y="8" width="7" height="7" rx="2" fill="#19C37D"/>
@@ -87,11 +87,11 @@
       <span><span style="color:#19C37D">Agentic</span>-Firmenbuch.at</span>
     </a>
     <div class="nav-r">
-      <a class="lang-toggle" href="kuendigen.en.html" hreflang="en" lang="en" aria-label="View in English">EN</a>
+      <a class="lang-toggle" href="kuendigen.html" hreflang="de" lang="de" aria-label="Auf Deutsch ansehen">DE</a>
 
-    <a class="back" href="index.html">
+    <a class="back" href="en.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
-      Zur Startseite
+      Back to home
     </a>
     </div>
   </div>
@@ -99,27 +99,27 @@
 
 <main>
   <div class="wrap doc">
-    <span class="eyebrow">Abo</span>
-    <h1>Abo verwalten oder kündigen</h1>
-    <p class="sub">Gib deine E-Mail-Adresse ein. Wir schicken dir einen Link zum <strong>
-       Stripe-Kundenportal</strong>, wo du dein Pro-Abo jederzeit kündigen, die Zahlungsmethode
-       ändern oder deine Rechnungen einsehen kannst.</p>
+    <span class="eyebrow">Subscription</span>
+    <h1>Manage or cancel subscription</h1>
+    <p class="sub">Enter your e-mail address. We send you a link to the <strong>
+       Stripe customer portal</strong>, where you can cancel your Pro subscription at any time,
+       change your payment method or view your invoices.</p>
 
     <div class="card">
       <form id="manageForm" novalidate>
-        <label for="email">E-Mail-Adresse deines Zugangs</label>
-        <input type="email" id="email" name="email" inputmode="email" autocomplete="email" placeholder="name@firma.at" required />
-        <button type="submit" class="btn" id="btn">Verwaltungs-Link anfordern</button>
-        <p class="note">Aus Sicherheitsgründen geht der Link ausschließlich an dein Postfach – so
-           kann nur der Inhaber der Adresse das Abo verwalten. Die Kündigung wird sofort wirksam.</p>
+        <label for="email">E-mail address of your access</label>
+        <input type="email" id="email" name="email" inputmode="email" autocomplete="email" placeholder="name@company.at" required />
+        <button type="submit" class="btn" id="btn">Request management link</button>
+        <p class="note">For security reasons, the link goes exclusively to your inbox – so only the
+           holder of the address can manage the subscription. The cancellation takes effect immediately.</p>
       </form>
       <div class="msg" id="msg" role="status" aria-live="polite"></div>
     </div>
 
     <ol class="steps">
-      <li>E-Mail-Adresse eingeben und „Verwaltungs-Link anfordern".</li>
-      <li>Link in der E-Mail öffnen – du landest direkt im Stripe-Kundenportal.</li>
-      <li>Dort „Abo kündigen" wählen. Fertig – der Zugang wechselt sofort auf den Free-Tarif.</li>
+      <li>Enter your e-mail address and click "Request management link".</li>
+      <li>Open the link in the e-mail – you land directly in the Stripe customer portal.</li>
+      <li>Choose "Cancel subscription" there. Done – access switches to the Free plan immediately.</li>
     </ol>
   </div>
 </main>
@@ -127,10 +127,10 @@
 <footer>
   <div class="wrap foot">
     <div class="foot-links">
-      <a href="index.html">Start</a>
-      <a href="impressum.html">Impressum</a>
-      <a href="datenschutz.html">Datenschutz</a>
-      <a href="nutzungsbedingungen.html">AGB</a>
+      <a href="en.html">Home</a>
+      <a href="impressum.en.html">Legal Notice</a>
+      <a href="datenschutz.en.html">Privacy</a>
+      <a href="nutzungsbedingungen.en.html">Terms</a>
     </div>
     <small>© <span id="y"></span> Agentic-Firmenbuch.at</small>
   </div>
@@ -144,16 +144,16 @@ document.getElementById("y").textContent=new Date().getFullYear();
     e.preventDefault();
     var val=(email.value||"").trim();
     if(val.indexOf("@")<0){email.focus();return;}
-    btn.disabled=true;btn.textContent="Wird gesendet …";
+    btn.disabled=true;btn.textContent="Sending …";
     fetch(API_BASE+"/api/billing/manage",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({email:val})})
       .then(function(r){return r.json().catch(function(){return {};});})
       .then(function(){
-        msg.textContent="Wenn zu dieser Adresse ein aktives Pro-Abo besteht, haben wir dir gerade einen Link zum Verwalten/Kündigen geschickt. Bitte prüfe dein Postfach (auch den Spam-Ordner).";
+        msg.textContent="If an active Pro subscription exists for this address, we have just sent you a link to manage/cancel it. Please check your inbox (including the spam folder).";
         msg.classList.add("show");form.style.display="none";
       })
       .catch(function(){
-        msg.textContent="Das hat gerade nicht geklappt. Bitte versuche es in einem Moment erneut.";
-        msg.classList.add("show");btn.disabled=false;btn.textContent="Verwaltungs-Link anfordern";
+        msg.textContent="That didn't work just now. Please try again in a moment.";
+        msg.classList.add("show");btn.disabled=false;btn.textContent="Request management link";
       });
   });
 })();

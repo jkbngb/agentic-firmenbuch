@@ -541,7 +541,7 @@ async def billing_manage(req: Request) -> Response:
     text = (
         "Hallo,\n\n"
         "über diesen Link kannst du dein Agentic-Firmenbuch Pro-Abo verwalten oder kündigen "
-        "(sicheres Stripe-Kundenportal):\n\n"
+        "(Stripe-Kundenportal):\n\n"
         f"{session.url}\n\n"
         "Der Link ist zeitlich begrenzt gültig. Wenn du das nicht angefordert hast, ignoriere "
         "diese E-Mail.\n\nViele Grüße\nAgentic-Firmenbuch.at"
