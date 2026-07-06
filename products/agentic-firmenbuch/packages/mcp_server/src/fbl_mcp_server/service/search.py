@@ -30,6 +30,20 @@ def _status_matches(doc: dict[str, Any], wanted: str) -> bool:
     return status in ("historical", "deleted")  # inactive
 
 
+def _oenace_match(doc: dict[str, Any], level: str, value: str, prefix: str | None) -> bool:
+    """In-memory twin of the dual-vintage ÖNACE WHERE clause: match the ÖNACE 2025 block, the
+    ÖNACE 2008 twin, or — for division/group — the stored 4-digit ``code_2008`` by prefix, on
+    either the v2 ``industry`` or the legacy v1 ``branch`` block."""
+    for blk in ("industry", "branch"):
+        if value in (_g(doc, blk, "oenace", level), _g(doc, blk, "oenace_2008", level)):
+            return True
+        if prefix is not None:
+            code = _g(doc, blk, "code_2008")
+            if isinstance(code, str) and code.startswith(prefix):
+                return True
+    return False
+
+
 def _matches(doc: dict[str, Any], f: SearchFilters) -> bool:
     if not _status_matches(doc, f.status):
         return False
@@ -61,15 +75,10 @@ def _matches(doc: dict[str, Any], f: SearchFilters) -> bool:
         or (_g(doc, "management", "primary_manager", "age") or 0) >= f.gf_age_min,
         f.manager_name is None
         or f.manager_name.lower() in (_g(doc, "management", "primary_manager_name") or "").lower(),
-        f.oenace_section is None
-        or f.oenace_section
-        in (_g(doc, "industry", "oenace", "section"), _g(doc, "branch", "oenace", "section")),
+        f.oenace_section is None or _oenace_match(doc, "section", f.oenace_section, None),
         f.oenace_division is None
-        or f.oenace_division
-        in (_g(doc, "industry", "oenace", "division"), _g(doc, "branch", "oenace", "division")),
-        f.oenace_group is None
-        or f.oenace_group
-        in (_g(doc, "industry", "oenace", "group"), _g(doc, "branch", "oenace", "group")),
+        or _oenace_match(doc, "division", f.oenace_division, f"{f.oenace_division}."),
+        f.oenace_group is None or _oenace_match(doc, "group", f.oenace_group, f.oenace_group),
         f.geschaeftszweig is None
         or f.geschaeftszweig.lower() in (_g(doc, "company", "description") or "").lower(),
         f.postal_code is None
@@ -136,18 +145,63 @@ def _build_where(f: SearchFilters) -> tuple[str, list[dict[str, Any]]]:
     if f.manager_name:
         conds.append("CONTAINS(LOWER(c.management.primary_manager_name), @manager_name)")
         params.append({"name": "@manager_name", "value": f.manager_name.lower()})
-    # ÖNACE filters match the v2 `industry` block OR the legacy v1 `branch` block, so search
-    # works both before and after the re-grind replaces the stored docs (#34). A comparison on
-    # an undefined path is undefined in Cosmos SQL, so the OR simply falls through.
-    for bpath, lpath, bval, bkey in (
-        ("c.industry.oenace.section", "c.branch.oenace.section", f.oenace_section, "@oe_s"),
-        ("c.industry.oenace.division", "c.branch.oenace.division", f.oenace_division, "@oe_d"),
-        # `group` is a reserved SQL keyword — must use bracket notation, not dot access.
-        ('c.industry.oenace["group"]', 'c.branch.oenace["group"]', f.oenace_group, "@oe_g"),
-    ):
-        if bval is not None:
-            conds.append(f"({bpath} = {bkey} OR {lpath} = {bkey})")
-            params.append({"name": bkey, "value": bval})
+
+    # ÖNACE filters match BOTH classification vintages, transparently, so a caller never hits a
+    # dead end for using the "wrong" one: the ÖNACE 2025 block (`oenace`), the ÖNACE 2008 twin
+    # (`oenace_2008`, present after the #34 re-grind) and — so the 2008 vintage also works on
+    # not-yet-reground docs — a prefix match on the stored 4-digit `code_2008`. Either the v2
+    # `industry` or the legacy v1 `branch` block; an undefined path is undefined in Cosmos SQL,
+    # so the OR falls through. Motor-vehicle trade (division "45" in ÖNACE 2008, split across
+    # 46/47 in 2025) thus resolves whichever code the caller queried. `group` is a reserved SQL
+    # keyword → bracket notation. Field paths are a fixed whitelist; values are bound params.
+    def oenace_or(paths: list[str], value: str, key: str, prefix_value: str | None) -> None:
+        params.append({"name": key, "value": value})
+        eq = [f"{p} = {key}" for p in paths]
+        if prefix_value is not None:  # code_2008 is the 4-digit class, e.g. "45.11"
+            pk = f"{key}_p"
+            params.append({"name": pk, "value": prefix_value})
+            eq += [
+                f"STARTSWITH(c.industry.code_2008, {pk})",
+                f"STARTSWITH(c.branch.code_2008, {pk})",
+            ]
+        conds.append("(" + " OR ".join(eq) + ")")
+
+    if f.oenace_section is not None:
+        oenace_or(
+            [
+                "c.industry.oenace.section",
+                "c.branch.oenace.section",
+                "c.industry.oenace_2008.section",
+                "c.branch.oenace_2008.section",
+            ],
+            f.oenace_section,
+            "@oe_s",
+            None,
+        )
+    if f.oenace_division is not None:  # a 2-digit division prefixes its classes as "45."
+        oenace_or(
+            [
+                "c.industry.oenace.division",
+                "c.branch.oenace.division",
+                "c.industry.oenace_2008.division",
+                "c.branch.oenace_2008.division",
+            ],
+            f.oenace_division,
+            "@oe_d",
+            f"{f.oenace_division}.",
+        )
+    if f.oenace_group is not None:  # a 3-digit group prefixes its classes as "45.1"
+        oenace_or(
+            [
+                'c.industry.oenace["group"]',
+                'c.branch.oenace["group"]',
+                'c.industry.oenace_2008["group"]',
+                'c.branch.oenace_2008["group"]',
+            ],
+            f.oenace_group,
+            "@oe_g",
+            f.oenace_group,
+        )
     if f.geschaeftszweig:
         conds.append("CONTAINS(LOWER(c.company.description), @geschaeftszweig)")
         params.append({"name": "@geschaeftszweig", "value": f.geschaeftszweig.lower()})

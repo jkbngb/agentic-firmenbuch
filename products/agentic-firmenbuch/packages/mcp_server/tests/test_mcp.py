@@ -300,6 +300,111 @@ def test_search_filters_by_branch_and_location() -> None:
     assert fnrs(oenace_section="M", postal_code="80") == set()  # combined, no match
 
 
+def test_search_matches_both_oenace_vintages() -> None:
+    """The zero-result bug: filtering by ÖNACE 2008 division 45 (motor-vehicle trade) returned
+    nothing because the served codes are ÖNACE 2025 (car trade = 46/47). Filters now match BOTH
+    vintages — via the stored oenace_2008 twin (post-regrind) OR the code_2008 prefix (before it)
+    — so either code resolves the same companies and the card is self-explanatory."""
+    cosmos = InMemoryCosmosStore()
+    common: dict[str, Any] = dict(
+        bundesland="W",
+        gkl="K",
+        bilanzsumme=1.0,
+        has_guv_latest=False,
+        equity_ratio=0.5,
+        profile="stable",
+    )
+    # post-regrind doc: full oenace_2008 twin present (car retail: 2008 45.11 → 2025 47.8)
+    cosmos.upsert(
+        PRESENTED,
+        _presented(
+            "055555e",
+            name="Autohaus Wien GmbH",
+            geschaeftszweig="Handel mit Kraftwagen",
+            industry={
+                "geschaeftszweig": "Handel mit Kraftwagen",
+                "oenace": {"section": "G", "division": "47", "group": "47.8"},
+                "oenace_2008": {
+                    "section": "G",
+                    "division": "45",
+                    "group": "45.1",
+                    "class": "45.11",
+                },
+                "code_2008": "45.11",
+            },
+            **common,
+        ),
+    )
+    # pre-regrind doc: only the 2025 block + code_2008 string (2008 45.31 → 2025 46.7)
+    cosmos.upsert(
+        PRESENTED,
+        _presented(
+            "066666f",
+            name="Autoteile Graz GmbH",
+            geschaeftszweig="Handel mit Kraftfahrzeugteilen",
+            industry={
+                "geschaeftszweig": "Handel mit Kraftfahrzeugteilen",
+                "oenace": {"section": "G", "division": "46", "group": "46.7"},
+                "code_2008": "45.31",
+            },
+            **common,
+        ),
+    )
+    svc = McpService(cosmos, Settings(rate_limit_per_min=1000, rate_limit_per_day=10000))
+    token = signup("v@example.test", cosmos).token
+
+    def fnrs(**flt: Any) -> set[str]:
+        return {r["fnr"] for r in svc.search_companies(token, SearchFilters(**flt))["results"]}
+
+    # ÖNACE 2025 divisions still resolve exactly …
+    assert fnrs(oenace_division="47") == {"055555e"}
+    assert fnrs(oenace_division="46") == {"066666f"}
+    # … and the ÖNACE 2008 division 45 now resolves BOTH — via the twin block and the code prefix
+    assert fnrs(oenace_division="45") == {"055555e", "066666f"}
+    # groups match per vintage too (2008 45.11 → group 45.1; 45.31 → group 45.3)
+    assert fnrs(oenace_group="45.1") == {"055555e"}
+    assert fnrs(oenace_group="45.3") == {"066666f"}
+    assert fnrs(oenace_group="47.8") == {"055555e"}
+    # the card carries the 2008 twin so a "division 45" hit explains itself (also pre-regrind)
+    card = svc.search_companies(token, SearchFilters(name="Autoteile"))["results"][0]
+    assert card["oenace_division"] == "46" and card["oenace_division_2008"] == "45"
+    assert card["oenace_group_2008"] == "45.3"
+
+
+def test_list_sectors_exposes_divisions_per_vintage() -> None:
+    """list_sectors is the discovery surface for the oenace_* filters: it shows which divisions
+    exist in EACH vintage, so a caller sees 2025 has no 45 but 2008 does (→ use either)."""
+    cosmos = InMemoryCosmosStore()
+    common: dict[str, Any] = dict(
+        bundesland="W",
+        gkl="K",
+        bilanzsumme=1.0,
+        has_guv_latest=False,
+        equity_ratio=0.5,
+        profile="stable",
+    )
+    cosmos.upsert(
+        PRESENTED,
+        _presented(
+            "077777g",
+            name="Autohaus GmbH",
+            geschaeftszweig="Handel mit Kraftwagen",
+            industry={
+                "oenace": {"section": "G", "division": "47", "group": "47.8"},
+                "code_2008": "45.11",
+            },
+            **common,
+        ),
+    )
+    svc = McpService(cosmos, Settings(rate_limit_per_min=1000, rate_limit_per_day=10000))
+    token = signup("w@example.test", cosmos).token
+    divs = svc.list_sectors(token)["result"]["oenace_divisions"]
+    assert "47" in divs["2025"]["divisions"] and divs["2025"]["divisions"]["47"]["count"] == 1
+    assert "45" in divs["2008"]["divisions"]  # the 2008 division exists even pre-regrind
+    assert divs["2008"]["divisions"]["45"]["label_de"]  # official label attached
+    assert "45" not in divs["2025"]["divisions"]  # … and is absent from 2025
+
+
 def test_search_card_exposes_seat_address() -> None:
     # Issue #28: PLZ/Ort/Straße direkt auf der Karte — kein get_company_details-Umweg mehr.
     cosmos = InMemoryCosmosStore()
