@@ -3,6 +3,7 @@ guest expiry, and full-access plans (Stripe billing, Aufgabe 2)."""
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from datetime import UTC, datetime, timedelta
 from typing import Any
 
@@ -53,7 +54,7 @@ def _store() -> InMemoryCosmosStore:
 
 
 def _svc(cosmos: InMemoryCosmosStore, **overrides: Any) -> McpService:
-    base = dict(rate_limit_per_min=1000, rate_limit_per_day=100000)
+    base: dict[str, Any] = {"rate_limit_per_min": 1000, "rate_limit_per_day": 100000}
     base.update(overrides)
     return McpService(cosmos, Settings(**base))
 
@@ -157,13 +158,14 @@ def test_free_pro_only_tools_are_gated() -> None:
     cosmos = _store()
     token = signup("free@example.test", cosmos).token
     svc = _svc(cosmos)
-    for call in (
+    calls: tuple[Callable[[], Any], ...] = (
         lambda: svc.find_peers(token, "030435h"),
         lambda: svc.get_cohort_summary(token, "gkl", "K"),
         lambda: svc.get_company_history(token, "030435h", ["bilanzsumme"]),
         lambda: svc.get_full_record(token, "030435h"),
         lambda: svc.get_document(token, "030435h-KEY"),
-    ):
+    )
+    for call in calls:
         out = call()
         assert out.get("upgrade_required") is True and out["reason"] == "pro_only"
 
@@ -186,8 +188,6 @@ def test_guest_full_access_then_expires_to_free() -> None:
     assert "upgrade_required" not in svc.find_peers(token, "030435h")
     # expire the guest -> next call is gated like free
     acct = rec.account
-    acct.plan_expires_at = (datetime.now(UTC) - timedelta(seconds=1)).strftime(
-        "%Y-%m-%dT%H:%M:%SZ"
-    )
+    acct.plan_expires_at = (datetime.now(UTC) - timedelta(seconds=1)).strftime("%Y-%m-%dT%H:%M:%SZ")
     cosmos.upsert(ACCOUNTS_CONTAINER, acct.model_dump(mode="json"))
     assert svc.find_peers(token, "030435h").get("upgrade_required") is True

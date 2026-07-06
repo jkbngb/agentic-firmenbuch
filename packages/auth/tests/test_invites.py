@@ -125,4 +125,6 @@ def test_used_code_second_redeem_falls_back_to_free() -> None:
         now=now,
     )
     key2 = verify(t2, cosmos, email_sender=_SENDER, now=now)
-    assert validate(key2, cosmos).tier == "free"  # type: ignore[union-attr]
+    assert key2 is not None
+    acct2 = validate(key2, cosmos)
+    assert acct2 is not None and acct2.tier == "free"

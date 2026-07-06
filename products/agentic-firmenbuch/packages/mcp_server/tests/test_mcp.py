@@ -351,7 +351,10 @@ def test_search_matches_both_oenace_vintages() -> None:
         ),
     )
     svc = McpService(cosmos, Settings(rate_limit_per_min=1000, rate_limit_per_day=10000))
-    token = signup("v@example.test", cosmos).token
+    # Pro token: the precise oenace_division/group (both vintages) is a premium card field — the
+    # free tier keeps only industry_section (plans.FREE_CARD_KEEP). Filtering works for every
+    # plan; the card *detail* assertions below need full access.
+    token = signup("v@example.test", cosmos, tier="pro").token
 
     def fnrs(**flt: Any) -> set[str]:
         return {r["fnr"] for r in svc.search_companies(token, SearchFilters(**flt))["results"]}
