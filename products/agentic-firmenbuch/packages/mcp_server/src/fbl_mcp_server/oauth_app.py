@@ -247,7 +247,12 @@ def register_oauth_endpoints(
                 f"<input type=hidden name=grant value='{html.escape(grant)}'>"
                 "<button type=submit style='width:100%;padding:12px;border:0;border-radius:10px;"
                 "background:#19C37D;color:#08130D;font-weight:700;font-size:15px;cursor:pointer'>"
-                "Verbindung bestätigen</button></form>",
+                "Verbindung bestätigen</button></form>"
+                "<p style='margin-top:1.25rem;padding:11px 13px;background:#14161B;"
+                "border-radius:10px;color:#9AA2AF;font-size:13px;line-height:1.5'>"
+                "<strong style='color:#EDEFF3'>Mehrere Claude-Konten?</strong> Öffne diesen Link "
+                "im selben Browser bzw. Claude-Konto, mit dem du den Connector hinzugefügt hast — "
+                "sonst kann Claude die Verbindung nicht abschließen.</p>",
             )
         form = await request.form()
         grant = str(form.get("grant", "")).strip()

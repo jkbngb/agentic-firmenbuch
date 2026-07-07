@@ -380,7 +380,12 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
         page: int = 1,
         page_size: int = 25,
     ) -> dict[str, Any]:
-        """Filtered, ranked search over the Austrian Firmenbuch. Read-only.
+        """Find or look up Austrian companies by name — START HERE for any company lookup.
+
+        This is the primary entry point: search/find/look up companies by NAME (substring) or
+        filter by location, industry, legal form, size or financials, ranked. Whenever the user
+        names a company or wants a list of companies, call THIS tool first (you do not need the
+        Firmenbuchnummer/FNR to search by name). Read-only.
 
         Parameters:
         - filters (optional): a SearchFilters object; every field is optional and AND-combined
