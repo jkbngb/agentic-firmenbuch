@@ -1573,7 +1573,7 @@ play(0);
     var email=(proInput.value||"").trim();
     if(email.indexOf("@")<1){proInput.focus();return;}
     var label=proGo.textContent; proGo.disabled=true; proGo.textContent="Opening …";
-    fetch(API+"/api/billing/checkout",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({email:email})})
+    fetch(API+"/api/billing/checkout",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({email:email,lang:"en"})})
       .then(function(r){return r.json().catch(function(){return {};}).then(function(j){return {s:r.status,j:j};});})
       .then(function(res){
         if(res.j&&res.j.url){window.location.href=res.j.url;return;}

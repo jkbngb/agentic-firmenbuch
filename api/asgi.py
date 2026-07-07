@@ -456,11 +456,18 @@ async def billing_checkout(req: Request) -> Response:
                 "checkout: no price for lookup_key=%s", _settings.stripe_price_lookup_key
             )
             return JSONResponse({"error": "price not available"}, status_code=500)
+        # Language-aware landing: EN buyers get the *.en.html thank-you / cancel pages.
+        lang = str(body.get("lang", "")).strip().lower()
+        success_url = _settings.billing_success_url
+        cancel_url = _settings.billing_cancel_url
+        if lang == "en":
+            success_url = success_url.replace(".html", ".en.html")
+            cancel_url = cancel_url.replace(".html", ".en.html")
         params = checkout_session_params(
             account,
             price_id=prices.data[0].id,
-            success_url=_settings.billing_success_url + "?session_id={CHECKOUT_SESSION_ID}",
-            cancel_url=_settings.billing_cancel_url,
+            success_url=success_url + "?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url=cancel_url,
             trial_days=_settings.stripe_trial_days,
             email=email or None,
         )
