@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="mask-icon" href="favicon.svg" color="#19C37D" />
+<title>Redeem test access – Agentic-Firmenbuch.at</title>
+<meta name="description" content="Redeem your invite code and try Agentic-Firmenbuch for 14 days with the full Pro feature set – no credit card." />
+<link rel="canonical" href="https://www.agentic-firmenbuch.at/try.en.html" />
+<meta name="robots" content="noindex,follow" />
+<meta name="color-scheme" content="dark" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{--ink:#0A0B0E;--surface:#14161B;--surface-2:#181B22;--line:rgba(255,255,255,.1);--line-2:rgba(255,255,255,.14);
+    --text:#EDEFF3;--dim:#9AA2AF;--accent:#19C37D;--accent-ink:#0A0B0E;--danger:#ff6b6b;
+    --font-d:"Bricolage Grotesque",system-ui,sans-serif;--font-b:"IBM Plex Sans",system-ui,sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font-b);background:var(--ink);color:var(--text);min-height:100vh;display:grid;place-items:center;padding:24px;line-height:1.6}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(60% 40% at 50% 0%,rgba(25,195,125,.16),transparent 70%)}
+  .card{width:100%;max-width:480px;background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid var(--line);border-radius:24px;padding:40px 32px}
+  .eyebrow{font-family:var(--font-b);font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  h1{font-family:var(--font-d);font-weight:700;font-size:1.6rem;letter-spacing:-.02em;margin:10px 0 10px}
+  p{color:var(--dim);margin-bottom:12px;font-size:15px}
+  label{display:block;font-size:13.5px;font-weight:600;color:var(--text);margin:16px 0 6px}
+  input[type=email],input[type=text]{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--line-2);border-radius:12px;padding:12px 14px;color:var(--text);font:inherit;font-size:15px}
+  input:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .consent{display:flex;gap:10px;align-items:flex-start;margin-top:16px;font-size:13.5px;color:var(--dim)}
+  .consent input{margin-top:3px;flex:none}
+  .btn{width:100%;margin-top:20px;font-weight:600;font-size:15px;border-radius:12px;padding:13px 18px;border:none;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+  .btn:disabled{opacity:.55;cursor:not-allowed}
+  .msg{margin-top:16px;font-size:14px;padding:12px 14px;border-radius:12px;display:none}
+  .msg.err{display:block;background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.35);color:#ffb3b3}
+  .msg.ok{display:block;background:rgba(25,195,125,.1);border:1px solid rgba(25,195,125,.35);color:#8ff0c4}
+  a{color:var(--accent)}
+  .foot{margin-top:18px;font-size:12.5px;color:#6B7280}
+</style>
+</head>
+<body>
+  <main class="card">
+    <span class="eyebrow">Test access</span>
+    <h1>Redeem invite code</h1>
+    <p>Try <strong>Agentic-Firmenbuch</strong> for 14 days with the full Pro feature set – no credit card.
+       You only need your <strong>own MCP client</strong> (e.g. Claude, Cursor, Copilot);
+       we provide the interface.</p>
+
+    <form id="f" novalidate>
+      <label for="code">Invite code</label>
+      <input id="code" name="code" type="text" autocomplete="off" placeholder="TRY-XXXXXXXX" required />
+
+      <label for="email">Email address</label>
+      <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+
+      <label class="consent"><input id="consent" type="checkbox" required />
+        <span>I agree to the <a href="datenschutz.en.html" target="_blank" rel="noopener">privacy policy</a>
+          and the <a href="nutzungsbedingungen.en.html" target="_blank" rel="noopener">terms of service</a>.</span></label>
+
+      <button class="btn" id="submit" type="submit">Request access</button>
+      <div class="msg" id="msg" role="status"></div>
+    </form>
+
+    <p class="foot">After submitting you'll get a confirmation email. Only clicking the link
+       in it unlocks your test key (double opt-in).</p>
+  </main>
+
+<script>
+  (function(){
+    var params = new URLSearchParams(location.search);
+    var codeEl = document.getElementById("code");
+    if (params.get("code")) codeEl.value = params.get("code").trim().toUpperCase();
+    var form = document.getElementById("f");
+    var msg = document.getElementById("msg");
+    var btn = document.getElementById("submit");
+
+    function show(kind, text){ msg.className = "msg " + kind; msg.textContent = text; }
+
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      var email = document.getElementById("email").value.trim();
+      var code = codeEl.value.trim();
+      var consent = document.getElementById("consent").checked;
+      if (!code) return show("err", "Please enter your invite code.");
+      if (!email || email.indexOf("@") < 1) return show("err", "Please enter a valid email address.");
+      if (!consent) return show("err", "Please agree to the privacy policy.");
+      btn.disabled = true; show("ok", "Sending …");
+      fetch("/api/try", {
+        method: "POST",
+        headers: {"content-type": "application/json"},
+        body: JSON.stringify({ email: email, code: code, consent: true })
+      }).then(function(r){ return r.json().then(function(d){ return { ok: r.ok, d: d }; }); })
+        .then(function(res){
+          if (res.ok) {
+            form.reset();
+            show("ok", "Almost there! Please confirm the link in the email we just sent you.");
+          } else {
+            btn.disabled = false;
+            show("err", (res.d && res.d.message) || "That didn't work. Please check the code and try again.");
+          }
+        }).catch(function(){ btn.disabled = false; show("err", "Network error. Please try again."); });
+    });
+  })();
+</script>
+</body>
+</html>
