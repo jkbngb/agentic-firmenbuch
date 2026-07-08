@@ -298,7 +298,7 @@ def checkout_session_params(
     price_id: str,
     success_url: str,
     cancel_url: str,
-    trial_days: int,
+    trial_days: int = 0,
     email: str | None = None,
     promo: bool = False,
 ) -> dict[str, Any]:
@@ -309,11 +309,14 @@ def checkout_session_params(
     is bound by the ``email`` Stripe collects — the account is created on payment (webhook), so
     no account/e-mail is ever produced without a real checkout. Reuses a known Stripe customer.
 
-    ``promo=True`` (the "3 Monate gratis" flow): NO trial (a trial would burn ~½ month of the
-    coupon window, which starts at redemption) and ``payment_method_collection="if_required"`` so
-    a 100 %-off first invoice (€0) skips card entry entirely. After the 3 free invoices, invoice #4
-    is €79 with no card → ``past_due`` → Stripe dunning → cancel (C3) — the promo user is never
-    charged unless they add a card. Tagged in ``metadata`` so promo subs are queryable in Stripe.
+    Card collection is ``payment_method_collection="if_required"`` on EVERY checkout: a normal
+    purchase (€79 due now) still collects a card, but when the buyer types a 100 %-off promo code
+    into Stripe's field (``allow_promotion_codes``) the first invoice is €0 and NO card is asked
+    for. After the 3 free invoices, invoice #4 is €79 with no card on file → ``past_due`` → Stripe
+    dunning → cancel (C3): a promo user is never charged unless they add a card. This is why there
+    is no default trial — a trial would make €0 due now and skip the card for *paying* users too;
+    the promo code IS the free-trial path. ``promo=True`` only tags the subscription in
+    ``metadata`` so promo subs stay queryable in Stripe.
     """
     params: dict[str, Any] = {
         "mode": "subscription",
@@ -321,11 +324,14 @@ def checkout_session_params(
         "success_url": success_url,
         "cancel_url": cancel_url,
         "allow_promotion_codes": True,  # the buyer types the promo code into Stripe's field
+        # Collect a card only when money is due NOW, so a 100 %-off code = no card entry at all.
+        "payment_method_collection": "if_required",
     }
     if promo:
-        params["payment_method_collection"] = "if_required"
         params["subscription_data"] = {"metadata": {PROMO_METADATA_KEY: PROMO_CODE}}
     elif trial_days > 0:
+        # NOTE: with if_required a trial makes €0 due now, so the card is NOT collected during the
+        # trial (a card-less trial that will not auto-convert). Off by default for that reason.
         params["subscription_data"] = {"trial_period_days": trial_days}
     if account is not None:
         params["client_reference_id"] = account.id

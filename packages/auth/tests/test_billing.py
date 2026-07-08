@@ -325,6 +325,16 @@ def test_checkout_params_promo_no_trial_cardless() -> None:
     assert p["customer_email"] == "promo@b.test"
 
 
+def test_checkout_params_default_is_cardless_capable() -> None:
+    # The plain "Pro" button (no promo flag, no trial): the promo-code field is shown and card
+    # collection is if_required, so a buyer who types a 100 %-off code pays EUR 0 with no card.
+    # A buyer who types no code has EUR 79 due now -> Stripe still collects the card.
+    p = checkout_session_params(None, price_id="price_x", success_url="s", cancel_url="c")
+    assert p["allow_promotion_codes"] is True
+    assert p["payment_method_collection"] == "if_required"
+    assert "subscription_data" not in p  # no default trial
+
+
 def test_duplicate_event_is_idempotent() -> None:
     cosmos = InMemoryCosmosStore()
     signup("buyer@example.test", cosmos)
