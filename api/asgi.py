@@ -28,9 +28,10 @@ from starlette.routing import Route
 
 from fbl_auth import (
     Account,
+    account_by_email,
+    check_ip_throttle,
     checkout_session_params,
     email_sender_from_settings,
-    find_accounts_by_email,
     handle_event,
     portal_session_params,
     regenerate_request,
@@ -198,7 +199,22 @@ async def regenerate(req: Request) -> Response:
 
 
 async def unsubscribe(req: Request) -> Response:
-    status, payload = unsubscribe_request(await _body(req), _cosmos)
+    body = await _body(req)
+    # H2: a deletion request must also STOP the billing. Cancel any live Stripe subscription
+    # BEFORE the pure handler blanks the e-mail — otherwise we keep charging €79/month for a user
+    # we can no longer even match on webhooks. Immediate cancel is the honest reading of "delete".
+    if _settings.stripe_secret_key:
+        email = str(body.get("email", "")).strip().lower()
+        acct = _account_by_email(email) if "@" in email else None
+        if acct is not None and acct.stripe_subscription_id:
+            try:
+                stripe = _stripe()
+                sub = stripe.Subscription.retrieve(acct.stripe_subscription_id)
+                if sub.get("status") in ("active", "trialing", "past_due"):
+                    stripe.Subscription.cancel(acct.stripe_subscription_id)
+            except Exception:
+                _billing_log.exception("unsubscribe: Stripe cancel failed")
+    status, payload = unsubscribe_request(body, _cosmos)
     return JSONResponse(payload, status_code=status)
 
 
@@ -408,6 +424,16 @@ async def notify_fixed(req: Request) -> Response:
 # when it isn't installed (it's a container-only dep; keys come from ENV/Key Vault, never repo).
 
 _billing_log = logging.getLogger("fbl_billing")
+_OPERATOR_EMAIL = "office@jngb.online"
+
+
+def _alert_operator(subject: str, text: str) -> None:
+    """E-mail the operator about a billing event that needs manual reconciliation (H3): a paid
+    checkout that matched no account, or a failed new-buyer provisioning. Best-effort."""
+    try:
+        _email.send_alert(_OPERATOR_EMAIL, subject, text)
+    except Exception:
+        _billing_log.exception("operator alert delivery failed: %s", subject)
 
 
 def _stripe() -> Any:
@@ -433,6 +459,13 @@ async def billing_checkout(req: Request) -> Response:
     the browser to Stripe Checkout. Binds the purchase to the account via client_reference_id."""
     if not _settings.stripe_secret_key:
         return JSONResponse({"error": "billing not configured"}, status_code=503)
+    if not check_ip_throttle(  # M1: this creates Stripe sessions from any e-mail — rate-limit it
+        _ip(req) or "unknown", _cosmos, limit=_settings.signup_ip_limit_per_min
+    ):
+        return JSONResponse(
+            {"error": "rate_limited", "message": "Zu viele Anfragen – bitte kurz warten."},
+            status_code=429,
+        )
     body = await _body(req)
     account = _billing_account(req, body)
     email = str(body.get("email", "")).strip().lower()
@@ -446,6 +479,20 @@ async def billing_checkout(req: Request) -> Response:
             {"error": "invalid_email", "message": "Bitte eine gültige E-Mail-Adresse angeben."},
             status_code=400,
         )
+    # C4: an already-subscribed account must NOT start a second checkout (→ duplicate billing —
+    # which happened live). Send them to the portal to manage the existing subscription instead.
+    if account is not None and account.stripe_subscription_id and account.stripe_customer_id:
+        try:
+            stripe = _stripe()
+            sub = stripe.Subscription.retrieve(account.stripe_subscription_id)
+            if sub.get("status") in ("active", "trialing", "past_due"):
+                portal = stripe.billing_portal.Session.create(
+                    customer=account.stripe_customer_id,
+                    return_url=_settings.billing_portal_return_url,
+                )
+                return JSONResponse({"url": portal.url, "already_subscribed": True})
+        except Exception:
+            _billing_log.exception("checkout: existing-sub guard failed; allowing checkout")
     try:
         stripe = _stripe()
         prices = stripe.Price.list(
@@ -519,6 +566,11 @@ def _ensure_buyer_account(event: dict[str, Any]) -> None:
         _billing_log.info("billing: provisioned account for a new Pro buyer")
     except Exception:
         _billing_log.exception("billing: failed provisioning account for new buyer")
+        _alert_operator(  # H3: buyer paid but got no account/key — never leave this silent
+            "Billing: Kontobereitstellung fehlgeschlagen",
+            f"Neuer Pro-Käufer, Konto/Key konnte nicht erstellt werden. E-Mail: {email}. "
+            "Bitte im Stripe-Dashboard + Cosmos (00_accounts) manuell abgleichen.",
+        )
 
 
 async def billing_webhook(req: Request) -> Response:
@@ -543,15 +595,24 @@ async def billing_webhook(req: Request) -> Response:
     except Exception:
         _billing_log.exception("webhook handling failed for event %s", event_dict.get("id"))
         return JSONResponse({"error": "handling failed"}, status_code=500)
+    if result.get("outcome") == "unmatched":  # H3: paid checkout matched no account — alert, don't
+        obj = (event_dict.get("data") or {}).get("object") or {}  # 500 (that would loop retries)
+        _alert_operator(
+            "Billing: Zahlung ohne passendes Konto (unmatched)",
+            f"checkout.session.completed ohne Konto-Match. customer={obj.get('customer')} "
+            f"e-mail={_checkout_email_from(obj)} session={obj.get('id')}. Bitte manuell zuordnen.",
+        )
     return JSONResponse(result)
 
 
+def _checkout_email_from(obj: dict[str, Any]) -> str | None:
+    return obj.get("customer_email") or (obj.get("customer_details") or {}).get("email")
+
+
 def _account_by_email(email: str) -> Account | None:
-    """Active account for an e-mail (or any match), or None. Used by the no-login billing flows."""
-    rows = list(find_accounts_by_email(email, _cosmos))
-    active = [r for r in rows if r.get("status") == "active"]
-    chosen = active[0] if active else (rows[0] if rows else None)
-    return Account.model_validate(chosen) if chosen else None
+    """The real, active account for an e-mail (or None) — single source `fbl_auth.account_by_email`
+    (never resolves a pending/throttle/invite doc, no `rows[0]` fallback). See C2/M3."""
+    return account_by_email(_cosmos, email)
 
 
 async def billing_manage(req: Request) -> Response:
@@ -561,6 +622,10 @@ async def billing_manage(req: Request) -> Response:
     the mailbox owner can reach the portal (the link goes to their inbox, never to the caller)."""
     if not _settings.stripe_secret_key:
         return JSONResponse({"error": "billing not configured"}, status_code=503)
+    if not check_ip_throttle(  # M1: this triggers an e-mail send — throttle to prevent bombing
+        _ip(req) or "unknown", _cosmos, limit=_settings.signup_ip_limit_per_min
+    ):
+        return JSONResponse({"ok": True})  # stay enumeration-safe even when throttled
     body = await _body(req)
     email = str(body.get("email", "")).strip().lower()
     if "@" not in email:

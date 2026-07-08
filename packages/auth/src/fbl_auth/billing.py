@@ -27,7 +27,7 @@ from typing import Any, Protocol
 from fbl_core.lineage import now_utc_z
 from fbl_core.storage import CosmosStoreLike
 
-from .accounts import ACCOUNTS_CONTAINER, Account
+from .accounts import ACCOUNTS_CONTAINER, Account, account_by_email
 
 
 class _CancellationMailer(Protocol):
@@ -88,16 +88,11 @@ def _account_by_id(cosmos: CosmosStoreLike, account_id: str | None) -> Account |
     if not account_id:
         return None
     doc = cosmos.get(ACCOUNTS_CONTAINER, account_id)
-    return Account.model_validate(doc) if doc else None
-
-
-def _account_by_email(cosmos: CosmosStoreLike, email: str | None) -> Account | None:
-    if not email:
+    # Never resolve a pending_signup/ip_throttle/invite doc (they carry a `kind`) as an account,
+    # even if a stale client_reference_id points at one (C2).
+    if doc is None or doc.get("kind"):
         return None
-    rows = list(cosmos.query_by_field(ACCOUNTS_CONTAINER, "email", email.strip().lower()))
-    active = [r for r in rows if r.get("status") == "active"]
-    chosen = active[0] if active else (rows[0] if rows else None)
-    return Account.model_validate(chosen) if chosen else None
+    return Account.model_validate(doc)
 
 
 def _account_by_customer(cosmos: CosmosStoreLike, customer_id: str | None) -> Account | None:
@@ -151,7 +146,7 @@ def apply_checkout_completed(cosmos: CosmosStoreLike, session: dict[str, Any]) -
     for owner reconciliation — rare, since our own checkout endpoint always sets
     ``client_reference_id``).
     """
-    account = _account_by_id(cosmos, session.get("client_reference_id")) or _account_by_email(
+    account = _account_by_id(cosmos, session.get("client_reference_id")) or account_by_email(
         cosmos, _checkout_email(session)
     )
     if account is None:
@@ -172,11 +167,12 @@ def apply_checkout_completed(cosmos: CosmosStoreLike, session: dict[str, Any]) -
 
 
 def apply_subscription_ended(cosmos: CosmosStoreLike, obj: dict[str, Any]) -> Account | None:
-    """A subscription was canceled or a payment failed -> downgrade the account to ``free``.
+    """``customer.subscription.deleted`` — the definitive end of a subscription → downgrade the
+    account to ``free``.
 
-    ``obj`` is a subscription (``…deleted``) or an invoice (``…payment_failed``); both carry
-    ``customer``. Only a currently-``pro`` account is downgraded, so a legacy/guest account
-    that happens to share a customer id is never affected.
+    ``obj`` is the deleted subscription (carries ``customer``). Only a currently-``pro`` account
+    is downgraded, so a legacy/guest account that happens to share a customer id is never
+    affected. (``invoice.payment_failed`` no longer routes here — see C3 in ``handle_event``.)
     """
     account = _account_by_customer(cosmos, obj.get("customer"))
     if account is None or account.tier != "pro":
@@ -186,20 +182,49 @@ def apply_subscription_ended(cosmos: CosmosStoreLike, obj: dict[str, Any]) -> Ac
     return _save(cosmos, account)
 
 
-def apply_subscription_scheduled_cancel(
+# Subscription statuses that keep access, and the terminal ones that end it (C3). We drive the
+# plan from the subscription's *status*, not from payment events, so Stripe Smart Retries / a
+# card update in the portal transparently restore Pro, and ``past_due`` is a grace period while
+# dunning runs (the definitive end is ``subscription.deleted``).
+_ALIVE_STATUSES = frozenset({"active", "trialing", "past_due"})
+_DEAD_STATUSES = frozenset({"unpaid", "canceled", "incomplete_expired"})
+
+
+def apply_subscription_updated(
     cosmos: CosmosStoreLike, sub: dict[str, Any], *, email_sender: _CancellationMailer | None = None
 ) -> tuple[str, Account | None]:
-    """Handle ``customer.subscription.updated``: a portal cancellation schedules the end for the
-    period end (``cancel_at_period_end``) — the user keeps full Pro access until then, so we do
-    NOT downgrade here. We record the end date on the account and send the goodbye email ONCE.
+    """Handle ``customer.subscription.updated`` — the load-bearing lifecycle event (C3).
 
-    Returns ``(outcome, account)``. ``.updated`` fires for many reasons; we act only on a
-    newly-set / cleared cancellation and dedupe the email via the stored ``plan_expires_at``.
+    Drives the account plan from the subscription ``status`` (recovery restores Pro, terminal
+    states end it, ``past_due`` keeps Pro during dunning), and separately keeps the scheduled-
+    cancellation bookkeeping (``cancel_at_period_end`` → record end date + one-shot goodbye mail).
+    Returns ``(outcome, account)``.
     """
     account = _account_by_customer(cosmos, sub.get("customer"))
-    if account is None or account.tier != "pro":
+    if account is None:
+        return "no_change", None
+    status = sub.get("status")
+
+    # Terminal: dunning exhausted / canceled / never-completed → access ends now.
+    if status in _DEAD_STATUSES:
+        if account.tier == "pro":
+            account.tier = "free"
+            account.plan_expires_at = None
+            _save(cosmos, account)
+            return "downgraded", account
         return "no_change", account
 
+    # Alive: restore Pro if a prior failure/missed-event left a Stripe customer on ``free``
+    # (self-heals; never clobbers legacy/guest/enterprise). ``past_due`` stays Pro = grace.
+    if status in _ALIVE_STATUSES and account.tier == "free":
+        account.tier = "pro"
+        account.plan_expires_at = None
+        _save(cosmos, account)
+
+    if account.tier != "pro":
+        return "no_change", account
+
+    # Scheduled-cancellation bookkeeping + one-shot goodbye mail (deduped via plan_expires_at).
     if sub.get("cancel_at_period_end"):
         ts = _period_end_ts(sub)
         end_iso = _iso_from_ts(ts) if ts else None
@@ -244,12 +269,15 @@ def handle_event(
         account = apply_checkout_completed(cosmos, obj)
         outcome = "upgraded" if account else "unmatched"
     elif event_type == SUBSCRIPTION_UPDATED:
-        outcome, account = apply_subscription_scheduled_cancel(
-            cosmos, obj, email_sender=email_sender
-        )
-    else:  # SUBSCRIPTION_DELETED (period end reached) or PAYMENT_FAILED → access truly ends
+        outcome, account = apply_subscription_updated(cosmos, obj, email_sender=email_sender)
+    elif event_type == SUBSCRIPTION_DELETED:  # the definitive end of access
         account = apply_subscription_ended(cosmos, obj)
         outcome = "downgraded" if account else "no_change"
+    else:  # PAYMENT_FAILED — do NOT downgrade (C3). Stripe Smart Retries + subscription.updated
+        # drive the plan, so a one-day card hiccup recovers without the customer losing access;
+        # the terminal end always arrives as subscription.updated(unpaid) / subscription.deleted.
+        account = _account_by_customer(cosmos, obj.get("customer"))
+        outcome = "payment_failed_noted"
 
     account_id = account.id if account else None
     if event_id:

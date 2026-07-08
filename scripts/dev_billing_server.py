@@ -90,8 +90,11 @@ async def checkout(_req: Request) -> Response:
     if not prices.data:
         return JSONResponse({"error": "no price for lookup_key 'pro_monthly'"}, status_code=500)
     params = checkout_session_params(
-        _account(), price_id=prices.data[0].id, success_url=BASE + "/status",
-        cancel_url=BASE + "/", trial_days=14,
+        _account(),
+        price_id=prices.data[0].id,
+        success_url=BASE + "/status",
+        cancel_url=BASE + "/",
+        trial_days=14,
     )
     session = stripe.checkout.Session.create(**params)
     return RedirectResponse(session.url, status_code=303)

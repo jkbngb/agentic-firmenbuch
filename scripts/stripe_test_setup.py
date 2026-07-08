@@ -24,14 +24,15 @@ import argparse
 import os
 import sys
 
+from fbl_auth.billing import HANDLED_EVENTS
+
 PRICE_LOOKUP_KEY = "pro_monthly"
 PRICE_UNIT_AMOUNT = 7900  # EUR 79,00 in cents
 PRODUCT_NAME = "Agentic-Firmenbuch Pro"
-WEBHOOK_EVENTS = [
-    "checkout.session.completed",
-    "customer.subscription.deleted",
-    "invoice.payment_failed",
-]
+# H1: single source of truth — the exact events the webhook handler processes. Mirroring
+# HANDLED_EVENTS (not a hand-maintained list) is what prevents the drift where the live endpoint
+# was missing customer.subscription.updated, so scheduled cancellations / downgrades never fired.
+WEBHOOK_EVENTS = sorted(HANDLED_EVENTS)
 
 
 def main() -> None:

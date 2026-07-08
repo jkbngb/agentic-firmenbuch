@@ -49,19 +49,25 @@ def _payment_failed_event(event_id: str, customer: str) -> dict[str, Any]:
 
 
 def _sub_updated_event(
-    event_id: str, customer: str, *, cancel_at_period_end: bool, period_end: int = 1793491200
+    event_id: str,
+    customer: str,
+    *,
+    cancel_at_period_end: bool = False,
+    status: str | None = None,
+    period_end: int = 1793491200,
 ) -> dict[str, Any]:
+    obj: dict[str, Any] = {
+        "object": "subscription",
+        "customer": customer,
+        "cancel_at_period_end": cancel_at_period_end,
+        "current_period_end": period_end,
+    }
+    if status is not None:
+        obj["status"] = status
     return {
         "id": event_id,
         "type": "customer.subscription.updated",
-        "data": {
-            "object": {
-                "object": "subscription",
-                "customer": customer,
-                "cancel_at_period_end": cancel_at_period_end,
-                "current_period_end": period_end,
-            }
-        },
+        "data": {"object": obj},
     }
 
 
@@ -204,22 +210,83 @@ def test_subscription_deleted_downgrades_immediately() -> None:
     assert validate(token, cosmos).tier == "free"  # type: ignore[union-attr]
 
 
-def test_payment_failed_downgrades_immediately() -> None:
+def test_payment_failed_does_not_downgrade_c3() -> None:
+    # C3: a failed payment must NOT drop the customer — Stripe Smart Retries recover a one-day
+    # card hiccup. The plan is driven by subscription status / deletion, not payment events.
     cosmos = InMemoryCosmosStore()
-    token = signup("buyer@example.test", cosmos).token
-    handle_event(
-        cosmos,
-        _checkout_event(
-            "evt_c",
-            client_reference_id=None,
-            email="buyer@example.test",
-            customer="cus_6",
-            sub="s6",
-        ),
-    )
+    token = _make_pro(cosmos, "cus_6", sub="s6")
     out = handle_event(cosmos, _payment_failed_event("evt_d", "cus_6"))
-    assert out["outcome"] == "downgraded"
+    assert out["outcome"] == "payment_failed_noted"
+    assert validate(token, cosmos).tier == "pro"  # type: ignore[union-attr]  # still pro
+
+    # dunning exhausted → subscription.updated(status=unpaid) is what actually ends access
+    out2 = handle_event(cosmos, _sub_updated_event("evt_unpaid", "cus_6", status="unpaid"))
+    assert out2["outcome"] == "downgraded"
     assert validate(token, cosmos).tier == "free"  # type: ignore[union-attr]
+
+
+def test_c3_status_drives_plan() -> None:
+    # past_due keeps Pro (grace); canceled ends it; active restores it (recovery / self-heal).
+    cosmos = InMemoryCosmosStore()
+    token = _make_pro(cosmos, "cus_st", sub="s_st")
+    handle_event(cosmos, _sub_updated_event("e_pd", "cus_st", status="past_due"))
+    assert validate(token, cosmos).tier == "pro"  # type: ignore[union-attr]  # grace, not dropped
+    handle_event(cosmos, _sub_updated_event("e_can", "cus_st", status="canceled"))
+    assert validate(token, cosmos).tier == "free"  # type: ignore[union-attr]
+    handle_event(cosmos, _sub_updated_event("e_act", "cus_st", status="active"))
+    assert validate(token, cosmos).tier == "pro"  # type: ignore[union-attr]  # restored
+
+
+def test_c1_regenerate_preserves_pro_and_stripe_ids() -> None:
+    # C1: a paying customer who loses their key and regenerates must keep Pro + Stripe linkage,
+    # and the old key must stop working (revoked).
+    from fbl_auth import account_by_email
+    from fbl_auth.email import NullEmailSender
+    from fbl_auth.signup_flow import request_verification, verify
+
+    cosmos = InMemoryCosmosStore()
+    old_token = _make_pro(cosmos, "cus_carry", sub="sub_carry")
+    old = validate(old_token, cosmos)
+    assert old is not None and old.tier == "pro"
+
+    sender = NullEmailSender()
+    vtok = request_verification(
+        old.email, cosmos, email_sender=sender, verify_url=lambda t: "x/" + t
+    )
+    new_key = verify(vtok, cosmos, email_sender=sender)
+    assert new_key is not None
+    new = validate(new_key, cosmos)
+    assert new is not None and new.tier == "pro"  # carried, not demoted to free
+    assert new.stripe_customer_id == "cus_carry" and new.stripe_subscription_id == "sub_carry"
+    assert validate(old_token, cosmos) is None  # old key revoked
+    # a later subscription.deleted for that customer downgrades the NEW (active) account
+    assert account_by_email(cosmos, old.email).id == new.id  # type: ignore[union-attr]
+
+
+def test_c2_pending_and_kind_docs_never_resolve_as_account() -> None:
+    # C2: pending_signup / ip_throttle / invite docs (they carry a `kind`) must never be treated
+    # as an account, and a checkout bound to one must be UNMATCHED (not corrupt the pending doc).
+    from fbl_auth import account_by_email
+    from fbl_auth.accounts import hash_token
+    from fbl_auth.email import NullEmailSender
+    from fbl_auth.signup_flow import request_verification
+
+    cosmos = InMemoryCosmosStore()
+    vtok = request_verification(
+        "p@example.test", cosmos, email_sender=NullEmailSender(), verify_url=lambda t: "x"
+    )
+    assert account_by_email(cosmos, "p@example.test") is None  # pending is not a real account
+    pending_id = hash_token(vtok)
+    ev = _checkout_event(
+        "evt_c2",
+        client_reference_id=pending_id,
+        email="p@example.test",
+        customer="cus_c2",
+        sub="s2",
+    )
+    assert handle_event(cosmos, ev)["outcome"] == "unmatched"  # guard rejects the pending id
+    doc = cosmos.get(ACCOUNTS_CONTAINER, pending_id)
+    assert doc is not None and doc["status"] == "pending" and doc["kind"] == "pending_signup"
 
 
 def test_downgrade_leaves_non_pro_accounts_untouched() -> None:

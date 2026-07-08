@@ -145,9 +145,25 @@ def verify(
     if expires is None or expires <= now:
         return None
 
-    # Revoke prior active keys for this email (regenerate semantics).
+    # Revoke prior active keys for this email, CARRYING their billing state (C1). A paying
+    # customer who loses their key and uses "Neuen Key anfordern" (or re-signs-up) must keep
+    # Pro + the Stripe linkage — otherwise they silently drop to free, keep being billed, and
+    # the orphaned (revoked) doc keeps the customer id so future subscription webhooks resolve
+    # to the wrong account and cancellations never reach the live one.
+    def _s(value: object) -> str | None:
+        return value if isinstance(value, str) else None
+
+    carried_tier: str | None = None
+    carried_expiry: str | None = None
+    carried_cust: str | None = None
+    carried_sub: str | None = None
     for other in find_accounts_by_email(pending.email, cosmos):
-        if other.get("status") == "active" and other.get("kind") != "pending_signup":
+        if other.get("status") == "active" and not other.get("kind"):
+            if other.get("tier") in ("pro", "legacy", "enterprise", "guest"):
+                carried_tier = _s(other.get("tier"))
+                carried_expiry = _s(other.get("plan_expires_at"))
+            carried_cust = _s(other.get("stripe_customer_id")) or carried_cust
+            carried_sub = _s(other.get("stripe_subscription_id")) or carried_sub
             other["status"] = "revoked"
             cosmos.upsert(ACCOUNTS_CONTAINER, other)
 
@@ -156,9 +172,16 @@ def verify(
     tier = "free"
     plan_expires_at: str | None = None
     invite = get_invite(cosmos, pending.consent.get("invite_code"))
+    granted_by_invite = False
     if invite is not None and invite_is_valid(invite, now):
+        granted_by_invite = True
         tier = "guest"
         plan_expires_at = (now + timedelta(days=invite.guest_days)).strftime(_FMT)
+
+    # A carried PAID/existing plan always wins over the free/guest default (never demote a payer).
+    if carried_tier is not None:
+        tier = carried_tier
+        plan_expires_at = carried_expiry
 
     api_key = api_key or issue_token()
     akh = hash_token(api_key)
@@ -169,12 +192,15 @@ def verify(
         tier=tier,
         plan_expires_at=plan_expires_at,
         status="active",
+        stripe_customer_id=carried_cust,
+        stripe_subscription_id=carried_sub,
     )
     cosmos.upsert(ACCOUNTS_CONTAINER, account.model_dump(mode="json"))
 
     pending.status = "consumed"  # one-time use (no hard delete in the store)
     cosmos.upsert(ACCOUNTS_CONTAINER, pending.model_dump(mode="json"))
-    if invite is not None and tier == "guest":
+    # Only consume the invite if it actually granted guest (a carried paid plan didn't win).
+    if granted_by_invite and invite is not None and tier == "guest" and carried_tier is None:
         mark_redeemed(cosmos, invite, pending.email, now=now)  # single-use
 
     email_sender.send_key(pending.email, api_key)

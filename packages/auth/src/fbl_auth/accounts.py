@@ -135,6 +135,27 @@ def signup(
     return TokenRecord(token=token, account=account)
 
 
+def account_by_email(cosmos: CosmosStoreLike, email: str | None) -> Account | None:
+    """The single, **real, active** account for an email — or ``None`` (C2).
+
+    ``00_accounts`` also holds non-account docs (``pending_signup`` / ``ip_throttle`` /
+    ``invite_code``) which carry a ``kind`` and *validate as an Account* (tier defaults to
+    ``free``). They must never be mistaken for one, so we filter them out. Only a
+    ``status=="active"`` real account qualifies; a revoked/pending/deleted doc is deliberately
+    NOT returned — binding a purchase to it is strictly worse than treating the buyer as new.
+    This is the ONE lookup used by billing checkout/webhook/manage (no ``rows[0]`` fallback).
+    """
+    if not email:
+        return None
+    rows = [
+        r
+        for r in cosmos.query_by_field(ACCOUNTS_CONTAINER, "email", email.strip().lower())
+        if not r.get("kind")  # real Account docs carry no `kind`
+    ]
+    active = [r for r in rows if r.get("status") == "active"]
+    return Account.model_validate(active[0]) if active else None
+
+
 def validate(token: str, cosmos: CosmosStoreLike) -> Account | None:
     """Return the active Account for a token, or None if unknown/inactive."""
     doc = cosmos.get(ACCOUNTS_CONTAINER, hash_token(token))
