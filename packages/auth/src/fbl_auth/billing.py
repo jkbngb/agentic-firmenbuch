@@ -288,6 +288,10 @@ def handle_event(
 # --- Stripe request builders (pure; the wiring passes these to the Stripe SDK) --
 
 
+PROMO_METADATA_KEY = "promo"
+PROMO_CODE = "GRATIS3M"  # the live promotion code (100 % off, 3 monthly invoices)
+
+
 def checkout_session_params(
     account: Account | None,
     *,
@@ -296,6 +300,7 @@ def checkout_session_params(
     cancel_url: str,
     trial_days: int,
     email: str | None = None,
+    promo: bool = False,
 ) -> dict[str, Any]:
     """Kwargs for ``stripe.checkout.Session.create`` for a Pro subscription checkout.
 
@@ -303,15 +308,24 @@ def checkout_session_params(
     match it regardless of which e-mail/card pays. For a **new buyer** (``account is None``) it
     is bound by the ``email`` Stripe collects — the account is created on payment (webhook), so
     no account/e-mail is ever produced without a real checkout. Reuses a known Stripe customer.
+
+    ``promo=True`` (the "3 Monate gratis" flow): NO trial (a trial would burn ~½ month of the
+    coupon window, which starts at redemption) and ``payment_method_collection="if_required"`` so
+    a 100 %-off first invoice (€0) skips card entry entirely. After the 3 free invoices, invoice #4
+    is €79 with no card → ``past_due`` → Stripe dunning → cancel (C3) — the promo user is never
+    charged unless they add a card. Tagged in ``metadata`` so promo subs are queryable in Stripe.
     """
     params: dict[str, Any] = {
         "mode": "subscription",
         "line_items": [{"price": price_id, "quantity": 1}],
         "success_url": success_url,
         "cancel_url": cancel_url,
-        "allow_promotion_codes": True,
+        "allow_promotion_codes": True,  # the buyer types the promo code into Stripe's field
     }
-    if trial_days > 0:
+    if promo:
+        params["payment_method_collection"] = "if_required"
+        params["subscription_data"] = {"metadata": {PROMO_METADATA_KEY: PROMO_CODE}}
+    elif trial_days > 0:
         params["subscription_data"] = {"trial_period_days": trial_days}
     if account is not None:
         params["client_reference_id"] = account.id

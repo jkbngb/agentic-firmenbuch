@@ -306,6 +306,25 @@ def test_downgrade_leaves_non_pro_accounts_untouched() -> None:
     assert reloaded.tier == "legacy"
 
 
+def test_checkout_params_promo_no_trial_cardless() -> None:
+    # Promo ("3 Monate gratis"): no trial (would burn the coupon window), card-less at €0,
+    # tagged in metadata so promo subs are queryable in Stripe.
+    p = checkout_session_params(
+        None,
+        price_id="price_x",
+        success_url="s",
+        cancel_url="c",
+        trial_days=14,
+        email="promo@b.test",
+        promo=True,
+    )
+    assert p["payment_method_collection"] == "if_required"
+    assert p["allow_promotion_codes"] is True
+    assert "trial_period_days" not in p["subscription_data"]  # no trial
+    assert p["subscription_data"]["metadata"]["promo"] == "GRATIS3M"
+    assert p["customer_email"] == "promo@b.test"
+
+
 def test_duplicate_event_is_idempotent() -> None:
     cosmos = InMemoryCosmosStore()
     signup("buyer@example.test", cosmos)

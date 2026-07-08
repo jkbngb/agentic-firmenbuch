@@ -517,6 +517,7 @@ async def billing_checkout(req: Request) -> Response:
             cancel_url=cancel_url,
             trial_days=_settings.stripe_trial_days,
             email=email or None,
+            promo=bool(body.get("promo")),  # "3 Monate gratis" flow: no trial, card-less at €0
         )
         session = stripe.checkout.Session.create(**params)
     except Exception:

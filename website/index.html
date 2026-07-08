@@ -1567,12 +1567,14 @@ play(0);
       proBox.scrollIntoView({behavior:"smooth",block:"nearest"});
     });
   }
+  // Promo link: /?promo=1 (or #…promo) starts the card-less, no-trial "3 Monate gratis" checkout.
+  var isPromo=/[?&]promo=1\b/.test(location.search)||/promo/.test(location.hash);
   function checkout(){
     if(!proInput) return;
     var email=(proInput.value||"").trim();
     if(email.indexOf("@")<1){proInput.focus();return;}
     var label=proGo.textContent; proGo.disabled=true; proGo.textContent="Wird geöffnet …";
-    fetch(API+"/api/billing/checkout",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({email:email})})
+    fetch(API+"/api/billing/checkout",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({email:email,promo:isPromo})})
       .then(function(r){return r.json().catch(function(){return {};}).then(function(j){return {s:r.status,j:j};});})
       .then(function(res){
         if(res.j&&res.j.url){window.location.href=res.j.url;return;}
