@@ -326,6 +326,17 @@ def checkout_session_params(
         "allow_promotion_codes": True,  # the buyer types the promo code into Stripe's field
         # Collect a card only when money is due NOW, so a 100 %-off code = no card entry at all.
         "payment_method_collection": "if_required",
+        # The submit button label ("Zahlungspflichtig abonnieren") is Stripe-controlled and legally
+        # mandated for a subscription that becomes chargeable — it cannot be changed. This is the
+        # one piece of copy next to it that we CAN set, to reassure promo buyers it is €0 today.
+        "custom_text": {
+            "submit": {
+                "message": (
+                    "Mit einem Gutschein-Code sind die ersten 3 Monate gratis: heute wird nichts "
+                    "abgebucht und keine Kreditkarte benoetigt. Jederzeit kuendbar."
+                )
+            }
+        },
     }
     if promo:
         params["subscription_data"] = {"metadata": {PROMO_METADATA_KEY: PROMO_CODE}}

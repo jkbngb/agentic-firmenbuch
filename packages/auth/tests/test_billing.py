@@ -333,6 +333,7 @@ def test_checkout_params_default_is_cardless_capable() -> None:
     assert p["allow_promotion_codes"] is True
     assert p["payment_method_collection"] == "if_required"
     assert "subscription_data" not in p  # no default trial
+    assert "gratis" in p["custom_text"]["submit"]["message"]  # reassuring copy by the pay button
 
 
 def test_duplicate_event_is_idempotent() -> None:
