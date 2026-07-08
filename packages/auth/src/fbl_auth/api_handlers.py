@@ -2,8 +2,8 @@
 
 Each returns ``(http_status, json_payload)`` from plain inputs (parsed body, client IP,
 a Cosmos store, an email sender, a Turnstile verifier) so the HTTP decisions — throttle,
-validation, Turnstile gate — are unit-tested here, and the Azure Functions layer
-(``api/function_app.py``) only translates ``HttpRequest`` ↔ these calls.
+validation, Turnstile gate — are unit-tested here, and the ASGI layer
+(``api/asgi.py``) only translates HTTP requests ↔ these calls.
 """
 
 from __future__ import annotations

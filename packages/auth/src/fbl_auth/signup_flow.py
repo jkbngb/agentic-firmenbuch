@@ -1,7 +1,7 @@
 """Double-opt-in signup → verify → API-key lifecycle (Distribution Spez §4–§6).
 
 Pure, store-backed logic for the four signup Functions; the Azure Functions layer
-(``api/function_app.py``) only does HTTP, Turnstile and wiring. Everything lives in
+(``api/asgi.py``) only does HTTP, Turnstile and wiring. Everything lives in
 ``00_accounts`` (partitioned by ``token_hash``):
 
 * **pending** doc — keyed by ``hash_token(verify_token)``; created on signup, emailed a
@@ -64,6 +64,10 @@ class PendingSignup(BaseModel):
     verify_expires_at: str
     consent: dict[str, str] = Field(default_factory=dict)
     created_at: str = Field(default_factory=now_utc_z)
+    # Cosmos per-item TTL (seconds): auto-purge consumed/expired pending docs after 30 days (M6,
+    # GDPR data-minimization + container hygiene). Ignored until the 00_accounts container has
+    # DefaultTimeToLive enabled (bicep) — harmless to carry until then.
+    ttl: int = 30 * 24 * 3600
 
 
 def _parse(ts: str | None) -> datetime | None:
@@ -287,6 +291,7 @@ def check_ip_throttle(
         "ip": ip,
         "minute": minute,
         "count": 0,
+        "ttl": 24 * 3600,  # M6: purge throttle counters after a day (Cosmos per-item TTL)
     }
     if int(doc.get("count", 0)) >= limit:
         return False
