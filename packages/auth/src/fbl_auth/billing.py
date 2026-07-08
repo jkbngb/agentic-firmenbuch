@@ -335,8 +335,7 @@ def checkout_session_params(
         "custom_text": {
             "submit": {
                 "message": (
-                    "Mit einem Gutschein-Code sind die ersten 3 Monate gratis und ohne "
-                    "Kreditkarte."
+                    "Mit einem Gutschein-Code sind die ersten 3 Monate gratis und ohne Kreditkarte."
                 )
             }
         },
