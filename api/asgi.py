@@ -210,7 +210,7 @@ async def unsubscribe(req: Request) -> Response:
             try:
                 stripe = _stripe()
                 sub = stripe.Subscription.retrieve(acct.stripe_subscription_id)
-                if sub.get("status") in ("active", "trialing", "past_due"):
+                if getattr(sub, "status", None) in ("active", "trialing", "past_due"):
                     stripe.Subscription.cancel(acct.stripe_subscription_id)
             except Exception:
                 _billing_log.exception("unsubscribe: Stripe cancel failed")
@@ -485,7 +485,7 @@ async def billing_checkout(req: Request) -> Response:
         try:
             stripe = _stripe()
             sub = stripe.Subscription.retrieve(account.stripe_subscription_id)
-            if sub.get("status") in ("active", "trialing", "past_due"):
+            if getattr(sub, "status", None) in ("active", "trialing", "past_due"):
                 portal = stripe.billing_portal.Session.create(
                     customer=account.stripe_customer_id,
                     return_url=_settings.billing_portal_return_url,
