@@ -329,11 +329,14 @@ def checkout_session_params(
         # The submit button label ("Zahlungspflichtig abonnieren") is Stripe-controlled and legally
         # mandated for a subscription that becomes chargeable — it cannot be changed. This is the
         # one piece of copy next to it that we CAN set, to reassure promo buyers it is €0 today.
+        # Shown on EVERY checkout (Stripe can't render it conditionally on the typed code), so it
+        # is phrased "Mit einem Gutschein-Code …" — true for a promo buyer, not misleading for a
+        # full-price buyer who does enter a card. Real umlauts: this is customer-facing copy.
         "custom_text": {
             "submit": {
                 "message": (
-                    "Mit einem Gutschein-Code sind die ersten 3 Monate gratis: heute wird nichts "
-                    "abgebucht und keine Kreditkarte benoetigt. Jederzeit kuendbar."
+                    "Mit einem Gutschein-Code sind die ersten 3 Monate gratis und ohne "
+                    "Kreditkarte. Jederzeit kündbar."
                 )
             }
         },
