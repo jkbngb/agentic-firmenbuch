@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from fbl_core.storage import RAW_CONTAINER, BlobDownloadLink, InMemoryBlobStore
+from fbl_core.storage import RAW_CONTAINER, BlobDownloadLink, BlobStore, InMemoryBlobStore
 
 
 def test_download_link_targets_blob_with_expiry() -> None:
@@ -16,3 +16,15 @@ def test_download_link_targets_blob_with_expiry() -> None:
     assert link.url.startswith(f"memory://{RAW_CONTAINER}/{path}?")
     assert f"se={link.expires_at}" in link.url
     assert link.expires_in_seconds == 15 * 60
+
+
+def test_blob_store_strips_trailing_slash_from_account_url() -> None:
+    # Regression: a trailing slash on the account URL made download_link emit
+    # "…net//90-raw/…" (empty container) -> Azure 400 on the SAS download. The env var
+    # BLOB_ACCOUNT_URL is commonly stored with a trailing slash, so it must be normalized.
+    assert BlobStore("https://acct.blob.core.windows.net/")._account_url == (
+        "https://acct.blob.core.windows.net"
+    )
+    assert BlobStore("https://acct.blob.core.windows.net")._account_url == (
+        "https://acct.blob.core.windows.net"
+    )

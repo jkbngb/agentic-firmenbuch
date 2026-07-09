@@ -53,7 +53,11 @@ class BlobStore:
     """
 
     def __init__(self, account_url: str, credential: Any | None = None) -> None:
-        self._account_url = account_url
+        # Strip any trailing slash: download_link builds "{account_url}/{container}/{path}",
+        # so a trailing slash here yields "…net//90-raw/…" — a malformed blob name that Azure
+        # rejects with HTTP 400 on the SAS download (the container becomes empty). The env var
+        # BLOB_ACCOUNT_URL is commonly stored with a trailing slash, so normalize it here.
+        self._account_url = account_url.rstrip("/")
         self._credential = credential
         self._client: BlobServiceClient | None = None
 
