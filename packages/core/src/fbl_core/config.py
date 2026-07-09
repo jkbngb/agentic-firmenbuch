@@ -69,6 +69,13 @@ class Settings(BaseSettings):
     enable_deterministic_summary: bool = False
     enable_observations: bool = False
     expose_personal_data: bool = False  # GDPR gate for officer names
+    # Whether an unauthenticated `/mcp` request may complete the handshake + read the tool
+    # catalog (initialize, tools/list, …) without a 401. Directory-compliant DEFAULT is False:
+    # every unauthenticated /mcp call — including the very first `initialize` — is challenged
+    # with a 401 + WWW-Authenticate, which is what the Anthropic Connectors Directory reviewer
+    # probes for. Set to True (MCP_ANONYMOUS_DISCOVERY=true) only to restore anonymous tool
+    # preview / registry health checks (e.g. Glama), which the 401 otherwise blocks.
+    mcp_anonymous_discovery: bool = False
     rate_limit_per_min: int = 60  # the "free" tier (default when a tier has no override)
     rate_limit_per_day: int = 5000
     # Per-tier quota overrides as [per_min, per_day]; "free" falls back to the two above

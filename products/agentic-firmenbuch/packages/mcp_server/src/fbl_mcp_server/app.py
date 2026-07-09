@@ -430,7 +430,7 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
         readOnlyHint=True, destructiveHint=False, idempotentHint=True, openWorldHint=False
     )
 
-    @mcp.tool(annotations=readonly)
+    @mcp.tool(title="Search Austrian companies", annotations=readonly)
     def search_companies(
         ctx: ToolContext,
         filters: SearchFilters | None = None,
@@ -465,7 +465,7 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
         """
         return svc.search_companies(_http_token(ctx), filters, sort, page, page_size)
 
-    @mcp.tool(annotations=readonly)
+    @mcp.tool(title="Company profile", annotations=readonly)
     def get_company_details(ctx: ToolContext, fnr: str) -> dict[str, Any]:
         """Full served profile for one company by FNR. Read-only.
 
@@ -481,7 +481,7 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
         """
         return svc.get_company_details(_http_token(ctx), fnr)
 
-    @mcp.tool(annotations=readonly)
+    @mcp.tool(title="Describe available fields", annotations=readonly)
     def describe_fields(ctx: ToolContext) -> dict[str, Any]:
         """Catalog of every field the server can return, by tool tier (search card -> full
         profile -> full record), with code tables and availability/null rules. Read-only,
@@ -494,7 +494,7 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
         Human-readable version: https://www.agentic-firmenbuch.at/felder.html"""
         return svc.describe_fields(_http_token(ctx))
 
-    @mcp.tool(annotations=readonly)
+    @mcp.tool(title="Company financial history", annotations=readonly)
     def get_company_history(
         ctx: ToolContext, fnr: str, metrics: list[str] | None = None
     ) -> dict[str, Any]:
@@ -512,7 +512,7 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
         """
         return svc.get_company_history(_http_token(ctx), fnr, metrics)
 
-    @mcp.tool(annotations=readonly)
+    @mcp.tool(title="Full company record", annotations=readonly)
     def get_full_record(ctx: ToolContext, fnr: str) -> dict[str, Any]:
         """Complete per-company record, the full superset we hold for one company. Read-only.
 
@@ -526,7 +526,7 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
         """
         return svc.get_full_record(_http_token(ctx), fnr)
 
-    @mcp.tool(annotations=readonly)
+    @mcp.tool(title="Download annual filing", annotations=readonly)
     def get_document(ctx: ToolContext, doc_key: str) -> dict[str, Any]:
         """Get a time-limited download link to a company's official Jahresabschluss document.
         Read-only.
@@ -542,7 +542,7 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
         instead of downloading."""
         return svc.get_document(_http_token(ctx), doc_key)
 
-    @mcp.tool(annotations=readonly)
+    @mcp.tool(title="List sectors & legal forms", annotations=readonly)
     def list_sectors(ctx: ToolContext) -> dict[str, Any]:
         """Valid filter values for search_companies, with company counts. Read-only, no parameters.
 
@@ -553,7 +553,7 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
         """
         return svc.list_sectors(_http_token(ctx))
 
-    @mcp.tool(annotations=readonly)
+    @mcp.tool(title="Cohort statistics", annotations=readonly)
     def get_cohort_summary(ctx: ToolContext, dimension: str, value: str) -> dict[str, Any]:
         """Aggregate statistics for a cohort of companies. Read-only.
 
@@ -572,7 +572,7 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
         """
         return svc.get_cohort_summary(_http_token(ctx), dimension, value)
 
-    @mcp.tool(annotations=readonly)
+    @mcp.tool(title="Find peer companies", annotations=readonly)
     def find_peers(ctx: ToolContext, fnr: str, n: int = 10) -> dict[str, Any]:
         """Find the companies most similar in size to a given one. Read-only.
 
@@ -588,7 +588,7 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
         """
         return svc.find_peers(_http_token(ctx), fnr, n)
 
-    @mcp.tool(annotations=readonly)
+    @mcp.tool(title="Register change feed", annotations=readonly)
     def list_events(
         ctx: ToolContext,
         types: list[str] | None = None,
@@ -638,7 +638,7 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
             page_size=page_size,
         )
 
-    @mcp.tool(annotations=readonly)
+    @mcp.tool(title="Register change statistics", annotations=readonly)
     def get_event_stats(
         ctx: ToolContext,
         since: str | None = None,
@@ -666,7 +666,7 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
             legal_form=legal_form,
         )
 
-    @mcp.tool(annotations=readonly)
+    @mcp.tool(title="Dataset coverage", annotations=readonly)
     def get_coverage(ctx: ToolContext) -> dict[str, Any]:
         """How much of the register we actually serve, as an aggregate dashboard. Read-only,
         no parameters.
@@ -680,7 +680,7 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
         """
         return svc.get_coverage(_http_token(ctx))
 
-    @mcp.tool(annotations=readonly)
+    @mcp.tool(title="My API usage", annotations=readonly)
     def get_my_usage(ctx: ToolContext, window: str = "today") -> dict[str, Any]:
         """Your own API-key usage: call count and weighted compute-units, per tool. Read-only.
 

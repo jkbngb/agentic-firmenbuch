@@ -457,9 +457,20 @@ class _OAuthChallenge:
     every request and lock out the X-API-Key clients.
     """
 
-    def __init__(self, app: Any, base: str, cosmos: CosmosStoreLike) -> None:
+    def __init__(
+        self,
+        app: Any,
+        base: str,
+        cosmos: CosmosStoreLike,
+        *,
+        anonymous_discovery: bool = False,
+    ) -> None:
         self._app = app
         self._cosmos = cosmos
+        # Directory-compliant default: challenge EVERY unauthenticated /mcp request (incl. the
+        # first `initialize`) with a 401. When True, the handshake + tool catalog are allowed
+        # through without a credential (registry health checks / anonymous tool preview).
+        self._anonymous_discovery = anonymous_discovery
         self._resource_metadata_url = f"{base.rstrip('/')}/.well-known/oauth-protected-resource/mcp"
 
     async def __call__(self, scope: dict[str, Any], receive: Any, send: Any) -> None:
@@ -478,10 +489,16 @@ class _OAuthChallenge:
             await self._app(scope, receive, send)
             return
 
-        # No credential. Allow anonymous discovery (handshake + catalog) so directory health
-        # checks and tool previews succeed; challenge anything that touches data so OAuth
-        # clients still get their 401 on the first real call. Only POST carries a JSON-RPC
-        # body to inspect; a no-credential GET/DELETE (SSE stream / session op) is challenged.
+        # No credential. Directory-compliant default (anonymous_discovery=False): challenge
+        # EVERYTHING, including the first `initialize`, so the Anthropic reviewer's
+        # unauthenticated probe gets its 401 + WWW-Authenticate on the handshake. When
+        # anonymous_discovery is enabled, allow the handshake + catalog (data-free discovery
+        # methods) through so registry health checks / tool previews work; still challenge
+        # anything that touches data. Only POST carries a JSON-RPC body to inspect; a
+        # no-credential GET/DELETE (SSE stream / session op) is always challenged.
+        if not self._anonymous_discovery:
+            await self._challenge(send)
+            return
         if scope.get("method") != "POST":
             await self._challenge(send)
             return

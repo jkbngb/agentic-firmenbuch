@@ -791,6 +791,22 @@ def test_build_app_registers_tools() -> None:
     assert app.name == "firmenbuch-live"
 
 
+def test_every_tool_declares_title_and_readonly_hint() -> None:
+    """Anthropic Connectors Directory hard gate: every tool must carry a human-readable
+    ``title`` and ``readOnlyHint: true`` (all our tools are read-only). Missing annotations
+    are an automatic rejection, so assert them here so a new tool can't ship without them."""
+    app = build_app(_store(), Settings())
+    tools = app._tool_manager.list_tools()
+    assert tools, "no tools registered"
+    for tool in tools:
+        assert tool.title, f"tool {tool.name!r} is missing a human-readable title"
+        assert tool.annotations is not None, f"tool {tool.name!r} has no annotations"
+        assert (
+            tool.annotations.readOnlyHint is True
+        ), f"tool {tool.name!r} must declare readOnlyHint=True"
+        assert len(tool.name) <= 64, f"tool name {tool.name!r} exceeds 64 chars"
+
+
 def test_companies_without_bilanzsumme_are_not_dropped_from_sorted_lists() -> None:
     """#32/#24: the default sort (bilanzsumme desc) must NOT hide the ~40% of companies
     without a Bilanzsumme (banks/insurers etc.). They appear AFTER the ranked ones, by name,

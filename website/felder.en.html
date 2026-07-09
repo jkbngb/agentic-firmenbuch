@@ -136,10 +136,11 @@
       <a href="#suche">1 · Search card</a>
       <a href="#profil">2 · Profile</a>
       <a href="#voll">3 · Full record</a>
-      <a href="#filter">4 · Filters &amp; sorting</a>
-      <a href="#codes">5 · Code tables</a>
-      <a href="#beispiel">6 · Example response</a>
-      <a href="#stand">7 · Status &amp; warranty</a>
+      <a href="#events">4 · Change feed</a>
+      <a href="#filter">5 · Filters &amp; sorting</a>
+      <a href="#codes">6 · Code tables</a>
+      <a href="#beispiel">7 · Example response</a>
+      <a href="#stand">8 · Status &amp; warranty</a>
     </div>
 
     <section class="block" id="suche">
@@ -353,7 +354,7 @@
           <tr><td><code>doc_key</code> · <code>document_url</code> · <code>pdf_doc_key</code></td><td>string | null</td><td>Document references (partly empty)</td></tr>
         </tbody>
       </table></div>
-      <p style="font-size:.92em"><code>events[]</code> – register events (Vollzüge), <strong>derived from the daily change feed from 1 July 2026</strong>. The official extract carries no change log, so on every daily update we compare the master data and record differences as typed events (<code>name_change</code>, <code>seat_change</code>, <code>legal_form_change</code>, <code>management_change</code>, <code>capital_change</code>) with <code>date</code>, <code>description</code> and <code>source</code> (<code>change_feed_delta</code>). History starts 1 July 2026.</p>
+      <p style="font-size:.92em"><code>events[]</code> – register events (Vollzüge), <strong>derived from the daily change feed from 1 July 2026</strong>. The official extract carries no change log, so on every daily update we compare the master data and record differences as typed events (<code>name_change</code>, <code>seat_change</code>, <code>legal_form_change</code>, <code>management_change</code>, <code>capital_change</code>) with <code>date</code>, <code>description</code> and <code>source</code> (<code>change_feed_delta</code>). Capital changes also carry <code>capital_from</code>/<code>capital_to</code>, management changes <code>managers_added</code>/<code>managers_removed</code> (role + name). <strong>History starts 1 July 2026</strong> — nothing before that date is recorded. Queryable across companies via <code>list_events</code> (see below).</p>
 
       <h3><code>financial_institution</code> · Regulated financial institution</h3>
       <p style="font-size:.92em">Present only for banks, insurers and similar regulated institutions. Sourced from the <strong>official register</strong> (OeNB bank list, joined by company-register number; insurers via EIOPA/GLEIF in progress) – no name guessing.</p>
@@ -416,8 +417,27 @@
       <p>Same rule here: officer names are public Firmenbuch data (per-query), birth data year-granular only.</p>
     </section>
 
+    <section class="block" id="events">
+      <h2><span class="n">4</span> <code>list_events</code> · <code>get_event_stats</code> → change feed <span class="muted" style="font-weight:400">(Pro)</span></h2>
+      <p><strong>Cross-company feed of register changes</strong> – the market-watch / deal-sourcing view: "which companies changed management / raised capital / relocated – where, since when". For the change history of <em>one</em> known company, use <code>get_company_details</code> (field <code>events[]</code>).</p>
+      <h3><code>list_events</code> · filters</h3>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Argument</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>types</code></td><td>one or more of <code>name_change</code> / <code>seat_change</code> / <code>legal_form_change</code> / <code>capital_change</code> / <code>management_change</code></td></tr>
+          <tr><td><code>since</code> / <code>until</code></td><td>time range (ISO date); default: last 30 days</td></tr>
+          <tr><td><code>bundesland</code> · <code>oenace_section</code> · <code>oenace_division</code> · <code>legal_form</code></td><td>the same facets as <code>search_companies</code></td></tr>
+          <tr><td><code>fnrs</code></td><td>watchlist – watch only these Firmenbuch numbers</td></tr>
+          <tr><td><code>page</code> · <code>page_size</code></td><td>page (1) · hits per page (25, max 100)</td></tr>
+        </tbody>
+      </table></div>
+      <p style="font-size:.92em">Per event: <code>fnr</code>, <code>name</code>, <code>date</code>, <code>type</code>, <code>description</code>, for capital <code>capital_from</code>/<code>capital_to</code>, for management <code>managers_added</code>/<code>managers_removed</code> (role + name), plus <code>bundesland</code>, <code>legal_form</code>, <code>industry_section</code>. Sorted by date (newest first).</p>
+      <p style="font-size:.92em"><code>get_event_stats</code> returns, for the same filters, <strong>counts by type and by Bundesland</strong> – for market dashboards ("how many capital increases in Upper Austria this month").</p>
+      <div class="note"><strong>Forward-only:</strong> events are derived from the daily change feed and start on <strong>1 July 2026</strong>. An empty result means no change in the period – not missing data. Nothing before 1 July 2026 is recorded or queryable.</div>
+    </section>
+
     <section class="block" id="filter">
-      <h2><span class="n">4</span> Filters, sorting, pages</h2>
+      <h2><span class="n">5</span> Filters, sorting, pages</h2>
       <p>Arguments of <code>search_companies</code>.</p>
       <div class="tablewrap"><table>
         <thead><tr><th>Filter</th><th>Meaning</th></tr></thead>
@@ -448,7 +468,7 @@
     </section>
 
     <section class="block" id="codes">
-      <h2><span class="n">5</span> Code tables</h2>
+      <h2><span class="n">6</span> Code tables</h2>
       <p><strong>Bundesland</strong> (code → plain name): <code>B</code> Burgenland · <code>K</code> Kärnten ·
          <code>N</code> Niederösterreich · <code>O</code> Oberösterreich · <code>S</code> Salzburg ·
          <code>St</code> Steiermark · <code>T</code> Tirol · <code>V</code> Vorarlberg · <code>W</code> Wien.</p>
@@ -460,7 +480,7 @@
     </section>
 
     <section class="block" id="beispiel">
-      <h2><span class="n">6</span> Example response</h2>
+      <h2><span class="n">7</span> Example response</h2>
       <p>This is what a full <code>get_company_details</code> response looks like for a sample
          company (abbreviated; time series are illustrative). Fields with
          <code>null</code> or empty objects/lists are also part of the response and are sent
@@ -621,7 +641,7 @@
     </section>
 
     <section class="block" id="stand">
-      <h2><span class="n">7</span> Status &amp; warranty</h2>
+      <h2><span class="n">8</span> Status &amp; warranty</h2>
       <p>Every response carries <code>provenance.data_version</code> and <code>built_at</code>
          (build time of the delivered data). The data comes from the
          <strong>Austrian Firmenbuch</strong> (BMJ – Justiz, EU High Value Dataset,
