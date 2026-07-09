@@ -204,9 +204,9 @@ def list_events(
         "until": until,
         "events": [_serve(d) for d in rows],
         "note": (
-            "Registeränderungen werden erst seit dem 1. Juli 2026 von uns aufgezeichnet und sind "
-            "daher erst ab diesem Datum abfragbar. Ein leeres Ergebnis bedeutet: keine Änderung im "
-            "Zeitraum, keine fehlenden Daten."
+            "Registeränderungen werden seit dem 1. Juli 2026 erfasst und sind daher erst ab "
+            "diesem Datum abfragbar. Ein leeres Ergebnis bedeutet: keine Änderung im Zeitraum, "
+            "keine fehlenden Daten."
         ),
     }
 
