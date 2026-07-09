@@ -42,6 +42,7 @@ MODES = (
     "directories",
     "refresh-stats",
     "daily",
+    "freshness",
     "diag",
     "diag-doctypes",
 )
@@ -176,6 +177,25 @@ def run(
     if mode == "diag-doctypes":
         _run_doctypes(ctx)  # read-only; no lock needed
         return 0
+
+    if mode == "freshness":
+        # Admin-visibility watchdog (own daily job): alert by e-mail if the change-feed watermark
+        # or the newest served built_at has gone stale. Read-only over Cosmos, no API, no run lock.
+        from fbl_auth.email import email_sender_from_settings
+        from fbl_core.config import get_settings
+
+        from .freshness import check_freshness
+
+        settings = get_settings()
+        sender = email_sender_from_settings(settings)
+
+        def _fresh_alert(subject: str, body: str) -> None:
+            try:
+                sender.send_alert(settings.alert_email, subject, body)
+            except Exception as exc:  # an alert must never crash the watchdog
+                log.error("freshness alert email failed", extra={"context": {"error": str(exc)}})
+
+        return check_freshness(ctx.cosmos, alert=_fresh_alert)
 
     if mode == "refresh-stats":
         # Weekly (issue #12): rebuild the full __stats__ snapshot INCLUDING the heavy coverage

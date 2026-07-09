@@ -84,7 +84,7 @@ def cli(argv: list[str] | None = None) -> int:
         settings,
         capture_raw=not fanout_ingest,
         max_retries=2 if fanout_ingest else 4,
-        need_api=args.mode not in ("directories", "refresh-stats"),
+        need_api=args.mode not in ("directories", "refresh-stats", "freshness"),
     )
     code = run(args.mode, ctx, run_id=run_id)
     log.info("pipeline done", extra={"context": {"run_id": run_id, "exit": code}})
