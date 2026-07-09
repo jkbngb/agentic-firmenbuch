@@ -2,8 +2,15 @@
 
 from __future__ import annotations
 
-from .present import PRESENTED_ALLOWLIST, PRODUCER, present, present_status_only
+from .present import PRESENTED_ALLOWLIST, PRODUCER, event_records, present, present_status_only
 
 LAYER = "10_presentation"
 
-__all__ = ["LAYER", "PRESENTED_ALLOWLIST", "PRODUCER", "present", "present_status_only"]
+__all__ = [
+    "LAYER",
+    "PRESENTED_ALLOWLIST",
+    "PRODUCER",
+    "event_records",
+    "present",
+    "present_status_only",
+]

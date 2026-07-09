@@ -20,6 +20,8 @@ Two safeguards make this safe to switch on:
 
 from __future__ import annotations
 
+from typing import cast
+
 from fbl_core_at.models import ConsolidatedCompany, Manager, MasterData, RegisterEvent
 
 # Documented go-live for the derived-events history (issue #16). No event is emitted with a date
@@ -56,13 +58,27 @@ def master_signature(master: MasterData | None) -> dict[str, object] | None:
     }
 
 
+def _fmt_person(sig: str) -> str:
+    """Render a signatory signature (``role|last|first|birth|vertretung``) as "ROLE First Last"."""
+    parts = [p if p not in ("", "None") else "" for p in sig.split("|")]
+    role = parts[0] if parts else ""
+    last = parts[1] if len(parts) > 1 else ""
+    first = parts[2] if len(parts) > 2 else ""
+    name = " ".join(p for p in (first, last) if p)
+    return " ".join(p for p in (role, name) if p) or sig
+
+
+def _num(x: object) -> float | None:
+    return float(x) if isinstance(x, (int, float)) and not isinstance(x, bool) else None
+
+
 def _diff_to_events(
     prev: dict[str, object], cur: dict[str, object], today: str
 ) -> list[RegisterEvent]:
     out: list[RegisterEvent] = []
 
-    def ev(type_: str, desc: str) -> RegisterEvent:
-        return RegisterEvent(date=today, type=type_, description=desc, source=SOURCE)
+    def ev(type_: str, desc: str, **extra: object) -> RegisterEvent:
+        return RegisterEvent(date=today, type=type_, description=desc, source=SOURCE, **extra)  # type: ignore[arg-type]
 
     if prev.get("name") != cur.get("name"):
         out.append(ev("name_change", f"vormals: {prev.get('name')}"))
@@ -74,9 +90,27 @@ def _diff_to_events(
             ev("seat_change", f"neue Anschrift: {where}" if where else "Sitz/Anschrift geändert")
         )
     if prev.get("stammkapital") != cur.get("stammkapital"):
-        out.append(ev("capital_change", f"{prev.get('stammkapital')} → {cur.get('stammkapital')}"))
+        cf, ct = prev.get("stammkapital"), cur.get("stammkapital")
+        out.append(ev("capital_change", f"{cf} → {ct}", capital_from=_num(cf), capital_to=_num(ct)))
     if prev.get("signatories") != cur.get("signatories"):
-        out.append(ev("management_change", "Vertretungsbefugte Organe geändert"))
+        prev_list = cast("list[str]", prev.get("signatories") or [])
+        cur_list = cast("list[str]", cur.get("signatories") or [])
+        prev_s, cur_s = set(prev_list), set(cur_list)
+        added = [_fmt_person(s) for s in cur_list if s not in prev_s]
+        removed = [_fmt_person(s) for s in prev_list if s not in cur_s]
+        bits = []
+        if added:
+            bits.append("bestellt: " + "; ".join(added))
+        if removed:
+            bits.append("gelöscht: " + "; ".join(removed))
+        out.append(
+            ev(
+                "management_change",
+                " | ".join(bits) if bits else "Vertretungsbefugte Organe geändert",
+                managers_added=added,
+                managers_removed=removed,
+            )
+        )
     return out
 
 

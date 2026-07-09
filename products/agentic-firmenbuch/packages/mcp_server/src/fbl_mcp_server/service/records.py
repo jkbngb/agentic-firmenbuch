@@ -218,7 +218,11 @@ def describe_fields() -> dict[str, Any]:
                     "employees": ["latest", "latest_year", "history"],
                     "filings[]": ["stichtag", "format", "parsed", "gkl", "eingereicht", "doc_key"],
                     "events[]": [
-                        "name/seat/legal-form/management/capital changes (from 2026-07-01)"
+                        "register changes from 2026-07-01: {date, type "
+                        "(name_change/seat_change/legal_form_change/capital_change/"
+                        "management_change), description, source}",
+                        "capital_from/capital_to (capital_change); managers_added[]/"
+                        "managers_removed[] as 'ROLE Name' (management_change)",
                     ],
                     "industry": [
                         "geschaeftszweig (Firmenbuch free text, never dropped)",
@@ -253,6 +257,26 @@ def describe_fields() -> dict[str, Any]:
                     "management.signatories_history",
                     "derivations (metrics_version + formula registry)",
                 ],
+            },
+            "list_events": {
+                "returns": "cross-company feed of register changes (Pro), newest first",
+                "filters": [
+                    "types[] (name_change/seat_change/legal_form_change/capital_change/"
+                    "management_change)",
+                    "since/until (ISO date; default last 30 days)",
+                    "bundesland, oenace_section, oenace_division, legal_form (search facets)",
+                    "fnrs[] (watchlist), page, page_size",
+                ],
+                "event_fields": [
+                    "fnr, name, date, type, description, source",
+                    "capital_from, capital_to, managers_added[], managers_removed[]",
+                    "bundesland, legal_form, industry_section",
+                ],
+                "note": "derived from the daily change feed; forward-only from 2026-07-01",
+            },
+            "get_event_stats": {
+                "returns": "counts by type and by Bundesland over a window (Pro)",
+                "filters": ["since/until (default 30 days)", "same facets as list_events"],
             },
         },
         "codes": {

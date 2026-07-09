@@ -767,7 +767,13 @@ def test_describe_fields_catalog() -> None:
     svc, token = _svc()
     cat = svc.describe_fields(token)
     # Lists every tier and the search card's exact fields; flags the summary/escalation rule.
-    assert set(cat["tiers"]) == {"search_companies", "get_company_details", "get_full_record"}
+    assert set(cat["tiers"]) == {
+        "search_companies",
+        "get_company_details",
+        "get_full_record",
+        "list_events",
+        "get_event_stats",
+    }
     assert "has_guv_latest" in cat["tiers"]["search_companies"]["fields"]
     assert cat["codes"]["bundesland"]["W"] == "Wien"
     assert cat["reference_url"].endswith("/felder.html")

@@ -122,6 +122,12 @@ class RegisterEvent(BaseModel):
     # against the prior one (issue #16): the HVD tier does not return the historical VOLLZ log, so
     # events are derived, not read. "auszug" = a literal VOLLZ entry (rare on this tier).
     source: str | None = None
+    # Structured detail (optional; populated per type) so an agent can act on the change without
+    # parsing the prose `description`. Names are public Firmenbuch data; birth data never appears.
+    capital_from: float | None = None  # capital_change: Stammkapital before
+    capital_to: float | None = None  # capital_change: Stammkapital after
+    managers_added: list[str] = Field(default_factory=list)  # e.g. "GESCHÄFTSFÜHRER/IN Max Muster"
+    managers_removed: list[str] = Field(default_factory=list)
 
 
 class Ratios(BaseModel):

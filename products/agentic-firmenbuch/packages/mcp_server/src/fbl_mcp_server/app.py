@@ -183,6 +183,64 @@ class McpService:
             return gate
         return service.find_peers(self._cosmos, fnr, n)
 
+    def list_events(
+        self,
+        token: str,
+        *,
+        types: list[str] | None = None,
+        since: str | None = None,
+        until: str | None = None,
+        bundesland: str | None = None,
+        oenace_section: str | None = None,
+        oenace_division: str | None = None,
+        legal_form: str | None = None,
+        fnrs: list[str] | None = None,
+        page: int = 1,
+        page_size: int = 25,
+    ) -> dict[str, Any]:
+        account = self._authorize(token, "list_events")
+        gate = self._gate_pro_only(account, "list_events")
+        if gate is not None:
+            return gate
+        return service.list_events(
+            self._cosmos,
+            types=types,
+            since=since,
+            until=until,
+            bundesland=bundesland,
+            oenace_section=oenace_section,
+            oenace_division=oenace_division,
+            legal_form=legal_form,
+            fnrs=fnrs,
+            page=page,
+            page_size=page_size,
+        )
+
+    def get_event_stats(
+        self,
+        token: str,
+        *,
+        since: str | None = None,
+        until: str | None = None,
+        bundesland: str | None = None,
+        oenace_section: str | None = None,
+        oenace_division: str | None = None,
+        legal_form: str | None = None,
+    ) -> dict[str, Any]:
+        account = self._authorize(token, "get_event_stats")
+        gate = self._gate_pro_only(account, "get_event_stats")
+        if gate is not None:
+            return gate
+        return service.get_event_stats(
+            self._cosmos,
+            since=since,
+            until=until,
+            bundesland=bundesland,
+            oenace_section=oenace_section,
+            oenace_division=oenace_division,
+            legal_form=legal_form,
+        )
+
     def get_coverage(self, token: str) -> dict[str, Any]:
         """Internal coverage dashboard (XML vs PDF-only vs none) — auth-restricted (§11).
         Served from the precomputed ``__stats__`` doc so it can't full-scan in-request."""
@@ -529,6 +587,84 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
         lists use search_companies, for group aggregates use get_cohort_summary.
         """
         return svc.find_peers(_http_token(ctx), fnr, n)
+
+    @mcp.tool(annotations=readonly)
+    def list_events(
+        ctx: ToolContext,
+        types: list[str] | None = None,
+        since: str | None = None,
+        until: str | None = None,
+        bundesland: str | None = None,
+        oenace_section: str | None = None,
+        oenace_division: str | None = None,
+        legal_form: str | None = None,
+        fnrs: list[str] | None = None,
+        page: int = 1,
+        page_size: int = 25,
+    ) -> dict[str, Any]:
+        """Cross-company feed of register CHANGES (Vollzuege), newest first — the market-watch /
+        deal-sourcing surface. Read-only. Pro.
+
+        Answers "which companies changed X, where, since when" in one call — e.g. management
+        changes, capital increases, relocations across a region or industry, or a watchlist of FNs.
+        For the change history of ONE known company, use get_company_details (its `events[]`).
+
+        Parameters (all optional, AND-combined):
+        - types: any of ["name_change", "seat_change", "legal_form_change", "capital_change",
+          "management_change"]; omit for all.
+        - since / until: ISO dates ("2026-07-01"). Default window: the last 30 days.
+        - bundesland: full name ("Wien") or code; oenace_section (letter) / oenace_division
+          (2-digit); legal_form ("GmbH" or a Firmenbuch code) — same facets as search_companies.
+        - fnrs: restrict to these Firmenbuchnummern (a watchlist).
+        - page (1), page_size (25, max 100).
+
+        Returns {total, page, page_size, since, until, events:[{fnr, name, date, type, description,
+        capital_from, capital_to, managers_added, managers_removed, bundesland, industry_section}]}.
+        Events are DERIVED from the daily change feed and are forward-only from 2026-07-01; an empty
+        result means no matching change in the window (not missing data).
+        Field reference: https://www.agentic-firmenbuch.at/felder.html
+        """
+        return svc.list_events(
+            _http_token(ctx),
+            types=types,
+            since=since,
+            until=until,
+            bundesland=bundesland,
+            oenace_section=oenace_section,
+            oenace_division=oenace_division,
+            legal_form=legal_form,
+            fnrs=fnrs,
+            page=page,
+            page_size=page_size,
+        )
+
+    @mcp.tool(annotations=readonly)
+    def get_event_stats(
+        ctx: ToolContext,
+        since: str | None = None,
+        until: str | None = None,
+        bundesland: str | None = None,
+        oenace_section: str | None = None,
+        oenace_division: str | None = None,
+        legal_form: str | None = None,
+    ) -> dict[str, Any]:
+        """Aggregate counts of register changes by type and by Bundesland over a window. Read-only.
+        Pro. Use for market-watch dashboards ("how many capital increases in OÖ this month");
+        for the individual changes use list_events.
+
+        Parameters (all optional): since / until (default last 30 days); bundesland; oenace_section;
+        oenace_division; legal_form — same facets as list_events. Returns {since, until, total,
+        by_type, by_bundesland}. Forward-only from 2026-07-01.
+        """
+        return svc.get_event_stats(
+            _http_token(ctx),
+            since=since,
+            until=until,
+            bundesland=bundesland,
+            oenace_section=oenace_section,
+            oenace_division=oenace_division,
+            legal_form=legal_form,
+        )
 
     @mcp.tool(annotations=readonly)
     def get_coverage(ctx: ToolContext) -> dict[str, Any]:

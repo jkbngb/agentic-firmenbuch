@@ -8,6 +8,8 @@ in ``meta`` (stored) but omitted from the served body by the MCP server.
 
 from __future__ import annotations
 
+from typing import Any
+
 from fbl_core.lineage import lineage_ref, new_doc_id, stamp
 from fbl_core.models import Meta
 from fbl_core_at.models import (
@@ -189,3 +191,51 @@ def present_status_only(
         stamp(doc.meta, doc.model_dump(mode="json"), stage_time_key="presented_at")
         doc.provenance.built_at = doc.meta.timestamps.get("presented_at")
     return doc
+
+
+def event_records(presented: dict[str, Any]) -> list[dict[str, Any]]:
+    """Flatten a presented doc's ``events[]`` into standalone ``10_events`` docs — one per event,
+    with denormalized facets (name, Bundesland, ÖNACE, legal form) so the cross-company feed can
+    filter without touching ``10_presentation``. Deterministic ``id = {fnr}:{date}:{type}`` makes
+    the write idempotent (re-presenting re-upserts identical docs; event history only grows).
+
+    Pure: the caller (pipeline) upserts the returned dicts into ``10_events``.
+    """
+    fnr = presented.get("fnr")
+    events = presented.get("events") or []
+    if not fnr or not events:
+        return []
+    identity = presented.get("identity") or {}
+    location = presented.get("location") or {}
+    industry = presented.get("industry") or {}
+    oenace = (industry.get("oenace") or {}) if isinstance(industry, dict) else {}
+    facets = {
+        "name": identity.get("name") or fnr,
+        "bundesland": location.get("bundesland"),
+        "legal_form": identity.get("legal_form"),
+        "oenace_section": oenace.get("section"),
+        "oenace_division": oenace.get("division"),
+    }
+    out: list[dict[str, Any]] = []
+    for e in events:
+        if not isinstance(e, dict):
+            continue
+        date, etype = e.get("date"), e.get("type")
+        if not date or not etype:
+            continue
+        out.append(
+            {
+                "id": f"{fnr}:{date}:{etype}",
+                "fnr": fnr,
+                "date": date,
+                "type": etype,
+                "description": e.get("description"),
+                "source": e.get("source"),
+                "capital_from": e.get("capital_from"),
+                "capital_to": e.get("capital_to"),
+                "managers_added": e.get("managers_added") or [],
+                "managers_removed": e.get("managers_removed") or [],
+                **facets,
+            }
+        )
+    return out

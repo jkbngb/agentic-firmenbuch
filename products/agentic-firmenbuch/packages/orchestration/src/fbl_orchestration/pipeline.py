@@ -21,13 +21,25 @@ from fbl_core.storage import BlobStoreLike, CosmosStoreLike
 from fbl_core_at.models import ConsolidatedCompany
 from fbl_derive import build_cohort_stats, derive
 from fbl_firmenbuch_client import RegisterSource
-from fbl_present import present, present_status_only
+from fbl_present import event_records, present, present_status_only
 from fbl_registry import Registry
 
 from .industry_sync import LearnedLexicon, LlmClassifier, resolve_industry
 from .loaders import load_master, load_prev, parse_all
 
 CONSOLIDATED, DERIVED, PRESENTED = "50_consolidated", "30_derived", "10_presentation"
+EVENTS = "10_events"  # flattened register-event feed (one doc per event; see fbl_present)
+
+
+def _write_events(cosmos: CosmosStoreLike, payload: dict[str, object]) -> None:
+    """Flatten the presented doc's events[] into the 10_events feed. Best-effort: an events-feed
+    write must never fail a company's presentation (the events[] on 10_presentation is the source
+    of truth; 10_events is a derived query index)."""
+    try:
+        for erec in event_records(payload):
+            cosmos.upsert(EVENTS, erec)
+    except Exception as exc:  # feed write is non-critical
+        log.warning("events feed write failed", extra={"context": {"error": str(exc)}})
 
 
 @dataclass
@@ -187,6 +199,7 @@ def process_set(
             payload = pres.model_dump(mode="json", exclude_none=True)
             _attach_industry(ctx, fnr, payload)
             _upsert(ctx.cosmos, PRESENTED, fnr, payload)
+            _write_events(ctx.cosmos, payload)
             ctx.registry.mark_clean(fnr)
             report.processed += 1
         except Exception as exc:
@@ -381,6 +394,7 @@ def process_backfill(
             payload = pres.model_dump(mode="json", exclude_none=True)
             _attach_industry(ctx, fnr, payload)
             _upsert(ctx.cosmos, PRESENTED, fnr, payload)
+            _write_events(ctx.cosmos, payload)
             ctx.registry.mark_clean(fnr)
             return None
         except Exception as exc:

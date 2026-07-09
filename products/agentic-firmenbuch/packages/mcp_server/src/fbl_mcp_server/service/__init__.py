@@ -14,6 +14,7 @@ from __future__ import annotations
 
 from .cohort import find_peers, get_cohort_summary
 from .documents import get_document
+from .events import get_event_stats, list_events
 from .records import describe_fields, get_company_details, get_company_history, get_full_record
 from .search import search_companies
 from .stats import STATS_ID, coverage, coverage_summary, list_sectors, store_stats
@@ -28,7 +29,9 @@ __all__ = [
     "get_company_details",
     "get_company_history",
     "get_document",
+    "get_event_stats",
     "get_full_record",
+    "list_events",
     "list_sectors",
     "search_companies",
     "store_stats",

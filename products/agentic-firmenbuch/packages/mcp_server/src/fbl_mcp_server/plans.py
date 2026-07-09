@@ -48,6 +48,8 @@ PRO_ONLY_TOOLS: frozenset[str] = frozenset(
         "get_company_history",
         "get_full_record",
         "get_document",
+        "list_events",
+        "get_event_stats",
     }
 )
 
