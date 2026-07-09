@@ -18,16 +18,17 @@ def _client() -> TestClient:
     return TestClient(app.streamable_http_app())
 
 
-def _asgi_client(cosmos: InMemoryCosmosStore | None = None) -> TestClient:
+def _asgi_client(
+    cosmos: InMemoryCosmosStore | None = None, settings: Settings | None = None
+) -> TestClient:
     # The production ASGI app: streamable-HTTP transport + the OAuth-challenge wrapper.
-    return TestClient(build_asgi_app(cosmos or InMemoryCosmosStore(), Settings()))
+    return TestClient(build_asgi_app(cosmos or InMemoryCosmosStore(), settings or Settings()))
 
 
 def test_unauthenticated_data_call_triggers_oauth_discovery() -> None:
     # A no-credential *data* call (tools/call) must return 401 + WWW-Authenticate pointing at
     # the protected-resource metadata (RFC 9728) — this is what triggers OAuth discovery for
-    # Cowork/claude.ai. (The challenge is deferred from connect-time to the first real call;
-    # discovery methods like initialize/tools-list are now allowed anonymously, below.)
+    # Cowork/claude.ai.
     r = _asgi_client().post(
         "/mcp",
         content=json.dumps(
@@ -50,10 +51,10 @@ def test_unauthenticated_data_call_triggers_oauth_discovery() -> None:
     assert "/.well-known/oauth-protected-resource/mcp" in www
 
 
-def test_anonymous_discovery_is_allowed() -> None:
-    # Directory health checks (Glama etc.) and "preview the tools before connecting" must
-    # work without a key: a no-credential initialize / tools/list passes the wrapper (the
-    # tool *catalog* is already fully public; only tools/call exposes data and stays gated).
+def test_unauthenticated_initialize_is_challenged_by_default() -> None:
+    # Anthropic Connectors Directory contract: EVERY unauthenticated /mcp request — including
+    # the very first `initialize` — must return 401 + WWW-Authenticate. This is the reviewer's
+    # probe. The default (mcp_anonymous_discovery=False) must challenge the handshake itself.
     for method in ("initialize", "tools/list"):
         with _asgi_client() as client:
             r = client.post(
@@ -64,7 +65,26 @@ def test_anonymous_discovery_is_allowed() -> None:
                     "accept": "application/json, text/event-stream",
                 },
             )
-        assert r.status_code != 401, f"{method} must not be challenged"
+        assert r.status_code == 401, f"{method} must be challenged by default"
+        assert "resource_metadata=" in r.headers["www-authenticate"]
+
+
+def test_anonymous_discovery_allowed_when_flag_enabled() -> None:
+    # Opt-in escape hatch: with MCP_ANONYMOUS_DISCOVERY=true the handshake + tool catalog
+    # (initialize / tools/list) pass without a key so registry health checks (Glama) and
+    # anonymous tool preview work; only tools/call still exposes data and stays gated.
+    settings = Settings(mcp_anonymous_discovery=True)
+    for method in ("initialize", "tools/list"):
+        with _asgi_client(settings=settings) as client:
+            r = client.post(
+                "/mcp",
+                content=json.dumps({"jsonrpc": "2.0", "id": 1, "method": method, "params": {}}),
+                headers={
+                    "content-type": "application/json",
+                    "accept": "application/json, text/event-stream",
+                },
+            )
+        assert r.status_code != 401, f"{method} must not be challenged when the flag is on"
 
 
 def test_unauthenticated_malformed_body_is_challenged() -> None:

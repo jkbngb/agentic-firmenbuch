@@ -702,4 +702,10 @@ def build_asgi_app(cosmos: CosmosStoreLike, settings: Settings | None = None) ->
     ``__main__`` serves with uvicorn; tests drive it directly via Starlette's TestClient."""
     mcp = build_app(cosmos, settings)
     base = os.environ.get("PUBLIC_BASE_URL", "https://mcp.agentic-firmenbuch.at")
-    return _OAuthChallenge(mcp.streamable_http_app(), base, cosmos)
+    _settings = settings or get_settings()
+    return _OAuthChallenge(
+        mcp.streamable_http_app(),
+        base,
+        cosmos,
+        anonymous_discovery=_settings.mcp_anonymous_discovery,
+    )

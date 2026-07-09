@@ -801,9 +801,9 @@ def test_every_tool_declares_title_and_readonly_hint() -> None:
     for tool in tools:
         assert tool.title, f"tool {tool.name!r} is missing a human-readable title"
         assert tool.annotations is not None, f"tool {tool.name!r} has no annotations"
-        assert (
-            tool.annotations.readOnlyHint is True
-        ), f"tool {tool.name!r} must declare readOnlyHint=True"
+        assert tool.annotations.readOnlyHint is True, (
+            f"tool {tool.name!r} must declare readOnlyHint=True"
+        )
         assert len(tool.name) <= 64, f"tool name {tool.name!r} exceeds 64 chars"
 
 

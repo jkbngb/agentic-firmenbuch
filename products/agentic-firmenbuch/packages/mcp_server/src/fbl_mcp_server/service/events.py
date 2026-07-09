@@ -204,8 +204,9 @@ def list_events(
         "until": until,
         "events": [_serve(d) for d in rows],
         "note": (
-            "Register-Aenderungen werden aus dem taeglichen Change-Feed abgeleitet und beginnen am "
-            "2026-07-01 (forward-only). Ein leeres Ergebnis bedeutet: keine Aenderung im Zeitraum."
+            "Registeränderungen werden erst seit dem 1. Juli 2026 von uns aufgezeichnet und sind "
+            "daher erst ab diesem Datum abfragbar. Ein leeres Ergebnis bedeutet: keine Änderung im "
+            "Zeitraum, keine fehlenden Daten."
         ),
     }
 
