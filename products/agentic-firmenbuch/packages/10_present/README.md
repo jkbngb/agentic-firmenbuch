@@ -1,6 +1,10 @@
 # `present` (`fbl_present`) — Stage 7 · `30_derived` → `10_presentation`
 
-**Layer:** `10_presentation` | **reads:** Cosmos `30_derived` | **writes:** Cosmos `10_presentation`
+**Layer:** `10_presentation` | **reads:** Cosmos `30_derived` | **writes:** Cosmos `10_presentation` (+ `10_events`)
+
+`event_records()` flattens a presented doc's `events[]` into standalone `10_events` docs (one per
+event, with denormalized facets) — the query index behind the `list_events` / `get_event_stats`
+feed (the orchestration pipeline upserts them; design: `docs/events/EVENTS_FEATURE.md`).
 
 **Purpose:** assemble the **public served document**: enforce scope, GDPR gating, and
 attribution; denormalize filter fields to shallow indexed paths; upsert by `fnr` (§8.7).

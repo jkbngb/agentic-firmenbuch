@@ -20,6 +20,8 @@ auth + rate limiting enforced before any tool runs.
 | `list_sectors()` | legal-form + size-class taxonomy with counts |
 | `get_cohort_summary(dimension, value)` | aggregate for gkl / bundesland / legal_form |
 | `find_peers(fnr, n)` | nearest companies by Bilanzsumme in the same size class |
+| `list_events(types, since, until, bundesland, oenace_*, legal_form, fnrs, page, page_size)` | **cross-company register-change feed** (Pro), newest first — name/seat/legal-form/management/capital changes with structured detail (`capital_from/to`, `managers_added/removed`) + facets; served from `10_events`. Deal-sourcing / watchlist / market watch. Forward-only from 2026-07-01. |
+| `get_event_stats(since, until, bundesland, oenace_*, legal_form)` | counts of register changes by type + Bundesland over a window (Pro) |
 
 Every response carries the §8.9 envelope (`schema_version`, `data_version`,
 `results|result`, `provenance`). Errors are typed (`not_found | unauthorized |
