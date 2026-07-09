@@ -417,6 +417,15 @@ def _run_daily(ctx: PipelineContext, run_id: str, today: date) -> ProcessReport:
     # Archive the change-feed responses verbatim before ingest drains the buffer (§5.1).
     archive_raw_responses(ctx.source, ctx.blob, run_id=run_id, prefix="_changes")
 
+    # Advance the watermark NOW — it is the change-feed READ POSITION, not a work-completion
+    # marker. detect_changes has read the feed up to `today`; companies that fail/defer downstream
+    # stay `dirty` and are retried next run (feed position and work queue are decoupled). Setting it
+    # at the END instead stranded it whenever a downstream step was SIGKILLed by the replica
+    # timeout: the watermark froze, so every later run re-scanned weeks of feed (von = the stale
+    # watermark), inflating the change set until the budget could never clear it. Advancing here
+    # breaks that loop even if ingest/process/status-refresh is later cut short.
+    ctx.registry.set_watermark(today.isoformat())
+
     # 2) Partition the dirty set: status-change-only (cheap re-present) vs full rebuild.
     status_only, full = _partition_dirty(ctx)
 
@@ -450,23 +459,20 @@ def _run_daily(ctx: PipelineContext, run_id: str, today: date) -> ProcessReport:
         today=today.isoformat(),
     )
 
-    # 4) Cheap status refresh for the rest.
-    report.status_only_refreshed = refresh_status_only(ctx, run_id, status_only)
+    # 4) Cheap status refresh for the rest — bounded by the SAME deadline so it can never run past
+    #    the daily budget into the platform replica-timeout (an unbounded refresh here was the
+    #    SIGKILL that stranded the watermark; see the note at set_watermark above).
+    report.status_only_refreshed = refresh_status_only(
+        ctx, run_id, status_only, max_seconds=max(1.0, deadline - time.monotonic())
+    )
 
-    # 5) Advance the watermark to today. The watermark is the CHANGE-FEED read position, not a
-    #    work-completion marker: detect_changes (step 1) already read the feed up to `today`, so
-    #    that position is reached regardless of how many companies failed downstream. Companies
-    #    that failed stay `dirty` and are retried next run (the work queue is separate from the
-    #    feed position). Gating this on `failures == 0` meant a single transient failure pinned
-    #    the watermark at empty forever, so after a multi-day outage the feed was never
-    #    re-queried for the missed days. Decoupling them gives automatic catch-up: after an
-    #    outage the watermark sits at the last run date and the next run sweeps the whole gap.
+    # 5) The watermark was already advanced right after detect_changes (its true meaning is the
+    #    feed read position). Failed/deferred companies stay `dirty` and retry next run.
     if report.failures:
         log.warning(
-            "daily run had failures; watermark still advanced (feed position), dirty set retries",
+            "daily run had failures; dirty set retries next run (watermark already advanced)",
             extra={"context": {"failures": report.failures}},
         )
-    ctx.registry.set_watermark(today.isoformat())
 
     # 6) Refresh the served stats snapshot. Sectors only here (fast); the heavy coverage scan
     #    runs on the quarterly grind, keeping the nightly run lean.

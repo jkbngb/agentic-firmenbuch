@@ -410,12 +410,30 @@ def process_backfill(
     return report
 
 
-def refresh_status_only(ctx: PipelineContext, run_id: str, fnrs: list[str]) -> int:
-    """Cheap re-`present` for status-change-only dirty companies (§15a.0)."""
+def refresh_status_only(
+    ctx: PipelineContext,
+    run_id: str,
+    fnrs: list[str],
+    *,
+    max_seconds: float | None = None,
+    clock: Callable[[], float] = time.monotonic,
+) -> int:
+    """Cheap re-`present` for status-change-only dirty companies (§15a.0).
+
+    ``max_seconds`` makes it self-bounding like ``process_set``: when the budget is spent it stops
+    cleanly and leaves the rest ``dirty`` for the next run, so it can never overrun the daily
+    deadline into the platform replica-timeout (a SIGKILL there stranded the watermark)."""
     from fbl_core_at.models import PresentedCompany
 
+    deadline = (clock() + max_seconds) if max_seconds is not None else None
     refreshed = 0
     for fnr in fnrs:
+        if deadline is not None and clock() >= deadline:
+            log.warning(
+                "time budget reached during status refresh; deferring rest (still dirty)",
+                extra={"context": {"deferred": len(fnrs) - refreshed}},
+            )
+            break
         raw = ctx.cosmos.get(PRESENTED, fnr)
         reg = ctx.registry.get(fnr)
         if raw is None or reg is None:

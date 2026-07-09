@@ -179,6 +179,36 @@ def test_daily_advances_watermark_even_when_a_company_fails(monkeypatch) -> None
     assert "030435h" in ctx.registry.dirty_fnrs()
 
 
+def test_daily_advances_watermark_before_processing_can_be_killed(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    """Regression: in prod the watermark froze because it was written at the END of the daily
+    run, after an unbounded status refresh that the platform replica-timeout SIGKILLed. It must
+    be advanced right after detect_changes so even a hard crash mid-processing can't strand it —
+    otherwise every later run re-scans weeks of feed (von = the stale watermark) and the change
+    set outgrows the time budget forever."""
+    import pytest
+
+    from fbl_firmenbuch_client import DocChange
+    from fbl_orchestration import orchestrator
+
+    src = _source_two_years()
+    ctx = _ctx(src)
+    run("sync-registry", ctx)
+    run("backfill-ingest", ctx)
+    run("backfill-process", ctx)
+
+    src.doc_changes = [DocChange(key="030435_x_XML", fnr="030435h", dokumentart_code="48")]
+
+    def _killed(*_a: object, **_k: object) -> object:  # simulate replica timeout / OOM kill
+        raise RuntimeError("replica killed mid-processing")
+
+    monkeypatch.setattr(orchestrator, "process_set", _killed)
+    with pytest.raises(RuntimeError):
+        daily_report(ctx, "2026-06-16-daily-k", date(2026, 6, 16))
+    # The feed position was persisted BEFORE the kill point, so the next run resumes from today
+    # (3-day lookback) instead of re-scanning the whole gap since the last successful run.
+    assert ctx.registry.get_watermark().last_change_date == "2026-06-16"
+
+
 def test_daily_lookback_floor_widens_change_window() -> None:
     # With no/recent watermark, a daily run re-checks `delta_lookback_days` back — the overlap
     # that catches late feed entries and, set high, the one-time catch-up after a backfill.
