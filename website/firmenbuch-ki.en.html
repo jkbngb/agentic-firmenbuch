@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="mask-icon" href="favicon.svg" color="#19C37D" />
+<title>Firmenbuch in Claude, Cursor, Copilot &amp; ChatGPT – AI access | Agentic-Firmenbuch.at</title>
+<meta name="description" content="The Austrian company register in your AI tool: official company and balance-sheet data in Claude, Cursor, VS Code, GitHub Copilot and any MCP client. ChatGPT app in preparation. Start free." />
+<link rel="canonical" href="https://www.agentic-firmenbuch.at/firmenbuch-ki.en.html" />
+<link rel="alternate" hreflang="de" href="https://www.agentic-firmenbuch.at/firmenbuch-ki.html" />
+<link rel="alternate" hreflang="en" href="https://www.agentic-firmenbuch.at/firmenbuch-ki.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.agentic-firmenbuch.at/firmenbuch-ki.html" />
+<meta name="robots" content="index,follow" />
+<meta name="theme-color" content="#0A0B0E" />
+<meta name="color-scheme" content="dark" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#0A0B0E;--surface:#14161B;--surface-2:#181B22;
+    --line:rgba(255,255,255,.08);--line-2:rgba(255,255,255,.13);
+    --text:#EDEFF3;--dim:#9AA2AF;--faint:#6B7280;--accent:#19C37D;--mint:#19C37D;
+    --r-sm:10px;--r-md:14px;--r-lg:20px;--maxw:820px;
+    --font-d:"Bricolage Grotesque",system-ui,sans-serif;
+    --font-b:"IBM Plex Sans",system-ui,sans-serif;
+    --font-m:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{font-family:var(--font-b);background:var(--ink);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(55% 35% at 50% -10%,rgba(25,195,125,.13),transparent 70%)}
+  a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+  .wrap{width:100%;max-width:1200px;margin-inline:auto;padding-inline:24px}
+  @media(max-width:560px){.wrap{padding-inline:18px}}
+  header{position:sticky;top:0;z-index:60;backdrop-filter:saturate(160%) blur(14px);background:rgba(10,11,14,.72);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:20px}
+  .brand{display:inline-flex;align-items:center;gap:11px;font-family:var(--font-d);font-weight:700;font-size:18px;letter-spacing:-.02em;color:var(--text)}
+  .mark{width:30px;height:30px;flex:none}
+  .back{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;font-weight:500;color:var(--dim);padding:9px 15px;border:1px solid var(--line-2);border-radius:var(--r-md);background:rgba(255,255,255,.04)}
+  .back:hover{color:var(--text);background:rgba(255,255,255,.08);text-decoration:none}.back svg{width:16px;height:16px}
+  main{padding-block:clamp(48px,8vw,92px) clamp(60px,9vw,110px)}
+  .doc{max-width:var(--maxw);margin-inline:auto}
+  .eyebrow{font-family:var(--font-m);font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  h1{font-family:var(--font-d);font-weight:700;font-size:clamp(2rem,5vw,3rem);letter-spacing:-.03em;line-height:1.05;margin:14px 0 12px}
+  .sub{color:var(--dim);font-size:1.05rem;max-width:64ch}
+  section.block{margin-top:40px}
+  h2{font-family:var(--font-d);font-weight:600;font-size:1.32rem;letter-spacing:-.02em;margin-bottom:13px;display:flex;align-items:baseline;gap:12px}
+  h2 .n{font-family:var(--font-m);font-size:.92rem;color:var(--accent);font-weight:500}
+  p{color:var(--dim);margin-bottom:12px}p strong{color:var(--text);font-weight:600}
+  ul{list-style:none;margin:6px 0 12px;display:flex;flex-direction:column;gap:9px}
+  li{color:var(--dim);padding-left:18px;position:relative}
+  li::before{content:"";position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.7}
+  .ph{font-family:var(--font-m);font-size:.92em;color:var(--mint);background:rgba(25,195,125,.08);border:1px solid rgba(25,195,125,.22);border-radius:6px;padding:1px 7px}
+  .codewrap{position:relative;margin:10px 0 4px}
+  pre{background:#0d0f14;border:1px solid var(--line);border-radius:var(--r-md);padding:16px 18px;overflow-x:auto}
+  code{font-family:var(--font-m);font-size:13px;color:#cfe9dc;line-height:1.7;white-space:pre}
+  .copy{position:absolute;top:9px;right:9px;font-family:var(--font-m);font-size:11px;color:var(--dim);background:var(--surface-2);
+    border:1px solid var(--line-2);border-radius:8px;padding:5px 9px;cursor:pointer}
+  .copy:hover{color:var(--text)}
+  .pill{font-family:var(--font-m);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);
+    border:1px solid var(--line-2);border-radius:999px;padding:3px 9px;background:rgba(25,195,125,.1)}
+  .soon{color:var(--faint);border-color:var(--line);background:transparent}
+  footer{border-top:1px solid var(--line);padding-block:34px 40px;margin-top:56px}
+  .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:center}
+  .foot-links{display:flex;gap:22px;flex-wrap:wrap}.foot-links a{color:var(--dim);font-size:14px}.foot-links a:hover{color:var(--text)}
+  .foot small{color:var(--faint);font-size:12.5px}
+
+  .lang-toggle{display:inline-flex;align-items:center;padding:7px 10px;border-radius:8px;font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--faint);border:1px solid var(--line);text-decoration:none}
+  .lang-toggle:hover{color:var(--text);background:rgba(255,255,255,.05)}
+
+  .nav-r{display:flex;align-items:center;gap:10px}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Can I use the Austrian Firmenbuch in Claude?","acceptedAnswer":{"@type":"Answer","text":"Yes. Add the connector https://mcp.agentic-firmenbuch.at/mcp in Claude (Cowork, Desktop, claude.ai) and ask for company data in natural language."}},
+{"@type":"Question","name":"Does it work with Cursor, VS Code or GitHub Copilot?","acceptedAnswer":{"@type":"Answer","text":"Yes. A standards-compliant MCP server; add the server URL with an X-API-Key header. Works with Cursor, VS Code, GitHub Copilot (agent mode) and any MCP-capable tool."}},
+{"@type":"Question","name":"Is a ChatGPT app coming?","acceptedAnswer":{"@type":"Answer","text":"A ChatGPT app for the ChatGPT App Directory is in preparation. Today access works through MCP-capable tools like Claude, Cursor, VS Code and GitHub Copilot."}}
+]}
+</script>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="en.html" aria-label="Agentic-Firmenbuch.at – Home">
+      <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="1" y="1" width="30" height="30" rx="9" fill="#14161B" stroke="#19C37D" stroke-opacity=".5"/>
+        <rect x="8" y="8" width="7" height="7" rx="2" fill="#19C37D"/>
+        <rect x="17" y="8" width="7" height="7" rx="2" fill="#19C37D" fill-opacity=".4"/>
+        <rect x="8" y="17" width="7" height="7" rx="2" fill="#19C37D" fill-opacity=".4"/>
+        <rect x="17" y="17" width="7" height="7" rx="2" fill="#19C37D"/>
+      </svg>
+      <span><span style="color:#19C37D">Agentic</span>-Firmenbuch.at</span>
+    </a>
+    <div class="nav-r">
+      <a class="lang-toggle" href="onboarding.html" hreflang="de" lang="de" aria-label="Auf Deutsch ansehen">DE</a>
+  
+    <a class="back" href="en.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+      Back to home
+    </a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap doc">
+    <span class="eyebrow">Firmenbuch for AI</span>
+    <h1>The Austrian company register in your AI tool</h1>
+    <p class="sub">Official company and balance-sheet data from the Austrian <strong>Firmenbuch</strong> – directly in <strong>Claude, Cursor, VS&nbsp;Code, GitHub Copilot</strong> and any MCP-capable AI assistant. Ask for company data in plain language and get verified, source-backed answers – no hallucinations.</p>
+    <p style="margin:.6rem 0 1.6rem"><a href="/#start" class="btn btn-primary">Connect for free</a> &nbsp; <a href="onboarding.en.html" class="btn btn-ghost">Setup guide</a></p>
+
+    <section class="block">
+      <h2>Firmenbuch in Claude</h2>
+      <p>Fastest with <strong>Claude Cowork</strong>: add the connector <code>https://mcp.agentic-firmenbuch.at/mcp</code> and sign in by email – no API key needed. Or in Claude Desktop / claude.ai under <em>Settings → Connectors → Add custom connector</em>, use the same URL. Then ask, e.g.: &ldquo;Find active Austrian GmbHs in Upper Austria with a balance-sheet total above €5&nbsp;million, sorted by revenue.&rdquo;</p>
+    </section>
+
+    <section class="block">
+      <h2>Firmenbuch in Cursor</h2>
+      <p>Add an HTTP MCP server to Cursor&rsquo;s config (<code>~/.cursor/mcp.json</code>) – URL <code>https://mcp.agentic-firmenbuch.at/mcp</code>, header <code>X-API-Key: YOUR_API_KEY</code> (get a free key by email). Then query Austrian company data, ratios and peers right in the editor.</p>
+    </section>
+
+    <section class="block">
+      <h2>Firmenbuch in VS&nbsp;Code &amp; GitHub Copilot</h2>
+      <p>VS&nbsp;Code and <strong>GitHub Copilot</strong> (agent mode) support MCP servers. Add the remote MCP <code>https://mcp.agentic-firmenbuch.at/mcp</code> with the <code>X-API-Key</code> header – and run company research right next to your code.</p>
+    </section>
+
+    <section class="block">
+      <h2>Firmenbuch in ChatGPT</h2>
+      <p>A <strong>ChatGPT app</strong> for the ChatGPT App Directory is <strong>in preparation</strong>. Until then, access works through MCP-capable tools like Claude, Cursor, VS&nbsp;Code and GitHub Copilot. <a href="/#start">Start for free</a> and be notified when the ChatGPT app goes live.</p>
+    </section>
+
+    <section class="block">
+      <h2>What company data do you get?</h2>
+      <ul>
+        <li><strong>Master data:</strong> legal name, Firmenbuch number, legal form, seat, status.</li>
+        <li><strong>Balance sheet &amp; P&amp;L:</strong> filed annual accounts, multi-year, machine-readable.</li>
+        <li><strong>Financial ratios:</strong> balance-sheet total, equity ratio, revenue, growth and more.</li>
+        <li><strong>Industry:</strong> ÖNACE classification (2025 and 2008).</li>
+        <li><strong>Officers:</strong> management / authorised signatories (public Firmenbuch data; birth data year-only).</li>
+        <li><strong>Peers &amp; cohorts:</strong> comparison with similar companies, aggregates.</li>
+        <li><strong>Register changes:</strong> name, seat, capital and management changes (feed).</li>
+      </ul>
+      <p style="font-size:.92em">Source: Austrian company register / JustizOnline (BMJ&nbsp;–&nbsp;Justiz), used under CC&nbsp;BY&nbsp;4.0, updated daily. Deterministic pipeline, no LLM in the data path – every figure traces back to the original filing. <a href="felder.en.html">See all fields</a>.</p>
+    </section>
+
+    <section class="block">
+      <h2>Start for free</h2>
+      <p>Free access with company search and a limited number of full lookups – just an email, no credit card. <strong>Pro</strong> unlocks the full feature set (€79/month incl. VAT).</p>
+      <p><a href="/#start" class="btn btn-primary">Connect for free</a> &nbsp; <a href="en.html" class="btn btn-ghost">Home</a></p>
+    </section>
+  </div>
+</main>
+
+
+<footer>
+  <div class="wrap foot">
+    <div class="foot-links">
+      <a href="en.html">Home</a>
+      <a href="playground.en.html">Playground</a>
+      <a href="impressum.en.html">Imprint</a>
+      <a href="datenschutz.en.html">Privacy</a>
+      <a href="nutzungsbedingungen.en.html">Terms of Service</a>
+    </div>
+    <small>© <span id="y"></span> Agentic-Firmenbuch.at · Austrian Firmenbuch / BMJ – Ministry of Justice, CC BY 4.0</small>
+  </div>
+</footer>
+<script>
+  document.getElementById("y").textContent=new Date().getFullYear();
+  document.querySelectorAll(".copy").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      var code=btn.parentElement.querySelector("code").innerText;
+      var ok=function(){btn.textContent="Copied";setTimeout(function(){btn.textContent="Copy";},1600);};
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(ok,ok);}
+      else{try{var t=document.createElement("textarea");t.value=code;document.body.appendChild(t);t.select();document.execCommand("copy");document.body.removeChild(t);ok();}catch(e){}}
+    });
+  });
+</script>
+</body>
+</html>
