@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Literal
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
@@ -160,6 +160,18 @@ class CompanyCard(BaseModel):
     oenace_group_2008_label: str | None = None  # German 2008 group title
 
 
+class Relaxation(BaseModel):
+    """One single-filter loosening the server found when a search returned zero hits (T6).
+
+    ``dropped`` is the filter (or range unit) that, removed on its own, yields ``total`` matches
+    — so the caller adjusts THAT filter instead of blindly retrying combinations. ``suggestion``
+    carries the nearest achievable bound for a numeric range."""
+
+    dropped: str  # e.g. "postal_code" or "bilanzsumme_range"
+    total: int  # matches if this one filter is removed (always > 0)
+    suggestion: str | None = None  # e.g. "nearest achievable bilanzsumme range: 0.8M–4.2M"
+
+
 class SearchResponse(BaseModel):
     schema_version: str = "1.0"
     data_version_max: int = 0
@@ -170,6 +182,13 @@ class SearchResponse(BaseModel):
     # True when more pages exist after this one (start + len(results) < total). Lets a client
     # page without re-deriving the arithmetic. Response-only, safe to ship (T4).
     has_more: bool = False
+    # Present ONLY when total == 0 and ≥2 filters were active: which single filter to drop/loosen
+    # to get hits, most-permissive first. Response-only (T6).
+    relaxations: list[Relaxation] | None = None
+    # The filters as ACTUALLY applied after normalization ("Wien"→"W", GmbH→"GE*" prefix, clamped
+    # page_size) — so the caller instantly sees a mis-parsed input instead of silently getting the
+    # wrong result set. Present when any filter was active. Response-only (T9).
+    applied_filters: dict[str, Any] | None = None
     provenance: PublicProvenance = Field(default_factory=PublicProvenance)
 
 

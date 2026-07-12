@@ -112,8 +112,11 @@ class McpService:
         page_size: int = 25,
     ) -> dict[str, Any]:
         account = self._authorize(token, "search_companies")
+        # exclude_none drops the ~30-40% of card fields that are null for a given company (street,
+        # revenue, the ÖNACE-2008 twin when it equals the 2025 code, …) — a big token saving with
+        # no information loss. flatten_free_search_response tolerates the missing keys. (T8)
         resp = service.search_companies(self._cosmos, filters, sort, page, page_size).model_dump(
-            mode="json"
+            mode="json", exclude_none=True
         )
         # Free plan: search stays open but each card is flattened to basic fields.
         if not plans.is_full_access(self._plan(account)):
@@ -492,6 +495,20 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
         — NOT the full record. Use to find/rank companies; for one company's full profile call
         get_company_details, for the complete record call get_full_record, for aggregates over a
         whole group call get_cohort_summary.
+
+        Query recipes (pick ONE primary strategy per user intent):
+        - Specific company by name: filters={"name": "<name>"} — substring, case-insensitive.
+          Results are relevance-ordered (exact/prefix matches first).
+        - Industry as a CONCEPT ("tech companies", "Metallverarbeiter"): use oenace_division /
+          oenace_group (codes + German labels via describe_fields), NOT geschaeftszweig.
+        - Industry by literal ACTIVITY TEXT: geschaeftszweig matches the Firmenbuch free-text
+          description as substring ("anlagenbau" works; "technisch" won't — it's not semantic).
+        - Region: bundesland (broad) > city (exact town) > postal_code prefix.
+        - Zero hits? Read `relaxations` in the response and adjust THAT filter; do not retry
+          blind variations. `applied_filters` echoes how your inputs were normalized.
+
+        The response also carries has_more (another page exists) and, when total==0 with ≥2
+        filters, relaxations (which single filter to drop, most-permissive first).
         Field reference: https://www.agentic-firmenbuch.at/felder.html
         """
         return svc.search_companies(_http_token(ctx), filters, sort, page, page_size)

@@ -8,7 +8,13 @@ from typing import Any
 
 from fbl_core.storage import CosmosStoreLike
 from fbl_core_at.directories import load_fi_directory_cached
-from fbl_core_at.models import PublicProvenance, SearchFilters, SearchResponse, Sort
+from fbl_core_at.models import (
+    PublicProvenance,
+    Relaxation,
+    SearchFilters,
+    SearchResponse,
+    Sort,
+)
 
 from ._common import (
     _BL_NAME_TO_CODE,
@@ -224,6 +230,160 @@ def _build_where(f: SearchFilters) -> tuple[str, list[dict[str, Any]]]:
     return " AND ".join(conds), params
 
 
+# --- zero-hit relaxation (T6) --------------------------------------------------
+# Numeric range filters as (min_field, max_field, cosmos_path, mem_path, kind): a *_min/*_max
+# pair is ONE relaxation unit (dropping it clears both bounds) and its suggestion is the nearest
+# achievable bound over the OTHER-filters result set. Everything here is filter-agnostic — adding
+# a filter to SearchFilters makes it a relaxation candidate automatically (a scalar unit); only
+# genuine min/max PAIRS need an entry below so they collapse into one unit.
+_RANGE_UNITS: dict[str, tuple[str, str, str, tuple[str, ...], str]] = {
+    "bilanzsumme_range": (
+        "bilanzsumme_min", "bilanzsumme_max",
+        "c.financials.latest.bilanzsumme", ("financials", "latest", "bilanzsumme"), "money",
+    ),
+    "equity_ratio_range": (
+        "equity_ratio_min", "equity_ratio_max",
+        "c.ratios.equity_ratio.latest", ("ratios", "equity_ratio", "latest"), "ratio",
+    ),
+    "revenue_range": (
+        "revenue_min", "revenue_max",
+        "c.financials.latest.revenue", ("financials", "latest", "revenue"), "money",
+    ),
+    "employees_range": (
+        "employees_min", "employees_max",
+        "c.employees.latest", ("employees", "latest"), "count",
+    ),
+    "founded_year_range": (
+        "founded_year_min", "founded_year_max",
+        "c.company.founded_year", ("company", "founded_year"), "year",
+    ),
+}
+_MAX_RELAXATIONS = 8
+
+
+def _active_units(f: SearchFilters) -> list[tuple[str, dict[str, Any]]]:
+    """``(label, reset)`` per active filter unit; ``reset`` maps each field of the unit to its
+    default so ``f.model_copy(update=reset)`` removes exactly that one filter. A ``*_min``/``*_max``
+    range pair collapses into a single unit; every other set field is its own scalar unit."""
+    defaults = {n: fi.default for n, fi in SearchFilters.model_fields.items()}
+    active = {n for n in SearchFilters.model_fields if getattr(f, n) != defaults[n]}
+    units: list[tuple[str, dict[str, Any]]] = []
+    used: set[str] = set()
+    for label, (lo, hi, _cp, _mp, _k) in _RANGE_UNITS.items():
+        if {lo, hi} & active:
+            units.append((label, {lo: defaults[lo], hi: defaults[hi]}))
+            used |= {lo, hi}
+    for name in sorted(active - used):
+        units.append((name, {name: defaults[name]}))
+    return units
+
+
+def _fmt_range_value(value: float, kind: str) -> str:
+    v = float(value)
+    if kind == "money":
+        if abs(v) >= 1_000_000:
+            return f"{v / 1_000_000:.1f}M"
+        if abs(v) >= 1_000:
+            return f"{v / 1_000:.0f}k"
+        return f"{v:.0f}"
+    if kind == "ratio":
+        return f"{v:.2f}"
+    return str(round(v))  # count / year (round → int in py3)
+
+
+def _suggestion(label: str, lo: float | None, hi: float | None) -> str | None:
+    rng = _RANGE_UNITS.get(label)
+    if rng is None or lo is None or hi is None:
+        return None
+    kind = rng[4]
+    return f"nearest achievable {label}: {_fmt_range_value(lo, kind)}–{_fmt_range_value(hi, kind)}"
+
+
+def _relaxations_cosmos(
+    cosmos: CosmosStoreLike, filters: SearchFilters
+) -> list[Relaxation] | None:
+    """Leave-one-out over the active filters, server-side and in parallel: for each unit, COUNT
+    with just that filter dropped (and, for a range unit, MIN/MAX of the freed field over the
+    remaining result set for a nearest-achievable hint). Only relax when ≥2 filters are active —
+    with one filter there's nothing to single out."""
+    units = _active_units(filters)
+    if len(units) < 2:
+        return None
+    units = units[:_MAX_RELAXATIONS]
+
+    def work(label: str, reset: dict[str, Any]) -> Relaxation | None:
+        where, params = _build_where(filters.model_copy(update=reset))
+        rng = _RANGE_UNITS.get(label)
+        if rng is not None:
+            path = rng[2]
+            sql = f"SELECT COUNT(1) AS n, MIN({path}) AS lo, MAX({path}) AS hi FROM c WHERE {where}"
+            row = next(iter(cosmos.query(PRESENTED, sql, params)), None)
+            if not isinstance(row, dict):
+                return None
+            cnt = int(row.get("n") or 0)
+            if cnt <= 0:
+                return None
+            hint = _suggestion(label, row.get("lo"), row.get("hi"))
+            return Relaxation(dropped=label, total=cnt, suggestion=hint)
+        raw = next(
+            iter(cosmos.query(PRESENTED, f"SELECT VALUE COUNT(1) FROM c WHERE {where}", params)), 0
+        )
+        cnt = raw if isinstance(raw, int) else 0
+        return Relaxation(dropped=label, total=cnt) if cnt > 0 else None
+
+    with ThreadPoolExecutor(max_workers=min(_MAX_RELAXATIONS, len(units))) as pool:
+        futures = [
+            pool.submit(contextvars.copy_context().run, work, label, reset)
+            for label, reset in units
+        ]
+        found = [f.result() for f in futures]
+    out = sorted((r for r in found if r is not None), key=lambda r: r.total, reverse=True)
+    return out or None
+
+
+def _relaxations_memory(
+    rows: list[dict[str, Any]], filters: SearchFilters
+) -> list[Relaxation] | None:
+    """In-memory twin of :func:`_relaxations_cosmos` over the already-fetched docs."""
+    units = _active_units(filters)
+    if len(units) < 2:
+        return None
+    valid = [d for d in rows if not str(d.get("id", "")).startswith("__")]
+    out: list[Relaxation] = []
+    for label, reset in units[:_MAX_RELAXATIONS]:
+        relaxed = filters.model_copy(update=reset)
+        matched = [d for d in valid if _matches(d, relaxed)]
+        if not matched:
+            continue
+        suggestion = None
+        rng = _RANGE_UNITS.get(label)
+        if rng is not None:
+            vals = [v for d in matched if (v := _g(d, *rng[3])) is not None]
+            if vals:
+                suggestion = _suggestion(label, min(vals), max(vals))
+        out.append(Relaxation(dropped=label, total=len(matched), suggestion=suggestion))
+    out.sort(key=lambda r: r.total, reverse=True)
+    return out or None
+
+
+def _applied_filters(f: SearchFilters, page_size: int) -> dict[str, Any] | None:
+    """The filters as actually applied, after the same normalization ``_build_where`` performs:
+    Bundesland name→code, GmbH-family→``GE*`` prefix, plus the clamped ``page_size``. ``None`` when
+    no filter was active (so an unfiltered search stays clean). Response-only (T9)."""
+    defaults = {n: fi.default for n, fi in SearchFilters.model_fields.items()}
+    out: dict[str, Any] = {
+        n: getattr(f, n) for n in SearchFilters.model_fields if getattr(f, n) != defaults[n]
+    }
+    if not out:
+        return None
+    if f.bundesland is not None:  # "Wien" → "W" (as bound in the WHERE clause)
+        out["bundesland"] = _BL_NAME_TO_CODE.get(f.bundesland, f.bundesland)
+    if f.legal_form is not None and _is_gmbh_filter(f.legal_form):
+        out["legal_form"] = "GE*"  # the GmbH family is matched by STARTSWITH(legal_form,'GE')
+    out["page_size"] = page_size  # the value after clamping to 1..MAX_PAGE_SIZE
+    return out
+
+
 def search_companies(
     cosmos: CosmosStoreLike,
     filters: SearchFilters | None = None,
@@ -277,10 +437,15 @@ def search_companies(
             page_size,
         )
         raw_total = count_future.result()
+        relaxations: list[Relaxation] | None = None
         if isinstance(raw_total, int):  # Cosmos: COUNT(1) → real total; page server-side
             total = raw_total
             rows = page_future.result()
             page_docs = [d for d in rows if not str(d.get("id", "")).startswith("__")]
+            if total == 0:
+                # Zero hits with ≥2 active filters → tell the caller which single filter to drop
+                # instead of forcing it into a blind retry spiral (T6). ~0.3 s, parallel.
+                relaxations = _relaxations_cosmos(cosmos, filters)
         else:  # in-memory fake: SQL ignored, every doc returned → filter/sort/paginate in Python
             page_future.result()  # drain the (ignored) page future so no thread is left dangling
             rows = list(cosmos.query(PRESENTED, f"SELECT * FROM c WHERE {where_sql}", params))
@@ -292,6 +457,8 @@ def search_companies(
             matched = _sorted_nulls_last(matched, sort_field, descending)
             total = len(matched)
             page_docs = matched[start : start + page_size]
+            if total == 0:
+                relaxations = _relaxations_memory(rows, filters)
 
     directory = load_fi_directory_cached(cosmos)
     cards = [_card(d, directory) for d in page_docs]
@@ -303,6 +470,8 @@ def search_companies(
         page_size=page_size,
         results=cards,
         has_more=start + len(cards) < total,
+        relaxations=relaxations,
+        applied_filters=_applied_filters(filters, page_size),
         provenance=PublicProvenance(),
     )
 

@@ -227,6 +227,17 @@ def _card(doc: dict[str, Any], directory: dict[str, str] | None = None) -> Compa
     # stored 2008 code deterministically at serve time (no re-grind needed) so `oenace_division`
     # / `oenace_group` results are self-explanatory whichever vintage was queried.
     oenace08 = ind.get("oenace_2008") or oenace_2008_block(ind.get("code_2008")) or {}
+    # Drop the 2008 twin when it's identical to the 2025 code (the common case — most divisions
+    # didn't move): a redundant field pair per card is pure token noise. The twin stays only when
+    # the vintages genuinely differ (e.g. Kfz-Handel: 45 in 2008, split across 46/47 in 2025), so
+    # the card is self-explanatory whichever vintage was queried. With exclude_none (T8) these
+    # Nones vanish from the payload entirely.
+    _same_div = oenace08.get("division") == oenace.get("division")
+    _same_grp = oenace08.get("group") == oenace.get("group")
+    div08 = None if _same_div else oenace08.get("division")
+    div08_label = None if _same_div else oenace08.get("division_label_de")
+    grp08 = None if _same_grp else oenace08.get("group")
+    grp08_label = None if _same_grp else oenace08.get("group_label_de")
     return CompanyCard(
         fnr=doc["fnr"],
         name=_g(doc, "identity", "name") or doc["fnr"],
@@ -254,8 +265,8 @@ def _card(doc: dict[str, Any], directory: dict[str, str] | None = None) -> Compa
         oenace_division_label=oenace.get("division_label_de"),
         oenace_group=oenace.get("group"),
         oenace_group_label=oenace.get("group_label_de"),
-        oenace_division_2008=oenace08.get("division"),
-        oenace_division_2008_label=oenace08.get("division_label_de"),
-        oenace_group_2008=oenace08.get("group"),
-        oenace_group_2008_label=oenace08.get("group_label_de"),
+        oenace_division_2008=div08,
+        oenace_division_2008_label=div08_label,
+        oenace_group_2008=grp08,
+        oenace_group_2008_label=grp08_label,
     )

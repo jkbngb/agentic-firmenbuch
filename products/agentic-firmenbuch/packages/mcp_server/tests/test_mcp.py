@@ -219,9 +219,12 @@ def test_industry_block_served_on_detail_and_card() -> None:
     assert ind2["nace"]["group_label"] == ind2["oenace"]["group_label_en"]
 
     card = svc.search_companies(token, SearchFilters(name="Hausverwaltung"))["results"][0]
-    assert card["geschaeftszweig"] == "Immobilienverwaltung" and card["industry_section"] is None
-    # no stored classification -> the division/group fields are null too, not guessed (#35)
-    assert card["oenace_division"] is None and card["oenace_group"] is None
+    # industry_section is null here → omitted from the card entirely under the response diet (T8).
+    assert card["geschaeftszweig"] == "Immobilienverwaltung"
+    assert card.get("industry_section") is None
+    # no stored classification -> the division/group fields are null too, not guessed (#35);
+    # omitted from the card under the response diet (T8).
+    assert card.get("oenace_division") is None and card.get("oenace_group") is None
     card2 = svc.search_companies(token, SearchFilters(name="Beratung Alt"))["results"][0]
     assert card2["industry_section"] == "N"
     # division/group + German labels served on the card, symmetric with the oenace_* filters (#35)
@@ -783,6 +786,12 @@ def test_describe_fields_catalog() -> None:
     assert cat["codes"]["bundesland"]["W"] == "Wien"
     assert cat["reference_url"].endswith("/felder.html")
     assert any("summary card" in r for r in cat["availability_rules"])
+    # ÖNACE 2025 division catalog (T7): ~87 entries with German labels, sourced from the tree.
+    divisions = cat["codes"]["oenace_divisions"]
+    assert len(divisions) >= 80
+    by_code = {d["division"]: d["label_de"] for d in divisions}
+    assert "68" in by_code and "Grundstücks- und Wohnungswesen" in by_code["68"]
+    assert all(d["label_de"] for d in divisions)  # no empty labels
 
 
 def test_describe_fields_requires_auth() -> None:

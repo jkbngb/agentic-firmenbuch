@@ -6,6 +6,7 @@ from __future__ import annotations
 from typing import Any
 
 from fbl_core.storage import CosmosStoreLike
+from fbl_core_at.classification.taxonomy import load_oenace_tree
 from fbl_core_at.directories import load_fi_directory_cached
 from fbl_core_at.models import CompanyCard, PublicProvenance
 
@@ -177,6 +178,15 @@ _RATIOS = [
 ]
 
 
+def _oenace_divisions() -> list[dict[str, str]]:
+    """The ÖNACE 2025 division catalog ``[{division, label_de}]`` (~87 entries), sourced from the
+    bundled classification tree — NEVER hand-typed. This is what lets the LLM turn an industry
+    CONCEPT ("Metallverarbeiter", "tech companies") into the right ``oenace_division`` filter
+    instead of guessing at the free-text ``geschaeftszweig``. (T7)"""
+    tree = load_oenace_tree(2025)
+    return [{"division": code, "label_de": tree.nodes[code].title_de} for code in tree.codes_at(2)]
+
+
 def describe_fields() -> dict[str, Any]:
     """Self-describing catalog of every field the server can return (§9).
 
@@ -284,6 +294,9 @@ def describe_fields() -> dict[str, Any]:
             "gkl": {"W": "Kleinst/Mikro", "K": "Klein", "M": "Mittel", "G": "Groß"},
             "legal_form": "profile carries the raw Firmenbuch code; GmbH family = 'GE…' prefix "
             "(GES ≈ 99.7%); the search card labels it 'GmbH'",
+            # ÖNACE 2025 divisions (2-digit) with German titles — pass the `division` value as the
+            # search_companies `oenace_division` filter to screen an industry as a CONCEPT (T7).
+            "oenace_divisions": _oenace_divisions(),
         },
         "metric_definitions": {
             "ebit": "The UGB operating result (Betriebserfolg, §231 Abs 2), BEFORE financial "
