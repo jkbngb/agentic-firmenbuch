@@ -7,7 +7,7 @@ These share a base. ``consolidated`` holds facts (per-line histories, no growth)
 
 from __future__ import annotations
 
-from typing import Literal
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
@@ -204,3 +204,7 @@ class DerivedCompany(ConsolidatedCompany):
     ratios: Ratios
     growth: Growth
     derivations: Derivations
+    # Normalized 0-100 intent scores {growth, solidity, scale, basis} from peer_percentiles +
+    # growth profile (T11). Top-level (not inside size) so it maps to a flat, indexable path on
+    # the presented doc. None until the score inputs exist / a re-present has run.
+    scores: dict[str, Any] | None = None

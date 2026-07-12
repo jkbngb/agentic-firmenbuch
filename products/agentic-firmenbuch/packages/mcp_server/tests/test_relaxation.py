@@ -15,7 +15,9 @@ from fbl_mcp_server import McpService
 PRESENTED = "10_presentation"
 
 
-def _doc(fnr: str, *, name: str, bundesland: str, bilanzsumme: float | None, plz: str) -> dict[str, Any]:
+def _doc(
+    fnr: str, *, name: str, bundesland: str, bilanzsumme: float | None, plz: str
+) -> dict[str, Any]:
     return {
         "id": fnr,
         "fnr": fnr,
@@ -29,9 +31,17 @@ def _doc(fnr: str, *, name: str, bundesland: str, bilanzsumme: float | None, plz
 def _svc() -> tuple[McpService, str]:
     cosmos = InMemoryCosmosStore()
     # Wien companies with mid Bilanzsumme; a Tirol one; none matches "Wien + Bilanzsumme>=10M".
-    cosmos.upsert(PRESENTED, _doc("1a", name="Alpha GmbH", bundesland="W", bilanzsumme=2_000_000.0, plz="1010"))
-    cosmos.upsert(PRESENTED, _doc("2b", name="Beta GmbH", bundesland="W", bilanzsumme=4_000_000.0, plz="1020"))
-    cosmos.upsert(PRESENTED, _doc("3c", name="Gamma GmbH", bundesland="T", bilanzsumme=50_000_000.0, plz="6020"))
+    cosmos.upsert(
+        PRESENTED,
+        _doc("1a", name="Alpha GmbH", bundesland="W", bilanzsumme=2_000_000.0, plz="1010"),
+    )
+    cosmos.upsert(
+        PRESENTED, _doc("2b", name="Beta GmbH", bundesland="W", bilanzsumme=4_000_000.0, plz="1020")
+    )
+    cosmos.upsert(
+        PRESENTED,
+        _doc("3c", name="Gamma GmbH", bundesland="T", bilanzsumme=50_000_000.0, plz="6020"),
+    )
     token = signup("u@example.test", cosmos).token
     return McpService(cosmos, Settings(rate_limit_per_min=1000, rate_limit_per_day=10000)), token
 
@@ -50,9 +60,7 @@ def test_zero_hits_reports_each_droppable_filter() -> None:
     assert by["bundesland"]["total"] == 1
     assert by["bilanzsumme_range"]["total"] == 2
     # Most-permissive first.
-    assert [r["dropped"] for r in relax] == sorted(
-        by, key=lambda d: by[d]["total"], reverse=True
-    )
+    assert [r["dropped"] for r in relax] == sorted(by, key=lambda d: by[d]["total"], reverse=True)
     # The range unit carries a nearest-achievable hint from the OTHER-filters (Wien) result set.
     assert "nearest achievable bilanzsumme_range" in by["bilanzsumme_range"]["suggestion"]
     assert "2.0M" in by["bilanzsumme_range"]["suggestion"]  # min over the two Wien companies
@@ -63,7 +71,9 @@ def test_min_max_pair_is_one_unit() -> None:
     svc, token = _svc()
     resp = svc.search_companies(
         token,
-        SearchFilters(bundesland="Wien", bilanzsumme_min=10_000_000.0, bilanzsumme_max=20_000_000.0),
+        SearchFilters(
+            bundesland="Wien", bilanzsumme_min=10_000_000.0, bilanzsumme_max=20_000_000.0
+        ),
     )
     dropped = {r["dropped"] for r in resp["relaxations"]}
     # Both bounds collapse into a single "bilanzsumme_range" unit, never two entries.
@@ -81,6 +91,8 @@ def test_no_relaxations_with_single_filter() -> None:
 
 def test_no_relaxations_when_hits_exist() -> None:
     svc, token = _svc()
-    resp = svc.search_companies(token, SearchFilters(bundesland="Wien", bilanzsumme_min=1_000_000.0))
+    resp = svc.search_companies(
+        token, SearchFilters(bundesland="Wien", bilanzsumme_min=1_000_000.0)
+    )
     assert resp["total"] == 2
     assert resp.get("relaxations") is None

@@ -11,12 +11,14 @@ from fbl_core.storage import CosmosStoreLike
 from fbl_core_at.directories import load_fi_directory_cached
 from fbl_core_at.models import (
     PublicProvenance,
+    RankSignal,
     Relaxation,
     SearchFilters,
     SearchResponse,
     Sort,
 )
 
+from ..errors import BadRequest
 from ._common import (
     _BL_NAME_TO_CODE,
     _STATUS_SQL,
@@ -239,24 +241,39 @@ def _build_where(f: SearchFilters) -> tuple[str, list[dict[str, Any]]]:
 # genuine min/max PAIRS need an entry below so they collapse into one unit.
 _RANGE_UNITS: dict[str, tuple[str, str, str, tuple[str, ...], str]] = {
     "bilanzsumme_range": (
-        "bilanzsumme_min", "bilanzsumme_max",
-        "c.financials.latest.bilanzsumme", ("financials", "latest", "bilanzsumme"), "money",
+        "bilanzsumme_min",
+        "bilanzsumme_max",
+        "c.financials.latest.bilanzsumme",
+        ("financials", "latest", "bilanzsumme"),
+        "money",
     ),
     "equity_ratio_range": (
-        "equity_ratio_min", "equity_ratio_max",
-        "c.ratios.equity_ratio.latest", ("ratios", "equity_ratio", "latest"), "ratio",
+        "equity_ratio_min",
+        "equity_ratio_max",
+        "c.ratios.equity_ratio.latest",
+        ("ratios", "equity_ratio", "latest"),
+        "ratio",
     ),
     "revenue_range": (
-        "revenue_min", "revenue_max",
-        "c.financials.latest.revenue", ("financials", "latest", "revenue"), "money",
+        "revenue_min",
+        "revenue_max",
+        "c.financials.latest.revenue",
+        ("financials", "latest", "revenue"),
+        "money",
     ),
     "employees_range": (
-        "employees_min", "employees_max",
-        "c.employees.latest", ("employees", "latest"), "count",
+        "employees_min",
+        "employees_max",
+        "c.employees.latest",
+        ("employees", "latest"),
+        "count",
     ),
     "founded_year_range": (
-        "founded_year_min", "founded_year_max",
-        "c.company.founded_year", ("company", "founded_year"), "year",
+        "founded_year_min",
+        "founded_year_max",
+        "c.company.founded_year",
+        ("company", "founded_year"),
+        "year",
     ),
 }
 _MAX_RELAXATIONS = 8
@@ -300,9 +317,7 @@ def _suggestion(label: str, lo: float | None, hi: float | None) -> str | None:
     return f"nearest achievable {label}: {_fmt_range_value(lo, kind)}–{_fmt_range_value(hi, kind)}"
 
 
-def _relaxations_cosmos(
-    cosmos: CosmosStoreLike, filters: SearchFilters
-) -> list[Relaxation] | None:
+def _relaxations_cosmos(cosmos: CosmosStoreLike, filters: SearchFilters) -> list[Relaxation] | None:
     """Leave-one-out over the active filters, server-side and in parallel: for each unit, COUNT
     with just that filter dropped (and, for a range unit, MIN/MAX of the freed field over the
     remaining result set for a nearest-achievable hint). Only relax when ≥2 filters are active —
@@ -404,8 +419,15 @@ def search_companies(
     page_size = max(1, min(page_size, MAX_PAGE_SIZE))
     start = (page - 1) * page_size
 
-    sort_field = sort.field if sort else "bilanzsumme"
+    rank_by = sort.rank_by if sort else None
+    sort_field = (sort.field if sort and sort.field else None) or "bilanzsumme"
     descending = sort.descending if sort else True
+    # Reject an unknown sort field loudly (it used to silently drop ordering): the LLM gets a
+    # clear list of valid fields instead of a mystifyingly unordered page. (T11)
+    if sort_field not in _SORT_PATHS:
+        raise BadRequest(
+            f"unknown sort field {sort_field!r}; valid: {', '.join(sorted(_SORT_PATHS))}"
+        )
     order_path = _SORT_PATHS.get(sort_field)
 
     where_sql, params = _build_where(filters)
@@ -442,7 +464,13 @@ def search_companies(
         # A NAME lookup over a small result set → rank by match quality, not the numeric sort (T10).
         if isinstance(raw_total, int):  # Cosmos: COUNT(1) → real total; page server-side
             total = raw_total
-            if filters.name and 0 < total <= _POOL_LIMIT:
+            if rank_by and total > 0:
+                # Weighted multi-signal ranking (T11): pool top-per-signal, re-rank by the mix.
+                page_future.result()
+                page_docs = _rank_by_signals_cosmos(
+                    cosmos, where_sql, params, rank_by, start, page_size
+                )
+            elif filters.name and 0 < total <= _POOL_LIMIT:
                 # Fetch the whole (small) candidate pool unordered and re-rank in Python; total
                 # stays exact. The parallel ordered page is discarded — cheap at ≤200 rows.
                 page_future.result()
@@ -470,7 +498,9 @@ def search_companies(
                 if not str(d.get("id", "")).startswith("__") and _matches(d, filters)
             ]
             total = len(matched)
-            if filters.name and 0 < total <= _POOL_LIMIT:
+            if rank_by and total > 0:
+                matched = _rank_by_weighted(matched, rank_by)  # same fn the Cosmos pool re-ranks by
+            elif filters.name and 0 < total <= _POOL_LIMIT:
                 matched = _rank_by_name(matched, filters.name, sort_field)  # same fn as Cosmos path
             else:
                 matched = _sorted_nulls_last(matched, sort_field, descending)
@@ -500,6 +530,10 @@ _SORT_PATHS = {
     "equity_ratio": ("ratios", "equity_ratio", "latest"),
     "employees": ("employees", "latest"),
     "last_filing_year": ("company", "last_filing_year"),
+    # Precomputed intent scores (T11): a single-signal sort rides the same two-bucket machinery.
+    "score_growth": ("scores", "growth"),
+    "score_solidity": ("scores", "solidity"),
+    "score_scale": ("scores", "scale"),
 }
 
 # --- name-relevance re-ranking (T10) -------------------------------------------
@@ -531,9 +565,7 @@ def _name_match_score(query: str, name: str) -> tuple[int, float]:
     return (tier, len(q) / len(n))
 
 
-def _rank_by_name(
-    docs: list[dict[str, Any]], query: str, sort_field: str
-) -> list[dict[str, Any]]:
+def _rank_by_name(docs: list[dict[str, Any]], query: str, sort_field: str) -> list[dict[str, Any]]:
     """Re-rank a candidate pool by name relevance, then the requested/default sort value (desc),
     then fnr (asc, stable). Used by BOTH the Cosmos and in-memory paths so they stay identical."""
     path = _SORT_PATHS.get(sort_field)
@@ -550,6 +582,55 @@ def _rank_by_name(
     ranked = sorted(docs, key=lambda d: str(d.get("fnr") or ""))  # fnr asc → stable final tiebreak
     ranked.sort(key=key, reverse=True)
     return ranked
+
+
+# --- weighted multi-signal ranking (T11 rank_by) -------------------------------
+def _weighted_score(doc: dict[str, Any], rank_by: list[RankSignal]) -> float:
+    """Σ weight·score over the signals present on the doc, renormalized by the present weights
+    (a doc missing one signal is scored fairly on the others, never penalized to zero). ``-inf``
+    when the doc has none of the requested signals, so those sort last."""
+    scores = doc.get("scores") or {}
+    num = 0.0
+    wsum = 0.0
+    for sig in rank_by:
+        value = scores.get(sig.signal) if isinstance(scores, dict) else None
+        if isinstance(value, int | float) and not isinstance(value, bool):
+            num += sig.weight * float(value)
+            wsum += sig.weight
+    return num / wsum if wsum > 0 else float("-inf")
+
+
+def _rank_by_weighted(
+    docs: list[dict[str, Any]], rank_by: list[RankSignal]
+) -> list[dict[str, Any]]:
+    ranked = sorted(docs, key=lambda d: str(d.get("fnr") or ""))  # stable fnr tiebreak
+    ranked.sort(key=lambda d: _weighted_score(d, rank_by), reverse=True)
+    return ranked
+
+
+def _rank_by_signals_cosmos(
+    cosmos: CosmosStoreLike,
+    where_sql: str,
+    params: list[dict[str, Any]],
+    rank_by: list[RankSignal],
+    start: int,
+    page_size: int,
+) -> list[dict[str, Any]]:
+    """Pool the top candidates per signal via the indexed ORDER BY (union by fnr), then re-rank the
+    union by the weighted mix and slice the page. A screening operation — ``total`` (the filter
+    match count) is reported separately and stays exact."""
+    pool: dict[str, dict[str, Any]] = {}
+    for sig in rank_by:
+        path = f"c.scores.{sig.signal}"
+        sql = (
+            f"SELECT * FROM c WHERE {where_sql} AND IS_DEFINED({path}) "
+            f"ORDER BY {path} DESC OFFSET 0 LIMIT {_POOL_LIMIT}"
+        )
+        for d in cosmos.query(PRESENTED, sql, params):
+            if not str(d.get("id", "")).startswith("__"):
+                pool[str(d.get("fnr"))] = d
+    ranked = _rank_by_weighted(list(pool.values()), rank_by)
+    return ranked[start : start + page_size]
 
 
 def _sort_key(doc: dict[str, Any], field: str) -> Any:

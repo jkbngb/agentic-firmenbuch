@@ -27,7 +27,12 @@ def _svc() -> tuple[McpService, str, InMemoryCosmosStore]:
         {
             "id": "111a",
             "fnr": "111a",
-            "identity": {"fnr": "111a", "name": "Novomatic AG", "legal_form": "GES", "status": "active"},
+            "identity": {
+                "fnr": "111a",
+                "name": "Novomatic AG",
+                "legal_form": "GES",
+                "status": "active",
+            },
             "location": {"bundesland": "W"},
             "financials": {"latest": {"bilanzsumme": 5000.0}},
             "provenance": {"data_version": 1},

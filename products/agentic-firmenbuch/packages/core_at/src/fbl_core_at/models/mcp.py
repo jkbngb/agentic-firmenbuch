@@ -67,6 +67,9 @@ class PresentedCompany(BaseModel):
     financials: PresentedFinancials = Field(default_factory=PresentedFinancials)
     ratios: dict[str, object] = Field(default_factory=dict)
     growth: dict[str, object] = Field(default_factory=dict)
+    # Normalized 0-100 intent scores {growth, solidity, scale, basis} — a flat, indexable path
+    # (/scores/growth etc.) the search tool sorts/ranks on (T11). None until a re-present ran.
+    scores: dict[str, Any] | None = None
     employees: dict[str, object] | None = None
     filings: list[dict[str, object]] = Field(default_factory=list)
     events: list[dict[str, object]] = Field(default_factory=list)
@@ -119,9 +122,23 @@ class SearchFilters(BaseModel):
     city: str | None = None  # case-insensitive substring on the seat city
 
 
+class RankSignal(BaseModel):
+    """One weighted term of a multi-signal ranking (T11). Intent → weights is the LLM's job;
+    the server just applies the weighted mix over the precomputed 0-100 scores."""
+
+    signal: Literal["growth", "solidity", "scale"]
+    weight: float = 1.0
+
+
 class Sort(BaseModel):
-    field: str
+    # field: a card metric OR a single intent score (score_growth|score_solidity|score_scale).
+    # None → default (bilanzsumme desc, or name relevance when a name filter is set).
+    field: str | None = None
     descending: bool = True
+    # Weighted multi-signal ranking (T11). When set it overrides `field`: the server pools the
+    # top candidates per signal and re-ranks by Σ weight·score. Example: "wachstumsstark & solide"
+    # → [{signal:"growth",weight:0.7},{signal:"solidity",weight:0.3}].
+    rank_by: list[RankSignal] | None = None
 
 
 class CompanyCard(BaseModel):

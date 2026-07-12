@@ -58,8 +58,18 @@ def test_oenace_2008_twin_dropped_when_equal_kept_when_different() -> None:
         "2b",
         industry={
             "geschaeftszweig": "Beratung",
-            "oenace": {"division": "70", "group": "70.2", "division_label_de": "x", "group_label_de": "y"},
-            "oenace_2008": {"division": "70", "group": "70.2", "division_label_de": "x", "group_label_de": "y"},
+            "oenace": {
+                "division": "70",
+                "group": "70.2",
+                "division_label_de": "x",
+                "group_label_de": "y",
+            },
+            "oenace_2008": {
+                "division": "70",
+                "group": "70.2",
+                "division_label_de": "x",
+                "group_label_de": "y",
+            },
         },
     )
     svc, token = _svc_with(same)
@@ -72,8 +82,18 @@ def test_oenace_2008_twin_dropped_when_equal_kept_when_different() -> None:
         "3c",
         industry={
             "geschaeftszweig": "Kfz",
-            "oenace": {"division": "47", "group": "47.3", "division_label_de": "Handel", "group_label_de": "g25"},
-            "oenace_2008": {"division": "45", "group": "45.3", "division_label_de": "Kfz", "group_label_de": "g08"},
+            "oenace": {
+                "division": "47",
+                "group": "47.3",
+                "division_label_de": "Handel",
+                "group_label_de": "g25",
+            },
+            "oenace_2008": {
+                "division": "45",
+                "group": "45.3",
+                "division_label_de": "Kfz",
+                "group_label_de": "g08",
+            },
         },
     )
     svc2, token2 = _svc_with(diff)
