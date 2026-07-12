@@ -40,10 +40,17 @@
   <main class="card">
     <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     <h1>Willkommen bei Pro</h1>
-    <p>Danke! Dein <strong>Agentic-Firmenbuch Pro</strong> wird gerade aktiviert – mit
-       <strong>14 Tagen kostenlosem Test</strong>, danach EUR 79,00 pro Monat inkl. USt,
+    <p id="wk-trial">Danke! Dein <strong>Agentic-Firmenbuch Pro</strong> wird gerade aktiviert – mit
+       <strong>14 Tagen kostenlosem Test</strong>. Erst danach EUR 79,00 pro Monat inkl. USt,
        monatlich kündbar. Dein API-Key kommt in den nächsten Minuten per E-Mail; nichts erhalten?
        Schreib an <a href="mailto:office@jngb.online">office@jngb.online</a>.</p>
+    <p id="wk-promo" hidden>Danke! Dein <strong>Agentic-Firmenbuch Pro</strong> wird gerade aktiviert.
+       Mit deinem <strong>Gutschein-Code</strong> ist der Zugang <strong>für die Dauer der Aktion
+       kostenlos</strong> – keine Kreditkarte nötig, es wird nichts abgebucht. Danach läuft er
+       automatisch aus, sofern du keine Zahlungsmethode hinterlegst. Dein API-Key kommt in den
+       nächsten Minuten per E-Mail; nichts erhalten? Schreib an
+       <a href="mailto:office@jngb.online">office@jngb.online</a>.</p>
+    <script>if(/[?&]promo=1(&|$)/.test(location.search)){document.getElementById('wk-trial').hidden=true;document.getElementById('wk-promo').hidden=false;}</script>
 
     <div class="steps">
       <h2>So geht es weiter</h2>

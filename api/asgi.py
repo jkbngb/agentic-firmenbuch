@@ -505,19 +505,23 @@ async def billing_checkout(req: Request) -> Response:
             return JSONResponse({"error": "price not available"}, status_code=500)
         # Language-aware landing: EN buyers get the *.en.html thank-you / cancel pages.
         lang = str(body.get("lang", "")).strip().lower()
+        is_promo = bool(body.get("promo"))
         success_url = _settings.billing_success_url
         cancel_url = _settings.billing_cancel_url
         if lang == "en":
             success_url = success_url.replace(".html", ".en.html")
             cancel_url = cancel_url.replace(".html", ".en.html")
+        # Tell the thank-you page which offer applied so it shows the right copy (promo = free until
+        # the promo ends; else the 14-day trial). session_id lets it look up details if needed.
+        success_url += ("?promo=1&" if is_promo else "?") + "session_id={CHECKOUT_SESSION_ID}"
         params = checkout_session_params(
             account,
             price_id=prices.data[0].id,
-            success_url=success_url + "?session_id={CHECKOUT_SESSION_ID}",
+            success_url=success_url,
             cancel_url=cancel_url,
             trial_days=_settings.stripe_trial_days,
             email=email or None,
-            promo=bool(body.get("promo")),  # "3 Monate gratis" flow: no trial, card-less at €0
+            promo=is_promo,  # promo link (/?promo=1): card-less, code; else 14-day trial
         )
         session = stripe.checkout.Session.create(**params)
     except Exception:

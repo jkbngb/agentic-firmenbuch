@@ -56,7 +56,7 @@
       "name": "Pro",
       "price": "79",
       "priceCurrency": "EUR",
-      "description": "Voller Funktionsumfang. 79 EUR pro Monat inkl. USt, 14 Tage kostenlos testen, monatlich kündbar."
+      "description": "Voller Funktionsumfang. 79 EUR pro Monat inkl. USt, monatlich kündbar."
     }
   ],
   "creator": { "@type": "Organization", "name": "Agentic-Firmenbuch.at" }
@@ -1105,7 +1105,7 @@
               <button type="button" class="btn btn-ghost btn-lg" id="freeStart">Kostenlos verbinden</button>
             </div>
             <div class="plan plan-pro">
-              <span class="plan-badge">14 Tage gratis</span>
+              <span class="plan-badge">Empfohlen</span>
               <div class="plan-name">Pro</div>
               <div class="plan-price">79 €<span>/ Monat inkl. USt</span></div>
               <ul class="plan-feat">
@@ -1122,8 +1122,8 @@
               <label for="proEmailInput">E-Mail-Adresse deines Zugangs</label>
               <input type="email" id="proEmailInput" inputmode="email" autocomplete="email" placeholder="name@firma.at" />
             </div>
-            <button type="button" class="btn btn-primary btn-lg" id="proGo" style="width:100%">Weiter zu Stripe – 14 Tage gratis →</button>
-            <p class="form-note" id="proNote">Du wirst zur sicheren Stripe-Checkout-Seite weitergeleitet (14 Tage gratis, jederzeit kündbar). Deinen API-Key bekommst du nach dem Kauf per E-Mail.</p>
+            <button type="button" class="btn btn-primary btn-lg" id="proGo" style="width:100%">Weiter zu Stripe →</button>
+            <p class="form-note" id="proNote">Du wirst zur sicheren Stripe-Checkout-Seite weitergeleitet (jederzeit kündbar). Deinen API-Key bekommst du nach dem Kauf per E-Mail.</p>
           </div>
           <div class="signup-connect">
             <h3 class="connect-h">So verbindest du deinen Client</h3>
@@ -1206,7 +1206,7 @@
       </details>
       <details>
         <summary>Was kostet Agentic-Firmenbuch? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
-        <div class="ans">Es gibt einen kostenlosen <strong>Free</strong>-Zugang (Firmensuche mit Basisdaten und eine begrenzte Anzahl vollständiger Einzelabfragen pro Monat) – dafür ist nur eine verifizierte E-Mail-Adresse nötig, kein Passwort, keine Kreditkarte. <strong>Pro</strong> schaltet den vollen Funktionsumfang frei und kostet <strong>79 € pro Monat inkl. USt</strong>, mit <strong>14 Tagen kostenlosem Test</strong> und <strong>monatlicher Kündigung</strong>.</div>
+        <div class="ans">Es gibt einen kostenlosen <strong>Free</strong>-Zugang (Firmensuche mit Basisdaten und eine begrenzte Anzahl vollständiger Einzelabfragen pro Monat) – dafür ist nur eine verifizierte E-Mail-Adresse nötig, kein Passwort, keine Kreditkarte. <strong>Pro</strong> schaltet den vollen Funktionsumfang frei und kostet <strong>79 € pro Monat inkl. USt</strong>, mit <strong>monatlicher Kündigung</strong>.</div>
       </details>
       <details>
         <summary>Was ist ein MCP-Server? <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></summary>
@@ -1604,7 +1604,8 @@ play(0);
       proBox.scrollIntoView({behavior:"smooth",block:"nearest"});
     });
   }
-  // Promo link: /?promo=1 (or #…promo) starts the card-less, no-trial "3 Monate gratis" checkout.
+  // Promo link: /?promo=1 (or #…promo) starts the card-less, no-trial promo checkout (free until the
+  // promo ends). The plain button is the 14-day trial (card up front). Both post to the same endpoint.
   var isPromo=/[?&]promo=1\b/.test(location.search)||/promo/.test(location.hash);
   function checkout(){
     if(!proInput) return;

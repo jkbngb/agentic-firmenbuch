@@ -309,43 +309,46 @@ def checkout_session_params(
     is bound by the ``email`` Stripe collects — the account is created on payment (webhook), so
     no account/e-mail is ever produced without a real checkout. Reuses a known Stripe customer.
 
-    Card collection is ``payment_method_collection="if_required"`` on EVERY checkout: a normal
-    purchase (€79 due now) still collects a card, but when the buyer types a 100 %-off promo code
-    into Stripe's field (``allow_promotion_codes``) the first invoice is €0 and NO card is asked
-    for. After the 3 free invoices, invoice #4 is €79 with no card on file → ``past_due`` → Stripe
-    dunning → cancel (C3): a promo user is never charged unless they add a card. This is why there
-    is no default trial — a trial would make €0 due now and skip the card for *paying* users too;
-    the promo code IS the free-trial path. ``promo=True`` only tags the subscription in
-    ``metadata`` so promo subs stay queryable in Stripe.
+    TWO distinct checkout paths, chosen by ``promo`` (a card-less trial and a card-collecting
+    trial cannot coexist on one Stripe button, so they are separated):
+
+    * **``promo=True``** — the ``/?promo=1`` link for code recipients: ``allow_promotion_codes``
+      shows the code field and ``payment_method_collection="if_required"`` means a 100 %-off code
+      makes the first invoice €0 with NO card asked for. No trial. After the free months the next
+      invoice is €79 with no card → ``past_due`` → dunning → cancel (C3): a promo user is never
+      charged unless they add a card. Tagged in ``metadata`` so promo subs stay queryable.
+    * **``promo=False``** — the normal "Verbinden" button: a ``trial_days``-day **free trial** with
+      the card collected up front (``payment_method_collection="always"``) so it converts to the
+      paid plan afterwards. No code field here (promo recipients use the ``/?promo=1`` link).
     """
-    params: dict[str, Any] = {
+    base: dict[str, Any] = {
         "mode": "subscription",
         "line_items": [{"price": price_id, "quantity": 1}],
         "success_url": success_url,
         "cancel_url": cancel_url,
-        "allow_promotion_codes": True,  # the buyer types the promo code into Stripe's field
-        # Collect a card only when money is due NOW, so a 100 %-off code = no card entry at all.
-        "payment_method_collection": "if_required",
-        # The submit button label ("Zahlungspflichtig abonnieren") is Stripe-controlled and legally
-        # mandated for a subscription that becomes chargeable — it cannot be changed. This is the
-        # one piece of copy next to it that we CAN set, to reassure promo buyers it is €0 today.
-        # Shown on EVERY checkout (Stripe can't render it conditionally on the typed code), so it
-        # is phrased "Mit einem Gutschein-Code …" — true for a promo buyer, not misleading for a
-        # full-price buyer who does enter a card. Real umlauts: this is customer-facing copy.
-        "custom_text": {
-            "submit": {
-                "message": (
-                    "Mit einem Gutschein-Code sind die ersten 3 Monate gratis und ohne Kreditkarte."
-                )
-            }
-        },
     }
     if promo:
-        params["subscription_data"] = {"metadata": {PROMO_METADATA_KEY: PROMO_CODE}}
-    elif trial_days > 0:
-        # NOTE: with if_required a trial makes €0 due now, so the card is NOT collected during the
-        # trial (a card-less trial that will not auto-convert). Off by default for that reason.
-        params["subscription_data"] = {"trial_period_days": trial_days}
+        params: dict[str, Any] = {
+            **base,
+            "allow_promotion_codes": True,  # buyer types the promo code into Stripe's field
+            "payment_method_collection": "if_required",  # €0 with a 100 %-off code → no card
+            "subscription_data": {"metadata": {PROMO_METADATA_KEY: PROMO_CODE}},
+            "custom_text": {
+                "submit": {
+                    "message": (
+                        "Mit einem Gutschein-Code ist Agentic-Firmenbuch Pro bis zum Ende der "
+                        "Aktion gratis und ohne Kreditkarte."
+                    )
+                }
+            },
+        }
+    else:
+        params = {
+            **base,
+            "payment_method_collection": "always",  # card up front so the trial converts
+        }
+        if trial_days > 0:
+            params["subscription_data"] = {"trial_period_days": trial_days}
     if account is not None:
         params["client_reference_id"] = account.id
         if account.stripe_customer_id:

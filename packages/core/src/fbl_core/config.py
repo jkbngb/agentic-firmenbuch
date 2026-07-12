@@ -120,8 +120,8 @@ class Settings(BaseSettings):
     stripe_secret_key: str | None = None  # sk_test_… (test) / sk_live_… (go-live)
     stripe_webhook_secret: str | None = None  # whsec_… (from the webhook endpoint config)
     stripe_price_lookup_key: str = "pro_monthly"  # resolves to the Pro price id at request time
-    stripe_trial_days: int = 0  # off: with card-less checkout (if_required) the promo code, not a
-    # trial, is the free path; a trial would make EUR 0 due now and skip the card for payers too.
+    stripe_trial_days: int = 14  # 14-day free trial on the DIRECT checkout (card up front so it
+    # converts). The card-less PROMO path (promo=True) has no trial; the code is its free path.
     billing_success_url: str = "https://www.agentic-firmenbuch.at/willkommen.html"
     billing_cancel_url: str = "https://www.agentic-firmenbuch.at/onboarding.html"
     billing_portal_return_url: str = "https://www.agentic-firmenbuch.at/onboarding.html"
