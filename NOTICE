@@ -7,3 +7,11 @@ This project processes data from the Austrian Firmenbuch (Companies Register),
 provided by the Austrian Federal Ministry of Justice (BMJ) as an EU High Value
 Dataset and licensed under CC BY 4.0. Any redistribution of the data must keep
 the attribution: "Quelle: Österreichisches Firmenbuch / BMJ – Justiz (CC BY 4.0)".
+
+Postal-code coordinates (radius search)
+---------------------------------------
+The PLZ→coordinate tables in
+products/agentic-firmenbuch/packages/core_at/src/fbl_core_at/mapping/plz_geo.json and
+plz_places.json are derived from the GeoNames postal-code dataset for Austria
+(https://download.geonames.org/export/zip/), licensed under CC BY 4.0 by GeoNames
+(https://www.geonames.org). Regenerate with scripts/build_plz_geo.py.

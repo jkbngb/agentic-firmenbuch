@@ -12,6 +12,7 @@ from typing import Any
 
 from fbl_core.lineage import lineage_ref, new_doc_id, stamp
 from fbl_core.models import Meta
+from fbl_core_at.geo import plz_centroid
 from fbl_core_at.models import (
     DerivedCompany,
     PresentedCompany,
@@ -71,7 +72,7 @@ def present(
         fnr=company.identity.fnr,
         schema_version=company.meta.schema_version,
         identity=identity,
-        location=company.location.model_dump(mode="json"),
+        location=_location_with_geo(company),
         company=company.company.model_dump(mode="json"),
         size=company.size.model_dump(mode="json"),
         financials=_financials(company),
@@ -93,6 +94,22 @@ def present(
     stamp(doc.meta, payload, stage_time_key="presented_at")
     doc.provenance.built_at = doc.meta.timestamps.get("presented_at")
     return doc
+
+
+def _location_with_geo(company: DerivedCompany) -> dict[str, Any]:
+    """Location dump + a PLZ-centroid geo tag for radius search (T12). ``lat``/``lng`` are plain
+    numbers (the indexed bounding-box path) and ``geo`` is a GeoJSON Point (the spatial-index
+    path); ``geo_precision`` records that this is the PLZ centroid, not a rooftop geocode.
+    Absent when the seat PLZ isn't in the gazetteer."""
+    loc = company.location.model_dump(mode="json")
+    centroid = plz_centroid(loc.get("postal_code"))
+    if centroid is not None:
+        lat, lng = centroid
+        loc["lat"] = lat
+        loc["lng"] = lng
+        loc["geo"] = {"type": "Point", "coordinates": [lng, lat]}  # GeoJSON is [lng, lat]
+        loc["geo_precision"] = "plz_centroid"
+    return loc
 
 
 def _financials(company: DerivedCompany) -> PresentedFinancials:

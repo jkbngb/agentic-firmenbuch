@@ -22,7 +22,7 @@ from __future__ import annotations
 import argparse
 
 from fbl_auth import signup
-from fbl_auth.accounts import ACCOUNTS_CONTAINER, Account, account_by_email
+from fbl_auth.accounts import ACCOUNTS_CONTAINER, account_by_email
 from fbl_core.config import get_settings
 from fbl_core.storage import CosmosStore
 

@@ -89,6 +89,17 @@ class PresentedCompany(BaseModel):
     meta: Meta | None = None
 
 
+class NearFilter(BaseModel):
+    """Radius anchor for ``search_companies`` (T12). Give EXACTLY ONE of ``place`` (a town name,
+    resolved case-insensitively via the PLZ gazetteer) or ``postal_code`` (an exact 4-digit PLZ).
+    An ambiguous place name (several towns) is rejected with the candidates; an unknown one asks
+    for a postal_code."""
+
+    place: str | None = None
+    postal_code: str | None = None
+    radius_km: float = 25.0  # clamped to 1..150
+
+
 class SearchFilters(BaseModel):
     status: Literal["active", "inactive", "all"] = "all"
     name: str | None = None  # case-insensitive substring match on the company name
@@ -120,6 +131,7 @@ class SearchFilters(BaseModel):
     # Location (issue #19) — filter directly instead of the get_company_details detour.
     postal_code: str | None = None  # PLZ prefix, e.g. "1010" (exact) or "10" (all 10xx)
     city: str | None = None  # case-insensitive substring on the seat city
+    near: NearFilter | None = None  # radius search around a town/PLZ (T12)
 
 
 class RankSignal(BaseModel):
@@ -175,6 +187,7 @@ class CompanyCard(BaseModel):
     oenace_division_2008_label: str | None = None  # German 2008 division title
     oenace_group_2008: str | None = None  # e.g. "45.1"
     oenace_group_2008_label: str | None = None  # German 2008 group title
+    distance_km: float | None = None  # set only when a `near` radius filter was used (T12)
 
 
 class Relaxation(BaseModel):

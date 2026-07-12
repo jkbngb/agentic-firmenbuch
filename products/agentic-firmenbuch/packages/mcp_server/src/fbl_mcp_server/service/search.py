@@ -3,13 +3,16 @@
 from __future__ import annotations
 
 import contextvars
+import math
 import re
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any
 
 from fbl_core.storage import CosmosStoreLike
 from fbl_core_at.directories import load_fi_directory_cached
+from fbl_core_at.geo import haversine_km, plz_centroid, resolve_place
 from fbl_core_at.models import (
+    NearFilter,
     PublicProvenance,
     RankSignal,
     Relaxation,
@@ -30,6 +33,42 @@ from ._common import (
     _is_gmbh_filter,
     _legal_form_matches,
 )
+
+
+def _near_anchor(near: NearFilter) -> tuple[float, float, float]:
+    """Resolve a ``near`` filter to ``(lat, lng, radius_m)`` or raise ``BadRequest``. Exactly one
+    of place/postal_code is required; an ambiguous place lists its candidates, an unknown one asks
+    for a postal_code (no silent pick). Radius is clamped to 1..150 km."""
+    if (near.place is None) == (near.postal_code is None):
+        raise BadRequest("near requires exactly one of 'place' or 'postal_code'")
+    radius_km = min(150.0, max(1.0, near.radius_km))
+    if near.postal_code is not None:
+        centroid = plz_centroid(near.postal_code)
+        if centroid is None:
+            raise BadRequest(f"unknown postal_code {near.postal_code!r}")
+        lat, lng = centroid
+    else:
+        assert near.place is not None
+        match, candidates = resolve_place(near.place)
+        if match is None and not candidates:
+            raise BadRequest(f"unknown place {near.place!r}; use postal_code instead")
+        if match is None:
+            listing = "; ".join(f"{m.name} (PLZ {m.plz})" for m in candidates[:10])
+            raise BadRequest(
+                f"ambiguous place {near.place!r} — matches several towns: {listing}. "
+                "Use postal_code to disambiguate."
+            )
+        lat, lng = match.lat, match.lng
+    return lat, lng, radius_km * 1000.0
+
+
+def _doc_distance_m(doc: dict[str, Any], lat: float, lng: float) -> float | None:
+    """Haversine metres from the anchor to a doc's PLZ-centroid, or None if it has no coordinate."""
+    dlat = _g(doc, "location", "lat")
+    dlng = _g(doc, "location", "lng")
+    if not isinstance(dlat, int | float) or not isinstance(dlng, int | float):
+        return None
+    return haversine_km(lat, lng, float(dlat), float(dlng)) * 1000.0
 
 
 def _status_matches(doc: dict[str, Any], wanted: str) -> bool:
@@ -95,8 +134,17 @@ def _matches(doc: dict[str, Any], f: SearchFilters) -> bool:
         f.postal_code is None
         or (_g(doc, "location", "postal_code") or "").startswith(f.postal_code),
         f.city is None or f.city.lower() in (_g(doc, "location", "city") or "").lower(),
+        f.near is None or _near_matches(doc, f.near),
     ]
     return all(checks)
+
+
+def _near_matches(doc: dict[str, Any], near: NearFilter) -> bool:
+    """In-memory twin of the radius filter: exact haversine ≤ radius; a doc without a coordinate
+    never matches a near query."""
+    lat, lng, radius_m = _near_anchor(near)
+    dist = _doc_distance_m(doc, lat, lng)
+    return dist is not None and dist <= radius_m
 
 
 def _build_where(f: SearchFilters) -> tuple[str, list[dict[str, Any]]]:
@@ -230,6 +278,17 @@ def _build_where(f: SearchFilters) -> tuple[str, list[dict[str, Any]]]:
     rng("c.ratios.equity_ratio.latest", f.equity_ratio_min, f.equity_ratio_max, "eq")
     rng("c.financials.latest.revenue", f.revenue_min, f.revenue_max, "rev")
     rng("c.employees.latest", f.employees_min, f.employees_max, "emp")
+    if f.near is not None:
+        # Indexed bounding-box PRE-filter on lat/lng (a proven cheap range path); the exact circle
+        # is applied afterwards in Python via haversine. This avoids depending on ST_DISTANCE's RU
+        # cost on serverless (which can't be measured until geo is backfilled); the same lat/lng
+        # index also lets ST_DISTANCE be swapped in later with no API change. (T12)
+        lat, lng, radius_m = _near_anchor(f.near)
+        rkm = radius_m / 1000.0
+        dlat = rkm / 111.0
+        dlng = rkm / (111.0 * max(0.1, math.cos(math.radians(lat))))
+        rng("c.location.lat", lat - dlat, lat + dlat, "lat")
+        rng("c.location.lng", lng - dlng, lng + dlng, "lng")
     return " AND ".join(conds), params
 
 
@@ -396,8 +455,85 @@ def _applied_filters(f: SearchFilters, page_size: int) -> dict[str, Any] | None:
         out["bundesland"] = _BL_NAME_TO_CODE.get(f.bundesland, f.bundesland)
     if f.legal_form is not None and _is_gmbh_filter(f.legal_form):
         out["legal_form"] = "GE*"  # the GmbH family is matched by STARTSWITH(legal_form,'GE')
+    if f.near is not None:  # a plain dict, not the model object (JSON-clean echo)
+        out["near"] = f.near.model_dump(exclude_none=True)
     out["page_size"] = page_size  # the value after clamping to 1..MAX_PAGE_SIZE
     return out
+
+
+# Bounding-box candidates to exact-filter for a radius query. A local radius yields far fewer;
+# a very dense area is pool-capped (the response's total reflects the exact matches within it).
+_NEAR_POOL_LIMIT = 3000
+
+
+def _order_near(
+    docs: list[dict[str, Any]],
+    anchor: tuple[float, float, float],
+    sort_field: str,
+    descending: bool,
+    rank_by: list[RankSignal] | None,
+) -> list[dict[str, Any]]:
+    """Order the exact-radius result set: by weighted signals, an explicit metric, or (default)
+    ascending distance from the anchor, fnr-stable."""
+    lat, lng, _ = anchor
+    if rank_by:
+        return _rank_by_weighted(docs, rank_by)
+    if sort_field != "distance":
+        return _sorted_nulls_last(docs, sort_field, descending)
+
+    def key(d: dict[str, Any]) -> tuple[bool, float, str]:
+        dist = _doc_distance_m(d, lat, lng)
+        return (dist is None, dist if dist is not None else 0.0, str(d.get("fnr") or ""))
+
+    return sorted(docs, key=key)
+
+
+def _search_near(
+    cosmos: CosmosStoreLike,
+    filters: SearchFilters,
+    anchor: tuple[float, float, float],
+    sort_field: str,
+    descending: bool,
+    rank_by: list[RankSignal] | None,
+    page: int,
+    page_size: int,
+    start: int,
+) -> SearchResponse:
+    """Radius search: indexed bounding-box pool (built into where_sql) → exact haversine filter in
+    Python → distance-sorted page, with distance_km on every card. ``_matches`` (which runs the
+    same exact haversine via _near_matches) refines the pool for the Cosmos store and IS the whole
+    filter for the in-memory store, so one code path serves both."""
+    lat, lng, _radius_m = anchor
+    where_sql, params = _build_where(filters)
+    pool_sql = f"SELECT * FROM c WHERE {where_sql} OFFSET 0 LIMIT {_NEAR_POOL_LIMIT}"
+    pool = [
+        d
+        for d in cosmos.query(PRESENTED, pool_sql, params)
+        if not str(d.get("id", "")).startswith("__") and _matches(d, filters)
+    ]
+    ordered = _order_near(pool, anchor, sort_field, descending, rank_by)
+    total = len(ordered)
+    page_docs = ordered[start : start + page_size]
+
+    directory = load_fi_directory_cached(cosmos)
+    cards = []
+    for d in page_docs:
+        card = _card(d, directory)
+        dist = _doc_distance_m(d, lat, lng)
+        if dist is not None:
+            card.distance_km = round(dist / 1000.0, 1)
+        cards.append(card)
+    data_version_max = max((_g(d, "provenance", "data_version") or 0 for d in page_docs), default=0)
+    return SearchResponse(
+        data_version_max=data_version_max,
+        total=total,
+        page=page,
+        page_size=page_size,
+        results=cards,
+        has_more=start + len(cards) < total,
+        applied_filters=_applied_filters(filters, page_size),
+        provenance=PublicProvenance(),
+    )
 
 
 def search_companies(
@@ -419,16 +555,31 @@ def search_companies(
     page_size = max(1, min(page_size, MAX_PAGE_SIZE))
     start = (page - 1) * page_size
 
+    # Resolve the radius anchor up front so an ambiguous/unknown place fails fast and cleanly.
+    near_anchor = _near_anchor(filters.near) if filters.near is not None else None
+
     rank_by = sort.rank_by if sort else None
-    sort_field = (sort.field if sort and sort.field else None) or "bilanzsumme"
+    requested_field = sort.field if sort and sort.field else None
+    # Default sort: distance for a near query, else Bilanzsumme.
+    sort_field = requested_field or ("distance" if near_anchor is not None else "bilanzsumme")
     descending = sort.descending if sort else True
     # Reject an unknown sort field loudly (it used to silently drop ordering): the LLM gets a
-    # clear list of valid fields instead of a mystifyingly unordered page. (T11)
-    if sort_field not in _SORT_PATHS:
-        raise BadRequest(
-            f"unknown sort field {sort_field!r}; valid: {', '.join(sorted(_SORT_PATHS))}"
-        )
+    # clear list of valid fields instead of a mystifyingly unordered page. (T11) "distance" is a
+    # computed field valid only alongside a near filter (T12).
+    if sort_field == "distance":
+        if near_anchor is None:
+            raise BadRequest("sort field 'distance' requires a 'near' filter")
+    elif sort_field not in _SORT_PATHS:
+        valid = [*sorted(_SORT_PATHS), "distance"]
+        raise BadRequest(f"unknown sort field {sort_field!r}; valid: {', '.join(valid)}")
     order_path = _SORT_PATHS.get(sort_field)
+
+    # Radius search has exact-count / distance-sort semantics that don't fit the two-bucket
+    # COUNT+page machinery, so it takes a dedicated pool path (T12).
+    if near_anchor is not None:
+        return _search_near(
+            cosmos, filters, near_anchor, sort_field, descending, rank_by, page, page_size, start
+        )
 
     where_sql, params = _build_where(filters)
     count_sql = f"SELECT VALUE COUNT(1) FROM c WHERE {where_sql}"

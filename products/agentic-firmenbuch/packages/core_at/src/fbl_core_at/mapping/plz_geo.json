@@ -1,0 +1,12507 @@
+{
+"1000": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien"
+},
+"1004": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien"
+},
+"1006": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien"
+},
+"1010": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien, Innere Stadt"
+},
+"1011": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien Postfach"
+},
+"1015": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien"
+},
+"1020": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien, Leopoldstadt"
+},
+"1021": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien Postfach"
+},
+"1024": {
+"lat": 48.2037,
+"lng": 16.4232,
+"place": "Wien"
+},
+"1025": {
+"lat": 48.2037,
+"lng": 16.4232,
+"place": "Wien"
+},
+"1029": {
+"lat": 48.2037,
+"lng": 16.4232,
+"place": "Wien"
+},
+"1030": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien, Landstraße"
+},
+"1031": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien Postfach"
+},
+"1032": {
+"lat": 48.1938,
+"lng": 16.3961,
+"place": "Wien"
+},
+"1035": {
+"lat": 48.1938,
+"lng": 16.3961,
+"place": "Wien"
+},
+"1037": {
+"lat": 48.1938,
+"lng": 16.3961,
+"place": "Wien"
+},
+"1038": {
+"lat": 48.1938,
+"lng": 16.3961,
+"place": "Wien"
+},
+"1040": {
+"lat": 48.1926,
+"lng": 16.3704,
+"place": "Wien, Wieden"
+},
+"1041": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien Postfach"
+},
+"1042": {
+"lat": 48.1926,
+"lng": 16.3704,
+"place": "Wien"
+},
+"1043": {
+"lat": 48.1926,
+"lng": 16.3704,
+"place": "Wien"
+},
+"1045": {
+"lat": 48.1926,
+"lng": 16.3704,
+"place": "Wien"
+},
+"1050": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien, Margareten"
+},
+"1051": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien Postfach"
+},
+"1053": {
+"lat": 48.1868,
+"lng": 16.3559,
+"place": "Wien"
+},
+"1060": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien, Mariahilf"
+},
+"1061": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien Postfach"
+},
+"1063": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien-VÖPh"
+},
+"1065": {
+"lat": 48.1948,
+"lng": 16.3498,
+"place": "Wien"
+},
+"1070": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien, Neubau"
+},
+"1071": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien Postfach"
+},
+"1072": {
+"lat": 48.2025,
+"lng": 16.347,
+"place": "Wien"
+},
+"1080": {
+"lat": 48.2124,
+"lng": 16.3455,
+"place": "Wien, Josefstadt"
+},
+"1081": {
+"lat": 48.2105,
+"lng": 16.3588,
+"place": "Wien Postfach"
+},
+"1082": {
+"lat": 48.211,
+"lng": 16.3478,
+"place": "Wien"
+},
+"1090": {
+"lat": 48.2232,
+"lng": 16.3551,
+"place": "Wien, Alsergrund"
+},
+"1091": {
+"lat": 48.2122,
+"lng": 16.3678,
+"place": "Wien Postfach"
+},
+"1092": {
+"lat": 48.2228,
+"lng": 16.3565,
+"place": "Wien"
+},
+"1095": {
+"lat": 48.2228,
+"lng": 16.3565,
+"place": "Wien"
+},
+"1097": {
+"lat": 48.2228,
+"lng": 16.3565,
+"place": "Wien"
+},
+"1100": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien, Favoriten"
+},
+"1101": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien Postfach"
+},
+"1103": {
+"lat": 48.1521,
+"lng": 16.3876,
+"place": "Wien"
+},
+"1104": {
+"lat": 48.1521,
+"lng": 16.3876,
+"place": "Wien"
+},
+"1105": {
+"lat": 48.1521,
+"lng": 16.3876,
+"place": "Wien"
+},
+"1106": {
+"lat": 48.1521,
+"lng": 16.3876,
+"place": "Wien"
+},
+"1107": {
+"lat": 48.1521,
+"lng": 16.3876,
+"place": "Wien"
+},
+"1108": {
+"lat": 48.1521,
+"lng": 16.3876,
+"place": "Wien"
+},
+"1109": {
+"lat": 48.1521,
+"lng": 16.3876,
+"place": "Wien"
+},
+"1110": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien, Simmering"
+},
+"1111": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien Postfach"
+},
+"1114": {
+"lat": 48.164,
+"lng": 16.4463,
+"place": "Wien"
+},
+"1115": {
+"lat": 48.164,
+"lng": 16.4463,
+"place": "Wien"
+},
+"1120": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien, Meidling"
+},
+"1121": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien Postfach"
+},
+"1122": {
+"lat": 48.1705,
+"lng": 16.3223,
+"place": "Wien"
+},
+"1124": {
+"lat": 48.1705,
+"lng": 16.3223,
+"place": "Wien"
+},
+"1125": {
+"lat": 48.1705,
+"lng": 16.3223,
+"place": "Wien"
+},
+"1127": {
+"lat": 48.1705,
+"lng": 16.3223,
+"place": "Wien"
+},
+"1128": {
+"lat": 48.1705,
+"lng": 16.3223,
+"place": "Wien"
+},
+"1130": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien, Hietzing"
+},
+"1131": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien Postfach"
+},
+"1132": {
+"lat": 48.1773,
+"lng": 16.2456,
+"place": "Wien"
+},
+"1134": {
+"lat": 48.1773,
+"lng": 16.2456,
+"place": "Wien"
+},
+"1136": {
+"lat": 48.1773,
+"lng": 16.2456,
+"place": "Wien"
+},
+"1140": {
+"lat": 48.2264,
+"lng": 16.17167,
+"place": "Mauerbach"
+},
+"1141": {
+"lat": 48.2145,
+"lng": 16.3053,
+"place": "Wien Postfach"
+},
+"1142": {
+"lat": 48.221,
+"lng": 16.2415,
+"place": "Wien"
+},
+"1143": {
+"lat": 48.221,
+"lng": 16.2415,
+"place": "Wien"
+},
+"1147": {
+"lat": 48.221,
+"lng": 16.2415,
+"place": "Wien"
+},
+"1148": {
+"lat": 48.221,
+"lng": 16.2415,
+"place": "Wien"
+},
+"1150": {
+"lat": 48.196,
+"lng": 16.3183,
+"place": "Wien, Rudolfsheim-Fünfhaus"
+},
+"1151": {
+"lat": 48.2054,
+"lng": 16.3586,
+"place": "Wien Postfach"
+},
+"1152": {
+"lat": 48.1955,
+"lng": 16.3261,
+"place": "Wien"
+},
+"1153": {
+"lat": 48.1955,
+"lng": 16.3261,
+"place": "Wien"
+},
+"1156": {
+"lat": 48.1955,
+"lng": 16.3261,
+"place": "Wien"
+},
+"1160": {
+"lat": 48.2167,
+"lng": 16.3,
+"place": "Wien, Ottakring"
+},
+"1161": {
+"lat": 48.2105,
+"lng": 16.3541,
+"place": "Wien Postfach"
+},
+"1163": {
+"lat": 48.2154,
+"lng": 16.2996,
+"place": "Wien"
+},
+"1165": {
+"lat": 48.2154,
+"lng": 16.2996,
+"place": "Wien"
+},
+"1166": {
+"lat": 48.2154,
+"lng": 16.2996,
+"place": "Wien"
+},
+"1170": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien, Hernals"
+},
+"1171": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien Postfach"
+},
+"1172": {
+"lat": 48.2337,
+"lng": 16.2902,
+"place": "Wien"
+},
+"1180": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien, Währing"
+},
+"1181": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien Postfach"
+},
+"1182": {
+"lat": 48.2355,
+"lng": 16.319,
+"place": "Wien"
+},
+"1183": {
+"lat": 48.2355,
+"lng": 16.319,
+"place": "Wien"
+},
+"1190": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien, Döbling"
+},
+"1191": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien Postfach"
+},
+"1192": {
+"lat": 48.259,
+"lng": 16.3337,
+"place": "Wien"
+},
+"1193": {
+"lat": 48.259,
+"lng": 16.3337,
+"place": "Wien"
+},
+"1195": {
+"lat": 48.259,
+"lng": 16.3337,
+"place": "Wien"
+},
+"1196": {
+"lat": 48.259,
+"lng": 16.3337,
+"place": "Wien"
+},
+"1200": {
+"lat": 48.2428,
+"lng": 16.3755,
+"place": "Wien, Brigittenau"
+},
+"1201": {
+"lat": 48.2153,
+"lng": 16.3728,
+"place": "Wien Postfach"
+},
+"1203": {
+"lat": 48.2402,
+"lng": 16.3773,
+"place": "Wien"
+},
+"1205": {
+"lat": 48.2402,
+"lng": 16.3773,
+"place": "Wien"
+},
+"1206": {
+"lat": 48.2402,
+"lng": 16.3773,
+"place": "Wien"
+},
+"1208": {
+"lat": 48.2402,
+"lng": 16.3773,
+"place": "Wien"
+},
+"1210": {
+"lat": 48.3043,
+"lng": 16.3614,
+"place": "Langenzersdorf"
+},
+"1211": {
+"lat": 48.2245,
+"lng": 16.3703,
+"place": "Wien Postfach"
+},
+"1213": {
+"lat": 48.2811,
+"lng": 16.4113,
+"place": "Wien"
+},
+"1215": {
+"lat": 48.2811,
+"lng": 16.4113,
+"place": "Wien"
+},
+"1217": {
+"lat": 48.2811,
+"lng": 16.4113,
+"place": "Wien"
+},
+"1218": {
+"lat": 48.2811,
+"lng": 16.4113,
+"place": "Wien"
+},
+"1219": {
+"lat": 48.2811,
+"lng": 16.4113,
+"place": "Wien"
+},
+"1220": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien, Donaustadt"
+},
+"1221": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien Postfach"
+},
+"1222": {
+"lat": 48.219,
+"lng": 16.495,
+"place": "Wien"
+},
+"1223": {
+"lat": 48.219,
+"lng": 16.495,
+"place": "Wien"
+},
+"1224": {
+"lat": 48.219,
+"lng": 16.495,
+"place": "Wien"
+},
+"1225": {
+"lat": 48.219,
+"lng": 16.495,
+"place": "Wien"
+},
+"1228": {
+"lat": 48.219,
+"lng": 16.495,
+"place": "Wien"
+},
+"1229": {
+"lat": 48.219,
+"lng": 16.495,
+"place": "Wien"
+},
+"1230": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien, Liesing"
+},
+"1231": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien Postfach"
+},
+"1235": {
+"lat": 48.1433,
+"lng": 16.2931,
+"place": "Wien"
+},
+"1236": {
+"lat": 48.1433,
+"lng": 16.2931,
+"place": "Wien"
+},
+"1238": {
+"lat": 48.1433,
+"lng": 16.2931,
+"place": "Wien"
+},
+"1239": {
+"lat": 48.1433,
+"lng": 16.2931,
+"place": "Wien"
+},
+"1254": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien"
+},
+"1300": {
+"lat": 48.1455,
+"lng": 16.5137,
+"place": "Mannswörth"
+},
+"1310": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien"
+},
+"1400": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien-Vereinte Nationen"
+},
+"1423": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien"
+},
+"1600": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien"
+},
+"1610": {
+"lat": 48.2085,
+"lng": 16.3721,
+"place": "Wien"
+},
+"2000": {
+"lat": 48.38544,
+"lng": 16.1685,
+"place": "Oberolberndorf"
+},
+"2002": {
+"lat": 48.50746,
+"lng": 16.2317,
+"place": "Füllersdorf"
+},
+"2003": {
+"lat": 48.4105,
+"lng": 16.25236,
+"place": "Haselbach"
+},
+"2004": {
+"lat": 48.45,
+"lng": 16.29168,
+"place": "Bruderndorf"
+},
+"2011": {
+"lat": 48.44171,
+"lng": 16.16268,
+"place": "Hatzenbach"
+},
+"2013": {
+"lat": 48.49286,
+"lng": 16.12603,
+"place": "Bergau"
+},
+"2014": {
+"lat": 48.51353,
+"lng": 16.0552,
+"place": "Breitenwaida"
+},
+"2020": {
+"lat": 48.57506,
+"lng": 16.05912,
+"place": "Aspersdorf"
+},
+"2022": {
+"lat": 48.63765,
+"lng": 16.13735,
+"place": "Immendorf"
+},
+"2023": {
+"lat": 48.61945,
+"lng": 16.18657,
+"place": "Haslach"
+},
+"2024": {
+"lat": 48.6738,
+"lng": 16.1813,
+"place": "Mailberg"
+},
+"2031": {
+"lat": 48.57223,
+"lng": 16.18333,
+"place": "Altenmarkt im Thale"
+},
+"2032": {
+"lat": 48.57932,
+"lng": 16.25648,
+"place": "Enzersdorf im Thale"
+},
+"2033": {
+"lat": 48.6248,
+"lng": 16.2284,
+"place": "Dürnleis"
+},
+"2034": {
+"lat": 48.6653,
+"lng": 16.23115,
+"place": "Diepolz"
+},
+"2041": {
+"lat": 48.61672,
+"lng": 16.11955,
+"place": "Aschendorf"
+},
+"2042": {
+"lat": 48.63556,
+"lng": 16.0411,
+"place": "Großnondorf"
+},
+"2051": {
+"lat": 48.68932,
+"lng": 15.94502,
+"place": "Deinzendorf"
+},
+"2052": {
+"lat": 48.7,
+"lng": 16.02223,
+"place": "Karlsdorf"
+},
+"2053": {
+"lat": 48.71287,
+"lng": 16.04497,
+"place": "Jetzelsdorf"
+},
+"2054": {
+"lat": 48.7268,
+"lng": 16.06174,
+"place": "Alberndorf im Pulkautal"
+},
+"2061": {
+"lat": 48.70627,
+"lng": 16.1392,
+"place": "Hadres"
+},
+"2062": {
+"lat": 48.715,
+"lng": 16.18045,
+"place": "Großkadolz"
+},
+"2063": {
+"lat": 48.7,
+"lng": 16.2333,
+"place": "Zwingendorf"
+},
+"2064": {
+"lat": 48.7167,
+"lng": 16.3,
+"place": "Wulzeshofen"
+},
+"2070": {
+"lat": 48.76313,
+"lng": 15.96553,
+"place": "Mitterretzbach"
+},
+"2073": {
+"lat": 48.7283,
+"lng": 15.89955,
+"place": "Obermarkersdorf"
+},
+"2074": {
+"lat": 48.7534,
+"lng": 16.00767,
+"place": "Kleinhöflein"
+},
+"2081": {
+"lat": 48.7821,
+"lng": 15.88737,
+"place": "Hofern"
+},
+"2082": {
+"lat": 48.83335,
+"lng": 15.85835,
+"place": "Hardegg"
+},
+"2083": {
+"lat": 48.81247,
+"lng": 15.83523,
+"place": "Heufurth"
+},
+"2084": {
+"lat": 48.7711,
+"lng": 15.79954,
+"place": "Fronsburg"
+},
+"2091": {
+"lat": 48.81807,
+"lng": 15.73287,
+"place": "Hessendorf"
+},
+"2092": {
+"lat": 48.85217,
+"lng": 15.79057,
+"place": "Felling"
+},
+"2093": {
+"lat": 48.79087,
+"lng": 15.68275,
+"place": "Fugnitz"
+},
+"2094": {
+"lat": 48.83305,
+"lng": 15.59995,
+"place": "Eibenstein"
+},
+"2095": {
+"lat": 48.86612,
+"lng": 15.61672,
+"place": "Autendorf"
+},
+"2100": {
+"lat": 48.35313,
+"lng": 16.35093,
+"place": "Bisamberg"
+},
+"2102": {
+"lat": 48.33038,
+"lng": 16.37774,
+"place": "Bisamberg"
+},
+"2103": {
+"lat": 48.3043,
+"lng": 16.3614,
+"place": "Langenzersdorf"
+},
+"2104": {
+"lat": 48.3833,
+"lng": 16.25,
+"place": "Spillern"
+},
+"2105": {
+"lat": 48.39188,
+"lng": 16.31402,
+"place": "Kleinwilfersdorf"
+},
+"2106": {
+"lat": 48.3331,
+"lng": 16.3831,
+"place": "Klein-Engersdorf"
+},
+"2111": {
+"lat": 48.40067,
+"lng": 16.37926,
+"place": "Harmannsdorf"
+},
+"2112": {
+"lat": 48.43325,
+"lng": 16.41542,
+"place": "Hetzmannsdorf"
+},
+"2113": {
+"lat": 48.48035,
+"lng": 16.36365,
+"place": "Karnabrunn"
+},
+"2114": {
+"lat": 48.47924,
+"lng": 16.41614,
+"place": "Großrußbach"
+},
+"2115": {
+"lat": 48.5244,
+"lng": 16.35934,
+"place": "Dörfles"
+},
+"2116": {
+"lat": 48.55835,
+"lng": 16.38332,
+"place": "Au"
+},
+"2120": {
+"lat": 48.375,
+"lng": 16.5167,
+"place": "Obersdorf"
+},
+"2122": {
+"lat": 48.39835,
+"lng": 16.4785,
+"place": "Münichsthal"
+},
+"2123": {
+"lat": 48.43108,
+"lng": 16.49913,
+"place": "Hautzendorf"
+},
+"2124": {
+"lat": 48.48025,
+"lng": 16.464,
+"place": "Niederkreuzstetten"
+},
+"2125": {
+"lat": 48.48195,
+"lng": 16.50478,
+"place": "Bogenneusiedl"
+},
+"2126": {
+"lat": 48.5361,
+"lng": 16.44722,
+"place": "Eggersdorf"
+},
+"2127": {
+"lat": 48.4333,
+"lng": 16.4833,
+"place": "Hautzendorf"
+},
+"2130": {
+"lat": 48.57259,
+"lng": 16.56592,
+"place": "Ebendorf"
+},
+"2132": {
+"lat": 48.625,
+"lng": 16.5167,
+"place": "Frättingsdorf"
+},
+"2133": {
+"lat": 48.65543,
+"lng": 16.42707,
+"place": "Fallbach"
+},
+"2134": {
+"lat": 48.66336,
+"lng": 16.49334,
+"place": "Enzersdorf bei Staatz"
+},
+"2135": {
+"lat": 48.71114,
+"lng": 16.51058,
+"place": "Altruppersdorf"
+},
+"2136": {
+"lat": 48.72436,
+"lng": 16.38148,
+"place": "Hanfthal"
+},
+"2141": {
+"lat": 48.675,
+"lng": 16.55,
+"place": "Ameis"
+},
+"2143": {
+"lat": 48.6384,
+"lng": 16.72825,
+"place": "Althöflein"
+},
+"2144": {
+"lat": 48.6444,
+"lng": 16.7966,
+"place": "Altlichtenwarth"
+},
+"2145": {
+"lat": 48.626,
+"lng": 16.8284,
+"place": "Hausbrunn"
+},
+"2151": {
+"lat": 48.58334,
+"lng": 16.46336,
+"place": "Altmanns"
+},
+"2152": {
+"lat": 48.61047,
+"lng": 16.37527,
+"place": "Eichenbrunn"
+},
+"2153": {
+"lat": 48.63883,
+"lng": 16.29993,
+"place": "Oberschoderlee"
+},
+"2154": {
+"lat": 48.66277,
+"lng": 16.374,
+"place": "Altenmarkt"
+},
+"2161": {
+"lat": 48.7167,
+"lng": 16.6167,
+"place": "Poysbrunn"
+},
+"2162": {
+"lat": 48.7167,
+"lng": 16.5833,
+"place": "Falkenstein"
+},
+"2163": {
+"lat": 48.75367,
+"lng": 16.56523,
+"place": "Guttenbrunn"
+},
+"2164": {
+"lat": 48.7632,
+"lng": 16.4955,
+"place": "Alt-Prerau"
+},
+"2165": {
+"lat": 48.74688,
+"lng": 16.6337,
+"place": "Drasenhofen"
+},
+"2170": {
+"lat": 48.65557,
+"lng": 16.62778,
+"place": "Ketzelsdorf"
+},
+"2171": {
+"lat": 48.6961,
+"lng": 16.6828,
+"place": "Herrnbaumgarten"
+},
+"2172": {
+"lat": 48.7236,
+"lng": 16.722,
+"place": "Schrattenberg"
+},
+"2181": {
+"lat": 48.6,
+"lng": 16.8167,
+"place": "Dobermannsdorf"
+},
+"2182": {
+"lat": 48.5833,
+"lng": 16.8167,
+"place": "Palterndorf"
+},
+"2183": {
+"lat": 48.5996,
+"lng": 16.7733,
+"place": "Neusiedl an der Zaya"
+},
+"2184": {
+"lat": 48.6132,
+"lng": 16.7587,
+"place": "Hauskirchen"
+},
+"2185": {
+"lat": 48.6012,
+"lng": 16.7125,
+"place": "Ebersdorf an der Zaya"
+},
+"2191": {
+"lat": 48.49266,
+"lng": 16.57426,
+"place": "Atzelsdorf"
+},
+"2192": {
+"lat": 48.55,
+"lng": 16.65,
+"place": "Kettlasbrunn"
+},
+"2193": {
+"lat": 48.59165,
+"lng": 16.64582,
+"place": "Bullendorf"
+},
+"2201": {
+"lat": 48.32037,
+"lng": 16.4503,
+"place": "Gerasdorf"
+},
+"2202": {
+"lat": 48.34817,
+"lng": 16.41103,
+"place": "Enzersfeld im Weinviertel"
+},
+"2203": {
+"lat": 48.37053,
+"lng": 16.4607,
+"place": "Eibesbrunn"
+},
+"2211": {
+"lat": 48.35,
+"lng": 16.5333,
+"place": "Pillichsdorf"
+},
+"2212": {
+"lat": 48.3587,
+"lng": 16.5661,
+"place": "Großengersdorf"
+},
+"2213": {
+"lat": 48.36,
+"lng": 16.6039,
+"place": "Bockfließ"
+},
+"2214": {
+"lat": 48.3737,
+"lng": 16.636,
+"place": "Auersthal"
+},
+"2215": {
+"lat": 48.3941,
+"lng": 16.6582,
+"place": "Raggendorf"
+},
+"2221": {
+"lat": 48.4147,
+"lng": 16.6319,
+"place": "Groß-Schweinbarth"
+},
+"2222": {
+"lat": 48.45095,
+"lng": 16.5908,
+"place": "Bad Pirawarth"
+},
+"2223": {
+"lat": 48.4661,
+"lng": 16.63763,
+"place": "Hohenruppersdorf"
+},
+"2224": {
+"lat": 48.49012,
+"lng": 16.67432,
+"place": "Erdpreß"
+},
+"2225": {
+"lat": 48.53534,
+"lng": 16.74833,
+"place": "Blumenthal"
+},
+"2230": {
+"lat": 48.3392,
+"lng": 16.7202,
+"place": "Gänserndorf"
+},
+"2231": {
+"lat": 48.33835,
+"lng": 16.6353,
+"place": "Bockfließ"
+},
+"2232": {
+"lat": 48.28877,
+"lng": 16.56667,
+"place": "Aderklaa"
+},
+"2241": {
+"lat": 48.3548,
+"lng": 16.6912,
+"place": "Schönkirchen-Reyersdorf"
+},
+"2242": {
+"lat": 48.3868,
+"lng": 16.7389,
+"place": "Prottes"
+},
+"2243": {
+"lat": 48.4,
+"lng": 16.7,
+"place": "Matzen"
+},
+"2244": {
+"lat": 48.4639,
+"lng": 16.7365,
+"place": "Spannberg"
+},
+"2245": {
+"lat": 48.4668,
+"lng": 16.78195,
+"place": "Götzendorf"
+},
+"2251": {
+"lat": 48.4333,
+"lng": 16.7833,
+"place": "Ebenthal"
+},
+"2252": {
+"lat": 48.4,
+"lng": 16.8,
+"place": "Ollersdorf"
+},
+"2253": {
+"lat": 48.35053,
+"lng": 16.77692,
+"place": "Dörfles"
+},
+"2261": {
+"lat": 48.38455,
+"lng": 16.83335,
+"place": "Angern an der March"
+},
+"2262": {
+"lat": 48.40835,
+"lng": 16.8333,
+"place": "Grub an der March"
+},
+"2263": {
+"lat": 48.4691,
+"lng": 16.83715,
+"place": "Dürnkrut"
+},
+"2264": {
+"lat": 48.5044,
+"lng": 16.87905,
+"place": "Jedenspeigen"
+},
+"2265": {
+"lat": 48.53325,
+"lng": 16.8953,
+"place": "Drösing"
+},
+"2272": {
+"lat": 48.5667,
+"lng": 16.85835,
+"place": "Niederabsdorf"
+},
+"2273": {
+"lat": 48.6042,
+"lng": 16.9047,
+"place": "Hohenau an der March"
+},
+"2274": {
+"lat": 48.65,
+"lng": 16.9,
+"place": "Rabensburg"
+},
+"2275": {
+"lat": 48.6916,
+"lng": 16.8695,
+"place": "Bernhardsthal"
+},
+"2276": {
+"lat": 48.70085,
+"lng": 16.796,
+"place": "Katzelsdorf"
+},
+"2280": {
+"lat": 48.2461,
+"lng": 16.6406,
+"place": "Glinzendorf"
+},
+"2281": {
+"lat": 48.24265,
+"lng": 16.57455,
+"place": "Pysdorf"
+},
+"2282": {
+"lat": 48.25703,
+"lng": 16.6311,
+"place": "Glinzendorf"
+},
+"2283": {
+"lat": 48.2654,
+"lng": 16.7108,
+"place": "Obersiebenbrunn"
+},
+"2284": {
+"lat": 48.2567,
+"lng": 16.7453,
+"place": "Untersiebenbrunn"
+},
+"2285": {
+"lat": 48.2084,
+"lng": 16.69845,
+"place": "Breitstetten"
+},
+"2286": {
+"lat": 48.19183,
+"lng": 16.7589,
+"place": "Fuchsenbigl"
+},
+"2291": {
+"lat": 48.2452,
+"lng": 16.81365,
+"place": "Lassee"
+},
+"2292": {
+"lat": 48.1661,
+"lng": 16.86677,
+"place": "Engelhartstetten"
+},
+"2293": {
+"lat": 48.2622,
+"lng": 16.9105,
+"place": "Marchegg"
+},
+"2294": {
+"lat": 48.22614,
+"lng": 16.9167,
+"place": "Breitensee"
+},
+"2295": {
+"lat": 48.3189,
+"lng": 16.8453,
+"place": "Baumgarten an der March"
+},
+"2301": {
+"lat": 48.17895,
+"lng": 16.6116,
+"place": "Andlersdorf"
+},
+"2304": {
+"lat": 48.15357,
+"lng": 16.7067,
+"place": "Mannsdorf an der Donau"
+},
+"2305": {
+"lat": 48.15648,
+"lng": 16.8063,
+"place": "Eckartsau"
+},
+"2320": {
+"lat": 48.12456,
+"lng": 16.48174,
+"place": "Kledering"
+},
+"2322": {
+"lat": 48.1099,
+"lng": 16.4627,
+"place": "Zwölfaxing"
+},
+"2325": {
+"lat": 48.06618,
+"lng": 16.4425,
+"place": "Gutenhof"
+},
+"2326": {
+"lat": 48.1049,
+"lng": 16.4324,
+"place": "Lanzendorf"
+},
+"2327": {
+"lat": 48.0833,
+"lng": 16.5279,
+"place": "Rauchenwarth"
+},
+"2331": {
+"lat": 48.1211,
+"lng": 16.3404,
+"place": "Vösendorf"
+},
+"2332": {
+"lat": 48.1117,
+"lng": 16.3631,
+"place": "Hennersdorf"
+},
+"2333": {
+"lat": 48.1156,
+"lng": 16.3913,
+"place": "Leopoldsdorf"
+},
+"2334": {
+"lat": 48.1211,
+"lng": 16.3404,
+"place": "Vösendorf"
+},
+"2335": {
+"lat": 48.1156,
+"lng": 16.3913,
+"place": "Leopoldsdorf"
+},
+"2340": {
+"lat": 48.093,
+"lng": 16.28625,
+"place": "Maria Enzersdorf"
+},
+"2344": {
+"lat": 48.1,
+"lng": 16.2833,
+"place": "Maria Enzersdorf"
+},
+"2345": {
+"lat": 48.107,
+"lng": 16.2847,
+"place": "Brunn am Gebirge"
+},
+"2346": {
+"lat": 48.0953,
+"lng": 16.3065,
+"place": "Maria Enzersdorf-Südstadt"
+},
+"2349": {
+"lat": 48.086,
+"lng": 16.2892,
+"place": "Mödling"
+},
+"2351": {
+"lat": 48.07048,
+"lng": 16.33228,
+"place": "Biedermannsdorf"
+},
+"2352": {
+"lat": 48.0454,
+"lng": 16.2771,
+"place": "Gumpoldskirchen"
+},
+"2353": {
+"lat": 48.04615,
+"lng": 16.29545,
+"place": "Gumpoldskirchen"
+},
+"2355": {
+"lat": 48.0828,
+"lng": 16.3138,
+"place": "Wiener Neudorf"
+},
+"2356": {
+"lat": 48.0828,
+"lng": 16.3138,
+"place": "Wiener Neudorf"
+},
+"2361": {
+"lat": 48.0683,
+"lng": 16.3561,
+"place": "Laxenburg"
+},
+"2362": {
+"lat": 48.0839,
+"lng": 16.3454,
+"place": "Biedermannsdorf"
+},
+"2371": {
+"lat": 48.08543,
+"lng": 16.22693,
+"place": "Hinterbrühl"
+},
+"2372": {
+"lat": 48.0978,
+"lng": 16.2348,
+"place": "Gießhübl"
+},
+"2380": {
+"lat": 48.1194,
+"lng": 16.2661,
+"place": "Perchtoldsdorf"
+},
+"2381": {
+"lat": 48.1568,
+"lng": 16.1473,
+"place": "Laab im Walde"
+},
+"2384": {
+"lat": 48.1333,
+"lng": 16.15,
+"place": "Breitenfurt bei Wien"
+},
+"2391": {
+"lat": 48.1165,
+"lng": 16.1996,
+"place": "Kaltenleutgeben"
+},
+"2392": {
+"lat": 48.09963,
+"lng": 16.12312,
+"place": "Dornbach"
+},
+"2393": {
+"lat": 48.075,
+"lng": 16.17535,
+"place": "Sittendorf"
+},
+"2401": {
+"lat": 48.1167,
+"lng": 16.6063,
+"place": "Fischamend-Dorf"
+},
+"2402": {
+"lat": 48.10835,
+"lng": 16.7,
+"place": "Haslau an der Donau"
+},
+"2403": {
+"lat": 48.098,
+"lng": 16.7885,
+"place": "Regelsbrunn"
+},
+"2404": {
+"lat": 48.113,
+"lng": 16.8658,
+"place": "Petronell-Carnuntum"
+},
+"2405": {
+"lat": 48.12585,
+"lng": 16.921,
+"place": "Bad Deutsch-Altenburg"
+},
+"2410": {
+"lat": 48.1463,
+"lng": 16.945,
+"place": "Hainburg an der Donau"
+},
+"2412": {
+"lat": 48.1333,
+"lng": 17.0,
+"place": "Wolfsthal"
+},
+"2413": {
+"lat": 48.1007,
+"lng": 17.0134,
+"place": "Berg"
+},
+"2421": {
+"lat": 48.0925,
+"lng": 17.0639,
+"place": "Kittsee"
+},
+"2422": {
+"lat": 48.0473,
+"lng": 17.0332,
+"place": "Pama / Bijelo Selo"
+},
+"2423": {
+"lat": 48.0112,
+"lng": 17.1062,
+"place": "Deutsch Jahrndorf"
+},
+"2424": {
+"lat": 47.9831,
+"lng": 17.0031,
+"place": "Zurndorf"
+},
+"2425": {
+"lat": 47.9406,
+"lng": 17.0694,
+"place": "Nickelsdorf"
+},
+"2431": {
+"lat": 48.0894,
+"lng": 16.60745,
+"place": "Enzersdorf an der Fischa"
+},
+"2432": {
+"lat": 48.0694,
+"lng": 16.5796,
+"place": "Schwadorf"
+},
+"2433": {
+"lat": 48.0333,
+"lng": 16.6,
+"place": "Margarethen am Moos"
+},
+"2434": {
+"lat": 48.00207,
+"lng": 16.5962,
+"place": "Götzendorf an der Leitha"
+},
+"2435": {
+"lat": 48.03032,
+"lng": 16.55475,
+"place": "Ebergassing"
+},
+"2440": {
+"lat": 48.00965,
+"lng": 16.4833,
+"place": "Gramatneusiedl"
+},
+"2441": {
+"lat": 48.01483,
+"lng": 16.471,
+"place": "Gramatneusiedl"
+},
+"2442": {
+"lat": 47.95835,
+"lng": 16.425,
+"place": "Schranawand"
+},
+"2443": {
+"lat": 47.92468,
+"lng": 16.50305,
+"place": "Deutsch-Brodersdorf"
+},
+"2444": {
+"lat": 47.9586,
+"lng": 16.5184,
+"place": "Seibersdorf"
+},
+"2445": {
+"lat": 47.9755,
+"lng": 16.4805,
+"place": "Leithaprodersdorf"
+},
+"2451": {
+"lat": 47.9365,
+"lng": 16.5706,
+"place": "Au am Leithaberge"
+},
+"2452": {
+"lat": 47.9825,
+"lng": 16.55937,
+"place": "Mannersdorf am Leithagebirge"
+},
+"2453": {
+"lat": 47.9833,
+"lng": 16.65,
+"place": "Sommerein"
+},
+"2454": {
+"lat": 48.0222,
+"lng": 16.6552,
+"place": "Sarasdorf"
+},
+"2460": {
+"lat": 48.02195,
+"lng": 16.77685,
+"place": "Bruck an der Leitha"
+},
+"2462": {
+"lat": 48.00487,
+"lng": 16.7131,
+"place": "Kaisersteinbruch"
+},
+"2463": {
+"lat": 48.04755,
+"lng": 16.65455,
+"place": "Gallbrunn"
+},
+"2464": {
+"lat": 48.05835,
+"lng": 16.71665,
+"place": "Arbesthal"
+},
+"2465": {
+"lat": 48.0667,
+"lng": 16.7833,
+"place": "Höflein"
+},
+"2471": {
+"lat": 48.05427,
+"lng": 16.86318,
+"place": "Gerhaus"
+},
+"2472": {
+"lat": 48.074,
+"lng": 16.9523,
+"place": "Prellenkirchen"
+},
+"2473": {
+"lat": 48.0477,
+"lng": 16.9432,
+"place": "Deutsch-Haslau"
+},
+"2474": {
+"lat": 48.0167,
+"lng": 16.9833,
+"place": "Gattendorf"
+},
+"2475": {
+"lat": 48.0167,
+"lng": 16.9333,
+"place": "Neudorf / Novo Selo"
+},
+"2481": {
+"lat": 48.0803,
+"lng": 16.3861,
+"place": "Achau"
+},
+"2482": {
+"lat": 48.0333,
+"lng": 16.3833,
+"place": "Münchendorf"
+},
+"2483": {
+"lat": 47.9529,
+"lng": 16.40355,
+"place": "Ebreichsdorf"
+},
+"2484": {
+"lat": 47.9503,
+"lng": 16.3955,
+"place": "Weigelsdorf, Fischa"
+},
+"2485": {
+"lat": 47.9167,
+"lng": 16.425,
+"place": "Wampersdorf"
+},
+"2486": {
+"lat": 47.9,
+"lng": 16.37777,
+"place": "Landegg"
+},
+"2490": {
+"lat": 47.8826,
+"lng": 16.35475,
+"place": "Ebenfurth"
+},
+"2491": {
+"lat": 47.8558,
+"lng": 16.40527,
+"place": "Hornstein / Vorištan"
+},
+"2492": {
+"lat": 47.85405,
+"lng": 16.32755,
+"place": "Eggendorf"
+},
+"2493": {
+"lat": 47.84285,
+"lng": 16.31025,
+"place": "Eggendorf"
+},
+"2500": {
+"lat": 48.0119,
+"lng": 16.21193,
+"place": "Baden"
+},
+"2504": {
+"lat": 47.9846,
+"lng": 16.2174,
+"place": "Sooß"
+},
+"2505": {
+"lat": 48.0064,
+"lng": 16.213,
+"place": "Baden-Leesdorf"
+},
+"2511": {
+"lat": 48.01995,
+"lng": 16.24945,
+"place": "Einöde"
+},
+"2512": {
+"lat": 47.99575,
+"lng": 16.28135,
+"place": "Oeynhausen"
+},
+"2513": {
+"lat": 48.0258,
+"lng": 16.3051,
+"place": "Möllersdorf"
+},
+"2514": {
+"lat": 48.01627,
+"lng": 16.29667,
+"place": "Möllersdorf"
+},
+"2521": {
+"lat": 47.9935,
+"lng": 16.3427,
+"place": "Trumau"
+},
+"2522": {
+"lat": 47.9757,
+"lng": 16.3219,
+"place": "Oberwaltersdorf"
+},
+"2523": {
+"lat": 47.95,
+"lng": 16.3,
+"place": "Tattendorf"
+},
+"2524": {
+"lat": 47.95,
+"lng": 16.2833,
+"place": "Teesdorf"
+},
+"2525": {
+"lat": 47.9392,
+"lng": 16.2572,
+"place": "Günselsdorf"
+},
+"2531": {
+"lat": 48.0536,
+"lng": 16.2,
+"place": "Gaaden"
+},
+"2532": {
+"lat": 48.04532,
+"lng": 16.13074,
+"place": "Füllenberg"
+},
+"2533": {
+"lat": 48.10263,
+"lng": 16.0369,
+"place": "Glashütten"
+},
+"2534": {
+"lat": 48.0406,
+"lng": 16.07618,
+"place": "Alland"
+},
+"2540": {
+"lat": 47.96127,
+"lng": 16.1918,
+"place": "Bad Vöslau"
+},
+"2542": {
+"lat": 47.9395,
+"lng": 16.2218,
+"place": "Kottingbrunn"
+},
+"2544": {
+"lat": 47.93084,
+"lng": 16.21376,
+"place": "Dornau"
+},
+"2551": {
+"lat": 47.931,
+"lng": 16.1791,
+"place": "Enzesfeld-Lindabrunn"
+},
+"2552": {
+"lat": 47.931,
+"lng": 16.1791,
+"place": "Enzesfeld-Lindabrunn"
+},
+"2560": {
+"lat": 47.9163,
+"lng": 16.09828,
+"place": "Aigen"
+},
+"2561": {
+"lat": 47.8947,
+"lng": 16.1056,
+"place": "Hernstein"
+},
+"2563": {
+"lat": 47.9582,
+"lng": 16.0948,
+"place": "Pottenstein"
+},
+"2564": {
+"lat": 47.97559,
+"lng": 16.00819,
+"place": "Aggsbach"
+},
+"2565": {
+"lat": 48.00698,
+"lng": 16.07942,
+"place": "Gadenweith"
+},
+"2571": {
+"lat": 48.0192,
+"lng": 15.99666,
+"place": "Altenmarkt an der Triesting"
+},
+"2572": {
+"lat": 48.02989,
+"lng": 15.90335,
+"place": "Gerichtsberg"
+},
+"2601": {
+"lat": 47.8817,
+"lng": 16.30003,
+"place": "Eggendorf"
+},
+"2602": {
+"lat": 47.91637,
+"lng": 16.26357,
+"place": "Blumau"
+},
+"2603": {
+"lat": 47.88693,
+"lng": 16.26607,
+"place": "Felixdorf"
+},
+"2604": {
+"lat": 47.85405,
+"lng": 16.27755,
+"place": "Eggendorf"
+},
+"2620": {
+"lat": 47.70783,
+"lng": 16.07053,
+"place": "Diepolz"
+},
+"2624": {
+"lat": 47.74767,
+"lng": 16.1409,
+"place": "Breitenau"
+},
+"2625": {
+"lat": 47.72425,
+"lng": 16.16045,
+"place": "Guntrams"
+},
+"2630": {
+"lat": 47.70113,
+"lng": 15.98392,
+"place": "Buchbach"
+},
+"2631": {
+"lat": 47.74282,
+"lng": 15.96673,
+"place": "Gadenweith"
+},
+"2632": {
+"lat": 47.67779,
+"lng": 16.0125,
+"place": "Altendorf"
+},
+"2640": {
+"lat": 47.66612,
+"lng": 15.94589,
+"place": "Abfaltersbach"
+},
+"2641": {
+"lat": 47.64803,
+"lng": 15.8548,
+"place": "Breitenstein"
+},
+"2650": {
+"lat": 47.68364,
+"lng": 15.86834,
+"place": "Geyerhof"
+},
+"2651": {
+"lat": 47.69096,
+"lng": 15.81795,
+"place": "Dörfl"
+},
+"2654": {
+"lat": 47.68334,
+"lng": 15.75206,
+"place": "Griesleiten"
+},
+"2661": {
+"lat": 47.7731,
+"lng": 15.7027,
+"place": "Graben"
+},
+"2662": {
+"lat": 47.79499,
+"lng": 15.74969,
+"place": "Gegend"
+},
+"2663": {
+"lat": 47.91145,
+"lng": 15.65965,
+"place": "Innerhalbach"
+},
+"2671": {
+"lat": 47.67762,
+"lng": 15.89827,
+"place": "Abfaltersbach"
+},
+"2673": {
+"lat": 47.6658,
+"lng": 15.8263,
+"place": "Breitenstein"
+},
+"2680": {
+"lat": 47.62123,
+"lng": 15.79363,
+"place": "Semmering-Kurort"
+},
+"2700": {
+"lat": 47.8101,
+"lng": 16.22232,
+"place": "Bad Fischau"
+},
+"2703": {
+"lat": 47.8049,
+"lng": 16.232,
+"place": "Wiener Neustadt"
+},
+"2705": {
+"lat": 47.8049,
+"lng": 16.232,
+"place": "Wiener Neustadt"
+},
+"2706": {
+"lat": 47.8049,
+"lng": 16.232,
+"place": "Wiener Neustadt"
+},
+"2707": {
+"lat": 47.8049,
+"lng": 16.232,
+"place": "Wiener Neustadt"
+},
+"2721": {
+"lat": 47.83697,
+"lng": 16.14223,
+"place": "Bad Fischau"
+},
+"2722": {
+"lat": 47.81,
+"lng": 16.11005,
+"place": "Emmerberg"
+},
+"2723": {
+"lat": 47.82855,
+"lng": 16.09208,
+"place": "Emmerberg"
+},
+"2724": {
+"lat": 47.83108,
+"lng": 16.05987,
+"place": "Dreistetten"
+},
+"2731": {
+"lat": 47.78535,
+"lng": 16.09773,
+"place": "Dörfles"
+},
+"2732": {
+"lat": 47.78381,
+"lng": 16.04875,
+"place": "Hettmannsdorf"
+},
+"2733": {
+"lat": 47.77444,
+"lng": 15.98808,
+"place": "Gutenmann"
+},
+"2734": {
+"lat": 47.7616,
+"lng": 15.9536,
+"place": "Gutenmann"
+},
+"2751": {
+"lat": 47.8656,
+"lng": 16.20432,
+"place": "Hölles"
+},
+"2752": {
+"lat": 47.83377,
+"lng": 16.1901,
+"place": "Bad Fischau"
+},
+"2753": {
+"lat": 47.86997,
+"lng": 16.10033,
+"place": "Dreistetten"
+},
+"2754": {
+"lat": 47.8662,
+"lng": 16.05313,
+"place": "Dürnbach"
+},
+"2755": {
+"lat": 47.8785,
+"lng": 16.0246,
+"place": "Oed"
+},
+"2761": {
+"lat": 47.85858,
+"lng": 15.97668,
+"place": "Feichtenbach"
+},
+"2763": {
+"lat": 47.8829,
+"lng": 15.96627,
+"place": "Feichtenbach"
+},
+"2770": {
+"lat": 47.87911,
+"lng": 15.88819,
+"place": "Gutenstein"
+},
+"2801": {
+"lat": 47.76525,
+"lng": 16.2766,
+"place": "Eichbüchl"
+},
+"2802": {
+"lat": 47.66583,
+"lng": 16.28679,
+"place": "Hackbichl"
+},
+"2803": {
+"lat": 47.63127,
+"lng": 16.32533,
+"place": "Schwarzenbach"
+},
+"2811": {
+"lat": 47.63335,
+"lng": 16.26665,
+"place": "Schlatten"
+},
+"2812": {
+"lat": 47.58613,
+"lng": 16.25905,
+"place": "Spratzau"
+},
+"2813": {
+"lat": 47.60358,
+"lng": 16.20105,
+"place": "Pürahöfen"
+},
+"2820": {
+"lat": 47.7167,
+"lng": 16.2333,
+"place": "Walpersbach"
+},
+"2821": {
+"lat": 47.73366,
+"lng": 16.24531,
+"place": "Frohsdorf"
+},
+"2822": {
+"lat": 47.71206,
+"lng": 16.21216,
+"place": "Bad Erlach"
+},
+"2823": {
+"lat": 47.71008,
+"lng": 16.1881,
+"place": "Brunn bei Pitten"
+},
+"2824": {
+"lat": 47.6997,
+"lng": 16.15575,
+"place": "Schiltern"
+},
+"2831": {
+"lat": 47.65807,
+"lng": 16.11157,
+"place": "Gleißenfeld"
+},
+"2832": {
+"lat": 47.65,
+"lng": 16.1833,
+"place": "Thernberg"
+},
+"2833": {
+"lat": 47.68081,
+"lng": 16.19773,
+"place": "Bad Erlach"
+},
+"2840": {
+"lat": 47.62333,
+"lng": 16.10829,
+"place": "Edlitz"
+},
+"2842": {
+"lat": 47.58514,
+"lng": 16.14778,
+"place": "Edlitz"
+},
+"2851": {
+"lat": 47.54144,
+"lng": 16.16486,
+"place": "Kampichl"
+},
+"2852": {
+"lat": 47.46817,
+"lng": 16.18052,
+"place": "Aschau im Burgenland"
+},
+"2853": {
+"lat": 47.49058,
+"lng": 16.23827,
+"place": "Aigen"
+},
+"2860": {
+"lat": 47.51904,
+"lng": 16.2738,
+"place": "Aigen"
+},
+"2870": {
+"lat": 47.55235,
+"lng": 16.07647,
+"place": "Königsberg"
+},
+"2871": {
+"lat": 47.5107,
+"lng": 16.13337,
+"place": "Guggendorf"
+},
+"2872": {
+"lat": 47.51805,
+"lng": 16.02598,
+"place": "Langegg"
+},
+"2873": {
+"lat": 47.593,
+"lng": 16.08293,
+"place": "Feistritz am Wechsel"
+},
+"2880": {
+"lat": 47.61931,
+"lng": 15.98681,
+"place": "Alpeltal"
+},
+"2881": {
+"lat": 47.64435,
+"lng": 15.90495,
+"place": "Lehen"
+},
+"3001": {
+"lat": 48.23395,
+"lng": 16.0494,
+"place": "Hainbuch"
+},
+"3002": {
+"lat": 48.2077,
+"lng": 16.1754,
+"place": "Purkersdorf"
+},
+"3003": {
+"lat": 48.2286,
+"lng": 16.1544,
+"place": "Gablitz"
+},
+"3004": {
+"lat": 48.25046,
+"lng": 16.08868,
+"place": "Flachberg"
+},
+"3011": {
+"lat": 48.20077,
+"lng": 16.13343,
+"place": "Irenental"
+},
+"3012": {
+"lat": 48.18323,
+"lng": 16.12657,
+"place": "Pressbaum"
+},
+"3013": {
+"lat": 48.1862,
+"lng": 16.08725,
+"place": "Pressbaum"
+},
+"3021": {
+"lat": 48.17901,
+"lng": 16.07531,
+"place": "Au am Kraking"
+},
+"3031": {
+"lat": 48.18135,
+"lng": 16.0538,
+"place": "Pressbaum"
+},
+"3032": {
+"lat": 48.17392,
+"lng": 15.95346,
+"place": "Eichgraben"
+},
+"3033": {
+"lat": 48.15527,
+"lng": 15.93778,
+"place": "Altlengbach"
+},
+"3034": {
+"lat": 48.19424,
+"lng": 15.94819,
+"place": "Burgstall"
+},
+"3040": {
+"lat": 48.20496,
+"lng": 15.88927,
+"place": "Almersberg"
+},
+"3041": {
+"lat": 48.22795,
+"lng": 15.92651,
+"place": "Asperhofen"
+},
+"3042": {
+"lat": 48.25325,
+"lng": 15.85944,
+"place": "Anzing"
+},
+"3051": {
+"lat": 48.16783,
+"lng": 15.88303,
+"place": "Gamesreith"
+},
+"3052": {
+"lat": 48.13195,
+"lng": 15.89605,
+"place": "Almerberg"
+},
+"3053": {
+"lat": 48.10746,
+"lng": 15.85994,
+"place": "Bonnleiten"
+},
+"3061": {
+"lat": 48.19356,
+"lng": 15.85174,
+"place": "Doppel"
+},
+"3062": {
+"lat": 48.19333,
+"lng": 15.82116,
+"place": "Aschberg"
+},
+"3071": {
+"lat": 48.18662,
+"lng": 15.75016,
+"place": "Bauland"
+},
+"3072": {
+"lat": 48.15299,
+"lng": 15.80272,
+"place": "Außerkasten"
+},
+"3073": {
+"lat": 48.12303,
+"lng": 15.80532,
+"place": "Bonnleiten"
+},
+"3074": {
+"lat": 48.10791,
+"lng": 15.76072,
+"place": "Finsteregg"
+},
+"3100": {
+"lat": 48.19586,
+"lng": 15.62228,
+"place": "Hafing"
+},
+"3101": {
+"lat": 48.2015,
+"lng": 15.6322,
+"place": "St. Pölten Postfach"
+},
+"3104": {
+"lat": 48.16777,
+"lng": 15.64042,
+"place": "Altmannsdorf"
+},
+"3105": {
+"lat": 48.24745,
+"lng": 15.6731,
+"place": "Oberradlberg"
+},
+"3106": {
+"lat": 48.1704,
+"lng": 15.6184,
+"place": "St. Pölten-Spratzern"
+},
+"3107": {
+"lat": 48.22265,
+"lng": 15.62722,
+"place": "Ragelsdorf"
+},
+"3108": {
+"lat": 48.3623,
+"lng": 15.7123,
+"place": "St. Pölten-Wagram"
+},
+"3109": {
+"lat": 48.2,
+"lng": 15.6333,
+"place": "St. Pölten"
+},
+"3110": {
+"lat": 48.23776,
+"lng": 15.55437,
+"place": "Afing"
+},
+"3121": {
+"lat": 48.26132,
+"lng": 15.55321,
+"place": "Dreihöf"
+},
+"3122": {
+"lat": 48.2982,
+"lng": 15.48105,
+"place": "Aichberg"
+},
+"3123": {
+"lat": 48.27719,
+"lng": 15.6014,
+"place": "Angern"
+},
+"3124": {
+"lat": 48.31043,
+"lng": 15.58147,
+"place": "Ambach"
+},
+"3125": {
+"lat": 48.3049,
+"lng": 15.63341,
+"place": "Absdorf"
+},
+"3130": {
+"lat": 48.2898,
+"lng": 15.7061,
+"place": "Angern"
+},
+"3131": {
+"lat": 48.31834,
+"lng": 15.67572,
+"place": "Anzenberg"
+},
+"3133": {
+"lat": 48.34944,
+"lng": 15.75463,
+"place": "Frauendorf"
+},
+"3134": {
+"lat": 48.32069,
+"lng": 15.69966,
+"place": "Franzhausen"
+},
+"3140": {
+"lat": 48.2353,
+"lng": 15.72418,
+"place": "Maria Jeutendorf"
+},
+"3141": {
+"lat": 48.25239,
+"lng": 15.77412,
+"place": "Etzersdorf"
+},
+"3142": {
+"lat": 48.25245,
+"lng": 15.81257,
+"place": "Grunddorf"
+},
+"3143": {
+"lat": 48.16247,
+"lng": 15.6936,
+"place": "Adeldorf"
+},
+"3144": {
+"lat": 48.13207,
+"lng": 15.71331,
+"place": "Aigen"
+},
+"3150": {
+"lat": 48.08333,
+"lng": 15.6072,
+"place": "Aigelsbach"
+},
+"3151": {
+"lat": 48.14366,
+"lng": 15.61052,
+"place": "Dörfl"
+},
+"3153": {
+"lat": 47.98963,
+"lng": 15.57612,
+"place": "Eschenau"
+},
+"3160": {
+"lat": 48.05,
+"lng": 15.61967,
+"place": "Maierhöfen"
+},
+"3161": {
+"lat": 48.04649,
+"lng": 15.66271,
+"place": "Außer-Wiesenbach"
+},
+"3162": {
+"lat": 48.0474,
+"lng": 15.7108,
+"place": "Obergegend"
+},
+"3163": {
+"lat": 48.05045,
+"lng": 15.74215,
+"place": "Außerhalbach"
+},
+"3170": {
+"lat": 48.03123,
+"lng": 15.79214,
+"place": "Bernau"
+},
+"3171": {
+"lat": 47.98087,
+"lng": 15.7249,
+"place": "Außerhalbach"
+},
+"3172": {
+"lat": 47.99498,
+"lng": 15.8101,
+"place": "Fahrabach"
+},
+"3180": {
+"lat": 48.00581,
+"lng": 15.58759,
+"place": "Dörfl"
+},
+"3182": {
+"lat": 47.9828,
+"lng": 15.569,
+"place": "Marktl, Traisental"
+},
+"3183": {
+"lat": 47.94985,
+"lng": 15.55443,
+"place": "Freiland"
+},
+"3184": {
+"lat": 47.931,
+"lng": 15.493,
+"place": "Türnitz"
+},
+"3192": {
+"lat": 47.92378,
+"lng": 15.63152,
+"place": "Andersbach"
+},
+"3193": {
+"lat": 47.8686,
+"lng": 15.5968,
+"place": "Mitterbach"
+},
+"3195": {
+"lat": 47.8069,
+"lng": 15.4906,
+"place": "Kernhof"
+},
+"3200": {
+"lat": 48.1482,
+"lng": 15.55004,
+"place": "Badendorf"
+},
+"3202": {
+"lat": 48.08956,
+"lng": 15.50953,
+"place": "Aigelsbach"
+},
+"3203": {
+"lat": 48.06818,
+"lng": 15.49294,
+"place": "Deutschbach"
+},
+"3204": {
+"lat": 48.03336,
+"lng": 15.41092,
+"place": "Hohenbrand"
+},
+"3205": {
+"lat": 48.11655,
+"lng": 15.53288,
+"place": "Dietmannsdorf"
+},
+"3211": {
+"lat": 47.98369,
+"lng": 15.40613,
+"place": "Dobersnigg"
+},
+"3212": {
+"lat": 47.95189,
+"lng": 15.39043,
+"place": "Taschlgrabenrotte"
+},
+"3213": {
+"lat": 47.97751,
+"lng": 15.31822,
+"place": "Falkensteinrotte"
+},
+"3214": {
+"lat": 47.93473,
+"lng": 15.24112,
+"place": "Anger"
+},
+"3221": {
+"lat": 47.8868,
+"lng": 15.2911,
+"place": "Gösing an der Mariazeller Bahn"
+},
+"3222": {
+"lat": 47.8659,
+"lng": 15.374,
+"place": "Annarotte"
+},
+"3223": {
+"lat": 47.88135,
+"lng": 15.2327,
+"place": "Gösing an der Mariazeller Bahn"
+},
+"3224": {
+"lat": 47.82185,
+"lng": 15.29585,
+"place": "Josefsrotte"
+},
+"3231": {
+"lat": 48.16171,
+"lng": 15.59114,
+"place": "Eigendorf"
+},
+"3232": {
+"lat": 48.12603,
+"lng": 15.46595,
+"place": "Bischofstetten"
+},
+"3233": {
+"lat": 48.0987,
+"lng": 15.39977,
+"place": "Braunöd"
+},
+"3240": {
+"lat": 48.11682,
+"lng": 15.33591,
+"place": "Ritzenberg"
+},
+"3241": {
+"lat": 48.0853,
+"lng": 15.29826,
+"place": "Außerreith"
+},
+"3242": {
+"lat": 48.03242,
+"lng": 15.29727,
+"place": "Altendorf"
+},
+"3243": {
+"lat": 48.1457,
+"lng": 15.2935,
+"place": "Aichbach"
+},
+"3244": {
+"lat": 48.13222,
+"lng": 15.2403,
+"place": "Anzenberg"
+},
+"3250": {
+"lat": 48.1167,
+"lng": 15.12687,
+"place": "Bauxberg"
+},
+"3251": {
+"lat": 48.06266,
+"lng": 15.14215,
+"place": "Ameishaufen"
+},
+"3252": {
+"lat": 48.12876,
+"lng": 15.17304,
+"place": "Dürnbach"
+},
+"3253": {
+"lat": 48.19033,
+"lng": 15.20737,
+"place": "Arb"
+},
+"3254": {
+"lat": 48.1559,
+"lng": 15.1855,
+"place": "Bergland"
+},
+"3261": {
+"lat": 48.08076,
+"lng": 15.04745,
+"place": "Altenhof"
+},
+"3262": {
+"lat": 48.04952,
+"lng": 15.00559,
+"place": "Berg"
+},
+"3263": {
+"lat": 48.01289,
+"lng": 14.94404,
+"place": "Franzenreith"
+},
+"3264": {
+"lat": 47.98128,
+"lng": 15.02879,
+"place": "Brettl-Gaming"
+},
+"3270": {
+"lat": 48.00095,
+"lng": 15.16331,
+"place": "Brandstatt"
+},
+"3281": {
+"lat": 48.07136,
+"lng": 15.22338,
+"place": "Altenmarkt"
+},
+"3282": {
+"lat": 48.02452,
+"lng": 15.23038,
+"place": "Ahornleiten"
+},
+"3283": {
+"lat": 47.96719,
+"lng": 15.20214,
+"place": "Anger"
+},
+"3291": {
+"lat": 47.9456,
+"lng": 15.1271,
+"place": "Kienberg"
+},
+"3292": {
+"lat": 47.9431,
+"lng": 15.1429,
+"place": "Anger"
+},
+"3293": {
+"lat": 47.8951,
+"lng": 15.0591,
+"place": "Gaming"
+},
+"3294": {
+"lat": 47.80848,
+"lng": 15.19582,
+"place": "Grünau"
+},
+"3295": {
+"lat": 47.8696,
+"lng": 15.151,
+"place": "Lackenhof"
+},
+"3300": {
+"lat": 48.11393,
+"lng": 14.84093,
+"place": "Amstetten"
+},
+"3304": {
+"lat": 48.1236,
+"lng": 14.94403,
+"place": "Hart"
+},
+"3305": {
+"lat": 48.1229,
+"lng": 14.8721,
+"place": "Amstetten"
+},
+"3311": {
+"lat": 48.1266,
+"lng": 14.83985,
+"place": "Amstetten"
+},
+"3312": {
+"lat": 48.11567,
+"lng": 14.77477,
+"place": "Oed"
+},
+"3313": {
+"lat": 48.1494,
+"lng": 14.73818,
+"place": "Igelschwang"
+},
+"3314": {
+"lat": 48.12997,
+"lng": 14.66108,
+"place": "Au"
+},
+"3321": {
+"lat": 48.15274,
+"lng": 14.82486,
+"place": "Ardagger Markt"
+},
+"3322": {
+"lat": 48.15023,
+"lng": 14.90867,
+"place": "Hainstetten"
+},
+"3323": {
+"lat": 48.19866,
+"lng": 14.91239,
+"place": "Berghof"
+},
+"3324": {
+"lat": 48.06763,
+"lng": 14.932,
+"place": "Aigen"
+},
+"3325": {
+"lat": 48.08217,
+"lng": 15.00383,
+"place": "Edelbach"
+},
+"3331": {
+"lat": 48.01606,
+"lng": 14.74576,
+"place": "Biberbach"
+},
+"3332": {
+"lat": 48.014,
+"lng": 14.74372,
+"place": "Baichberg"
+},
+"3333": {
+"lat": 48.00165,
+"lng": 14.73777,
+"place": "Biberbach"
+},
+"3334": {
+"lat": 47.89997,
+"lng": 14.71006,
+"place": "Breitenau"
+},
+"3335": {
+"lat": 47.86478,
+"lng": 14.67614,
+"place": "Breitenau"
+},
+"3340": {
+"lat": 47.96731,
+"lng": 14.79105,
+"place": "Graben"
+},
+"3341": {
+"lat": 47.94181,
+"lng": 14.90086,
+"place": "Großprolling"
+},
+"3342": {
+"lat": 47.91799,
+"lng": 14.79006,
+"place": "Graben"
+},
+"3343": {
+"lat": 47.81806,
+"lng": 14.77481,
+"place": "Berg"
+},
+"3344": {
+"lat": 47.83178,
+"lng": 14.88628,
+"place": "Hochau"
+},
+"3345": {
+"lat": 47.8357,
+"lng": 14.98235,
+"place": "Eisenwiesen"
+},
+"3350": {
+"lat": 48.11119,
+"lng": 14.57402,
+"place": "Edelhof"
+},
+"3351": {
+"lat": 48.05,
+"lng": 14.5833,
+"place": "Hartlmühl"
+},
+"3352": {
+"lat": 48.02543,
+"lng": 14.6018,
+"place": "Hohenreith"
+},
+"3353": {
+"lat": 48.0317,
+"lng": 14.679,
+"place": "Biberbach"
+},
+"3354": {
+"lat": 48.05655,
+"lng": 14.7091,
+"place": "Ottendorf"
+},
+"3355": {
+"lat": 47.977,
+"lng": 14.6313,
+"place": "Ertl"
+},
+"3356": {
+"lat": 48.0301,
+"lng": 14.708,
+"place": "Biberbach"
+},
+"3361": {
+"lat": 48.06832,
+"lng": 14.74299,
+"place": "Abetzberg"
+},
+"3362": {
+"lat": 48.1089,
+"lng": 14.80273,
+"place": "Mauer bei Amstetten"
+},
+"3363": {
+"lat": 48.07935,
+"lng": 14.82327,
+"place": "Hausmening"
+},
+"3364": {
+"lat": 48.05154,
+"lng": 14.86141,
+"place": "Amesleiten"
+},
+"3365": {
+"lat": 48.03182,
+"lng": 14.80625,
+"place": "Allhartsberg"
+},
+"3366": {
+"lat": 48.0236,
+"lng": 14.8473,
+"place": "Kühberg"
+},
+"3370": {
+"lat": 48.1669,
+"lng": 15.07406,
+"place": "Donaudorf"
+},
+"3371": {
+"lat": 48.12086,
+"lng": 15.05327,
+"place": "Breitenschollen"
+},
+"3372": {
+"lat": 48.1423,
+"lng": 15.04975,
+"place": "Atzelsdorf"
+},
+"3373": {
+"lat": 48.16135,
+"lng": 15.11702,
+"place": "Kemmelbach"
+},
+"3374": {
+"lat": 48.1898,
+"lng": 15.12237,
+"place": "Diedersdorf"
+},
+"3375": {
+"lat": 48.20568,
+"lng": 15.16818,
+"place": "Annastift"
+},
+"3376": {
+"lat": 48.1563,
+"lng": 15.0318,
+"place": "Ennsbach"
+},
+"3380": {
+"lat": 48.19938,
+"lng": 15.21314,
+"place": "Ornding"
+},
+"3381": {
+"lat": 48.1989,
+"lng": 15.17915,
+"place": "Golling"
+},
+"3382": {
+"lat": 48.20965,
+"lng": 15.39787,
+"place": "Albrechtsberg an der Pielach"
+},
+"3383": {
+"lat": 48.15517,
+"lng": 15.4054,
+"place": "Arnersdorf"
+},
+"3384": {
+"lat": 48.17795,
+"lng": 15.53834,
+"place": "Eibelsau"
+},
+"3385": {
+"lat": 48.18077,
+"lng": 15.59434,
+"place": "Distelburg"
+},
+"3386": {
+"lat": 48.22138,
+"lng": 15.50417,
+"place": "Doppel"
+},
+"3387": {
+"lat": 48.193,
+"lng": 15.4584,
+"place": "Groß Sierning"
+},
+"3388": {
+"lat": 48.1916,
+"lng": 15.4404,
+"place": "Markersdorf-Haindorf"
+},
+"3390": {
+"lat": 48.2127,
+"lng": 15.32629,
+"place": "Bergern"
+},
+"3392": {
+"lat": 48.25259,
+"lng": 15.40425,
+"place": "Berging"
+},
+"3393": {
+"lat": 48.17569,
+"lng": 15.24355,
+"place": "Anzenberg"
+},
+"3394": {
+"lat": 48.209,
+"lng": 15.33,
+"place": "Schönbühel-Aggsbach"
+},
+"3400": {
+"lat": 48.29446,
+"lng": 16.26809,
+"place": "Kierling"
+},
+"3402": {
+"lat": 48.3052,
+"lng": 16.3252,
+"place": "Klosterneuburg"
+},
+"3404": {
+"lat": 48.3052,
+"lng": 16.3252,
+"place": "Klosterneuburg"
+},
+"3413": {
+"lat": 48.2929,
+"lng": 16.2071,
+"place": "Hintersdorf"
+},
+"3420": {
+"lat": 48.3293,
+"lng": 16.3001,
+"place": "Kritzendorf"
+},
+"3421": {
+"lat": 48.3497,
+"lng": 16.2747,
+"place": "Höflein an der Donau"
+},
+"3422": {
+"lat": 48.3406,
+"lng": 16.24437,
+"place": "Altenberg"
+},
+"3423": {
+"lat": 48.32817,
+"lng": 16.1977,
+"place": "St. Andrä vor dem Hagenthale"
+},
+"3424": {
+"lat": 48.321,
+"lng": 16.1772,
+"place": "Wolfpassing"
+},
+"3425": {
+"lat": 48.33007,
+"lng": 16.09957,
+"place": "Langenlebarn-Oberaigen"
+},
+"3426": {
+"lat": 48.32755,
+"lng": 16.1492,
+"place": "Muckendorf an der Donau"
+},
+"3430": {
+"lat": 48.33919,
+"lng": 16.04947,
+"place": "Chorherrn"
+},
+"3433": {
+"lat": 48.302,
+"lng": 16.1449,
+"place": "Königstetten"
+},
+"3434": {
+"lat": 48.2855,
+"lng": 16.11083,
+"place": "Katzelsdorf"
+},
+"3435": {
+"lat": 48.336,
+"lng": 15.92023,
+"place": "Bärndorf"
+},
+"3441": {
+"lat": 48.27584,
+"lng": 15.99994,
+"place": "Abstetten"
+},
+"3442": {
+"lat": 48.3199,
+"lng": 16.00125,
+"place": "Asparn"
+},
+"3443": {
+"lat": 48.22726,
+"lng": 16.00319,
+"place": "Dornberg"
+},
+"3451": {
+"lat": 48.27877,
+"lng": 15.94053,
+"place": "Atzelsdorf"
+},
+"3452": {
+"lat": 48.29006,
+"lng": 15.87864,
+"place": "Atzenbrugg"
+},
+"3454": {
+"lat": 48.31199,
+"lng": 15.80549,
+"place": "Adletzberg"
+},
+"3462": {
+"lat": 48.39156,
+"lng": 15.94936,
+"place": "Absdorf"
+},
+"3463": {
+"lat": 48.40357,
+"lng": 16.02573,
+"place": "Eggendorf am Wagram"
+},
+"3464": {
+"lat": 48.38814,
+"lng": 16.08463,
+"place": "Eggendorf am Wagram"
+},
+"3465": {
+"lat": 48.425,
+"lng": 15.9333,
+"place": "Königsbrunn am Wagram"
+},
+"3470": {
+"lat": 48.43508,
+"lng": 15.8923,
+"place": "Dörfl"
+},
+"3471": {
+"lat": 48.48555,
+"lng": 15.87525,
+"place": "Großriedenthal"
+},
+"3472": {
+"lat": 48.5072,
+"lng": 15.8274,
+"place": "Hohenwarth"
+},
+"3473": {
+"lat": 48.51852,
+"lng": 15.77928,
+"place": "Bösendürnbach"
+},
+"3474": {
+"lat": 48.39696,
+"lng": 15.86246,
+"place": "Altenwörth"
+},
+"3481": {
+"lat": 48.4333,
+"lng": 15.83335,
+"place": "Fels am Wagram"
+},
+"3482": {
+"lat": 48.475,
+"lng": 15.8167,
+"place": "Gösing am Wagram"
+},
+"3483": {
+"lat": 48.4344,
+"lng": 15.7808,
+"place": "Feuersbrunn"
+},
+"3484": {
+"lat": 48.40232,
+"lng": 15.78203,
+"place": "Grafenwörth"
+},
+"3485": {
+"lat": 48.42192,
+"lng": 15.73628,
+"place": "Donaudorf"
+},
+"3491": {
+"lat": 48.4985,
+"lng": 15.74934,
+"place": "Diendorf am Walde"
+},
+"3492": {
+"lat": 48.44998,
+"lng": 15.7449,
+"place": "Diendorf am Kamp"
+},
+"3493": {
+"lat": 48.4626,
+"lng": 15.7186,
+"place": "Hadersdorf am Kamp"
+},
+"3494": {
+"lat": 48.4146,
+"lng": 15.6882,
+"place": "Altweidling"
+},
+"3495": {
+"lat": 48.4194,
+"lng": 15.6577,
+"place": "Rohrendorf bei Krems"
+},
+"3500": {
+"lat": 48.42591,
+"lng": 15.58914,
+"place": "Egelsee"
+},
+"3502": {
+"lat": 48.4123,
+"lng": 15.6318,
+"place": "Krems-Lerchenfeld"
+},
+"3504": {
+"lat": 48.4016,
+"lng": 15.581,
+"place": "Krems-Stein"
+},
+"3505": {
+"lat": 48.4092,
+"lng": 15.6141,
+"place": "Krems"
+},
+"3506": {
+"lat": 48.38603,
+"lng": 15.6563,
+"place": "Angern"
+},
+"3508": {
+"lat": 48.35239,
+"lng": 15.63593,
+"place": "Eggendorf"
+},
+"3511": {
+"lat": 48.3741,
+"lng": 15.61223,
+"place": "Aigen"
+},
+"3512": {
+"lat": 48.36528,
+"lng": 15.54066,
+"place": "Baumgarten"
+},
+"3521": {
+"lat": 48.47019,
+"lng": 15.4586,
+"place": "Felling"
+},
+"3522": {
+"lat": 48.50191,
+"lng": 15.37636,
+"place": "Allentsgschwendt"
+},
+"3524": {
+"lat": 48.49393,
+"lng": 15.26888,
+"place": "Engelschalks"
+},
+"3525": {
+"lat": 48.49083,
+"lng": 15.20427,
+"place": "Armschlag"
+},
+"3531": {
+"lat": 48.5471,
+"lng": 15.28762,
+"place": "Brand"
+},
+"3532": {
+"lat": 48.56936,
+"lng": 15.34851,
+"place": "Eisengraberamt"
+},
+"3533": {
+"lat": 48.57753,
+"lng": 15.25529,
+"place": "Eschabruck"
+},
+"3541": {
+"lat": 48.44836,
+"lng": 15.53685,
+"place": "Imbach"
+},
+"3542": {
+"lat": 48.52062,
+"lng": 15.47454,
+"place": "Eisenbergeramt"
+},
+"3543": {
+"lat": 48.57471,
+"lng": 15.43277,
+"place": "Eisengraberamt"
+},
+"3544": {
+"lat": 48.58333,
+"lng": 15.47498,
+"place": "Eisenberg"
+},
+"3550": {
+"lat": 48.4735,
+"lng": 15.66675,
+"place": "Gobelsburg"
+},
+"3552": {
+"lat": 48.46728,
+"lng": 15.5769,
+"place": "Droß"
+},
+"3553": {
+"lat": 48.5223,
+"lng": 15.5949,
+"place": "Mittelbergeramt"
+},
+"3561": {
+"lat": 48.475,
+"lng": 15.675,
+"place": "Langenlois"
+},
+"3562": {
+"lat": 48.52637,
+"lng": 15.67139,
+"place": "Buchberger Waldhütten"
+},
+"3564": {
+"lat": 48.55951,
+"lng": 15.70316,
+"place": "Altenhof"
+},
+"3571": {
+"lat": 48.60647,
+"lng": 15.66565,
+"place": "Buchberg am Kamp"
+},
+"3572": {
+"lat": 48.55348,
+"lng": 15.53618,
+"place": "Eisenbergeramt"
+},
+"3573": {
+"lat": 48.6205,
+"lng": 15.6191,
+"place": "Etzmannsdorf am Kamp"
+},
+"3580": {
+"lat": 48.6629,
+"lng": 15.63659,
+"place": "Breiteneich"
+},
+"3591": {
+"lat": 48.64618,
+"lng": 15.57862,
+"place": "Altenburg"
+},
+"3592": {
+"lat": 48.66153,
+"lng": 15.5132,
+"place": "Feinfeld"
+},
+"3593": {
+"lat": 48.63388,
+"lng": 15.46685,
+"place": "Altpölla"
+},
+"3594": {
+"lat": 48.60477,
+"lng": 15.39524,
+"place": "Franzen"
+},
+"3595": {
+"lat": 48.69072,
+"lng": 15.49427,
+"place": "Atzelsdorf"
+},
+"3601": {
+"lat": 48.39733,
+"lng": 15.51717,
+"place": "Dürnstein"
+},
+"3602": {
+"lat": 48.39323,
+"lng": 15.4962,
+"place": "Rossatz"
+},
+"3610": {
+"lat": 48.40461,
+"lng": 15.44461,
+"place": "Joching"
+},
+"3611": {
+"lat": 48.41097,
+"lng": 15.39288,
+"place": "Großheinrichschlag"
+},
+"3613": {
+"lat": 48.45555,
+"lng": 15.36425,
+"place": "Albrechtsberg an der Großen Krems"
+},
+"3620": {
+"lat": 48.36464,
+"lng": 15.3982,
+"place": "Benking"
+},
+"3621": {
+"lat": 48.36198,
+"lng": 15.44268,
+"place": "Bacharnsdorf"
+},
+"3622": {
+"lat": 48.39173,
+"lng": 15.3489,
+"place": "Amstall"
+},
+"3623": {
+"lat": 48.42834,
+"lng": 15.28366,
+"place": "Bernhards"
+},
+"3631": {
+"lat": 48.41828,
+"lng": 15.215,
+"place": "Bernhardshof"
+},
+"3632": {
+"lat": 48.44914,
+"lng": 15.12241,
+"place": "Aschen"
+},
+"3633": {
+"lat": 48.4546,
+"lng": 15.03433,
+"place": "Bärnkopf"
+},
+"3641": {
+"lat": 48.31227,
+"lng": 15.40382,
+"place": "Aggsbach Markt"
+},
+"3642": {
+"lat": 48.26681,
+"lng": 15.39504,
+"place": "Aggsbach-Dorf"
+},
+"3643": {
+"lat": 48.32832,
+"lng": 15.37131,
+"place": "Aggsbach Markt"
+},
+"3644": {
+"lat": 48.24354,
+"lng": 15.30718,
+"place": "Emmersdorf an der Donau"
+},
+"3650": {
+"lat": 48.3088,
+"lng": 15.18338,
+"place": "Annagschmais"
+},
+"3652": {
+"lat": 48.23913,
+"lng": 15.26437,
+"place": "Aichau"
+},
+"3653": {
+"lat": 48.29069,
+"lng": 15.25654,
+"place": "Aichau"
+},
+"3654": {
+"lat": 48.32763,
+"lng": 15.26594,
+"place": "Afterbach"
+},
+"3660": {
+"lat": 48.2167,
+"lng": 15.2167,
+"place": "Klein-Pöchlarn"
+},
+"3661": {
+"lat": 48.25169,
+"lng": 15.20919,
+"place": "Artstetten"
+},
+"3662": {
+"lat": 48.2624,
+"lng": 15.13593,
+"place": "Edelsreith"
+},
+"3663": {
+"lat": 48.29994,
+"lng": 15.1302,
+"place": "Am Teich"
+},
+"3664": {
+"lat": 48.43555,
+"lng": 15.15525,
+"place": "Größenbach"
+},
+"3665": {
+"lat": 48.37112,
+"lng": 15.09476,
+"place": "Bärnkopf"
+},
+"3671": {
+"lat": 48.2185,
+"lng": 15.14361,
+"place": "Auratsberg"
+},
+"3672": {
+"lat": 48.2303,
+"lng": 15.1624,
+"place": "Hilmanger"
+},
+"3680": {
+"lat": 48.19378,
+"lng": 15.10302,
+"place": "Gottsdorf"
+},
+"3681": {
+"lat": 48.20863,
+"lng": 15.07794,
+"place": "Am Reitern"
+},
+"3683": {
+"lat": 48.2953,
+"lng": 15.0534,
+"place": "Haslau"
+},
+"3684": {
+"lat": 48.25988,
+"lng": 15.01354,
+"place": "Fünflingeramt"
+},
+"3691": {
+"lat": 48.22509,
+"lng": 14.99321,
+"place": "Artneramt"
+},
+"3701": {
+"lat": 48.46257,
+"lng": 15.98213,
+"place": "Ameistal"
+},
+"3702": {
+"lat": 48.45557,
+"lng": 16.05,
+"place": "Niederrußbach"
+},
+"3704": {
+"lat": 48.50327,
+"lng": 15.93673,
+"place": "Glaubendorf"
+},
+"3710": {
+"lat": 48.53493,
+"lng": 15.9424,
+"place": "Dippersdorf"
+},
+"3711": {
+"lat": 48.52365,
+"lng": 15.87305,
+"place": "Ebersbrunn"
+},
+"3712": {
+"lat": 48.55695,
+"lng": 15.80705,
+"place": "Eggendorf am Walde"
+},
+"3713": {
+"lat": 48.59107,
+"lng": 15.76536,
+"place": "Amelsdorf"
+},
+"3714": {
+"lat": 48.61494,
+"lng": 15.9478,
+"place": "Braunsdorf"
+},
+"3720": {
+"lat": 48.55239,
+"lng": 15.85239,
+"place": "Baierdorf"
+},
+"3721": {
+"lat": 48.5861,
+"lng": 15.86437,
+"place": "Limberg"
+},
+"3722": {
+"lat": 48.61345,
+"lng": 15.8573,
+"place": "Etzmannsdorf bei Straning"
+},
+"3730": {
+"lat": 48.6413,
+"lng": 15.82874,
+"place": "Burgschleinitz"
+},
+"3741": {
+"lat": 48.7037,
+"lng": 15.85702,
+"place": "Groß-Reipersdorf"
+},
+"3742": {
+"lat": 48.7361,
+"lng": 15.78973,
+"place": "Heinrichsdorf"
+},
+"3743": {
+"lat": 48.6657,
+"lng": 15.8866,
+"place": "Röschitz"
+},
+"3744": {
+"lat": 48.65233,
+"lng": 15.72857,
+"place": "Klein-Meiseldorf"
+},
+"3751": {
+"lat": 48.69058,
+"lng": 15.7448,
+"place": "Doberndorf"
+},
+"3752": {
+"lat": 48.72954,
+"lng": 15.73007,
+"place": "Brugg"
+},
+"3753": {
+"lat": 48.75358,
+"lng": 15.64031,
+"place": "Dallein"
+},
+"3754": {
+"lat": 48.7436,
+"lng": 15.53879,
+"place": "Haselberg"
+},
+"3761": {
+"lat": 48.71762,
+"lng": 15.52097,
+"place": "Dorna"
+},
+"3762": {
+"lat": 48.76503,
+"lng": 15.48282,
+"place": "Blumau an der Wild"
+},
+"3763": {
+"lat": 48.79877,
+"lng": 15.57085,
+"place": "Goslarn"
+},
+"3800": {
+"lat": 48.73704,
+"lng": 15.36808,
+"place": "Georgenberg"
+},
+"3804": {
+"lat": 48.70358,
+"lng": 15.29548,
+"place": "Allentsteig"
+},
+"3811": {
+"lat": 48.75307,
+"lng": 15.39685,
+"place": "Almosen"
+},
+"3812": {
+"lat": 48.8036,
+"lng": 15.413,
+"place": "Ellends"
+},
+"3813": {
+"lat": 48.7938,
+"lng": 15.37805,
+"place": "Alt-Dietmanns"
+},
+"3814": {
+"lat": 48.81076,
+"lng": 15.46642,
+"place": "Aigen"
+},
+"3820": {
+"lat": 48.85019,
+"lng": 15.48305,
+"place": "Alberndorf"
+},
+"3822": {
+"lat": 48.88082,
+"lng": 15.39664,
+"place": "Eggersdorf"
+},
+"3823": {
+"lat": 48.91986,
+"lng": 15.46112,
+"place": "Neuriegers"
+},
+"3824": {
+"lat": 48.88998,
+"lng": 15.53333,
+"place": "Großau"
+},
+"3830": {
+"lat": 48.8166,
+"lng": 15.29027,
+"place": "Altwaidhofen"
+},
+"3834": {
+"lat": 48.84025,
+"lng": 15.17742,
+"place": "Arnolz"
+},
+"3841": {
+"lat": 48.7718,
+"lng": 15.28717,
+"place": "Edengans"
+},
+"3842": {
+"lat": 48.86697,
+"lng": 15.26531,
+"place": "Eggmanns"
+},
+"3843": {
+"lat": 48.91139,
+"lng": 15.30726,
+"place": "Dobersberg"
+},
+"3844": {
+"lat": 48.95331,
+"lng": 15.34383,
+"place": "Fratres"
+},
+"3851": {
+"lat": 48.93572,
+"lng": 15.24073,
+"place": "Brunn"
+},
+"3852": {
+"lat": 48.8963,
+"lng": 15.21374,
+"place": "Garolden"
+},
+"3860": {
+"lat": 48.85807,
+"lng": 15.11686,
+"place": "Aalfang"
+},
+"3861": {
+"lat": 48.90833,
+"lng": 15.16073,
+"place": "Eggern"
+},
+"3862": {
+"lat": 48.91667,
+"lng": 15.09855,
+"place": "Eisgarn"
+},
+"3863": {
+"lat": 48.96667,
+"lng": 15.13887,
+"place": "Hirschenschlag"
+},
+"3871": {
+"lat": 48.8294,
+"lng": 14.99255,
+"place": "Alt-Nagelberg"
+},
+"3872": {
+"lat": 48.83423,
+"lng": 15.06145,
+"place": "Aalfang"
+},
+"3873": {
+"lat": 48.87497,
+"lng": 15.025,
+"place": "Brand"
+},
+"3874": {
+"lat": 48.95799,
+"lng": 15.05676,
+"place": "Gopprechts"
+},
+"3900": {
+"lat": 48.73669,
+"lng": 15.26255,
+"place": "Echsenbach"
+},
+"3902": {
+"lat": 48.76863,
+"lng": 15.18567,
+"place": "Edelprinz"
+},
+"3903": {
+"lat": 48.71133,
+"lng": 15.20712,
+"place": "Echsenbach"
+},
+"3910": {
+"lat": 48.61834,
+"lng": 15.16725,
+"place": "Böhmhöf"
+},
+"3911": {
+"lat": 48.52533,
+"lng": 15.07009,
+"place": "Aggsbach"
+},
+"3912": {
+"lat": 48.49166,
+"lng": 15.15624,
+"place": "Bromberg"
+},
+"3913": {
+"lat": 48.525,
+"lng": 15.20833,
+"place": "Engelbrechts"
+},
+"3914": {
+"lat": 48.52259,
+"lng": 15.2519,
+"place": "Hirschenschlag"
+},
+"3920": {
+"lat": 48.5689,
+"lng": 14.97103,
+"place": "Aigen"
+},
+"3921": {
+"lat": 48.57713,
+"lng": 14.88184,
+"place": "Bruderndorf"
+},
+"3922": {
+"lat": 48.64855,
+"lng": 14.94673,
+"place": "Engelstein"
+},
+"3923": {
+"lat": 48.64087,
+"lng": 15.0262,
+"place": "Bernhards"
+},
+"3924": {
+"lat": 48.5964,
+"lng": 15.05553,
+"place": "Guttenbrunn"
+},
+"3925": {
+"lat": 48.47536,
+"lng": 14.95474,
+"place": "Schwarzau"
+},
+"3931": {
+"lat": 48.65989,
+"lng": 15.05955,
+"place": "Gerlas"
+},
+"3932": {
+"lat": 48.71761,
+"lng": 15.10942,
+"place": "Fromberg"
+},
+"3942": {
+"lat": 48.74665,
+"lng": 15.12095,
+"place": "Hirschbach"
+},
+"3943": {
+"lat": 48.78706,
+"lng": 15.05866,
+"place": "Anderlfabrik"
+},
+"3944": {
+"lat": 48.76677,
+"lng": 15.10537,
+"place": "Kurzschwarza"
+},
+"3945": {
+"lat": 48.76835,
+"lng": 15.03435,
+"place": "Hoheneich"
+},
+"3950": {
+"lat": 48.76729,
+"lng": 14.96374,
+"place": "Breitensee"
+},
+"3961": {
+"lat": 48.72172,
+"lng": 15.01005,
+"place": "Albrechts"
+},
+"3962": {
+"lat": 48.75557,
+"lng": 14.85278,
+"place": "Heinrichs bei Weitra"
+},
+"3970": {
+"lat": 48.69388,
+"lng": 14.86846,
+"place": "Altweitra"
+},
+"3971": {
+"lat": 48.67167,
+"lng": 14.83102,
+"place": "Anger"
+},
+"3972": {
+"lat": 48.62541,
+"lng": 14.82301,
+"place": "Abschlag"
+},
+"3973": {
+"lat": 48.56955,
+"lng": 14.95225,
+"place": "Karlstift"
+},
+"4000": {
+"lat": 48.1525,
+"lng": 14.1702,
+"place": "Allhaming"
+},
+"4010": {
+"lat": 48.3369,
+"lng": 14.0095,
+"place": "Linz, Donau"
+},
+"4016": {
+"lat": 48.3369,
+"lng": 14.0095,
+"place": "Linz, Donau"
+},
+"4018": {
+"lat": 48.3369,
+"lng": 14.0095,
+"place": "Linz, Donau"
+},
+"4020": {
+"lat": 48.3041,
+"lng": 14.262,
+"place": "Friesenegg"
+},
+"4021": {
+"lat": 48.3047,
+"lng": 14.268,
+"place": "Linz, Donau Postfach"
+},
+"4024": {
+"lat": 48.3047,
+"lng": 14.268,
+"place": "Linz, Donau"
+},
+"4025": {
+"lat": 48.3047,
+"lng": 14.268,
+"place": "Linz, Donau"
+},
+"4027": {
+"lat": 48.3064,
+"lng": 14.2861,
+"place": "Linz"
+},
+"4030": {
+"lat": 48.3064,
+"lng": 14.2861,
+"place": "Linz"
+},
+"4031": {
+"lat": 48.3064,
+"lng": 14.2861,
+"place": "Linz, Donau Postfach"
+},
+"4032": {
+"lat": 48.3064,
+"lng": 14.2861,
+"place": "Linz"
+},
+"4036": {
+"lat": 48.3064,
+"lng": 14.2861,
+"place": "Linz"
+},
+"4040": {
+"lat": 48.35659,
+"lng": 14.27659,
+"place": "Neulichtenberg"
+},
+"4041": {
+"lat": 48.3438,
+"lng": 14.2661,
+"place": "Linz, Donau Postfach"
+},
+"4046": {
+"lat": 48.3438,
+"lng": 14.2661,
+"place": "Linz, Donau"
+},
+"4048": {
+"lat": 48.34406,
+"lng": 14.2398,
+"place": "Großamberg"
+},
+"4050": {
+"lat": 48.2217,
+"lng": 14.2328,
+"place": "Neubau"
+},
+"4052": {
+"lat": 48.20884,
+"lng": 14.28586,
+"place": "Ansfelden"
+},
+"4053": {
+"lat": 48.1879,
+"lng": 14.24943,
+"place": "Berg"
+},
+"4055": {
+"lat": 48.1824,
+"lng": 14.20995,
+"place": "Dörfl"
+},
+"4056": {
+"lat": 48.2309,
+"lng": 14.2678,
+"place": "Sankt Martin"
+},
+"4059": {
+"lat": 48.2797,
+"lng": 14.2533,
+"place": "Leonding"
+},
+"4060": {
+"lat": 48.27482,
+"lng": 14.24949,
+"place": "Aichberg"
+},
+"4061": {
+"lat": 48.25843,
+"lng": 14.21157,
+"place": "Aistental"
+},
+"4062": {
+"lat": 48.25998,
+"lng": 14.14252,
+"place": "Aichberg"
+},
+"4063": {
+"lat": 48.21942,
+"lng": 14.18339,
+"place": "Neubau"
+},
+"4064": {
+"lat": 48.23108,
+"lng": 14.1306,
+"place": "Freiling"
+},
+"4066": {
+"lat": 48.2593,
+"lng": 14.2037,
+"place": "Pasching"
+},
+"4070": {
+"lat": 48.30956,
+"lng": 14.0102,
+"place": "Gstöttenau"
+},
+"4072": {
+"lat": 48.28061,
+"lng": 14.09285,
+"place": "Aham"
+},
+"4073": {
+"lat": 48.29901,
+"lng": 14.17969,
+"place": "Appersberg"
+},
+"4074": {
+"lat": 48.34327,
+"lng": 13.9461,
+"place": "Birihub"
+},
+"4075": {
+"lat": 48.26675,
+"lng": 13.9913,
+"place": "Aumühle"
+},
+"4076": {
+"lat": 48.27271,
+"lng": 13.93093,
+"place": "Doppl"
+},
+"4077": {
+"lat": 48.2835,
+"lng": 14.1452,
+"place": "Straßham"
+},
+"4081": {
+"lat": 48.37173,
+"lng": 13.98397,
+"place": "Gstaltenhof"
+},
+"4082": {
+"lat": 48.37153,
+"lng": 14.01987,
+"place": "Aschach an der Donau"
+},
+"4083": {
+"lat": 48.41687,
+"lng": 13.90283,
+"place": "Au"
+},
+"4084": {
+"lat": 48.38432,
+"lng": 13.8614,
+"place": "Bräuleiten"
+},
+"4085": {
+"lat": 48.45681,
+"lng": 13.82537,
+"place": "Niederranna"
+},
+"4090": {
+"lat": 48.49108,
+"lng": 13.69384,
+"place": "Engelhartszell"
+},
+"4091": {
+"lat": 48.51908,
+"lng": 13.64565,
+"place": "Vichtenstein"
+},
+"4092": {
+"lat": 48.53005,
+"lng": 13.58661,
+"place": "Achleiten"
+},
+"4100": {
+"lat": 48.34174,
+"lng": 14.19089,
+"place": "Amberg"
+},
+"4101": {
+"lat": 48.3606,
+"lng": 14.07467,
+"place": "Oberwallsee"
+},
+"4102": {
+"lat": 48.32515,
+"lng": 14.1173,
+"place": "Goldwörth"
+},
+"4111": {
+"lat": 48.34692,
+"lng": 14.14506,
+"place": "Bach"
+},
+"4112": {
+"lat": 48.38293,
+"lng": 14.1272,
+"place": "Eschelberg"
+},
+"4113": {
+"lat": 48.42654,
+"lng": 14.03365,
+"place": "Erdmannsdorf"
+},
+"4114": {
+"lat": 48.42591,
+"lng": 13.98369,
+"place": "Partenstein"
+},
+"4115": {
+"lat": 48.46625,
+"lng": 13.98966,
+"place": "Am Edhügel"
+},
+"4116": {
+"lat": 48.49083,
+"lng": 14.04763,
+"place": "Bairach"
+},
+"4120": {
+"lat": 48.49268,
+"lng": 14.00963,
+"place": "Langhalsen"
+},
+"4121": {
+"lat": 48.49553,
+"lng": 13.96228,
+"place": "Altenfelden"
+},
+"4122": {
+"lat": 48.52744,
+"lng": 13.99674,
+"place": "Arnreit"
+},
+"4131": {
+"lat": 48.44324,
+"lng": 13.94289,
+"place": "Dorf"
+},
+"4132": {
+"lat": 48.50022,
+"lng": 13.90725,
+"place": "Atzesberg"
+},
+"4133": {
+"lat": 48.47165,
+"lng": 13.87099,
+"place": "Dorf"
+},
+"4134": {
+"lat": 48.52146,
+"lng": 13.87425,
+"place": "Krien"
+},
+"4141": {
+"lat": 48.50974,
+"lng": 13.83624,
+"place": "Atzgersdorf"
+},
+"4142": {
+"lat": 48.49821,
+"lng": 13.81293,
+"place": "Altenhof"
+},
+"4143": {
+"lat": 48.51451,
+"lng": 13.75564,
+"place": "Dorf"
+},
+"4144": {
+"lat": 48.54975,
+"lng": 13.79284,
+"place": "Dittmannsdorf"
+},
+"4150": {
+"lat": 48.57506,
+"lng": 13.99225,
+"place": "Altenhofen"
+},
+"4151": {
+"lat": 48.59078,
+"lng": 13.94485,
+"place": "Berlesreith"
+},
+"4152": {
+"lat": 48.55613,
+"lng": 13.8964,
+"place": "Innerödt"
+},
+"4153": {
+"lat": 48.62031,
+"lng": 13.89112,
+"place": "Vorderschlag"
+},
+"4154": {
+"lat": 48.58908,
+"lng": 13.84299,
+"place": "Albenödt"
+},
+"4155": {
+"lat": 48.6348,
+"lng": 13.8452,
+"place": "Heinrichsberg"
+},
+"4160": {
+"lat": 48.64327,
+"lng": 13.96609,
+"place": "Breitenstein"
+},
+"4161": {
+"lat": 48.68123,
+"lng": 13.91488,
+"place": "Sonnenwald"
+},
+"4162": {
+"lat": 48.66127,
+"lng": 13.86104,
+"place": "Bräuerau"
+},
+"4163": {
+"lat": 48.70545,
+"lng": 13.8765,
+"place": "Freundorf"
+},
+"4164": {
+"lat": 48.7197,
+"lng": 13.82485,
+"place": "Hinteranger"
+},
+"4170": {
+"lat": 48.58061,
+"lng": 14.05032,
+"place": "Oberafiesl"
+},
+"4171": {
+"lat": 48.53123,
+"lng": 14.05957,
+"place": "Auberg"
+},
+"4172": {
+"lat": 48.4865,
+"lng": 14.12335,
+"place": "Penning"
+},
+"4173": {
+"lat": 48.47654,
+"lng": 14.14014,
+"place": "Schindlberg"
+},
+"4174": {
+"lat": 48.44798,
+"lng": 14.09208,
+"place": "Allersdorf"
+},
+"4175": {
+"lat": 48.4283,
+"lng": 14.13358,
+"place": "Koth"
+},
+"4180": {
+"lat": 48.46534,
+"lng": 14.27433,
+"place": "Dreiegg"
+},
+"4181": {
+"lat": 48.46964,
+"lng": 14.22276,
+"place": "Lobenstein"
+},
+"4182": {
+"lat": 48.47764,
+"lng": 14.18966,
+"place": "Schallenberg"
+},
+"4183": {
+"lat": 48.50901,
+"lng": 14.20532,
+"place": "Kleintraberg"
+},
+"4184": {
+"lat": 48.54862,
+"lng": 14.14006,
+"place": "Altenschlag"
+},
+"4190": {
+"lat": 48.51681,
+"lng": 14.28953,
+"place": "Affetschlag"
+},
+"4191": {
+"lat": 48.53863,
+"lng": 14.22225,
+"place": "Am Hübl"
+},
+"4192": {
+"lat": 48.49619,
+"lng": 14.39214,
+"place": "Hinterkönigschlag"
+},
+"4193": {
+"lat": 48.53858,
+"lng": 14.38109,
+"place": "Stiftung"
+},
+"4201": {
+"lat": 48.39552,
+"lng": 14.20994,
+"place": "Kammerschlag"
+},
+"4202": {
+"lat": 48.41888,
+"lng": 14.29772,
+"place": "Wildberg"
+},
+"4203": {
+"lat": 48.37629,
+"lng": 14.34094,
+"place": "Altenberg bei Linz"
+},
+"4204": {
+"lat": 48.44532,
+"lng": 14.35777,
+"place": "Affenberg"
+},
+"4205": {
+"lat": 48.4115,
+"lng": 14.2766,
+"place": "Kirchschlag bei Linz"
+},
+"4209": {
+"lat": 48.33302,
+"lng": 14.41672,
+"place": "Aigen"
+},
+"4210": {
+"lat": 48.37608,
+"lng": 14.44005,
+"place": "Almesberg"
+},
+"4211": {
+"lat": 48.40553,
+"lng": 14.40519,
+"place": "Aich"
+},
+"4212": {
+"lat": 48.43756,
+"lng": 14.50754,
+"place": "Achleiten"
+},
+"4213": {
+"lat": 48.3674,
+"lng": 14.4678,
+"place": "Unterweitersdorf"
+},
+"4221": {
+"lat": 48.2963,
+"lng": 14.3838,
+"place": "Götzelsdorf"
+},
+"4222": {
+"lat": 48.27031,
+"lng": 14.46598,
+"place": "Denneberg"
+},
+"4223": {
+"lat": 48.3061,
+"lng": 14.48814,
+"place": "Bodendorf"
+},
+"4224": {
+"lat": 48.34599,
+"lng": 14.50783,
+"place": "Altenhaus"
+},
+"4225": {
+"lat": 48.275,
+"lng": 14.50368,
+"place": "Abwinden"
+},
+"4230": {
+"lat": 48.36202,
+"lng": 14.56126,
+"place": "Reichenstein"
+},
+"4232": {
+"lat": 48.38125,
+"lng": 14.51635,
+"place": "Anitzberg"
+},
+"4240": {
+"lat": 48.50875,
+"lng": 14.48291,
+"place": "Galgenau"
+},
+"4242": {
+"lat": 48.48896,
+"lng": 14.42603,
+"place": "Auerbach"
+},
+"4251": {
+"lat": 48.5491,
+"lng": 14.65167,
+"place": "Eben"
+},
+"4252": {
+"lat": 48.52109,
+"lng": 14.79261,
+"place": "Eibenberg"
+},
+"4261": {
+"lat": 48.56276,
+"lng": 14.46293,
+"place": "Apfoltern"
+},
+"4262": {
+"lat": 48.61647,
+"lng": 14.48723,
+"place": "Dorf Leopoldschlag"
+},
+"4263": {
+"lat": 48.58006,
+"lng": 14.57596,
+"place": "Elmberg"
+},
+"4264": {
+"lat": 48.53501,
+"lng": 14.54677,
+"place": "Unterrauchenödt"
+},
+"4271": {
+"lat": 48.50159,
+"lng": 14.60862,
+"place": "Etzelsdorf"
+},
+"4272": {
+"lat": 48.48601,
+"lng": 14.7147,
+"place": "Eipoldschlag"
+},
+"4273": {
+"lat": 48.4509,
+"lng": 14.78749,
+"place": "Aglasberg"
+},
+"4274": {
+"lat": 48.4006,
+"lng": 14.71607,
+"place": "Wolfgrub"
+},
+"4280": {
+"lat": 48.40703,
+"lng": 14.8273,
+"place": "Ebrixedt"
+},
+"4281": {
+"lat": 48.36264,
+"lng": 14.81816,
+"place": "Schreineredt"
+},
+"4282": {
+"lat": 48.34586,
+"lng": 14.75117,
+"place": "Pierbach"
+},
+"4283": {
+"lat": 48.37569,
+"lng": 14.66157,
+"place": "Aich"
+},
+"4284": {
+"lat": 48.35431,
+"lng": 14.61363,
+"place": "Baumgarten"
+},
+"4291": {
+"lat": 48.46998,
+"lng": 14.54707,
+"place": "Edelhof"
+},
+"4292": {
+"lat": 48.44188,
+"lng": 14.54431,
+"place": "Harterleiten"
+},
+"4293": {
+"lat": 48.41941,
+"lng": 14.61939,
+"place": "Erdmannsdorf"
+},
+"4294": {
+"lat": 48.4491,
+"lng": 14.674,
+"place": "Stampfendorf"
+},
+"4300": {
+"lat": 48.15,
+"lng": 14.5,
+"place": "Aigenfließen"
+},
+"4303": {
+"lat": 48.2048,
+"lng": 14.5695,
+"place": "Erla"
+},
+"4310": {
+"lat": 48.24736,
+"lng": 14.52673,
+"place": "Albern"
+},
+"4311": {
+"lat": 48.29253,
+"lng": 14.58611,
+"place": "Josefstal"
+},
+"4312": {
+"lat": 48.28367,
+"lng": 14.5336,
+"place": "Blindendorf"
+},
+"4320": {
+"lat": 48.26035,
+"lng": 14.65112,
+"place": "Karlingberg"
+},
+"4322": {
+"lat": 48.28112,
+"lng": 14.68654,
+"place": "Altenburg"
+},
+"4323": {
+"lat": 48.26612,
+"lng": 14.73176,
+"place": "Innernstein"
+},
+"4324": {
+"lat": 48.30531,
+"lng": 14.71044,
+"place": "Hiesbach"
+},
+"4331": {
+"lat": 48.21485,
+"lng": 14.64145,
+"place": "Baumgarten"
+},
+"4332": {
+"lat": 48.23078,
+"lng": 14.59686,
+"place": "Aist"
+},
+"4341": {
+"lat": 48.23416,
+"lng": 14.72246,
+"place": "Arbing"
+},
+"4342": {
+"lat": 48.22488,
+"lng": 14.74766,
+"place": "Hehenberg"
+},
+"4343": {
+"lat": 48.18941,
+"lng": 14.69649,
+"place": "Am Bühel"
+},
+"4351": {
+"lat": 48.20757,
+"lng": 14.79594,
+"place": "Au"
+},
+"4352": {
+"lat": 48.24421,
+"lng": 14.77809,
+"place": "Letten"
+},
+"4360": {
+"lat": 48.23687,
+"lng": 14.85136,
+"place": "Panholz"
+},
+"4362": {
+"lat": 48.27274,
+"lng": 14.81724,
+"place": "Thomastal"
+},
+"4363": {
+"lat": 48.32762,
+"lng": 14.82274,
+"place": "Henndorf"
+},
+"4364": {
+"lat": 48.30897,
+"lng": 14.76575,
+"place": "Am Sonnenhang"
+},
+"4371": {
+"lat": 48.31134,
+"lng": 14.89464,
+"place": "Großerlau"
+},
+"4372": {
+"lat": 48.37747,
+"lng": 14.91709,
+"place": "Henndorf"
+},
+"4381": {
+"lat": 48.24052,
+"lng": 14.87283,
+"place": "Achleiten"
+},
+"4382": {
+"lat": 48.23155,
+"lng": 14.9517,
+"place": "Gloxwald"
+},
+"4391": {
+"lat": 48.27164,
+"lng": 14.94441,
+"place": "Dendlreith"
+},
+"4392": {
+"lat": 48.31587,
+"lng": 14.9737,
+"place": "Dendlreith"
+},
+"4400": {
+"lat": 48.02152,
+"lng": 14.40972,
+"place": "Christkindl"
+},
+"4401": {
+"lat": 48.056,
+"lng": 14.4125,
+"place": "Steyr Postfach"
+},
+"4403": {
+"lat": 48.0427,
+"lng": 14.4213,
+"place": "Steyr"
+},
+"4405": {
+"lat": 48.0667,
+"lng": 14.45,
+"place": "Steyr-Münichholz"
+},
+"4407": {
+"lat": 48.02537,
+"lng": 14.44332,
+"place": "Dietach"
+},
+"4410": {
+"lat": 48.0427,
+"lng": 14.4213,
+"place": "Steyr"
+},
+"4421": {
+"lat": 48.00172,
+"lng": 14.32712,
+"place": "Aschach an der Steyr"
+},
+"4431": {
+"lat": 48.06973,
+"lng": 14.53382,
+"place": "Brunnhof"
+},
+"4432": {
+"lat": 48.15,
+"lng": 14.5,
+"place": "Aigenfließen"
+},
+"4441": {
+"lat": 48.04487,
+"lng": 14.4816,
+"place": "Badhof"
+},
+"4442": {
+"lat": 47.97636,
+"lng": 14.51401,
+"place": "Ebersegg"
+},
+"4443": {
+"lat": 47.94615,
+"lng": 14.56975,
+"place": "Ebersegg"
+},
+"4451": {
+"lat": 48.00042,
+"lng": 14.40469,
+"place": "Buchholz"
+},
+"4452": {
+"lat": 47.9452,
+"lng": 14.3587,
+"place": "Ternberg"
+},
+"4453": {
+"lat": 47.9452,
+"lng": 14.3587,
+"place": "Ternberg"
+},
+"4460": {
+"lat": 47.93715,
+"lng": 14.44335,
+"place": "Laussa"
+},
+"4461": {
+"lat": 47.9608,
+"lng": 14.4357,
+"place": "Laussa"
+},
+"4462": {
+"lat": 47.88885,
+"lng": 14.46665,
+"place": "Arzberg"
+},
+"4463": {
+"lat": 47.8873,
+"lng": 14.5271,
+"place": "Brunnbach"
+},
+"4464": {
+"lat": 47.8167,
+"lng": 14.6333,
+"place": "Kleinreifling"
+},
+"4470": {
+"lat": 48.20444,
+"lng": 14.43266,
+"place": "Einsiedl"
+},
+"4481": {
+"lat": 48.23342,
+"lng": 14.4153,
+"place": "Abwinden"
+},
+"4482": {
+"lat": 48.123,
+"lng": 14.6254,
+"place": "Ennsdorf"
+},
+"4483": {
+"lat": 48.15571,
+"lng": 14.41547,
+"place": "Angersberg"
+},
+"4484": {
+"lat": 48.12819,
+"lng": 14.46169,
+"place": "Dörfling"
+},
+"4490": {
+"lat": 48.2024,
+"lng": 14.37808,
+"place": "Bruck bei Hausleiten"
+},
+"4491": {
+"lat": 48.15657,
+"lng": 14.33432,
+"place": "Dörfl"
+},
+"4492": {
+"lat": 48.15498,
+"lng": 14.35728,
+"place": "Harmannsdorf"
+},
+"4493": {
+"lat": 48.05893,
+"lng": 14.39307,
+"place": "Goldberg"
+},
+"4501": {
+"lat": 48.1387,
+"lng": 14.2276,
+"place": "Neuhofen an der Krems"
+},
+"4502": {
+"lat": 48.14698,
+"lng": 14.28247,
+"place": "Grub"
+},
+"4511": {
+"lat": 48.15348,
+"lng": 14.18756,
+"place": "Allhaming"
+},
+"4521": {
+"lat": 48.07165,
+"lng": 14.30776,
+"place": "Droißendorf"
+},
+"4522": {
+"lat": 48.06765,
+"lng": 14.29997,
+"place": "Droißendorf"
+},
+"4523": {
+"lat": 48.03213,
+"lng": 14.33957,
+"place": "Aschach an der Steyr"
+},
+"4531": {
+"lat": 48.09983,
+"lng": 14.24655,
+"place": "Brandstatt"
+},
+"4532": {
+"lat": 48.04638,
+"lng": 14.26316,
+"place": "Achleiten"
+},
+"4533": {
+"lat": 48.12517,
+"lng": 14.22692,
+"place": "Brandstatt"
+},
+"4540": {
+"lat": 48.0364,
+"lng": 14.1821,
+"place": "Bad Hall"
+},
+"4541": {
+"lat": 47.9983,
+"lng": 14.21815,
+"place": "Adlwang"
+},
+"4542": {
+"lat": 47.97183,
+"lng": 14.1547,
+"place": "Auern"
+},
+"4550": {
+"lat": 48.05293,
+"lng": 14.29657,
+"place": "Achleiten"
+},
+"4551": {
+"lat": 48.00813,
+"lng": 14.08369,
+"place": "Großendorf"
+},
+"4552": {
+"lat": 47.9969,
+"lng": 14.10963,
+"place": "Diepersdorf"
+},
+"4553": {
+"lat": 47.9442,
+"lng": 14.112,
+"place": "Dauersdorf"
+},
+"4554": {
+"lat": 47.92685,
+"lng": 14.16525,
+"place": "Hausmanning"
+},
+"4560": {
+"lat": 47.9056,
+"lng": 14.1223,
+"place": "Kirchdorf an der Krems"
+},
+"4562": {
+"lat": 47.8926,
+"lng": 14.0304,
+"place": "Steinbach am Ziehberg"
+},
+"4563": {
+"lat": 47.89227,
+"lng": 14.12975,
+"place": "Kirchdorf an der Krems"
+},
+"4564": {
+"lat": 47.8314,
+"lng": 14.1572,
+"place": "Klaus an der Pyhrnbahn"
+},
+"4565": {
+"lat": 47.92717,
+"lng": 14.08005,
+"place": "Haselbäckau"
+},
+"4571": {
+"lat": 47.80683,
+"lng": 14.15157,
+"place": "Klaus an der Pyhrnbahn"
+},
+"4572": {
+"lat": 47.7541,
+"lng": 14.18637,
+"place": "Kniewas"
+},
+"4573": {
+"lat": 47.6996,
+"lng": 14.17187,
+"place": "Hinterberg"
+},
+"4574": {
+"lat": 47.71173,
+"lng": 14.20823,
+"place": "Gaisriegl"
+},
+"4575": {
+"lat": 47.72141,
+"lng": 14.27751,
+"place": "Gaisriegl"
+},
+"4580": {
+"lat": 47.71887,
+"lng": 14.3501,
+"place": "Dambach"
+},
+"4581": {
+"lat": 47.71583,
+"lng": 14.37177,
+"place": "Dambach"
+},
+"4582": {
+"lat": 47.69359,
+"lng": 14.34326,
+"place": "Edlbach"
+},
+"4591": {
+"lat": 47.83322,
+"lng": 14.29925,
+"place": "Breitenau"
+},
+"4592": {
+"lat": 47.92707,
+"lng": 14.2398,
+"place": "Leonstein"
+},
+"4593": {
+"lat": 47.9544,
+"lng": 14.24573,
+"place": "Obergrünburg"
+},
+"4594": {
+"lat": 47.95412,
+"lng": 14.33058,
+"place": "Haagen"
+},
+"4595": {
+"lat": 48.00046,
+"lng": 14.28634,
+"place": "Eggmair"
+},
+"4596": {
+"lat": 47.96385,
+"lng": 14.27507,
+"place": "Forstau"
+},
+"4600": {
+"lat": 48.16478,
+"lng": 14.01622,
+"place": "Aichberg"
+},
+"4601": {
+"lat": 48.1667,
+"lng": 14.0333,
+"place": "Wels"
+},
+"4602": {
+"lat": 48.1615,
+"lng": 14.0192,
+"place": "Wels Postfach"
+},
+"4603": {
+"lat": 48.1667,
+"lng": 14.0333,
+"place": "Wels"
+},
+"4605": {
+"lat": 48.1667,
+"lng": 14.0333,
+"place": "Wels"
+},
+"4606": {
+"lat": 48.1667,
+"lng": 14.0333,
+"place": "Wels"
+},
+"4609": {
+"lat": 48.15,
+"lng": 14.0333,
+"place": "Thalheim bei Wels"
+},
+"4610": {
+"lat": 48.1667,
+"lng": 14.0333,
+"place": "Wels"
+},
+"4611": {
+"lat": 48.22364,
+"lng": 14.02518,
+"place": "Buchkirchen"
+},
+"4612": {
+"lat": 48.25751,
+"lng": 14.00912,
+"place": "Aigen"
+},
+"4613": {
+"lat": 48.21128,
+"lng": 14.04218,
+"place": "Elend"
+},
+"4614": {
+"lat": 48.19405,
+"lng": 14.10289,
+"place": "Au an der Traun"
+},
+"4615": {
+"lat": 48.22527,
+"lng": 14.10007,
+"place": "Grillparz"
+},
+"4616": {
+"lat": 48.16651,
+"lng": 14.14708,
+"place": "Bergern"
+},
+"4618": {
+"lat": 48.1823,
+"lng": 14.0164,
+"place": "Höllwiesen"
+},
+"4619": {
+"lat": 48.1667,
+"lng": 14.0333,
+"place": "Wels"
+},
+"4621": {
+"lat": 48.09786,
+"lng": 14.10319,
+"place": "Giering"
+},
+"4622": {
+"lat": 48.148,
+"lng": 14.18158,
+"place": "Brunnern"
+},
+"4623": {
+"lat": 48.14768,
+"lng": 13.93092,
+"place": "Aichberg"
+},
+"4624": {
+"lat": 48.13094,
+"lng": 13.85422,
+"place": "Arbing"
+},
+"4625": {
+"lat": 48.1487,
+"lng": 13.86724,
+"place": "Aigen"
+},
+"4631": {
+"lat": 48.20008,
+"lng": 13.95307,
+"place": "Au"
+},
+"4632": {
+"lat": 48.19335,
+"lng": 13.89663,
+"place": "Krottendorf"
+},
+"4633": {
+"lat": 48.19,
+"lng": 13.84005,
+"place": "Breitwies"
+},
+"4641": {
+"lat": 48.11309,
+"lng": 14.00931,
+"place": "Forstberg"
+},
+"4642": {
+"lat": 48.07188,
+"lng": 14.06377,
+"place": "Dirnberg"
+},
+"4643": {
+"lat": 47.96235,
+"lng": 14.02547,
+"place": "Hammersdorf"
+},
+"4644": {
+"lat": 47.89763,
+"lng": 13.94408,
+"place": "Dorf"
+},
+"4645": {
+"lat": 47.8759,
+"lng": 13.9531,
+"place": "Grünau im Almtal"
+},
+"4650": {
+"lat": 48.10905,
+"lng": 13.90119,
+"place": "Aichham"
+},
+"4651": {
+"lat": 48.08213,
+"lng": 13.86577,
+"place": "Stadl-Hausruck"
+},
+"4652": {
+"lat": 48.07416,
+"lng": 13.96742,
+"place": "Almegg"
+},
+"4653": {
+"lat": 48.02911,
+"lng": 13.98674,
+"place": "Albenedt"
+},
+"4654": {
+"lat": 48.05175,
+"lng": 13.8945,
+"place": "Aigen"
+},
+"4655": {
+"lat": 47.98947,
+"lng": 13.91951,
+"place": "Hötzelsdorf"
+},
+"4656": {
+"lat": 47.95122,
+"lng": 13.8917,
+"place": "Bergham"
+},
+"4659": {
+"lat": 48.1167,
+"lng": 13.8833,
+"place": "Edt bei Lambach"
+},
+"4661": {
+"lat": 48.02404,
+"lng": 13.84088,
+"place": "Altmanning"
+},
+"4662": {
+"lat": 47.9819,
+"lng": 13.8217,
+"place": "Laakirchen"
+},
+"4663": {
+"lat": 47.9819,
+"lng": 13.8217,
+"place": "Laakirchen"
+},
+"4664": {
+"lat": 47.94738,
+"lng": 13.8345,
+"place": "Kranabeth"
+},
+"4671": {
+"lat": 48.11218,
+"lng": 13.8338,
+"place": "Aichkirchen"
+},
+"4672": {
+"lat": 48.13608,
+"lng": 13.82958,
+"place": "Bachmanning"
+},
+"4673": {
+"lat": 48.14742,
+"lng": 13.7411,
+"place": "Aspoltsberg"
+},
+"4674": {
+"lat": 48.14337,
+"lng": 13.68937,
+"place": "Altenhof am Hausruck"
+},
+"4675": {
+"lat": 48.18047,
+"lng": 13.69317,
+"place": "Auhäuseln"
+},
+"4676": {
+"lat": 48.18306,
+"lng": 13.74134,
+"place": "Aistersheim"
+},
+"4680": {
+"lat": 48.18919,
+"lng": 13.64058,
+"place": "Hinteregg"
+},
+"4681": {
+"lat": 48.21158,
+"lng": 13.6715,
+"place": "Frei"
+},
+"4682": {
+"lat": 48.15308,
+"lng": 13.64298,
+"place": "Aigen"
+},
+"4690": {
+"lat": 48.04675,
+"lng": 13.74068,
+"place": "Aich"
+},
+"4691": {
+"lat": 48.08021,
+"lng": 13.79304,
+"place": "Apeding"
+},
+"4692": {
+"lat": 48.10127,
+"lng": 13.75315,
+"place": "Bergham"
+},
+"4693": {
+"lat": 48.01356,
+"lng": 13.75387,
+"place": "Berg"
+},
+"4694": {
+"lat": 47.94706,
+"lng": 13.78344,
+"place": "Aichlham"
+},
+"4701": {
+"lat": 48.22918,
+"lng": 13.91112,
+"place": "Müllerberg"
+},
+"4702": {
+"lat": 48.23184,
+"lng": 13.93202,
+"place": "Hungerberg"
+},
+"4707": {
+"lat": 48.22219,
+"lng": 13.86328,
+"place": "Aigendorf"
+},
+"4710": {
+"lat": 48.24212,
+"lng": 13.82378,
+"place": "Steindlberg"
+},
+"4712": {
+"lat": 48.28356,
+"lng": 13.81639,
+"place": "Niederwödling"
+},
+"4713": {
+"lat": 48.20772,
+"lng": 13.81195,
+"place": "Niederndorf"
+},
+"4714": {
+"lat": 48.17732,
+"lng": 13.79366,
+"place": "Moos"
+},
+"4715": {
+"lat": 48.25181,
+"lng": 13.74524,
+"place": "Fürstling"
+},
+"4716": {
+"lat": 48.22505,
+"lng": 13.73161,
+"place": "Aigen"
+},
+"4720": {
+"lat": 48.28206,
+"lng": 13.71022,
+"place": "Obernfurth"
+},
+"4721": {
+"lat": 48.33263,
+"lng": 13.6746,
+"place": "Altenseng"
+},
+"4722": {
+"lat": 48.33673,
+"lng": 13.7623,
+"place": "Achleiten"
+},
+"4723": {
+"lat": 48.40878,
+"lng": 13.72969,
+"place": "Au bei Ed"
+},
+"4724": {
+"lat": 48.39317,
+"lng": 13.78819,
+"place": "Aigen"
+},
+"4725": {
+"lat": 48.46454,
+"lng": 13.73127,
+"place": "Adelsgrub"
+},
+"4730": {
+"lat": 48.33442,
+"lng": 13.86131,
+"place": "Kropfleiten"
+},
+"4731": {
+"lat": 48.31359,
+"lng": 13.92139,
+"place": "Gschnarret"
+},
+"4732": {
+"lat": 48.28494,
+"lng": 13.8754,
+"place": "Kleingerstdoppl"
+},
+"4733": {
+"lat": 48.36059,
+"lng": 13.82096,
+"place": "Andling"
+},
+"4741": {
+"lat": 48.2447,
+"lng": 13.66625,
+"place": "Dötzledt"
+},
+"4742": {
+"lat": 48.22905,
+"lng": 13.60984,
+"place": "Asbach"
+},
+"4743": {
+"lat": 48.228,
+"lng": 13.51148,
+"place": "Aggstein"
+},
+"4751": {
+"lat": 48.27804,
+"lng": 13.62566,
+"place": "Schatzdorf"
+},
+"4752": {
+"lat": 48.3095,
+"lng": 13.62926,
+"place": "Achleiten"
+},
+"4753": {
+"lat": 48.27827,
+"lng": 13.57284,
+"place": "Sittling"
+},
+"4754": {
+"lat": 48.26146,
+"lng": 13.51863,
+"place": "Albertsedt"
+},
+"4755": {
+"lat": 48.3171,
+"lng": 13.61109,
+"place": "Aiglbrechting"
+},
+"4760": {
+"lat": 48.35146,
+"lng": 13.64487,
+"place": "Kleinpireth"
+},
+"4761": {
+"lat": 48.39158,
+"lng": 13.64678,
+"place": "Bimmersdorf"
+},
+"4762": {
+"lat": 48.37051,
+"lng": 13.68678,
+"place": "Oberantlang"
+},
+"4770": {
+"lat": 48.36032,
+"lng": 13.57082,
+"place": "An der Fernstraße"
+},
+"4771": {
+"lat": 48.39154,
+"lng": 13.60969,
+"place": "Doblern"
+},
+"4772": {
+"lat": 48.31361,
+"lng": 13.5214,
+"place": "Augental"
+},
+"4773": {
+"lat": 48.35798,
+"lng": 13.47951,
+"place": "Hackledt"
+},
+"4774": {
+"lat": 48.38192,
+"lng": 13.46672,
+"place": "Andiesen"
+},
+"4775": {
+"lat": 48.41481,
+"lng": 13.52786,
+"place": "Aichberg"
+},
+"4776": {
+"lat": 48.4209,
+"lng": 13.58821,
+"place": "Erledt"
+},
+"4777": {
+"lat": 48.33703,
+"lng": 13.51007,
+"place": "Heiligenbaum"
+},
+"4780": {
+"lat": 48.45928,
+"lng": 13.44222,
+"place": "Aigerding"
+},
+"4782": {
+"lat": 48.42654,
+"lng": 13.47273,
+"place": "Aigerding"
+},
+"4783": {
+"lat": 48.50591,
+"lng": 13.46864,
+"place": "Fraunhof"
+},
+"4784": {
+"lat": 48.52222,
+"lng": 13.49468,
+"place": "Grub"
+},
+"4785": {
+"lat": 48.55699,
+"lng": 13.50758,
+"place": "Anzberg"
+},
+"4786": {
+"lat": 48.47458,
+"lng": 13.47733,
+"place": "Atzmanning"
+},
+"4791": {
+"lat": 48.45799,
+"lng": 13.52489,
+"place": "Eggenberg"
+},
+"4792": {
+"lat": 48.4737,
+"lng": 13.58142,
+"place": "Füchsledt"
+},
+"4793": {
+"lat": 48.48498,
+"lng": 13.62444,
+"place": "Schnürberg"
+},
+"4794": {
+"lat": 48.44235,
+"lng": 13.66388,
+"place": "Grafendorf"
+},
+"4800": {
+"lat": 48.00873,
+"lng": 13.67912,
+"place": "Aham"
+},
+"4801": {
+"lat": 47.84627,
+"lng": 13.76673,
+"place": "Altmünster"
+},
+"4802": {
+"lat": 47.79539,
+"lng": 13.75807,
+"place": "Ebensee"
+},
+"4810": {
+"lat": 47.9006,
+"lng": 13.79256,
+"place": "Altmünster"
+},
+"4812": {
+"lat": 47.91748,
+"lng": 13.75463,
+"place": "Aurachkirchen"
+},
+"4813": {
+"lat": 47.89632,
+"lng": 13.74738,
+"place": "Altmünster"
+},
+"4814": {
+"lat": 47.89135,
+"lng": 13.71622,
+"place": "Eben"
+},
+"4816": {
+"lat": 47.9521,
+"lng": 13.83665,
+"place": "Gschwandt"
+},
+"4817": {
+"lat": 47.91978,
+"lng": 13.89033,
+"place": "Dorf"
+},
+"4820": {
+"lat": 47.71317,
+"lng": 13.62297,
+"place": "Ahorn"
+},
+"4821": {
+"lat": 47.69247,
+"lng": 13.61463,
+"place": "Kaltenbach"
+},
+"4822": {
+"lat": 47.63351,
+"lng": 13.63079,
+"place": "Anzenau"
+},
+"4823": {
+"lat": 47.5907,
+"lng": 13.6534,
+"place": "Gosauzwang"
+},
+"4824": {
+"lat": 47.5842,
+"lng": 13.5345,
+"place": "Gosau"
+},
+"4825": {
+"lat": 47.5842,
+"lng": 13.5345,
+"place": "Gosau"
+},
+"4829": {
+"lat": 47.7111,
+"lng": 13.6189,
+"place": "Bad Ischl"
+},
+"4830": {
+"lat": 47.55973,
+"lng": 13.64507,
+"place": "Hallstatt"
+},
+"4831": {
+"lat": 47.5537,
+"lng": 13.6849,
+"place": "Obertraun"
+},
+"4840": {
+"lat": 48.01505,
+"lng": 13.66369,
+"place": "Am Landlberg"
+},
+"4841": {
+"lat": 48.04193,
+"lng": 13.62365,
+"place": "Mittereinwald"
+},
+"4842": {
+"lat": 48.07243,
+"lng": 13.59952,
+"place": "Bruck"
+},
+"4843": {
+"lat": 48.08205,
+"lng": 13.55701,
+"place": "Aigen"
+},
+"4844": {
+"lat": 47.98355,
+"lng": 13.68133,
+"place": "Dornet"
+},
+"4845": {
+"lat": 47.96586,
+"lng": 13.71972,
+"place": "Alm"
+},
+"4846": {
+"lat": 48.03576,
+"lng": 13.75072,
+"place": "Au"
+},
+"4847": {
+"lat": 48.0028,
+"lng": 13.6565,
+"place": "Vöcklabruck"
+},
+"4849": {
+"lat": 48.0448,
+"lng": 13.572,
+"place": "Puchkirchen"
+},
+"4850": {
+"lat": 48.00721,
+"lng": 13.60997,
+"place": "Altwartenburg"
+},
+"4851": {
+"lat": 47.99478,
+"lng": 13.55188,
+"place": "Baumgarting"
+},
+"4852": {
+"lat": 47.89789,
+"lng": 13.58126,
+"place": "Alexenau"
+},
+"4853": {
+"lat": 47.83899,
+"lng": 13.56563,
+"place": "Berg"
+},
+"4854": {
+"lat": 47.80133,
+"lng": 13.5313,
+"place": "Gmauret"
+},
+"4860": {
+"lat": 47.97295,
+"lng": 13.60835,
+"place": "Ulrichsberg"
+},
+"4861": {
+"lat": 47.94471,
+"lng": 13.63933,
+"place": "Aurach am Hongar"
+},
+"4863": {
+"lat": 47.95416,
+"lng": 13.56525,
+"place": "Ainwalchen"
+},
+"4864": {
+"lat": 47.92128,
+"lng": 13.52481,
+"place": "Abtsdorf"
+},
+"4865": {
+"lat": 47.85851,
+"lng": 13.51052,
+"place": "Aich"
+},
+"4866": {
+"lat": 47.81612,
+"lng": 13.42738,
+"place": "Au"
+},
+"4870": {
+"lat": 48.00009,
+"lng": 13.48778,
+"place": "Hainberg"
+},
+"4871": {
+"lat": 48.03401,
+"lng": 13.5068,
+"place": "Exlwöhr"
+},
+"4872": {
+"lat": 48.04601,
+"lng": 13.54198,
+"place": "Ackersberg"
+},
+"4873": {
+"lat": 48.0741,
+"lng": 13.48555,
+"place": "Redltal"
+},
+"4875": {
+"lat": 48.0826,
+"lng": 13.4675,
+"place": "Redleiten"
+},
+"4880": {
+"lat": 47.94542,
+"lng": 13.49286,
+"place": "Aich"
+},
+"4881": {
+"lat": 47.91371,
+"lng": 13.45997,
+"place": "Dachsenberg"
+},
+"4882": {
+"lat": 47.86272,
+"lng": 13.44112,
+"place": "Gessenschwandt"
+},
+"4890": {
+"lat": 47.97456,
+"lng": 13.42119,
+"place": "Piereth"
+},
+"4891": {
+"lat": 47.99686,
+"lng": 13.36264,
+"place": "Schwaigern"
+},
+"4892": {
+"lat": 48.02354,
+"lng": 13.42665,
+"place": "Adligen"
+},
+"4893": {
+"lat": 47.91043,
+"lng": 13.33924,
+"place": "Haslau"
+},
+"4894": {
+"lat": 47.94233,
+"lng": 13.32264,
+"place": "Berg"
+},
+"4901": {
+"lat": 48.09964,
+"lng": 13.63577,
+"place": "Achleithen"
+},
+"4902": {
+"lat": 48.1118,
+"lng": 13.68691,
+"place": "Aferhagen"
+},
+"4903": {
+"lat": 48.07013,
+"lng": 13.66586,
+"place": "Au"
+},
+"4904": {
+"lat": 48.07777,
+"lng": 13.70083,
+"place": "Aigen"
+},
+"4906": {
+"lat": 48.15416,
+"lng": 13.55652,
+"place": "Albertsham"
+},
+"4910": {
+"lat": 48.17805,
+"lng": 13.48695,
+"place": "Altenried"
+},
+"4911": {
+"lat": 48.23178,
+"lng": 13.49967,
+"place": "Aigen"
+},
+"4912": {
+"lat": 48.18398,
+"lng": 13.47131,
+"place": "Auleiten"
+},
+"4920": {
+"lat": 48.14522,
+"lng": 13.45942,
+"place": "Aigen"
+},
+"4921": {
+"lat": 48.20394,
+"lng": 13.54188,
+"place": "Aching"
+},
+"4922": {
+"lat": 48.20129,
+"lng": 13.5968,
+"place": "Geiersberg"
+},
+"4923": {
+"lat": 48.15617,
+"lng": 13.40007,
+"place": "Bergham"
+},
+"4924": {
+"lat": 48.12306,
+"lng": 13.41914,
+"place": "Bach"
+},
+"4925": {
+"lat": 48.13459,
+"lng": 13.48879,
+"place": "Altsommerau"
+},
+"4926": {
+"lat": 48.18633,
+"lng": 13.57891,
+"place": "Baching"
+},
+"4931": {
+"lat": 48.16587,
+"lng": 13.3537,
+"place": "Aichet"
+},
+"4932": {
+"lat": 48.19923,
+"lng": 13.35942,
+"place": "Ampfenham"
+},
+"4933": {
+"lat": 48.1808,
+"lng": 13.27407,
+"place": "Aichet"
+},
+"4941": {
+"lat": 48.20599,
+"lng": 13.42912,
+"place": "Abstätten"
+},
+"4942": {
+"lat": 48.23924,
+"lng": 13.36632,
+"place": "Außerguggenberg"
+},
+"4943": {
+"lat": 48.25541,
+"lng": 13.31927,
+"place": "Oberaichet"
+},
+"4950": {
+"lat": 48.22869,
+"lng": 13.22451,
+"place": "Altheim"
+},
+"4951": {
+"lat": 48.21993,
+"lng": 13.27196,
+"place": "Aigelsberg"
+},
+"4952": {
+"lat": 48.24002,
+"lng": 13.17912,
+"place": "Hunding"
+},
+"4961": {
+"lat": 48.25212,
+"lng": 13.31222,
+"place": "Burgstall"
+},
+"4962": {
+"lat": 48.2544,
+"lng": 13.1501,
+"place": "Aham"
+},
+"4963": {
+"lat": 48.2541,
+"lng": 13.10386,
+"place": "Spraid"
+},
+"4970": {
+"lat": 48.23783,
+"lng": 13.42579,
+"place": "Bankham"
+},
+"4971": {
+"lat": 48.24566,
+"lng": 13.46497,
+"place": "Altenried"
+},
+"4972": {
+"lat": 48.27675,
+"lng": 13.48273,
+"place": "Stelzham"
+},
+"4973": {
+"lat": 48.27914,
+"lng": 13.42415,
+"place": "Hofing"
+},
+"4974": {
+"lat": 48.31757,
+"lng": 13.44275,
+"place": "Kammer"
+},
+"4975": {
+"lat": 48.41264,
+"lng": 13.43954,
+"place": "Dorf"
+},
+"4980": {
+"lat": 48.34672,
+"lng": 13.40989,
+"place": "Antiesenhofen"
+},
+"4981": {
+"lat": 48.31438,
+"lng": 13.38903,
+"place": "Fraham"
+},
+"4982": {
+"lat": 48.27624,
+"lng": 13.36663,
+"place": "Graben"
+},
+"4983": {
+"lat": 48.29131,
+"lng": 13.33308,
+"place": "Dietraching"
+},
+"4984": {
+"lat": 48.27581,
+"lng": 13.37484,
+"place": "Detzlhof"
+},
+"4985": {
+"lat": 48.2942,
+"lng": 13.301,
+"place": "Katzenberg"
+},
+"5000": {
+"lat": 47.7191,
+"lng": 12.9388,
+"place": "Wals bei Salzburg"
+},
+"5010": {
+"lat": 47.7994,
+"lng": 13.044,
+"place": "Salzburg"
+},
+"5013": {
+"lat": 47.8167,
+"lng": 13.0167,
+"place": "Salzburg-Liefering"
+},
+"5014": {
+"lat": 47.7994,
+"lng": 13.044,
+"place": "Salzburg"
+},
+"5016": {
+"lat": 47.7994,
+"lng": 13.044,
+"place": "Salzburg"
+},
+"5017": {
+"lat": 47.7994,
+"lng": 13.044,
+"place": "Salzburg"
+},
+"5018": {
+"lat": 47.8029,
+"lng": 13.0385,
+"place": "Salzburg-Europark"
+},
+"5020": {
+"lat": 47.7994,
+"lng": 13.044,
+"place": "Salzburg"
+},
+"5021": {
+"lat": 47.8024,
+"lng": 13.0571,
+"place": "Salzburg Postfach"
+},
+"5023": {
+"lat": 47.81953,
+"lng": 13.11023,
+"place": "Guggenthal"
+},
+"5025": {
+"lat": 47.8,
+"lng": 13.0667,
+"place": "Salzburg-Parsch"
+},
+"5026": {
+"lat": 47.7994,
+"lng": 13.044,
+"place": "Salzburg"
+},
+"5027": {
+"lat": 47.7994,
+"lng": 13.044,
+"place": "Salzburg"
+},
+"5033": {
+"lat": 47.7994,
+"lng": 13.044,
+"place": "Salzburg"
+},
+"5061": {
+"lat": 47.7667,
+"lng": 13.0881,
+"place": "Elsbethen"
+},
+"5071": {
+"lat": 47.79628,
+"lng": 12.99882,
+"place": "Gois"
+},
+"5072": {
+"lat": 47.8153,
+"lng": 12.9904,
+"place": "Siezenheim"
+},
+"5081": {
+"lat": 47.75357,
+"lng": 13.0564,
+"place": "Anif"
+},
+"5082": {
+"lat": 47.76013,
+"lng": 13.02915,
+"place": "Eichet"
+},
+"5083": {
+"lat": 47.7301,
+"lng": 13.05163,
+"place": "Grödig"
+},
+"5084": {
+"lat": 47.7242,
+"lng": 12.9085,
+"place": "Großgmain"
+},
+"5089": {
+"lat": 47.7287,
+"lng": 13.0622,
+"place": "Niederalm"
+},
+"5090": {
+"lat": 47.59573,
+"lng": 12.70507,
+"place": "Au"
+},
+"5091": {
+"lat": 47.64456,
+"lng": 12.702,
+"place": "Gföll"
+},
+"5092": {
+"lat": 47.55447,
+"lng": 12.70307,
+"place": "Kirchental"
+},
+"5093": {
+"lat": 47.52274,
+"lng": 12.7629,
+"place": "Frohnwies"
+},
+"5101": {
+"lat": 47.8502,
+"lng": 13.03438,
+"place": "Bergheim"
+},
+"5102": {
+"lat": 47.893,
+"lng": 13.02378,
+"place": "Acharting"
+},
+"5110": {
+"lat": 47.95683,
+"lng": 12.93563,
+"place": "Haidenöster"
+},
+"5111": {
+"lat": 47.9834,
+"lng": 12.9179,
+"place": "Bürmoos"
+},
+"5112": {
+"lat": 47.99768,
+"lng": 12.96838,
+"place": "Asten"
+},
+"5113": {
+"lat": 47.99406,
+"lng": 12.91113,
+"place": "Aglassing"
+},
+"5114": {
+"lat": 47.95366,
+"lng": 12.95907,
+"place": "Bulharting"
+},
+"5120": {
+"lat": 48.02392,
+"lng": 12.88189,
+"place": "Ortholling"
+},
+"5121": {
+"lat": 48.07002,
+"lng": 12.82771,
+"place": "Eichbichl"
+},
+"5122": {
+"lat": 48.14618,
+"lng": 12.86175,
+"place": "Weng"
+},
+"5123": {
+"lat": 48.1929,
+"lng": 12.8743,
+"place": "Überackern"
+},
+"5124": {
+"lat": 48.045,
+"lng": 12.8818,
+"place": "Haigermoos"
+},
+"5131": {
+"lat": 48.05526,
+"lng": 12.90897,
+"place": "Aich"
+},
+"5132": {
+"lat": 48.08757,
+"lng": 12.93914,
+"place": "Brunn"
+},
+"5133": {
+"lat": 48.13876,
+"lng": 12.96213,
+"place": "Baumgarten"
+},
+"5134": {
+"lat": 48.18159,
+"lng": 12.97332,
+"place": "Adenbrunn"
+},
+"5141": {
+"lat": 48.04637,
+"lng": 12.98773,
+"place": "Einsperg"
+},
+"5142": {
+"lat": 48.08111,
+"lng": 12.99102,
+"place": "Arnstetten"
+},
+"5143": {
+"lat": 48.07177,
+"lng": 13.04401,
+"place": "Aich"
+},
+"5144": {
+"lat": 48.13581,
+"lng": 13.00527,
+"place": "Adenberg"
+},
+"5145": {
+"lat": 48.17914,
+"lng": 13.03615,
+"place": "Scheuhub"
+},
+"5151": {
+"lat": 47.94809,
+"lng": 12.99343,
+"place": "Altsberg"
+},
+"5152": {
+"lat": 48.01497,
+"lng": 13.01925,
+"place": "Au"
+},
+"5161": {
+"lat": 47.8667,
+"lng": 13.0667,
+"place": "Elixhausen"
+},
+"5162": {
+"lat": 47.92674,
+"lng": 13.06023,
+"place": "Au"
+},
+"5163": {
+"lat": 48.01631,
+"lng": 13.11462,
+"place": "Bergham"
+},
+"5164": {
+"lat": 47.95875,
+"lng": 13.07185,
+"place": "Matzing"
+},
+"5165": {
+"lat": 47.97433,
+"lng": 13.03437,
+"place": "Berndorf bei Salzburg"
+},
+"5166": {
+"lat": 48.01588,
+"lng": 13.07819,
+"place": "Baumgarten"
+},
+"5201": {
+"lat": 47.90035,
+"lng": 13.11135,
+"place": "Bayerham"
+},
+"5202": {
+"lat": 47.93723,
+"lng": 13.25405,
+"place": "Höhenroith"
+},
+"5203": {
+"lat": 47.94852,
+"lng": 13.18505,
+"place": "Enharting"
+},
+"5204": {
+"lat": 47.97574,
+"lng": 13.30259,
+"place": "Aigelsbrunn"
+},
+"5205": {
+"lat": 47.95,
+"lng": 13.15,
+"place": "Schleedorf"
+},
+"5211": {
+"lat": 48.00963,
+"lng": 13.24153,
+"place": "Ameisberg"
+},
+"5212": {
+"lat": 48.02467,
+"lng": 13.29874,
+"place": "Edt"
+},
+"5221": {
+"lat": 48.00628,
+"lng": 13.16862,
+"place": "Ainhausen"
+},
+"5222": {
+"lat": 48.05759,
+"lng": 13.18486,
+"place": "Oberweißau"
+},
+"5223": {
+"lat": 48.07703,
+"lng": 13.13912,
+"place": "Erlach"
+},
+"5224": {
+"lat": 48.07421,
+"lng": 13.09506,
+"place": "Au"
+},
+"5225": {
+"lat": 48.04768,
+"lng": 13.14269,
+"place": "Abern"
+},
+"5230": {
+"lat": 48.1073,
+"lng": 13.1508,
+"place": "Mattighofen"
+},
+"5231": {
+"lat": 48.11145,
+"lng": 13.16083,
+"place": "Au"
+},
+"5232": {
+"lat": 48.04328,
+"lng": 13.09736,
+"place": "Aigen"
+},
+"5233": {
+"lat": 48.12138,
+"lng": 13.07948,
+"place": "Aich"
+},
+"5241": {
+"lat": 48.14219,
+"lng": 13.21413,
+"place": "Thannstraß"
+},
+"5242": {
+"lat": 48.11675,
+"lng": 13.27718,
+"place": "Höh"
+},
+"5251": {
+"lat": 48.15624,
+"lng": 13.2692,
+"place": "Aichbichl"
+},
+"5252": {
+"lat": 48.17192,
+"lng": 13.30977,
+"place": "Aspach"
+},
+"5261": {
+"lat": 48.16145,
+"lng": 13.13271,
+"place": "Albrechtsberg"
+},
+"5270": {
+"lat": 48.19307,
+"lng": 13.1268,
+"place": "Biburg"
+},
+"5271": {
+"lat": 48.19865,
+"lng": 13.16319,
+"place": "Bäckenberg"
+},
+"5272": {
+"lat": 48.18338,
+"lng": 13.19045,
+"place": "Ascherdorf"
+},
+"5273": {
+"lat": 48.19964,
+"lng": 13.242,
+"place": "Bruckwies"
+},
+"5274": {
+"lat": 48.20583,
+"lng": 13.09202,
+"place": "Alharting"
+},
+"5280": {
+"lat": 48.22568,
+"lng": 13.05279,
+"place": "Aching"
+},
+"5282": {
+"lat": 48.22893,
+"lng": 13.02799,
+"place": "Au"
+},
+"5300": {
+"lat": 47.84613,
+"lng": 13.0863,
+"place": "Berg"
+},
+"5301": {
+"lat": 47.85913,
+"lng": 13.1443,
+"place": "Eugenbach"
+},
+"5302": {
+"lat": 47.89035,
+"lng": 13.1774,
+"place": "Henndorf am Wallersee"
+},
+"5303": {
+"lat": 47.84071,
+"lng": 13.24481,
+"place": "Egg"
+},
+"5310": {
+"lat": 47.84716,
+"lng": 13.32729,
+"place": "Gaisberg"
+},
+"5311": {
+"lat": 47.83493,
+"lng": 13.38483,
+"place": "Au"
+},
+"5321": {
+"lat": 47.81618,
+"lng": 13.16013,
+"place": "Habach"
+},
+"5322": {
+"lat": 47.8193,
+"lng": 13.2149,
+"place": "Hof bei Salzburg"
+},
+"5323": {
+"lat": 47.77542,
+"lng": 13.17137,
+"place": "Ebenau"
+},
+"5324": {
+"lat": 47.75312,
+"lng": 13.25456,
+"place": "Alm"
+},
+"5325": {
+"lat": 47.8333,
+"lng": 13.1833,
+"place": "Plainfeld"
+},
+"5330": {
+"lat": 47.8,
+"lng": 13.3,
+"place": "Fuschl am See"
+},
+"5340": {
+"lat": 47.77383,
+"lng": 13.36552,
+"place": "Laim"
+},
+"5342": {
+"lat": 47.7281,
+"lng": 13.41755,
+"place": "Gschwand"
+},
+"5350": {
+"lat": 47.71458,
+"lng": 13.47034,
+"place": "Aigen"
+},
+"5360": {
+"lat": 47.74658,
+"lng": 13.55961,
+"place": "Aschau"
+},
+"5400": {
+"lat": 47.68857,
+"lng": 13.09919,
+"place": "Adneter Riedl"
+},
+"5411": {
+"lat": 47.71623,
+"lng": 13.1192,
+"place": "Hinterwiestal"
+},
+"5412": {
+"lat": 47.7171,
+"lng": 13.1077,
+"place": "Gries"
+},
+"5421": {
+"lat": 47.6989,
+"lng": 13.14623,
+"place": "Adnet"
+},
+"5422": {
+"lat": 47.6651,
+"lng": 13.09,
+"place": "Bad Dürrnberg"
+},
+"5423": {
+"lat": 47.64763,
+"lng": 13.2062,
+"place": "Oberlangenberg"
+},
+"5424": {
+"lat": 47.66704,
+"lng": 13.14998,
+"place": "Rengerberg"
+},
+"5425": {
+"lat": 47.7139,
+"lng": 13.1907,
+"place": "Gaißau"
+},
+"5431": {
+"lat": 47.6299,
+"lng": 13.14629,
+"place": "Garnei"
+},
+"5440": {
+"lat": 47.59892,
+"lng": 13.18262,
+"place": "Golling an der Salzach"
+},
+"5441": {
+"lat": 47.58007,
+"lng": 13.34908,
+"place": "Abtenau"
+},
+"5442": {
+"lat": 47.58976,
+"lng": 13.44556,
+"place": "Gseng"
+},
+"5450": {
+"lat": 47.4773,
+"lng": 13.18505,
+"place": "Imlau"
+},
+"5451": {
+"lat": 47.49443,
+"lng": 13.1667,
+"place": "Scharten"
+},
+"5452": {
+"lat": 47.45586,
+"lng": 13.22146,
+"place": "Dorf"
+},
+"5453": {
+"lat": 47.45957,
+"lng": 13.25193,
+"place": "Eulersberg"
+},
+"5500": {
+"lat": 47.4206,
+"lng": 13.22258,
+"place": "Alpfahrt"
+},
+"5505": {
+"lat": 47.3804,
+"lng": 13.123,
+"place": "Mühlbach am Hochkönig"
+},
+"5511": {
+"lat": 47.4099,
+"lng": 13.31158,
+"place": "Bairau"
+},
+"5521": {
+"lat": 47.40835,
+"lng": 13.3167,
+"place": "Bairau"
+},
+"5522": {
+"lat": 47.4811,
+"lng": 13.37225,
+"place": "Lammertal"
+},
+"5523": {
+"lat": 47.53393,
+"lng": 13.35777,
+"place": "Gappen"
+},
+"5524": {
+"lat": 47.55286,
+"lng": 13.36045,
+"place": "Annaberg im Lammertal"
+},
+"5531": {
+"lat": 47.41853,
+"lng": 13.39677,
+"place": "Eben im Pongau"
+},
+"5532": {
+"lat": 47.44165,
+"lng": 13.5,
+"place": "Filzmoos"
+},
+"5541": {
+"lat": 47.3505,
+"lng": 13.43217,
+"place": "Altenmarkt im Pongau"
+},
+"5542": {
+"lat": 47.36105,
+"lng": 13.38953,
+"place": "Feuersang"
+},
+"5550": {
+"lat": 47.39048,
+"lng": 13.49458,
+"place": "Höggen"
+},
+"5552": {
+"lat": 47.3784,
+"lng": 13.5556,
+"place": "Forstau"
+},
+"5561": {
+"lat": 47.3,
+"lng": 13.5,
+"place": "Untertauern"
+},
+"5562": {
+"lat": 47.21645,
+"lng": 13.57885,
+"place": "Obertauern"
+},
+"5563": {
+"lat": 47.1833,
+"lng": 13.6,
+"place": "Tweng"
+},
+"5570": {
+"lat": 47.13275,
+"lng": 13.68657,
+"place": "Faningberg"
+},
+"5571": {
+"lat": 47.15557,
+"lng": 13.75,
+"place": "Mariapfarr"
+},
+"5572": {
+"lat": 47.15,
+"lng": 13.7833,
+"place": "Sankt Andrä im Lungau"
+},
+"5573": {
+"lat": 47.2105,
+"lng": 13.66,
+"place": "Weißpriach"
+},
+"5574": {
+"lat": 47.1754,
+"lng": 13.764,
+"place": "Göriach"
+},
+"5575": {
+"lat": 47.1779,
+"lng": 13.81215,
+"place": "Lessach"
+},
+"5580": {
+"lat": 47.13007,
+"lng": 13.83741,
+"place": "Haiden"
+},
+"5581": {
+"lat": 47.0793,
+"lng": 13.6961,
+"place": "Sankt Margarethen im Lungau"
+},
+"5582": {
+"lat": 47.09588,
+"lng": 13.63183,
+"place": "Höf"
+},
+"5583": {
+"lat": 47.09387,
+"lng": 13.51163,
+"place": "Hintermuhr"
+},
+"5584": {
+"lat": 47.1588,
+"lng": 13.4926,
+"place": "Lamm"
+},
+"5585": {
+"lat": 47.1127,
+"lng": 13.7426,
+"place": "Unternberg"
+},
+"5591": {
+"lat": 47.07493,
+"lng": 13.8407,
+"place": "Mignitz"
+},
+"5592": {
+"lat": 47.05835,
+"lng": 13.73335,
+"place": "Bundschuh"
+},
+"5600": {
+"lat": 47.35567,
+"lng": 13.21836,
+"place": "Einöden"
+},
+"5602": {
+"lat": 47.34107,
+"lng": 13.29539,
+"place": "Floitensberg"
+},
+"5603": {
+"lat": 47.2772,
+"lng": 13.3195,
+"place": "Kleinarl"
+},
+"5611": {
+"lat": 47.24372,
+"lng": 13.20177,
+"place": "Au"
+},
+"5612": {
+"lat": 47.16433,
+"lng": 13.26637,
+"place": "Hüttschlag"
+},
+"5620": {
+"lat": 47.3205,
+"lng": 13.1517,
+"place": "Schwarzach im Pongau"
+},
+"5621": {
+"lat": 47.3333,
+"lng": 13.11665,
+"place": "Enkerbichl"
+},
+"5622": {
+"lat": 47.319,
+"lng": 13.08155,
+"place": "Altenhof"
+},
+"5623": {
+"lat": 47.3205,
+"lng": 13.1517,
+"place": "Schwarzach im Pongau"
+},
+"5630": {
+"lat": 47.17239,
+"lng": 13.1061,
+"place": "Anger"
+},
+"5632": {
+"lat": 47.24862,
+"lng": 13.09758,
+"place": "Bergl"
+},
+"5640": {
+"lat": 47.1155,
+"lng": 13.1347,
+"place": "Bad Gastein"
+},
+"5645": {
+"lat": 47.1155,
+"lng": 13.1347,
+"place": "Bad Gastein"
+},
+"5651": {
+"lat": 47.29882,
+"lng": 13.02826,
+"place": "Berg"
+},
+"5652": {
+"lat": 47.3667,
+"lng": 13.0,
+"place": "Dienten am Hochkönig"
+},
+"5660": {
+"lat": 47.29195,
+"lng": 12.92223,
+"place": "Eschenau"
+},
+"5661": {
+"lat": 47.21438,
+"lng": 12.95561,
+"place": "Bucheben"
+},
+"5662": {
+"lat": 47.28538,
+"lng": 12.86327,
+"place": "Brandenau"
+},
+"5671": {
+"lat": 47.28212,
+"lng": 12.82773,
+"place": "Bruck an der Großglocknerstraße"
+},
+"5672": {
+"lat": 47.21905,
+"lng": 12.83145,
+"place": "Taxenbacher-Fusch"
+},
+"5700": {
+"lat": 47.33106,
+"lng": 12.79907,
+"place": "Atzing"
+},
+"5710": {
+"lat": 47.2724,
+"lng": 12.7598,
+"place": "Kaprun"
+},
+"5721": {
+"lat": 47.28987,
+"lng": 12.7169,
+"place": "Aufhausen"
+},
+"5722": {
+"lat": 47.28473,
+"lng": 12.6413,
+"place": "Aisdorf"
+},
+"5723": {
+"lat": 47.28277,
+"lng": 12.58132,
+"place": "Hofham"
+},
+"5724": {
+"lat": 47.2875,
+"lng": 12.52884,
+"place": "Bam"
+},
+"5730": {
+"lat": 47.28112,
+"lng": 12.46252,
+"place": "Jochberg"
+},
+"5731": {
+"lat": 47.28248,
+"lng": 12.42582,
+"place": "Arndorf"
+},
+"5732": {
+"lat": 47.28332,
+"lng": 12.3778,
+"place": "Bicheln"
+},
+"5733": {
+"lat": 47.2614,
+"lng": 12.33281,
+"place": "Bramberg am Wildkogel"
+},
+"5741": {
+"lat": 47.2381,
+"lng": 12.27712,
+"place": "Hohenbramberg"
+},
+"5742": {
+"lat": 47.24508,
+"lng": 12.19207,
+"place": "Hinterwaldberg"
+},
+"5743": {
+"lat": 47.22893,
+"lng": 12.15893,
+"place": "Hochkrimml"
+},
+"5751": {
+"lat": 47.36917,
+"lng": 12.8,
+"place": "Atzing"
+},
+"5752": {
+"lat": 47.3667,
+"lng": 12.7333,
+"place": "Viehhofen"
+},
+"5753": {
+"lat": 47.3914,
+"lng": 12.6364,
+"place": "Saalbach"
+},
+"5754": {
+"lat": 47.3768,
+"lng": 12.5958,
+"place": "Hinterglemm"
+},
+"5760": {
+"lat": 47.4206,
+"lng": 12.84034,
+"place": "Almdorf"
+},
+"5761": {
+"lat": 47.40461,
+"lng": 12.92776,
+"place": "Aberg"
+},
+"5771": {
+"lat": 47.4427,
+"lng": 12.74207,
+"place": "Berg"
+},
+"6000": {
+"lat": 47.2833,
+"lng": 11.5167,
+"place": "Hall in Tirol"
+},
+"6010": {
+"lat": 47.2627,
+"lng": 11.3945,
+"place": "Innsbruck"
+},
+"6013": {
+"lat": 47.2627,
+"lng": 11.3945,
+"place": "Innsbruck"
+},
+"6019": {
+"lat": 47.2627,
+"lng": 11.3945,
+"place": "Innsbruck"
+},
+"6020": {
+"lat": 47.24765,
+"lng": 11.39777,
+"place": "Amras"
+},
+"6021": {
+"lat": 47.2527,
+"lng": 11.3967,
+"place": "Innsbruck Postfach"
+},
+"6022": {
+"lat": 47.2627,
+"lng": 11.3945,
+"place": "Innsbruck"
+},
+"6023": {
+"lat": 47.2627,
+"lng": 11.3945,
+"place": "Innsbruck"
+},
+"6024": {
+"lat": 47.2627,
+"lng": 11.3945,
+"place": "Innsbruck"
+},
+"6026": {
+"lat": 47.2627,
+"lng": 11.3945,
+"place": "Innsbruck"
+},
+"6028": {
+"lat": 47.2627,
+"lng": 11.3945,
+"place": "Innsbruck"
+},
+"6029": {
+"lat": 47.2627,
+"lng": 11.3945,
+"place": "Innsbruck"
+},
+"6033": {
+"lat": 47.2833,
+"lng": 11.4333,
+"place": "Innsbruck-Arzl"
+},
+"6060": {
+"lat": 47.288,
+"lng": 11.49513,
+"place": "Hall in Tirol"
+},
+"6063": {
+"lat": 47.28905,
+"lng": 11.46265,
+"place": "Rum"
+},
+"6065": {
+"lat": 47.2948,
+"lng": 11.4753,
+"place": "Thaur"
+},
+"6067": {
+"lat": 47.2957,
+"lng": 11.5059,
+"place": "Absam"
+},
+"6068": {
+"lat": 47.2833,
+"lng": 11.5333,
+"place": "Mils"
+},
+"6069": {
+"lat": 47.3167,
+"lng": 11.5667,
+"place": "Gnadenwald"
+},
+"6070": {
+"lat": 47.2625,
+"lng": 11.4623,
+"place": "Ampass"
+},
+"6071": {
+"lat": 47.25,
+"lng": 11.45,
+"place": "Aldrans"
+},
+"6072": {
+"lat": 47.2383,
+"lng": 11.4314,
+"place": "Lans"
+},
+"6073": {
+"lat": 47.24165,
+"lng": 11.45,
+"place": "Aldrans"
+},
+"6074": {
+"lat": 47.25,
+"lng": 11.5,
+"place": "Rinn"
+},
+"6075": {
+"lat": 47.26605,
+"lng": 11.5334,
+"place": "Tulfes"
+},
+"6080": {
+"lat": 47.2323,
+"lng": 11.4051,
+"place": "Igls"
+},
+"6082": {
+"lat": 47.2053,
+"lng": 11.4151,
+"place": "Patsch"
+},
+"6083": {
+"lat": 47.1667,
+"lng": 11.45,
+"place": "Ellbögen"
+},
+"6091": {
+"lat": 47.2351,
+"lng": 11.34245,
+"place": "Götzens"
+},
+"6092": {
+"lat": 47.2354,
+"lng": 11.2992,
+"place": "Birgitz"
+},
+"6094": {
+"lat": 47.22572,
+"lng": 11.28345,
+"place": "Axamer Lizum"
+},
+"6095": {
+"lat": 47.2293,
+"lng": 11.2532,
+"place": "Grinzens"
+},
+"6100": {
+"lat": 47.3284,
+"lng": 11.16388,
+"place": "Leutasch"
+},
+"6103": {
+"lat": 47.3,
+"lng": 11.2,
+"place": "Reith bei Seefeld"
+},
+"6105": {
+"lat": 47.3689,
+"lng": 11.144,
+"place": "Leutasch"
+},
+"6108": {
+"lat": 47.389,
+"lng": 11.2645,
+"place": "Scharnitz"
+},
+"6111": {
+"lat": 47.27777,
+"lng": 11.56113,
+"place": "Großvolderberg"
+},
+"6112": {
+"lat": 47.2942,
+"lng": 11.5907,
+"place": "Wattens"
+},
+"6113": {
+"lat": 47.2833,
+"lng": 11.6,
+"place": "Wattenberg"
+},
+"6114": {
+"lat": 47.3,
+"lng": 11.6333,
+"place": "Kolsass"
+},
+"6115": {
+"lat": 47.2815,
+"lng": 11.6529,
+"place": "Kolsassberg"
+},
+"6116": {
+"lat": 47.3038,
+"lng": 11.645,
+"place": "Weer"
+},
+"6121": {
+"lat": 47.3,
+"lng": 11.5667,
+"place": "Baumkirchen"
+},
+"6122": {
+"lat": 47.3053,
+"lng": 11.5895,
+"place": "Fritzens"
+},
+"6123": {
+"lat": 47.32553,
+"lng": 11.63337,
+"place": "Eggen"
+},
+"6130": {
+"lat": 47.3517,
+"lng": 11.7101,
+"place": "Schwaz"
+},
+"6133": {
+"lat": 47.2984,
+"lng": 11.6659,
+"place": "Weerberg"
+},
+"6134": {
+"lat": 47.34165,
+"lng": 11.67918,
+"place": "Fiecht"
+},
+"6135": {
+"lat": 47.36465,
+"lng": 11.71365,
+"place": "Schlagturn"
+},
+"6136": {
+"lat": 47.3235,
+"lng": 11.6802,
+"place": "Pill"
+},
+"6138": {
+"lat": 47.3333,
+"lng": 11.6833,
+"place": "Vomp"
+},
+"6141": {
+"lat": 47.1833,
+"lng": 11.4167,
+"place": "Schönberg im Stubaital"
+},
+"6142": {
+"lat": 47.1667,
+"lng": 11.3833,
+"place": "Mieders"
+},
+"6143": {
+"lat": 47.13383,
+"lng": 11.45014,
+"place": "Altstadt"
+},
+"6145": {
+"lat": 47.1333,
+"lng": 11.50557,
+"place": "Außerweg"
+},
+"6150": {
+"lat": 47.08245,
+"lng": 11.43905,
+"place": "Gschnitz"
+},
+"6151": {
+"lat": 47.0447,
+"lng": 11.3509,
+"place": "Gschnitz"
+},
+"6152": {
+"lat": 47.0833,
+"lng": 11.4167,
+"place": "Trins"
+},
+"6154": {
+"lat": 47.07057,
+"lng": 11.5498,
+"place": "Außerschmirn"
+},
+"6156": {
+"lat": 47.0385,
+"lng": 11.4813,
+"place": "Gries am Brenner"
+},
+"6157": {
+"lat": 47.0167,
+"lng": 11.4167,
+"place": "Obernberg am Brenner"
+},
+"6161": {
+"lat": 47.2341,
+"lng": 11.3734,
+"place": "Natters"
+},
+"6162": {
+"lat": 47.21667,
+"lng": 11.3833,
+"place": "Kreith"
+},
+"6165": {
+"lat": 47.16647,
+"lng": 11.3594,
+"place": "Gagers"
+},
+"6166": {
+"lat": 47.1473,
+"lng": 11.34605,
+"place": "Fulpmes"
+},
+"6167": {
+"lat": 47.12965,
+"lng": 11.3298,
+"place": "Medraz"
+},
+"6170": {
+"lat": 47.28305,
+"lng": 11.1996,
+"place": "Pettnau"
+},
+"6173": {
+"lat": 47.2445,
+"lng": 11.2476,
+"place": "Oberperfuss"
+},
+"6175": {
+"lat": 47.25,
+"lng": 11.28335,
+"place": "Afling"
+},
+"6176": {
+"lat": 47.25,
+"lng": 11.31665,
+"place": "Afling"
+},
+"6178": {
+"lat": 47.2667,
+"lng": 11.25,
+"place": "Unterperfuss"
+},
+"6179": {
+"lat": 47.2573,
+"lng": 11.2112,
+"place": "Ranggen"
+},
+"6181": {
+"lat": 47.2167,
+"lng": 11.2167,
+"place": "Sellrain"
+},
+"6182": {
+"lat": 47.23575,
+"lng": 11.0697,
+"place": "Gries im Sellrain"
+},
+"6183": {
+"lat": 47.2135,
+"lng": 11.0231,
+"place": "Kühtai"
+},
+"6184": {
+"lat": 47.2254,
+"lng": 11.0948,
+"place": "St. Sigmund im Sellrain"
+},
+"6200": {
+"lat": 47.3928,
+"lng": 11.7764,
+"place": "Fischl"
+},
+"6210": {
+"lat": 47.40531,
+"lng": 11.79746,
+"place": "Astenberg"
+},
+"6212": {
+"lat": 47.4212,
+"lng": 11.7531,
+"place": "Maurach"
+},
+"6213": {
+"lat": 47.4406,
+"lng": 11.6923,
+"place": "Pertisau"
+},
+"6215": {
+"lat": 47.50348,
+"lng": 11.60586,
+"place": "Hinterriß"
+},
+"6220": {
+"lat": 47.3745,
+"lng": 11.754,
+"place": "Buch"
+},
+"6222": {
+"lat": 47.3681,
+"lng": 11.7716,
+"place": "Gallzein"
+},
+"6230": {
+"lat": 47.42703,
+"lng": 11.8878,
+"place": "Brixlegg"
+},
+"6232": {
+"lat": 47.4216,
+"lng": 11.8336,
+"place": "Münster"
+},
+"6233": {
+"lat": 47.4463,
+"lng": 11.87775,
+"place": "Mariatal"
+},
+"6234": {
+"lat": 47.5036,
+"lng": 11.88895,
+"place": "Aschau"
+},
+"6235": {
+"lat": 47.41113,
+"lng": 11.88903,
+"place": "Hygna"
+},
+"6236": {
+"lat": 47.4006,
+"lng": 11.9168,
+"place": "Alpbach"
+},
+"6240": {
+"lat": 47.4394,
+"lng": 11.8941,
+"place": "Rattenberg"
+},
+"6241": {
+"lat": 47.4481,
+"lng": 11.9142,
+"place": "Radfeld"
+},
+"6250": {
+"lat": 47.4632,
+"lng": 11.98363,
+"place": "Kundl"
+},
+"6252": {
+"lat": 47.49055,
+"lng": 11.9772,
+"place": "Breitenbach am Inn"
+},
+"6260": {
+"lat": 47.3924,
+"lng": 11.86485,
+"place": "Bruck am Ziller"
+},
+"6261": {
+"lat": 47.38805,
+"lng": 11.8293,
+"place": "Schlitters"
+},
+"6262": {
+"lat": 47.3805,
+"lng": 11.8389,
+"place": "Schlitters"
+},
+"6263": {
+"lat": 47.35216,
+"lng": 11.84766,
+"place": "Fügen"
+},
+"6264": {
+"lat": 47.3344,
+"lng": 11.8292,
+"place": "Fügenberg"
+},
+"6265": {
+"lat": 47.35037,
+"lng": 11.86607,
+"place": "Hart im Zillertal"
+},
+"6271": {
+"lat": 47.31947,
+"lng": 11.85913,
+"place": "Finsing"
+},
+"6272": {
+"lat": 47.2833,
+"lng": 11.875,
+"place": "Emberg"
+},
+"6273": {
+"lat": 47.3,
+"lng": 11.8667,
+"place": "Ried im Zillertal"
+},
+"6274": {
+"lat": 47.2656,
+"lng": 11.9068,
+"place": "Aschau"
+},
+"6275": {
+"lat": 47.2905,
+"lng": 11.8875,
+"place": "Stumm"
+},
+"6276": {
+"lat": 47.28745,
+"lng": 11.9344,
+"place": "Gattererberg"
+},
+"6277": {
+"lat": 47.2333,
+"lng": 11.86665,
+"place": "Zellberg"
+},
+"6278": {
+"lat": 47.2179,
+"lng": 11.9003,
+"place": "Hainzenberg"
+},
+"6280": {
+"lat": 47.2289,
+"lng": 11.91157,
+"place": "Gerlosberg"
+},
+"6281": {
+"lat": 47.2246,
+"lng": 12.0301,
+"place": "Gerlos"
+},
+"6283": {
+"lat": 47.21268,
+"lng": 11.86492,
+"place": "Hippach-Schwendberg"
+},
+"6284": {
+"lat": 47.2038,
+"lng": 11.8754,
+"place": "Ramsau im Zillertal"
+},
+"6290": {
+"lat": 47.17092,
+"lng": 11.86195,
+"place": "Brandberg"
+},
+"6292": {
+"lat": 47.17515,
+"lng": 11.84055,
+"place": "Finkenberg"
+},
+"6293": {
+"lat": 47.1542,
+"lng": 11.7754,
+"place": "Finkenberg"
+},
+"6294": {
+"lat": 47.1556,
+"lng": 11.7287,
+"place": "Tux"
+},
+"6295": {
+"lat": 47.11135,
+"lng": 11.80855,
+"place": "Dornauberg"
+},
+"6300": {
+"lat": 47.4891,
+"lng": 12.0617,
+"place": "Wörgl"
+},
+"6305": {
+"lat": 47.4701,
+"lng": 12.1439,
+"place": "Itter"
+},
+"6306": {
+"lat": 47.5038,
+"lng": 12.1922,
+"place": "Söll"
+},
+"6311": {
+"lat": 47.42003,
+"lng": 12.02183,
+"place": "Auffach"
+},
+"6313": {
+"lat": 47.4217,
+"lng": 12.0411,
+"place": "Auffach"
+},
+"6314": {
+"lat": 47.44995,
+"lng": 12.0953,
+"place": "Grafenweg"
+},
+"6320": {
+"lat": 47.50757,
+"lng": 12.03563,
+"place": "Achleit"
+},
+"6321": {
+"lat": 47.5076,
+"lng": 12.0651,
+"place": "Angath"
+},
+"6322": {
+"lat": 47.5174,
+"lng": 12.0963,
+"place": "Kirchbichl"
+},
+"6323": {
+"lat": 47.5107,
+"lng": 12.1191,
+"place": "Bad Häring"
+},
+"6324": {
+"lat": 47.5277,
+"lng": 12.0548,
+"place": "Mariastein"
+},
+"6330": {
+"lat": 47.57705,
+"lng": 12.17553,
+"place": "Eichelwang"
+},
+"6332": {
+"lat": 47.5833,
+"lng": 12.1667,
+"place": "Kufstein"
+},
+"6334": {
+"lat": 47.546,
+"lng": 12.1405,
+"place": "Schwoich"
+},
+"6335": {
+"lat": 47.58715,
+"lng": 12.06032,
+"place": "Almen"
+},
+"6336": {
+"lat": 47.54237,
+"lng": 12.1032,
+"place": "Morsbach"
+},
+"6341": {
+"lat": 47.63111,
+"lng": 12.23082,
+"place": "Asching"
+},
+"6342": {
+"lat": 47.65,
+"lng": 12.2167,
+"place": "Niederndorf"
+},
+"6343": {
+"lat": 47.67777,
+"lng": 12.19443,
+"place": "Erl"
+},
+"6344": {
+"lat": 47.64473,
+"lng": 12.30297,
+"place": "Durchholzen"
+},
+"6345": {
+"lat": 47.6699,
+"lng": 12.4055,
+"place": "Kössen"
+},
+"6346": {
+"lat": 47.6643,
+"lng": 12.2368,
+"place": "Eiberg"
+},
+"6347": {
+"lat": 47.6572,
+"lng": 12.2687,
+"place": "Rettenschöss"
+},
+"6351": {
+"lat": 47.5166,
+"lng": 12.2218,
+"place": "Scheffau am Wilden Kaiser"
+},
+"6352": {
+"lat": 47.5138,
+"lng": 12.2994,
+"place": "Ellmau"
+},
+"6353": {
+"lat": 47.49464,
+"lng": 12.35002,
+"place": "Going am Wilden Kaiser"
+},
+"6361": {
+"lat": 47.4256,
+"lng": 12.14073,
+"place": "Glantersberg"
+},
+"6362": {
+"lat": 47.3833,
+"lng": 12.1333,
+"place": "Kelchsau"
+},
+"6363": {
+"lat": 47.4321,
+"lng": 12.2141,
+"place": "Westendorf"
+},
+"6364": {
+"lat": 47.45,
+"lng": 12.25,
+"place": "Brixen im Thale"
+},
+"6365": {
+"lat": 47.45605,
+"lng": 12.333,
+"place": "Kirchberg in Tirol"
+},
+"6370": {
+"lat": 47.45655,
+"lng": 12.37105,
+"place": "Kitzbühel"
+},
+"6371": {
+"lat": 47.4122,
+"lng": 12.4273,
+"place": "Aurach bei Kitzbühel"
+},
+"6372": {
+"lat": 47.5,
+"lng": 12.3833,
+"place": "Oberndorf in Tirol"
+},
+"6373": {
+"lat": 47.3792,
+"lng": 12.4181,
+"place": "Jochberg"
+},
+"6380": {
+"lat": 47.5233,
+"lng": 12.4232,
+"place": "St. Johann in Tirol"
+},
+"6382": {
+"lat": 47.5698,
+"lng": 12.4559,
+"place": "Erpfendorf"
+},
+"6383": {
+"lat": 47.5698,
+"lng": 12.4559,
+"place": "Erpfendorf"
+},
+"6384": {
+"lat": 47.5833,
+"lng": 12.5667,
+"place": "Waidring"
+},
+"6385": {
+"lat": 47.6318,
+"lng": 12.3927,
+"place": "Schwendt"
+},
+"6391": {
+"lat": 47.4763,
+"lng": 12.5435,
+"place": "Fieberbrunn"
+},
+"6392": {
+"lat": 47.4996,
+"lng": 12.5546,
+"place": "St. Jakob in Haus"
+},
+"6393": {
+"lat": 47.5255,
+"lng": 12.5979,
+"place": "St. Ulrich am Pillersee"
+},
+"6395": {
+"lat": 47.4667,
+"lng": 12.6167,
+"place": "Hochfilzen"
+},
+"6401": {
+"lat": 47.26782,
+"lng": 11.1959,
+"place": "Eben"
+},
+"6402": {
+"lat": 47.2736,
+"lng": 11.16095,
+"place": "Hatting"
+},
+"6403": {
+"lat": 47.2914,
+"lng": 11.1232,
+"place": "Flaurling"
+},
+"6404": {
+"lat": 47.27835,
+"lng": 11.145,
+"place": "Polling in Tirol"
+},
+"6405": {
+"lat": 47.3,
+"lng": 11.0833,
+"place": "Pfaffenhofen"
+},
+"6406": {
+"lat": 47.2982,
+"lng": 11.0861,
+"place": "Oberhofen im Inntal"
+},
+"6408": {
+"lat": 47.292,
+"lng": 11.1596,
+"place": "Pettnau"
+},
+"6410": {
+"lat": 47.31838,
+"lng": 11.09205,
+"place": "Bairbach"
+},
+"6412": {
+"lat": 47.3149,
+"lng": 11.0512,
+"place": "Telfs-St. Georgen"
+},
+"6413": {
+"lat": 47.3167,
+"lng": 11.0167,
+"place": "Wildermieming"
+},
+"6414": {
+"lat": 47.30208,
+"lng": 10.97185,
+"place": "Barwies"
+},
+"6416": {
+"lat": 47.3,
+"lng": 10.9333,
+"place": "Obsteig"
+},
+"6421": {
+"lat": 47.2859,
+"lng": 11.0307,
+"place": "Rietz"
+},
+"6422": {
+"lat": 47.276,
+"lng": 10.9832,
+"place": "Stams"
+},
+"6423": {
+"lat": 47.2833,
+"lng": 10.95,
+"place": "Mötz"
+},
+"6424": {
+"lat": 47.2667,
+"lng": 10.9333,
+"place": "Silz"
+},
+"6425": {
+"lat": 47.2441,
+"lng": 10.8792,
+"place": "Haiming"
+},
+"6426": {
+"lat": 47.2167,
+"lng": 10.8167,
+"place": "Roppen"
+},
+"6430": {
+"lat": 47.24165,
+"lng": 10.86665,
+"place": "Haiming"
+},
+"6432": {
+"lat": 47.2077,
+"lng": 10.8645,
+"place": "Sautens"
+},
+"6433": {
+"lat": 47.21667,
+"lng": 10.90557,
+"place": "Brunau"
+},
+"6441": {
+"lat": 47.1464,
+"lng": 10.92695,
+"place": "Farst"
+},
+"6444": {
+"lat": 47.074,
+"lng": 10.9695,
+"place": "Längenfeld"
+},
+"6450": {
+"lat": 46.92303,
+"lng": 11.00948,
+"place": "Gurgl"
+},
+"6452": {
+"lat": 46.9667,
+"lng": 11.0,
+"place": "Sölden"
+},
+"6456": {
+"lat": 46.92215,
+"lng": 11.0172,
+"place": "Gurgl"
+},
+"6458": {
+"lat": 46.9167,
+"lng": 10.96665,
+"place": "Sölden"
+},
+"6460": {
+"lat": 47.245,
+"lng": 10.7397,
+"place": "Imst"
+},
+"6462": {
+"lat": 47.2167,
+"lng": 10.7833,
+"place": "Karres"
+},
+"6463": {
+"lat": 47.2254,
+"lng": 10.7656,
+"place": "Karrösten"
+},
+"6464": {
+"lat": 47.27416,
+"lng": 10.77888,
+"place": "Dollinger"
+},
+"6465": {
+"lat": 47.3167,
+"lng": 10.8333,
+"place": "Nassereith"
+},
+"6471": {
+"lat": 47.19089,
+"lng": 10.75039,
+"place": "Arzl im Pitztal"
+},
+"6473": {
+"lat": 47.14487,
+"lng": 10.69897,
+"place": "Fließ"
+},
+"6474": {
+"lat": 47.1512,
+"lng": 10.7469,
+"place": "Jerzens"
+},
+"6481": {
+"lat": 47.05173,
+"lng": 10.834,
+"place": "Plangeross"
+},
+"6491": {
+"lat": 47.1967,
+"lng": 10.6574,
+"place": "Schönwies"
+},
+"6492": {
+"lat": 47.2052,
+"lng": 10.696,
+"place": "Imsterberg"
+},
+"6493": {
+"lat": 47.2062,
+"lng": 10.6748,
+"place": "Mils bei Imst"
+},
+"6500": {
+"lat": 47.13612,
+"lng": 10.56252,
+"place": "Fließ"
+},
+"6511": {
+"lat": 47.16505,
+"lng": 10.6079,
+"place": "Zammerberg"
+},
+"6521": {
+"lat": 47.1167,
+"lng": 10.6167,
+"place": "Fließ"
+},
+"6522": {
+"lat": 47.0833,
+"lng": 10.6667,
+"place": "Prutz"
+},
+"6524": {
+"lat": 47.0307,
+"lng": 10.7459,
+"place": "Kaunertal"
+},
+"6525": {
+"lat": 47.0788,
+"lng": 10.6715,
+"place": "Faggen"
+},
+"6526": {
+"lat": 47.0782,
+"lng": 10.6922,
+"place": "Kauns"
+},
+"6527": {
+"lat": 47.0834,
+"lng": 10.704,
+"place": "Kaunerberg"
+},
+"6528": {
+"lat": 47.0539,
+"lng": 10.6778,
+"place": "Fendels"
+},
+"6531": {
+"lat": 47.05,
+"lng": 10.65,
+"place": "Ried im Oberinntal"
+},
+"6532": {
+"lat": 47.0746,
+"lng": 10.6495,
+"place": "Ladis"
+},
+"6533": {
+"lat": 47.0571,
+"lng": 10.6175,
+"place": "Fiss"
+},
+"6534": {
+"lat": 47.0402,
+"lng": 10.6034,
+"place": "Serfaus"
+},
+"6541": {
+"lat": 47.02915,
+"lng": 10.6051,
+"place": "Serfaus"
+},
+"6542": {
+"lat": 46.96517,
+"lng": 10.55157,
+"place": "Nauders"
+},
+"6543": {
+"lat": 46.8886,
+"lng": 10.5013,
+"place": "Nauders"
+},
+"6544": {
+"lat": 46.9817,
+"lng": 10.4399,
+"place": "Spiss"
+},
+"6551": {
+"lat": 47.1341,
+"lng": 10.5062,
+"place": "Pians"
+},
+"6552": {
+"lat": 47.1251,
+"lng": 10.514,
+"place": "Tobadill"
+},
+"6553": {
+"lat": 47.0833,
+"lng": 10.45557,
+"place": "See"
+},
+"6555": {
+"lat": 47.07777,
+"lng": 10.4389,
+"place": "See"
+},
+"6561": {
+"lat": 47.0126,
+"lng": 10.2918,
+"place": "Ischgl"
+},
+"6562": {
+"lat": 46.9833,
+"lng": 10.25,
+"place": "Mathon"
+},
+"6563": {
+"lat": 46.9667,
+"lng": 10.1833,
+"place": "Galtür"
+},
+"6571": {
+"lat": 47.1259,
+"lng": 10.462,
+"place": "Strengen"
+},
+"6572": {
+"lat": 47.15,
+"lng": 10.4,
+"place": "Flirsch"
+},
+"6574": {
+"lat": 47.14795,
+"lng": 10.3599,
+"place": "Pettneu am Arlberg"
+},
+"6580": {
+"lat": 47.13435,
+"lng": 10.2779,
+"place": "St. Anton am Arlberg"
+},
+"6591": {
+"lat": 47.1368,
+"lng": 10.50705,
+"place": "Grins"
+},
+"6600": {
+"lat": 47.50811,
+"lng": 10.7025,
+"place": "Breitenwang"
+},
+"6604": {
+"lat": 47.4667,
+"lng": 10.6833,
+"place": "Höfen"
+},
+"6610": {
+"lat": 47.4881,
+"lng": 10.6878,
+"place": "Hinterbichl"
+},
+"6611": {
+"lat": 47.45,
+"lng": 10.75,
+"place": "Heiterwang"
+},
+"6621": {
+"lat": 47.41118,
+"lng": 10.80248,
+"place": "Bichlbach"
+},
+"6622": {
+"lat": 47.39965,
+"lng": 10.7378,
+"place": "Berwang"
+},
+"6623": {
+"lat": 47.35835,
+"lng": 10.675,
+"place": "Kelmen"
+},
+"6631": {
+"lat": 47.41233,
+"lng": 10.86023,
+"place": "Lermoos"
+},
+"6632": {
+"lat": 47.4,
+"lng": 10.9167,
+"place": "Ehrwald"
+},
+"6633": {
+"lat": 47.3833,
+"lng": 10.9,
+"place": "Biberwier"
+},
+"6642": {
+"lat": 47.3833,
+"lng": 10.5667,
+"place": "Stanzach"
+},
+"6644": {
+"lat": 47.34123,
+"lng": 10.5366,
+"place": "Elmen"
+},
+"6645": {
+"lat": 47.3701,
+"lng": 10.5395,
+"place": "Vorderhornbach"
+},
+"6646": {
+"lat": 47.3593,
+"lng": 10.4609,
+"place": "Hinterhornbach"
+},
+"6647": {
+"lat": 47.2963,
+"lng": 10.5956,
+"place": "Boden"
+},
+"6650": {
+"lat": 47.2667,
+"lng": 10.5333,
+"place": "Gramais"
+},
+"6651": {
+"lat": 47.3067,
+"lng": 10.48195,
+"place": "Grießau"
+},
+"6652": {
+"lat": 47.28142,
+"lng": 10.42724,
+"place": "Elbigenalp"
+},
+"6653": {
+"lat": 47.26653,
+"lng": 10.39585,
+"place": "Bach"
+},
+"6654": {
+"lat": 47.26355,
+"lng": 10.3471,
+"place": "Holzgau"
+},
+"6655": {
+"lat": 47.26912,
+"lng": 10.35006,
+"place": "Dickenau"
+},
+"6670": {
+"lat": 47.4167,
+"lng": 10.5833,
+"place": "Forchach"
+},
+"6671": {
+"lat": 47.44185,
+"lng": 10.65255,
+"place": "Rieden"
+},
+"6672": {
+"lat": 47.4776,
+"lng": 10.60898,
+"place": "Gaicht"
+},
+"6673": {
+"lat": 47.50835,
+"lng": 10.55,
+"place": "Enge"
+},
+"6675": {
+"lat": 47.4993,
+"lng": 10.5164,
+"place": "Tannheim"
+},
+"6677": {
+"lat": 47.51844,
+"lng": 10.4631,
+"place": "Fricken"
+},
+"6682": {
+"lat": 47.55,
+"lng": 10.6333,
+"place": "Vils"
+},
+"6691": {
+"lat": 47.5741,
+"lng": 10.4472,
+"place": "Jungholz"
+},
+"6700": {
+"lat": 47.14277,
+"lng": 9.84287,
+"place": "Bludenz"
+},
+"6701": {
+"lat": 47.1375,
+"lng": 9.8072,
+"place": "Bludenz Postfach"
+},
+"6706": {
+"lat": 47.1497,
+"lng": 9.8,
+"place": "Bürs"
+},
+"6707": {
+"lat": 47.1464,
+"lng": 9.7774,
+"place": "Bürserberg"
+},
+"6708": {
+"lat": 47.1008,
+"lng": 9.7372,
+"place": "Brand"
+},
+"6710": {
+"lat": 47.16375,
+"lng": 9.67473,
+"place": "Beschling"
+},
+"6712": {
+"lat": 47.2,
+"lng": 9.7667,
+"place": "Thüringen"
+},
+"6713": {
+"lat": 47.2003,
+"lng": 9.7947,
+"place": "Ludesch"
+},
+"6714": {
+"lat": 47.1667,
+"lng": 9.8,
+"place": "Nüziders"
+},
+"6719": {
+"lat": 47.2,
+"lng": 9.7331,
+"place": "Bludesch"
+},
+"6721": {
+"lat": 47.2144,
+"lng": 9.785,
+"place": "Thüringerberg"
+},
+"6722": {
+"lat": 47.2211,
+"lng": 9.8164,
+"place": "St. Gerold"
+},
+"6723": {
+"lat": 47.2233,
+"lng": 9.8341,
+"place": "Blons"
+},
+"6731": {
+"lat": 47.23582,
+"lng": 9.90242,
+"place": "Bickelwald"
+},
+"6733": {
+"lat": 47.25381,
+"lng": 9.90751,
+"place": "Faschina"
+},
+"6741": {
+"lat": 47.21218,
+"lng": 9.85337,
+"place": "Litze"
+},
+"6751": {
+"lat": 47.1494,
+"lng": 9.9087,
+"place": "Ausserbraz"
+},
+"6752": {
+"lat": 47.1289,
+"lng": 10.01215,
+"place": "Dalaas"
+},
+"6754": {
+"lat": 47.1333,
+"lng": 10.0833,
+"place": "Klösterle"
+},
+"6762": {
+"lat": 47.1333,
+"lng": 10.1667,
+"place": "Stuben"
+},
+"6763": {
+"lat": 47.208,
+"lng": 10.1418,
+"place": "Lech"
+},
+"6764": {
+"lat": 47.16625,
+"lng": 10.0664,
+"place": "Dalaas"
+},
+"6767": {
+"lat": 47.26173,
+"lng": 10.17317,
+"place": "Hochkrumbach"
+},
+"6771": {
+"lat": 47.118,
+"lng": 9.8723,
+"place": "St. Anton im Montafon"
+},
+"6773": {
+"lat": 47.0957,
+"lng": 9.8652,
+"place": "Vandans"
+},
+"6774": {
+"lat": 47.0739,
+"lng": 9.9027,
+"place": "Tschagguns"
+},
+"6780": {
+"lat": 47.0803,
+"lng": 9.9192,
+"place": "Schruns"
+},
+"6781": {
+"lat": 47.0919,
+"lng": 9.9138,
+"place": "Bartholomäberg"
+},
+"6782": {
+"lat": 47.0937,
+"lng": 9.9831,
+"place": "Silbertal"
+},
+"6787": {
+"lat": 46.9674,
+"lng": 9.9183,
+"place": "Gargellen"
+},
+"6791": {
+"lat": 47.01595,
+"lng": 9.98605,
+"place": "Gortipohl"
+},
+"6793": {
+"lat": 46.9858,
+"lng": 10.027,
+"place": "Gaschurn"
+},
+"6794": {
+"lat": 46.9667,
+"lng": 10.05,
+"place": "Partenen"
+},
+"6800": {
+"lat": 47.2331,
+"lng": 9.6,
+"place": "Feldkirch"
+},
+"6801": {
+"lat": 47.2417,
+"lng": 9.5989,
+"place": "Feldkirch Postfach"
+},
+"6803": {
+"lat": 47.2331,
+"lng": 9.6,
+"place": "Feldkirch"
+},
+"6805": {
+"lat": 47.2589,
+"lng": 9.5966,
+"place": "Feldkirch-Gisingen"
+},
+"6808": {
+"lat": 47.2417,
+"lng": 9.5989,
+"place": "Feldkirch-Nofels"
+},
+"6811": {
+"lat": 47.2336,
+"lng": 9.6346,
+"place": "Göfis"
+},
+"6812": {
+"lat": 47.2989,
+"lng": 9.5786,
+"place": "Meiningen"
+},
+"6820": {
+"lat": 47.2057,
+"lng": 9.63823,
+"place": "Frastanz"
+},
+"6822": {
+"lat": 47.22108,
+"lng": 9.71307,
+"place": "Düns"
+},
+"6824": {
+"lat": 47.20835,
+"lng": 9.7,
+"place": "Röns"
+},
+"6830": {
+"lat": 47.2689,
+"lng": 9.67155,
+"place": "Laterns"
+},
+"6832": {
+"lat": 47.29025,
+"lng": 9.6533,
+"place": "Röthis"
+},
+"6833": {
+"lat": 47.31205,
+"lng": 9.66035,
+"place": "Fraxern"
+},
+"6834": {
+"lat": 47.23475,
+"lng": 9.66875,
+"place": "Satteins"
+},
+"6835": {
+"lat": 47.28437,
+"lng": 9.67365,
+"place": "Batschuns"
+},
+"6836": {
+"lat": 47.3009,
+"lng": 9.6748,
+"place": "Viktorsberg"
+},
+"6837": {
+"lat": 47.2997,
+"lng": 9.65,
+"place": "Weiler"
+},
+"6840": {
+"lat": 47.3331,
+"lng": 9.6331,
+"place": "Götzis"
+},
+"6841": {
+"lat": 47.35,
+"lng": 9.6167,
+"place": "Mäder"
+},
+"6842": {
+"lat": 47.3331,
+"lng": 9.6,
+"place": "Koblach"
+},
+"6844": {
+"lat": 47.3544,
+"lng": 9.6521,
+"place": "Altach"
+},
+"6845": {
+"lat": 47.3612,
+"lng": 9.6869,
+"place": "Hohenems"
+},
+"6850": {
+"lat": 47.4142,
+"lng": 9.79675,
+"place": "Dornbirn"
+},
+"6851": {
+"lat": 47.4291,
+"lng": 9.769,
+"place": "Dornbirn Postfach"
+},
+"6854": {
+"lat": 47.4291,
+"lng": 9.769,
+"place": "Dornbirn-Messepark"
+},
+"6855": {
+"lat": 47.4143,
+"lng": 9.742,
+"place": "Dornbirn"
+},
+"6857": {
+"lat": 47.4331,
+"lng": 9.75,
+"place": "Dornbirn-Haselstauden"
+},
+"6858": {
+"lat": 47.45475,
+"lng": 9.7765,
+"place": "Bildstein"
+},
+"6861": {
+"lat": 47.4502,
+"lng": 9.8315,
+"place": "Alberschwende"
+},
+"6863": {
+"lat": 47.43255,
+"lng": 9.90645,
+"place": "Egg"
+},
+"6866": {
+"lat": 47.4117,
+"lng": 9.8933,
+"place": "Andelsbuch"
+},
+"6867": {
+"lat": 47.4141,
+"lng": 9.8515,
+"place": "Schwarzenberg"
+},
+"6870": {
+"lat": 47.37795,
+"lng": 9.8981,
+"place": "Bezau"
+},
+"6874": {
+"lat": 47.37695,
+"lng": 9.9149,
+"place": "Bezau"
+},
+"6881": {
+"lat": 47.3504,
+"lng": 9.8992,
+"place": "Hirschau"
+},
+"6882": {
+"lat": 47.3513,
+"lng": 9.93105,
+"place": "Hirschau"
+},
+"6883": {
+"lat": 47.322,
+"lng": 9.9891,
+"place": "Au"
+},
+"6884": {
+"lat": 47.2803,
+"lng": 9.8916,
+"place": "Damüls"
+},
+"6886": {
+"lat": 47.312,
+"lng": 10.0165,
+"place": "Schoppernau"
+},
+"6888": {
+"lat": 47.2576,
+"lng": 10.092,
+"place": "Schröcken"
+},
+"6890": {
+"lat": 47.4264,
+"lng": 9.6585,
+"place": "Lustenau"
+},
+"6900": {
+"lat": 47.52577,
+"lng": 9.77013,
+"place": "Bregenz"
+},
+"6901": {
+"lat": 47.5212,
+"lng": 9.7655,
+"place": "Bregenz Postfach"
+},
+"6904": {
+"lat": 47.5031,
+"lng": 9.7471,
+"place": "Bregenz"
+},
+"6911": {
+"lat": 47.52323,
+"lng": 9.76013,
+"place": "Bregenz"
+},
+"6912": {
+"lat": 47.55835,
+"lng": 9.78335,
+"place": "Hörbranz"
+},
+"6914": {
+"lat": 47.5845,
+"lng": 9.7795,
+"place": "Hohenweiler"
+},
+"6921": {
+"lat": 47.4831,
+"lng": 9.7667,
+"place": "Kennelbach"
+},
+"6922": {
+"lat": 47.4667,
+"lng": 9.75,
+"place": "Wolfurt"
+},
+"6923": {
+"lat": 47.4757,
+"lng": 9.7294,
+"place": "Lauterach"
+},
+"6932": {
+"lat": 47.5165,
+"lng": 9.8338,
+"place": "Langen bei Bregenz"
+},
+"6933": {
+"lat": 47.4928,
+"lng": 9.8797,
+"place": "Doren"
+},
+"6934": {
+"lat": 47.52755,
+"lng": 9.8984,
+"place": "Sulzberg"
+},
+"6941": {
+"lat": 47.4692,
+"lng": 9.8974,
+"place": "Langenegg"
+},
+"6942": {
+"lat": 47.47045,
+"lng": 9.9477,
+"place": "Hittisau"
+},
+"6943": {
+"lat": 47.5014,
+"lng": 9.9584,
+"place": "Riefensberg"
+},
+"6951": {
+"lat": 47.4503,
+"lng": 9.9217,
+"place": "Lingenau"
+},
+"6952": {
+"lat": 47.44953,
+"lng": 9.9887,
+"place": "Bolgenach"
+},
+"6953": {
+"lat": 47.4267,
+"lng": 10.0381,
+"place": "Sibratsgfäll"
+},
+"6960": {
+"lat": 47.4857,
+"lng": 9.8212,
+"place": "Buch"
+},
+"6961": {
+"lat": 47.4857,
+"lng": 9.8212,
+"place": "Wolfurt-Bahnhof Postfach"
+},
+"6971": {
+"lat": 47.4831,
+"lng": 9.6831,
+"place": "Hard"
+},
+"6972": {
+"lat": 47.4793,
+"lng": 9.6628,
+"place": "Fußach"
+},
+"6973": {
+"lat": 47.4693,
+"lng": 9.65165,
+"place": "Fußach"
+},
+"6974": {
+"lat": 47.4667,
+"lng": 9.6,
+"place": "Gaißau"
+},
+"6991": {
+"lat": 47.3578,
+"lng": 10.1876,
+"place": "Riezlern"
+},
+"6992": {
+"lat": 47.3481,
+"lng": 10.1714,
+"place": "Hirschegg"
+},
+"6993": {
+"lat": 47.3513,
+"lng": 10.172,
+"place": "Mittelberg"
+},
+"7000": {
+"lat": 47.84573,
+"lng": 16.5258,
+"place": "Eisenstadt"
+},
+"7001": {
+"lat": 47.8457,
+"lng": 16.5252,
+"place": "Eisenstadt Postfach"
+},
+"7002": {
+"lat": 47.8457,
+"lng": 16.5233,
+"place": "Eisenstadt"
+},
+"7011": {
+"lat": 47.781,
+"lng": 16.5423,
+"place": "Siegendorf / Cindrof"
+},
+"7012": {
+"lat": 47.7647,
+"lng": 16.5138,
+"place": "Zagersdorf / Cogrštof"
+},
+"7013": {
+"lat": 47.7569,
+"lng": 16.5508,
+"place": "Klingenbach / Klimpuh"
+},
+"7020": {
+"lat": 47.6966,
+"lng": 16.4792,
+"place": "Loipersbach im Burgenland"
+},
+"7021": {
+"lat": 47.7427,
+"lng": 16.4937,
+"place": "Baumgarten / Pajngrt"
+},
+"7022": {
+"lat": 47.7097,
+"lng": 16.5098,
+"place": "Schattendorf"
+},
+"7023": {
+"lat": 47.76147,
+"lng": 16.45027,
+"place": "Pöttelsdorf"
+},
+"7024": {
+"lat": 47.7865,
+"lng": 16.4546,
+"place": "Hirm"
+},
+"7025": {
+"lat": 47.7537,
+"lng": 16.4386,
+"place": "Pöttelsdorf"
+},
+"7031": {
+"lat": 47.7855,
+"lng": 16.4149,
+"place": "Krensdorf"
+},
+"7032": {
+"lat": 47.7753,
+"lng": 16.395,
+"place": "Sigleß"
+},
+"7033": {
+"lat": 47.80945,
+"lng": 16.3902,
+"place": "Pöttsching"
+},
+"7034": {
+"lat": 47.8144,
+"lng": 16.4093,
+"place": "Zillingtal / Celindof"
+},
+"7035": {
+"lat": 47.82385,
+"lng": 16.413,
+"place": "Steinbrunn / Štikapron"
+},
+"7041": {
+"lat": 47.7975,
+"lng": 16.5045,
+"place": "Wulkaprodersdorf / Vulkaprodrštof"
+},
+"7042": {
+"lat": 47.7738,
+"lng": 16.4798,
+"place": "Antau / Otava"
+},
+"7051": {
+"lat": 47.8359,
+"lng": 16.4804,
+"place": "Großhöflein"
+},
+"7052": {
+"lat": 47.8394,
+"lng": 16.4626,
+"place": "Müllendorf"
+},
+"7053": {
+"lat": 47.8805,
+"lng": 16.4445,
+"place": "Hornstein / Vorištan"
+},
+"7061": {
+"lat": 47.8156,
+"lng": 16.5662,
+"place": "Trausdorf an der Wulka / Trajštof"
+},
+"7062": {
+"lat": 47.8034,
+"lng": 16.6088,
+"place": "Sankt Margarethen im Burgenland"
+},
+"7063": {
+"lat": 47.8333,
+"lng": 16.6667,
+"place": "Oggau am Neusiedler See"
+},
+"7064": {
+"lat": 47.8291,
+"lng": 16.6196,
+"place": "Oslip / Uzlop"
+},
+"7071": {
+"lat": 47.8012,
+"lng": 16.6716,
+"place": "Rust"
+},
+"7072": {
+"lat": 47.75,
+"lng": 16.6667,
+"place": "Mörbisch am See"
+},
+"7081": {
+"lat": 47.8523,
+"lng": 16.6233,
+"place": "Schützen am Gebirge"
+},
+"7082": {
+"lat": 47.8942,
+"lng": 16.6463,
+"place": "Donnerskirchen"
+},
+"7083": {
+"lat": 47.9129,
+"lng": 16.6956,
+"place": "Purbach am Neusiedler See"
+},
+"7091": {
+"lat": 47.9445,
+"lng": 16.7315,
+"place": "Breitenbrunn"
+},
+"7092": {
+"lat": 47.9501,
+"lng": 16.7556,
+"place": "Winden am See"
+},
+"7093": {
+"lat": 47.9617,
+"lng": 16.796,
+"place": "Jois"
+},
+"7100": {
+"lat": 47.93715,
+"lng": 16.85535,
+"place": "Neusiedl am See"
+},
+"7101": {
+"lat": 47.949,
+"lng": 16.8417,
+"place": "Neusiedl am See"
+},
+"7111": {
+"lat": 47.9996,
+"lng": 16.8605,
+"place": "Parndorf / Pandrof"
+},
+"7121": {
+"lat": 47.9253,
+"lng": 16.869,
+"place": "Weiden am See"
+},
+"7122": {
+"lat": 47.8969,
+"lng": 16.9111,
+"place": "Gols"
+},
+"7123": {
+"lat": 47.8802,
+"lng": 16.9413,
+"place": "Mönchhof"
+},
+"7131": {
+"lat": 47.8702,
+"lng": 16.9754,
+"place": "Halbturn"
+},
+"7132": {
+"lat": 47.79035,
+"lng": 16.878,
+"place": "Apetlon"
+},
+"7141": {
+"lat": 47.8541,
+"lng": 16.8371,
+"place": "Podersdorf am See"
+},
+"7142": {
+"lat": 47.7615,
+"lng": 16.8002,
+"place": "Illmitz"
+},
+"7143": {
+"lat": 47.7439,
+"lng": 16.8302,
+"place": "Apetlon"
+},
+"7151": {
+"lat": 47.7285,
+"lng": 16.9371,
+"place": "Wallern im Burgenland"
+},
+"7152": {
+"lat": 47.7147,
+"lng": 16.92245,
+"place": "Pamhagen"
+},
+"7161": {
+"lat": 47.764,
+"lng": 16.88605,
+"place": "Apetlon"
+},
+"7162": {
+"lat": 47.7642,
+"lng": 16.9865,
+"place": "Tadten"
+},
+"7163": {
+"lat": 47.7744,
+"lng": 17.0329,
+"place": "Andau"
+},
+"7201": {
+"lat": 47.7966,
+"lng": 16.2977,
+"place": "Neudörfl"
+},
+"7202": {
+"lat": 47.78607,
+"lng": 16.33405,
+"place": "Bad Sauerbrunn"
+},
+"7203": {
+"lat": 47.7378,
+"lng": 16.338,
+"place": "Wiesen"
+},
+"7210": {
+"lat": 47.7333,
+"lng": 16.4,
+"place": "Mattersburg"
+},
+"7212": {
+"lat": 47.72245,
+"lng": 16.29765,
+"place": "Forchtenstein"
+},
+"7221": {
+"lat": 47.7167,
+"lng": 16.4167,
+"place": "Marz"
+},
+"7222": {
+"lat": 47.7052,
+"lng": 16.4301,
+"place": "Rohrbach bei Mattersburg"
+},
+"7223": {
+"lat": 47.6513,
+"lng": 16.3799,
+"place": "Sieggraben"
+},
+"7301": {
+"lat": 47.6,
+"lng": 16.62,
+"place": "Deutschkreutz"
+},
+"7302": {
+"lat": 47.53085,
+"lng": 16.65235,
+"place": "Kroatisch Minihof / Mjenovo"
+},
+"7304": {
+"lat": 47.51726,
+"lng": 16.55548,
+"place": "Großwarasdorf / Veliki Borištof"
+},
+"7311": {
+"lat": 47.59875,
+"lng": 16.5598,
+"place": "Haschendorf"
+},
+"7312": {
+"lat": 47.5889,
+"lng": 16.5645,
+"place": "Horitschon"
+},
+"7321": {
+"lat": 47.57567,
+"lng": 16.51113,
+"place": "Lackendorf"
+},
+"7322": {
+"lat": 47.5904,
+"lng": 16.4653,
+"place": "Lackenbach"
+},
+"7323": {
+"lat": 47.6132,
+"lng": 16.4955,
+"place": "Ritzing"
+},
+"7331": {
+"lat": 47.60277,
+"lng": 16.40953,
+"place": "Kalkgruben"
+},
+"7332": {
+"lat": 47.6056,
+"lng": 16.3841,
+"place": "Kobersdorf"
+},
+"7341": {
+"lat": 47.5644,
+"lng": 16.3838,
+"place": "Landsee"
+},
+"7342": {
+"lat": 47.5374,
+"lng": 16.392,
+"place": "Kaisersdorf / Kalištrof"
+},
+"7343": {
+"lat": 47.5455,
+"lng": 16.4462,
+"place": "Neutal"
+},
+"7344": {
+"lat": 47.5284,
+"lng": 16.4776,
+"place": "Stoob"
+},
+"7350": {
+"lat": 47.51083,
+"lng": 16.49943,
+"place": "Mitterpullendorf"
+},
+"7361": {
+"lat": 47.46572,
+"lng": 16.61648,
+"place": "Frankenau / Frakanava"
+},
+"7371": {
+"lat": 47.47257,
+"lng": 16.3623,
+"place": "Oberrabnitz"
+},
+"7372": {
+"lat": 47.5128,
+"lng": 16.3732,
+"place": "Draßmarkt"
+},
+"7373": {
+"lat": 47.4483,
+"lng": 16.4152,
+"place": "Piringsdorf"
+},
+"7374": {
+"lat": 47.5139,
+"lng": 16.3637,
+"place": "Weingraben / Bajngrob"
+},
+"7400": {
+"lat": 47.31534,
+"lng": 16.2177,
+"place": "Drumling"
+},
+"7410": {
+"lat": 47.32805,
+"lng": 16.084,
+"place": "Kitzladen"
+},
+"7411": {
+"lat": 47.3,
+"lng": 16.09165,
+"place": "Buchschachen"
+},
+"7412": {
+"lat": 47.25,
+"lng": 16.1,
+"place": "Wolfau"
+},
+"7420": {
+"lat": 47.3667,
+"lng": 16.0333,
+"place": "Neustift an der Lafnitz"
+},
+"7421": {
+"lat": 47.48507,
+"lng": 16.04563,
+"place": "Mönichkirchen"
+},
+"7422": {
+"lat": 47.35,
+"lng": 16.1333,
+"place": "Riedlingsdorf"
+},
+"7423": {
+"lat": 47.38767,
+"lng": 16.11049,
+"place": "Grafenschachen"
+},
+"7424": {
+"lat": 47.3632,
+"lng": 16.0663,
+"place": "Grafenschachen"
+},
+"7425": {
+"lat": 47.3846,
+"lng": 16.1455,
+"place": "Wiesfleck"
+},
+"7431": {
+"lat": 47.34233,
+"lng": 16.2238,
+"place": "Bad Tatzmannsdorf"
+},
+"7432": {
+"lat": 47.3837,
+"lng": 16.19765,
+"place": "Aschau im Burgenland"
+},
+"7433": {
+"lat": 47.37316,
+"lng": 16.24296,
+"place": "Bergwerk"
+},
+"7434": {
+"lat": 47.41505,
+"lng": 16.25977,
+"place": "Bernstein"
+},
+"7435": {
+"lat": 47.37666,
+"lng": 16.32,
+"place": "Glashütten bei Schlaining"
+},
+"7441": {
+"lat": 47.4407,
+"lng": 16.33049,
+"place": "Bubendorf im Burgenland"
+},
+"7442": {
+"lat": 47.40412,
+"lng": 16.40292,
+"place": "Glashütten bei Langeck im Burgenland"
+},
+"7443": {
+"lat": 47.4107,
+"lng": 16.49625,
+"place": "Liebing"
+},
+"7444": {
+"lat": 47.4289,
+"lng": 16.54077,
+"place": "Klostermarienberg"
+},
+"7451": {
+"lat": 47.4474,
+"lng": 16.5076,
+"place": "Oberloisdorf"
+},
+"7452": {
+"lat": 47.46833,
+"lng": 16.56607,
+"place": "Großmutschen / Mucindrof"
+},
+"7453": {
+"lat": 47.4788,
+"lng": 16.48545,
+"place": "Dörfl"
+},
+"7461": {
+"lat": 47.31441,
+"lng": 16.30096,
+"place": "Allersdorf im Burgenland / Kljucarevci"
+},
+"7463": {
+"lat": 47.31324,
+"lng": 16.34648,
+"place": "Oberpodgoria / Podgorje"
+},
+"7464": {
+"lat": 47.3049,
+"lng": 16.3862,
+"place": "Althodis / Stari Hodas"
+},
+"7471": {
+"lat": 47.3047,
+"lng": 16.441,
+"place": "Rechnitz"
+},
+"7472": {
+"lat": 47.25627,
+"lng": 16.42343,
+"place": "Dürnbach im Burgenland / Vincjet"
+},
+"7473": {
+"lat": 47.21523,
+"lng": 16.3886,
+"place": "Burg"
+},
+"7474": {
+"lat": 47.16343,
+"lng": 16.42772,
+"place": "Burg"
+},
+"7501": {
+"lat": 47.25698,
+"lng": 16.24755,
+"place": "Eisenzicken"
+},
+"7502": {
+"lat": 47.264,
+"lng": 16.229,
+"place": "Unterwart"
+},
+"7503": {
+"lat": 47.24666,
+"lng": 16.33586,
+"place": "Dürnbach im Burgenland / Vincjet"
+},
+"7511": {
+"lat": 47.20363,
+"lng": 16.30033,
+"place": "Großbachselten"
+},
+"7512": {
+"lat": 47.16987,
+"lng": 16.36565,
+"place": "Badersdorf"
+},
+"7521": {
+"lat": 47.11213,
+"lng": 16.45915,
+"place": "Eberau"
+},
+"7522": {
+"lat": 47.04541,
+"lng": 16.42149,
+"place": "Deutsch Bieling"
+},
+"7531": {
+"lat": 47.2486,
+"lng": 16.1521,
+"place": "Kemeten"
+},
+"7532": {
+"lat": 47.2083,
+"lng": 16.1717,
+"place": "Litzelsdorf"
+},
+"7533": {
+"lat": 47.1833,
+"lng": 16.1667,
+"place": "Ollersdorf im Burgenland"
+},
+"7534": {
+"lat": 47.1583,
+"lng": 16.21665,
+"place": "Olbendorf"
+},
+"7535": {
+"lat": 47.12157,
+"lng": 16.25348,
+"place": "Gamischdorf"
+},
+"7536": {
+"lat": 47.1571,
+"lng": 16.2923,
+"place": "Güttenbach / Pinkovac"
+},
+"7537": {
+"lat": 47.1689,
+"lng": 16.2605,
+"place": "Neuberg im Burgenland / Nova Gora"
+},
+"7540": {
+"lat": 47.04443,
+"lng": 16.32682,
+"place": "Glasing"
+},
+"7542": {
+"lat": 47.0686,
+"lng": 16.26463,
+"place": "Gerersdorf bei Güssing"
+},
+"7543": {
+"lat": 47.08553,
+"lng": 16.19008,
+"place": "Eisenhüttl"
+},
+"7544": {
+"lat": 47.09678,
+"lng": 16.3005,
+"place": "Deutsch Tschantschendorf"
+},
+"7545": {
+"lat": 47.0247,
+"lng": 16.2604,
+"place": "Neustift bei Güssing"
+},
+"7546": {
+"lat": 47.0584,
+"lng": 16.4773,
+"place": "Moschendorf"
+},
+"7550": {
+"lat": 47.2167,
+"lng": 16.1,
+"place": "Wörterberg"
+},
+"7551": {
+"lat": 47.13595,
+"lng": 16.1754,
+"place": "Bocksdorf"
+},
+"7552": {
+"lat": 47.2027,
+"lng": 16.1331,
+"place": "Stinatz / Stinjaki"
+},
+"7553": {
+"lat": 47.1426,
+"lng": 16.1778,
+"place": "Bocksdorf"
+},
+"7554": {
+"lat": 47.1167,
+"lng": 16.1667,
+"place": "Rohr im Burgenland"
+},
+"7561": {
+"lat": 46.99305,
+"lng": 16.2429,
+"place": "Heiligenkreuz im Lafnitztal"
+},
+"7562": {
+"lat": 47.01655,
+"lng": 16.20855,
+"place": "Eltendorf"
+},
+"7563": {
+"lat": 47.0025,
+"lng": 16.1682,
+"place": "Königsdorf"
+},
+"7564": {
+"lat": 47.03685,
+"lng": 16.13195,
+"place": "Dobersdorf"
+},
+"7571": {
+"lat": 47.0513,
+"lng": 16.12,
+"place": "Rudersdorf"
+},
+"7572": {
+"lat": 47.1066,
+"lng": 16.111,
+"place": "Deutsch Kaltenbrunn"
+},
+"7574": {
+"lat": 47.0882,
+"lng": 16.114,
+"place": "Burgauberg-Neudauberg"
+},
+"8000": {
+"lat": 47.0667,
+"lng": 15.45,
+"place": "Graz"
+},
+"8006": {
+"lat": 47.0667,
+"lng": 15.45,
+"place": "Graz"
+},
+"8010": {
+"lat": 47.08153,
+"lng": 15.47178,
+"place": "Edelsbach bei Graz"
+},
+"8011": {
+"lat": 47.0755,
+"lng": 15.4823,
+"place": "Graz Postfach"
+},
+"8012": {
+"lat": 47.0667,
+"lng": 15.45,
+"place": "Graz"
+},
+"8014": {
+"lat": 47.0833,
+"lng": 15.5667,
+"place": "Hönigtal"
+},
+"8015": {
+"lat": 47.0667,
+"lng": 15.45,
+"place": "Graz"
+},
+"8016": {
+"lat": 47.0667,
+"lng": 15.45,
+"place": "Graz"
+},
+"8017": {
+"lat": 47.0667,
+"lng": 15.45,
+"place": "Graz"
+},
+"8019": {
+"lat": 47.0667,
+"lng": 15.45,
+"place": "Graz"
+},
+"8020": {
+"lat": 47.0755,
+"lng": 15.4401,
+"place": "Graz,04.Bez.:Lend"
+},
+"8021": {
+"lat": 47.0667,
+"lng": 15.45,
+"place": "Graz Postfach"
+},
+"8025": {
+"lat": 47.0667,
+"lng": 15.45,
+"place": "Graz"
+},
+"8026": {
+"lat": 47.0667,
+"lng": 15.45,
+"place": "Graz"
+},
+"8035": {
+"lat": 47.0667,
+"lng": 15.45,
+"place": "Graz"
+},
+"8036": {
+"lat": 47.0755,
+"lng": 15.4401,
+"place": "Graz,03.Bez.:Geidorf"
+},
+"8041": {
+"lat": 47.0725,
+"lng": 15.44023,
+"place": "Graz,06.Bez.:Jakomini"
+},
+"8042": {
+"lat": 47.07325,
+"lng": 15.4402,
+"place": "Graz,06.Bez.:Jakomini"
+},
+"8043": {
+"lat": 47.0755,
+"lng": 15.4401,
+"place": "Graz,03.Bez.:Geidorf"
+},
+"8044": {
+"lat": 47.11758,
+"lng": 15.49465,
+"place": "Fölling"
+},
+"8045": {
+"lat": 47.13936,
+"lng": 15.44857,
+"place": "Buch"
+},
+"8046": {
+"lat": 47.14006,
+"lng": 15.4188,
+"place": "Eichberg"
+},
+"8047": {
+"lat": 47.0727,
+"lng": 15.4865,
+"place": "Graz,02.Bez.:Sankt Leonhard"
+},
+"8049": {
+"lat": 47.0667,
+"lng": 15.45,
+"place": "Graz"
+},
+"8050": {
+"lat": 47.0764,
+"lng": 15.3605,
+"place": "Thal"
+},
+"8051": {
+"lat": 47.0764,
+"lng": 15.3605,
+"place": "Graz,04.Bez.:Lend"
+},
+"8052": {
+"lat": 47.06079,
+"lng": 15.33599,
+"place": "Graz,13.Bez.:Gösting"
+},
+"8053": {
+"lat": 47.0315,
+"lng": 15.3732,
+"place": "Graz,05.Bez.:Gries"
+},
+"8054": {
+"lat": 47.00511,
+"lng": 15.38213,
+"place": "Graz,16.Bez.:Straßgang"
+},
+"8055": {
+"lat": 47.0,
+"lng": 15.4,
+"place": "Graz,05.Bez.:Gries"
+},
+"8056": {
+"lat": 47.0667,
+"lng": 15.45,
+"place": "Graz"
+},
+"8057": {
+"lat": 47.0315,
+"lng": 15.3732,
+"place": "Graz-Straßgang"
+},
+"8061": {
+"lat": 47.18035,
+"lng": 15.49719,
+"place": "Diepoltsberg"
+},
+"8062": {
+"lat": 47.15053,
+"lng": 15.51208,
+"place": "Gschwendt"
+},
+"8063": {
+"lat": 47.11438,
+"lng": 15.59656,
+"place": "Brodersdorf"
+},
+"8071": {
+"lat": 46.99555,
+"lng": 15.51405,
+"place": "Berndorf"
+},
+"8072": {
+"lat": 46.94667,
+"lng": 15.5184,
+"place": "Dillach"
+},
+"8073": {
+"lat": 47.00603,
+"lng": 15.4385,
+"place": "Abtissendorf"
+},
+"8074": {
+"lat": 47.04427,
+"lng": 15.48905,
+"place": "Dürwagersbach"
+},
+"8075": {
+"lat": 47.0549,
+"lng": 15.5493,
+"place": "Hart bei Graz"
+},
+"8076": {
+"lat": 47.0163,
+"lng": 15.5584,
+"place": "Vasoldsberg"
+},
+"8077": {
+"lat": 47.00313,
+"lng": 15.47583,
+"place": "Dörfla"
+},
+"8081": {
+"lat": 46.95382,
+"lng": 15.60035,
+"place": "Allerheiligen bei Wildon"
+},
+"8082": {
+"lat": 46.93974,
+"lng": 15.67383,
+"place": "Breitenbuch"
+},
+"8083": {
+"lat": 46.89558,
+"lng": 15.71334,
+"place": "Hamet"
+},
+"8091": {
+"lat": 46.8552,
+"lng": 15.74039,
+"place": "Aug"
+},
+"8092": {
+"lat": 46.80552,
+"lng": 15.71082,
+"place": "Landorf"
+},
+"8093": {
+"lat": 46.80352,
+"lng": 15.75831,
+"place": "Bierbaum am Auersbach"
+},
+"8101": {
+"lat": 47.14958,
+"lng": 15.3595,
+"place": "Forstviertel"
+},
+"8102": {
+"lat": 47.2135,
+"lng": 15.40841,
+"place": "Amstein"
+},
+"8103": {
+"lat": 47.14808,
+"lng": 15.27816,
+"place": "Eisbach"
+},
+"8111": {
+"lat": 47.11243,
+"lng": 15.31593,
+"place": "Eisbach"
+},
+"8112": {
+"lat": 47.1198,
+"lng": 15.29343,
+"place": "Eisbach"
+},
+"8113": {
+"lat": 47.09079,
+"lng": 15.27794,
+"place": "Eisbach"
+},
+"8114": {
+"lat": 47.18447,
+"lng": 15.30314,
+"place": "Deutschfeistritz"
+},
+"8120": {
+"lat": 47.2,
+"lng": 15.35,
+"place": "Peggau"
+},
+"8121": {
+"lat": 47.21304,
+"lng": 15.30724,
+"place": "Adriach"
+},
+"8122": {
+"lat": 47.23025,
+"lng": 15.26045,
+"place": "Arzwaldgraben"
+},
+"8124": {
+"lat": 47.22116,
+"lng": 15.20612,
+"place": "Großstübing"
+},
+"8130": {
+"lat": 47.27165,
+"lng": 15.31985,
+"place": "Adriach"
+},
+"8131": {
+"lat": 47.34032,
+"lng": 15.36338,
+"place": "Mautstatt"
+},
+"8132": {
+"lat": 47.36066,
+"lng": 15.3377,
+"place": "Gabraun"
+},
+"8141": {
+"lat": 46.95843,
+"lng": 15.41156,
+"place": "Bierbaum"
+},
+"8142": {
+"lat": 46.92332,
+"lng": 15.43726,
+"place": "Dietersdorf"
+},
+"8143": {
+"lat": 46.92874,
+"lng": 15.37477,
+"place": "Dobl"
+},
+"8144": {
+"lat": 46.98944,
+"lng": 15.36401,
+"place": "Attendorf"
+},
+"8151": {
+"lat": 47.03348,
+"lng": 15.29977,
+"place": "Altenberg"
+},
+"8152": {
+"lat": 47.04876,
+"lng": 15.23346,
+"place": "Hausdorf"
+},
+"8153": {
+"lat": 47.16236,
+"lng": 15.15893,
+"place": "Eggartsberg"
+},
+"8160": {
+"lat": 47.21924,
+"lng": 15.60767,
+"place": "Affental"
+},
+"8162": {
+"lat": 47.26608,
+"lng": 15.49719,
+"place": "Amstein"
+},
+"8163": {
+"lat": 47.29126,
+"lng": 15.45564,
+"place": "Fladnitz an der Teichalm"
+},
+"8164": {
+"lat": 47.2367,
+"lng": 15.5667,
+"place": "Gutenberg"
+},
+"8171": {
+"lat": 47.3123,
+"lng": 15.57515,
+"place": "Sankt Kathrein am Offenegg I.Viertel"
+},
+"8172": {
+"lat": 47.32367,
+"lng": 15.63437,
+"place": "Haslau bei Birkfeld"
+},
+"8181": {
+"lat": 47.16592,
+"lng": 15.65832,
+"place": "Arndorf bei Sankt Ruprecht an der Raab"
+},
+"8182": {
+"lat": 47.22385,
+"lng": 15.72554,
+"place": "Elz"
+},
+"8183": {
+"lat": 47.24608,
+"lng": 15.7313,
+"place": "Floing"
+},
+"8184": {
+"lat": 47.27738,
+"lng": 15.69688,
+"place": "Anger"
+},
+"8190": {
+"lat": 47.36585,
+"lng": 15.697,
+"place": "Aschau"
+},
+"8191": {
+"lat": 47.3253,
+"lng": 15.67845,
+"place": "Aschau"
+},
+"8192": {
+"lat": 47.41395,
+"lng": 15.71755,
+"place": "Außeregg"
+},
+"8194": {
+"lat": 47.3942,
+"lng": 15.6839,
+"place": "Waisenegg"
+},
+"8200": {
+"lat": 47.09978,
+"lng": 15.70035,
+"place": "Albersdorf"
+},
+"8211": {
+"lat": 47.14682,
+"lng": 15.75773,
+"place": "Egelsdorf"
+},
+"8212": {
+"lat": 47.18924,
+"lng": 15.8002,
+"place": "Elz"
+},
+"8213": {
+"lat": 47.1638,
+"lng": 15.7765,
+"place": "Gersdorf  an der Feistritz"
+},
+"8221": {
+"lat": 47.18958,
+"lng": 15.84467,
+"place": "Hirnsdorf"
+},
+"8222": {
+"lat": 47.217,
+"lng": 15.83766,
+"place": "Buchberg bei Herberstein"
+},
+"8223": {
+"lat": 47.24285,
+"lng": 15.79648,
+"place": "Buchberg bei Herberstein"
+},
+"8224": {
+"lat": 47.22412,
+"lng": 15.88115,
+"place": "Blaindorf"
+},
+"8225": {
+"lat": 47.30293,
+"lng": 15.85261,
+"place": "Flattendorf"
+},
+"8230": {
+"lat": 47.28801,
+"lng": 15.97392,
+"place": "Eggendorf"
+},
+"8232": {
+"lat": 47.34046,
+"lng": 15.97113,
+"place": "Erdwegen"
+},
+"8233": {
+"lat": 47.3716,
+"lng": 15.99887,
+"place": "Kleinlungitz"
+},
+"8234": {
+"lat": 47.3915,
+"lng": 15.97145,
+"place": "Eichberg"
+},
+"8240": {
+"lat": 47.42224,
+"lng": 16.05934,
+"place": "Ehrenschachen"
+},
+"8241": {
+"lat": 47.41999,
+"lng": 16.00551,
+"place": "Limbach"
+},
+"8242": {
+"lat": 47.44138,
+"lng": 15.95504,
+"place": "Auerbach"
+},
+"8243": {
+"lat": 47.45425,
+"lng": 16.06317,
+"place": "Baumgarten"
+},
+"8244": {
+"lat": 47.47528,
+"lng": 16.10585,
+"place": "Anger"
+},
+"8250": {
+"lat": 47.39095,
+"lng": 15.89721,
+"place": "Kleinschlag"
+},
+"8251": {
+"lat": 47.4529,
+"lng": 15.912,
+"place": "Festenburg"
+},
+"8252": {
+"lat": 47.44703,
+"lng": 15.8863,
+"place": "Karnerviertel"
+},
+"8253": {
+"lat": 47.4522,
+"lng": 15.84436,
+"place": "Arzberg"
+},
+"8254": {
+"lat": 47.41606,
+"lng": 15.79864,
+"place": "Kandlbauer"
+},
+"8255": {
+"lat": 47.47527,
+"lng": 15.7702,
+"place": "Filzmoos"
+},
+"8261": {
+"lat": 47.10849,
+"lng": 15.81508,
+"place": "Arnwiesen"
+},
+"8262": {
+"lat": 47.08473,
+"lng": 15.90835,
+"place": "Buchberg bei Ilz"
+},
+"8263": {
+"lat": 47.07078,
+"lng": 15.98574,
+"place": "Großwilfersdorf"
+},
+"8264": {
+"lat": 47.123,
+"lng": 15.94208,
+"place": "Großhartmannsdorf"
+},
+"8265": {
+"lat": 47.1513,
+"lng": 15.89443,
+"place": "Blaindorf"
+},
+"8271": {
+"lat": 47.17571,
+"lng": 16.00862,
+"place": "Bad Waltersdorf"
+},
+"8272": {
+"lat": 47.1941,
+"lng": 15.97083,
+"place": "Ebersdorf"
+},
+"8273": {
+"lat": 47.19548,
+"lng": 15.95305,
+"place": "Ebersdorf"
+},
+"8274": {
+"lat": 47.22814,
+"lng": 16.00916,
+"place": "Geiseldorf"
+},
+"8280": {
+"lat": 47.04334,
+"lng": 16.05979,
+"place": "Altenmarkt bei Fürstenfeld"
+},
+"8282": {
+"lat": 46.99984,
+"lng": 16.11478,
+"place": "Dietersdorf bei Fürstenfeld"
+},
+"8283": {
+"lat": 47.1176,
+"lng": 16.04075,
+"place": "Bad Blumau"
+},
+"8291": {
+"lat": 47.1452,
+"lng": 16.10995,
+"place": "Burgau"
+},
+"8292": {
+"lat": 47.18218,
+"lng": 16.09842,
+"place": "Hackerberg"
+},
+"8293": {
+"lat": 47.2152,
+"lng": 16.0904,
+"place": "Wörterberg"
+},
+"8294": {
+"lat": 47.25542,
+"lng": 16.02094,
+"place": "Hopfau"
+},
+"8295": {
+"lat": 47.28207,
+"lng": 16.0204,
+"place": "Sankt Johann in der Haide"
+},
+"8301": {
+"lat": 47.07507,
+"lng": 15.572,
+"place": "Hart bei Graz"
+},
+"8302": {
+"lat": 47.05643,
+"lng": 15.61865,
+"place": "Edelsgrub"
+},
+"8311": {
+"lat": 47.04785,
+"lng": 15.82223,
+"place": "Bärnbach"
+},
+"8312": {
+"lat": 47.04465,
+"lng": 15.89226,
+"place": "Breitenbach"
+},
+"8313": {
+"lat": 47.02927,
+"lng": 15.94837,
+"place": "Breitenfeld an der Rittschein"
+},
+"8321": {
+"lat": 47.07525,
+"lng": 15.72829,
+"place": "Entschendorf"
+},
+"8322": {
+"lat": 47.04005,
+"lng": 15.75489,
+"place": "Eichkögl"
+},
+"8323": {
+"lat": 47.0359,
+"lng": 15.64657,
+"place": "Goggitsch"
+},
+"8324": {
+"lat": 46.96925,
+"lng": 15.74335,
+"place": "Axbach"
+},
+"8330": {
+"lat": 46.95486,
+"lng": 15.88541,
+"place": "Auersbach"
+},
+"8332": {
+"lat": 46.99019,
+"lng": 15.8311,
+"place": "Auersbach"
+},
+"8333": {
+"lat": 47.00009,
+"lng": 15.92191,
+"place": "Altenmarkt bei Riegersburg"
+},
+"8334": {
+"lat": 46.97236,
+"lng": 15.94472,
+"place": "Bergl"
+},
+"8341": {
+"lat": 46.93496,
+"lng": 15.79094,
+"place": "Kohlberg"
+},
+"8342": {
+"lat": 46.88275,
+"lng": 15.8124,
+"place": "Kohlberg"
+},
+"8343": {
+"lat": 46.87104,
+"lng": 15.87292,
+"place": "Hofstätten"
+},
+"8344": {
+"lat": 46.88551,
+"lng": 15.91298,
+"place": "Bad Gleichenberg"
+},
+"8345": {
+"lat": 46.8089,
+"lng": 15.87533,
+"place": "Dirnbach"
+},
+"8350": {
+"lat": 46.931,
+"lng": 16.01612,
+"place": "Brunn"
+},
+"8352": {
+"lat": 46.9704,
+"lng": 16.06703,
+"place": "Hohenbrugg an der Raab"
+},
+"8353": {
+"lat": 46.89088,
+"lng": 15.97838,
+"place": "Burgfeld"
+},
+"8354": {
+"lat": 46.83038,
+"lng": 15.96331,
+"place": "Aigen"
+},
+"8355": {
+"lat": 46.7853,
+"lng": 15.94296,
+"place": "Frutten"
+},
+"8361": {
+"lat": 46.9858,
+"lng": 16.00783,
+"place": "Habegg"
+},
+"8362": {
+"lat": 47.0258,
+"lng": 16.01883,
+"place": "Aschbach bei Fürstenfeld"
+},
+"8380": {
+"lat": 46.94788,
+"lng": 16.148,
+"place": "Grieselstein"
+},
+"8382": {
+"lat": 46.963,
+"lng": 16.21209,
+"place": "Deutsch Minihof"
+},
+"8383": {
+"lat": 46.91477,
+"lng": 16.11473,
+"place": "Doiber"
+},
+"8384": {
+"lat": 46.87302,
+"lng": 16.08166,
+"place": "Bonisdorf"
+},
+"8385": {
+"lat": 46.86912,
+"lng": 16.03892,
+"place": "Bonisdorf"
+},
+"8401": {
+"lat": 46.96313,
+"lng": 15.44892,
+"place": "Bierbaum"
+},
+"8402": {
+"lat": 46.9242,
+"lng": 15.4908,
+"place": "Werndorf"
+},
+"8403": {
+"lat": 46.84721,
+"lng": 15.51121,
+"place": "Bachsdorf"
+},
+"8404": {
+"lat": 46.9653,
+"lng": 15.4803,
+"place": "Kalsdorf bei Graz"
+},
+"8410": {
+"lat": 46.89596,
+"lng": 15.51296,
+"place": "Afram"
+},
+"8411": {
+"lat": 46.86659,
+"lng": 15.4527,
+"place": "Flüssing"
+},
+"8412": {
+"lat": 46.91462,
+"lng": 15.56002,
+"place": "Allerheiligen bei Wildon"
+},
+"8413": {
+"lat": 46.86869,
+"lng": 15.58623,
+"place": "Alla"
+},
+"8421": {
+"lat": 46.85225,
+"lng": 15.67797,
+"place": "Marchtring"
+},
+"8422": {
+"lat": 46.81248,
+"lng": 15.66168,
+"place": "Hütt"
+},
+"8423": {
+"lat": 46.75543,
+"lng": 15.65322,
+"place": "Labuttendorf"
+},
+"8424": {
+"lat": 46.7872,
+"lng": 15.5905,
+"place": "Gabersdorf"
+},
+"8430": {
+"lat": 46.79729,
+"lng": 15.52451,
+"place": "Altenberg bei Leibnitz"
+},
+"8431": {
+"lat": 46.814,
+"lng": 15.5551,
+"place": "Gralla"
+},
+"8432": {
+"lat": 46.7925,
+"lng": 15.5388,
+"place": "Kaindorf an der Sulm"
+},
+"8434": {
+"lat": 46.812,
+"lng": 15.5168,
+"place": "Tillmitsch"
+},
+"8435": {
+"lat": 46.7668,
+"lng": 15.55502,
+"place": "Aflenz an der Sulm"
+},
+"8441": {
+"lat": 46.76356,
+"lng": 15.43477,
+"place": "Brudersegg"
+},
+"8442": {
+"lat": 46.77416,
+"lng": 15.45637,
+"place": "Einöd"
+},
+"8443": {
+"lat": 46.74567,
+"lng": 15.36006,
+"place": "Dornach"
+},
+"8444": {
+"lat": 46.79335,
+"lng": 15.39189,
+"place": "Brünngraben"
+},
+"8451": {
+"lat": 46.76175,
+"lng": 15.49074,
+"place": "Nestelberg"
+},
+"8452": {
+"lat": 46.72633,
+"lng": 15.43292,
+"place": "Burgstall"
+},
+"8453": {
+"lat": 46.70728,
+"lng": 15.3942,
+"place": "Eichberg"
+},
+"8454": {
+"lat": 46.67952,
+"lng": 15.38994,
+"place": "Altenbach"
+},
+"8455": {
+"lat": 46.68233,
+"lng": 15.3209,
+"place": "Altenbach"
+},
+"8461": {
+"lat": 46.71223,
+"lng": 15.57779,
+"place": "Ehrenhausen"
+},
+"8462": {
+"lat": 46.71014,
+"lng": 15.51611,
+"place": "Eckberg"
+},
+"8463": {
+"lat": 46.67103,
+"lng": 15.48796,
+"place": "Eichberg-Trautenburg"
+},
+"8472": {
+"lat": 46.7302,
+"lng": 15.6127,
+"place": "Gersdorf an der Mur"
+},
+"8473": {
+"lat": 46.7057,
+"lng": 15.7075,
+"place": "Lichendorf"
+},
+"8480": {
+"lat": 46.72595,
+"lng": 15.78538,
+"place": "Diepersdorf"
+},
+"8481": {
+"lat": 46.75297,
+"lng": 15.71567,
+"place": "Pichla bei Mureck"
+},
+"8483": {
+"lat": 46.75951,
+"lng": 15.83921,
+"place": "Deutsch Goritz"
+},
+"8484": {
+"lat": 46.73957,
+"lng": 15.9087,
+"place": "Dietzen"
+},
+"8490": {
+"lat": 46.69857,
+"lng": 15.99794,
+"place": "Altneudörfl"
+},
+"8492": {
+"lat": 46.72789,
+"lng": 15.9487,
+"place": "Altneudörfl"
+},
+"8493": {
+"lat": 46.77188,
+"lng": 15.96888,
+"place": "Deutsch Haseldorf"
+},
+"8501": {
+"lat": 46.97363,
+"lng": 15.33897,
+"place": "Lieboch"
+},
+"8502": {
+"lat": 46.94443,
+"lng": 15.31709,
+"place": "Blumegg"
+},
+"8503": {
+"lat": 46.90686,
+"lng": 15.3427,
+"place": "Blumegg"
+},
+"8504": {
+"lat": 46.87021,
+"lng": 15.39021,
+"place": "Grafendorf bei Stainz"
+},
+"8505": {
+"lat": 46.81797,
+"lng": 15.44667,
+"place": "Flamberg"
+},
+"8510": {
+"lat": 46.89275,
+"lng": 15.24312,
+"place": "Wald in der Weststeiermark"
+},
+"8511": {
+"lat": 46.9275,
+"lng": 15.24771,
+"place": "Greisdorf"
+},
+"8521": {
+"lat": 46.82248,
+"lng": 15.38633,
+"place": "Gussendorf"
+},
+"8522": {
+"lat": 46.8194,
+"lng": 15.31568,
+"place": "Fantsch"
+},
+"8523": {
+"lat": 46.82361,
+"lng": 15.2508,
+"place": "Deutschlandsberg"
+},
+"8524": {
+"lat": 46.85812,
+"lng": 15.20417,
+"place": "Bad Gams"
+},
+"8530": {
+"lat": 46.82061,
+"lng": 15.16515,
+"place": "Deutschlandsberg"
+},
+"8541": {
+"lat": 46.76449,
+"lng": 15.18777,
+"place": "Aichegg"
+},
+"8542": {
+"lat": 46.76035,
+"lng": 15.25394,
+"place": "Bergla"
+},
+"8543": {
+"lat": 46.76015,
+"lng": 15.2972,
+"place": "Aigen"
+},
+"8544": {
+"lat": 46.72431,
+"lng": 15.30953,
+"place": "Brunn"
+},
+"8551": {
+"lat": 46.72294,
+"lng": 15.23541,
+"place": "Aichberg"
+},
+"8552": {
+"lat": 46.68372,
+"lng": 15.22588,
+"place": "Aibl"
+},
+"8553": {
+"lat": 46.693,
+"lng": 15.1339,
+"place": "Buchenberg"
+},
+"8554": {
+"lat": 46.6657,
+"lng": 15.0808,
+"place": "Laaken"
+},
+"8555": {
+"lat": 46.7159,
+"lng": 15.2072,
+"place": "Wernersdorf"
+},
+"8561": {
+"lat": 47.00755,
+"lng": 15.28758,
+"place": "Berndorf"
+},
+"8562": {
+"lat": 46.97162,
+"lng": 15.27006,
+"place": "Bubendorf"
+},
+"8563": {
+"lat": 46.98011,
+"lng": 15.19013,
+"place": "Dietenberg"
+},
+"8564": {
+"lat": 47.01615,
+"lng": 15.21463,
+"place": "Dietenberg"
+},
+"8570": {
+"lat": 47.04389,
+"lng": 15.1483,
+"place": "Aichegg"
+},
+"8571": {
+"lat": 47.0714,
+"lng": 15.1279,
+"place": "Bärnbach"
+},
+"8572": {
+"lat": 47.0935,
+"lng": 15.11553,
+"place": "Bärnbach"
+},
+"8573": {
+"lat": 47.14389,
+"lng": 15.08902,
+"place": "Breitenbach"
+},
+"8580": {
+"lat": 47.0498,
+"lng": 15.08699,
+"place": "Edelschrott"
+},
+"8581": {
+"lat": 47.0667,
+"lng": 15.0833,
+"place": "Köflach"
+},
+"8582": {
+"lat": 47.06275,
+"lng": 15.12575,
+"place": "Bärnbach"
+},
+"8583": {
+"lat": 47.0067,
+"lng": 15.03335,
+"place": "Edelschrott"
+},
+"8584": {
+"lat": 47.0211,
+"lng": 14.9557,
+"place": "Hirschegg"
+},
+"8591": {
+"lat": 47.05916,
+"lng": 15.04104,
+"place": "Hochgößnitz"
+},
+"8592": {
+"lat": 47.11603,
+"lng": 14.97085,
+"place": "Graden"
+},
+"8593": {
+"lat": 47.11888,
+"lng": 15.04198,
+"place": "Breitenbach"
+},
+"8600": {
+"lat": 47.41803,
+"lng": 15.25163,
+"place": "Arndorf"
+},
+"8605": {
+"lat": 47.45778,
+"lng": 15.28866,
+"place": "Arndorf"
+},
+"8607": {
+"lat": 47.4446,
+"lng": 15.2933,
+"place": "Kapfenberg"
+},
+"8611": {
+"lat": 47.46713,
+"lng": 15.14333,
+"place": "Hüttengraben"
+},
+"8612": {
+"lat": 47.5108,
+"lng": 15.07173,
+"place": "Oberort"
+},
+"8614": {
+"lat": 47.38195,
+"lng": 15.40775,
+"place": "Gabraun"
+},
+"8616": {
+"lat": 47.385,
+"lng": 15.57977,
+"place": "Amassegg"
+},
+"8621": {
+"lat": 47.53525,
+"lng": 15.22697,
+"place": "Aflenz Kurort"
+},
+"8622": {
+"lat": 47.5156,
+"lng": 15.1613,
+"place": "Etmißl"
+},
+"8623": {
+"lat": 47.54514,
+"lng": 15.24768,
+"place": "Aflenz Kurort"
+},
+"8624": {
+"lat": 47.54988,
+"lng": 15.29118,
+"place": "Au bei Turnau"
+},
+"8625": {
+"lat": 47.54876,
+"lng": 15.34272,
+"place": "Göriach"
+},
+"8630": {
+"lat": 47.77704,
+"lng": 15.3364,
+"place": "Grünau"
+},
+"8632": {
+"lat": 47.71266,
+"lng": 15.28592,
+"place": "Freingraben"
+},
+"8634": {
+"lat": 47.675,
+"lng": 15.3333,
+"place": "Aschbach"
+},
+"8635": {
+"lat": 47.651,
+"lng": 15.3046,
+"place": "Gollrad"
+},
+"8636": {
+"lat": 47.6204,
+"lng": 15.2712,
+"place": "Seewiesen"
+},
+"8641": {
+"lat": 47.45697,
+"lng": 15.36107,
+"place": "Frauenberg"
+},
+"8642": {
+"lat": 47.48636,
+"lng": 15.35254,
+"place": "Fuscht"
+},
+"8643": {
+"lat": 47.46897,
+"lng": 15.41477,
+"place": "Allerheiligen im Mürztal"
+},
+"8644": {
+"lat": 47.49257,
+"lng": 15.3923,
+"place": "Alt-Hadersdorf"
+},
+"8650": {
+"lat": 47.49165,
+"lng": 15.43335,
+"place": "Kindberg"
+},
+"8652": {
+"lat": 47.49393,
+"lng": 15.42493,
+"place": "Alt-Hadersdorf"
+},
+"8653": {
+"lat": 47.45381,
+"lng": 15.51443,
+"place": "Brandstatt"
+},
+"8654": {
+"lat": 47.44393,
+"lng": 15.62492,
+"place": "Falkenstein"
+},
+"8661": {
+"lat": 47.53025,
+"lng": 15.4988,
+"place": "Mitterdorf im Mürztal"
+},
+"8662": {
+"lat": 47.54635,
+"lng": 15.5228,
+"place": "Freßnitz"
+},
+"8663": {
+"lat": 47.58285,
+"lng": 15.49348,
+"place": "Großveitsch"
+},
+"8664": {
+"lat": 47.592,
+"lng": 15.48935,
+"place": "Großveitsch"
+},
+"8665": {
+"lat": 47.56821,
+"lng": 15.63666,
+"place": "Feistritzberg"
+},
+"8670": {
+"lat": 47.56528,
+"lng": 15.54098,
+"place": "Feistritzberg"
+},
+"8671": {
+"lat": 47.51835,
+"lng": 15.6283,
+"place": "Alpl"
+},
+"8672": {
+"lat": 47.48057,
+"lng": 15.6994,
+"place": "Kirchenviertel"
+},
+"8673": {
+"lat": 47.46022,
+"lng": 15.70447,
+"place": "Falkenstein"
+},
+"8674": {
+"lat": 47.51214,
+"lng": 15.78504,
+"place": "Feistritzwald"
+},
+"8680": {
+"lat": 47.60323,
+"lng": 15.67898,
+"place": "Auersbach"
+},
+"8682": {
+"lat": 47.5716,
+"lng": 15.65094,
+"place": "Hönigsberg"
+},
+"8684": {
+"lat": 47.6135,
+"lng": 15.751,
+"place": "Spital am Semmering"
+},
+"8685": {
+"lat": 47.6151,
+"lng": 15.7755,
+"place": "Spital am Semmering"
+},
+"8691": {
+"lat": 47.66292,
+"lng": 15.64964,
+"place": "Altenberg"
+},
+"8692": {
+"lat": 47.66061,
+"lng": 15.57641,
+"place": "Alpl"
+},
+"8693": {
+"lat": 47.6743,
+"lng": 15.48191,
+"place": "Dobrein"
+},
+"8694": {
+"lat": 47.7549,
+"lng": 15.497,
+"place": "Frein an der Mürz"
+},
+"8700": {
+"lat": 47.37155,
+"lng": 15.08517,
+"place": "Donawitz"
+},
+"8704": {
+"lat": 47.3765,
+"lng": 15.0914,
+"place": "Leoben"
+},
+"8707": {
+"lat": 47.3765,
+"lng": 15.0914,
+"place": "Leoben"
+},
+"8709": {
+"lat": 47.3728,
+"lng": 15.0867,
+"place": "Leoben-Lerchenfeld"
+},
+"8712": {
+"lat": 47.40364,
+"lng": 15.13134,
+"place": "Kletschach"
+},
+"8713": {
+"lat": 47.31824,
+"lng": 14.98056,
+"place": "Greith"
+},
+"8714": {
+"lat": 47.30418,
+"lng": 14.93332,
+"place": "Kraubath an der Mur"
+},
+"8715": {
+"lat": 47.25302,
+"lng": 14.90201,
+"place": "Altendorf"
+},
+"8720": {
+"lat": 47.2241,
+"lng": 14.84594,
+"place": "Apfelberg"
+},
+"8723": {
+"lat": 47.2436,
+"lng": 14.82769,
+"place": "Hautzenbichl"
+},
+"8724": {
+"lat": 47.21439,
+"lng": 14.79031,
+"place": "Einhörn"
+},
+"8731": {
+"lat": 47.26837,
+"lng": 14.68713,
+"place": "Bischoffeld"
+},
+"8732": {
+"lat": 47.27455,
+"lng": 14.76908,
+"place": "Dürnberg"
+},
+"8733": {
+"lat": 47.28428,
+"lng": 14.86746,
+"place": "Feistritzgraben"
+},
+"8734": {
+"lat": 47.17458,
+"lng": 14.81488,
+"place": "Apfelberg"
+},
+"8740": {
+"lat": 47.18151,
+"lng": 14.75343,
+"place": "Allersdorf"
+},
+"8741": {
+"lat": 47.14173,
+"lng": 14.76076,
+"place": "Allersdorf"
+},
+"8742": {
+"lat": 47.07005,
+"lng": 14.68829,
+"place": "Amering"
+},
+"8743": {
+"lat": 47.1283,
+"lng": 14.7375,
+"place": "Eppenstein"
+},
+"8750": {
+"lat": 47.16517,
+"lng": 14.66032,
+"place": "Auerling"
+},
+"8751": {
+"lat": 47.1733,
+"lng": 14.6778,
+"place": "Judenburg - Murdorf"
+},
+"8753": {
+"lat": 47.20951,
+"lng": 14.66197,
+"place": "Aichdorf"
+},
+"8754": {
+"lat": 47.21238,
+"lng": 14.57935,
+"place": "Enzersdorf"
+},
+"8755": {
+"lat": 47.17201,
+"lng": 14.58563,
+"place": "Feistritzgraben"
+},
+"8756": {
+"lat": 47.20923,
+"lng": 14.49948,
+"place": "Pichlhofen"
+},
+"8761": {
+"lat": 47.22632,
+"lng": 14.56975,
+"place": "Enzersdorf"
+},
+"8762": {
+"lat": 47.25109,
+"lng": 14.48881,
+"place": "Gföllgraben"
+},
+"8763": {
+"lat": 47.29557,
+"lng": 14.4684,
+"place": "Bretstein"
+},
+"8764": {
+"lat": 47.3061,
+"lng": 14.3756,
+"place": "Pusterwald"
+},
+"8765": {
+"lat": 47.3626,
+"lng": 14.4681,
+"place": "Sankt Johann am Tauern Schattseite"
+},
+"8770": {
+"lat": 47.3375,
+"lng": 15.0186,
+"place": "Brunn"
+},
+"8772": {
+"lat": 47.3762,
+"lng": 14.97818,
+"place": "Madstein"
+},
+"8773": {
+"lat": 47.39123,
+"lng": 14.92466,
+"place": "Dirnsdorf"
+},
+"8774": {
+"lat": 47.4041,
+"lng": 14.82235,
+"place": "Eselberg"
+},
+"8775": {
+"lat": 47.42745,
+"lng": 14.74393,
+"place": "Kalwang"
+},
+"8781": {
+"lat": 47.4457,
+"lng": 14.6606,
+"place": "Furth"
+},
+"8782": {
+"lat": 47.47065,
+"lng": 14.60375,
+"place": "Furth"
+},
+"8783": {
+"lat": 47.4902,
+"lng": 14.5377,
+"place": "Au bei Gaishorn am See"
+},
+"8784": {
+"lat": 47.4968,
+"lng": 14.46378,
+"place": "Bärndorf"
+},
+"8785": {
+"lat": 47.425,
+"lng": 14.5083,
+"place": "Hohentauern"
+},
+"8786": {
+"lat": 47.51554,
+"lng": 14.36164,
+"place": "Boder"
+},
+"8790": {
+"lat": 47.5333,
+"lng": 14.8833,
+"place": "Eisenerz"
+},
+"8792": {
+"lat": 47.38794,
+"lng": 15.01794,
+"place": "Donawitz"
+},
+"8793": {
+"lat": 47.42692,
+"lng": 14.98253,
+"place": "Edling"
+},
+"8794": {
+"lat": 47.4536,
+"lng": 15.0051,
+"place": "Hafning"
+},
+"8795": {
+"lat": 47.525,
+"lng": 14.725,
+"place": "Radmer an der Hasel"
+},
+"8800": {
+"lat": 47.20557,
+"lng": 14.45,
+"place": "Frauenburg"
+},
+"8811": {
+"lat": 47.14577,
+"lng": 14.4157,
+"place": "Feßnach"
+},
+"8812": {
+"lat": 47.08887,
+"lng": 14.36667,
+"place": "Baierdorf"
+},
+"8813": {
+"lat": 47.07053,
+"lng": 14.2744,
+"place": "Laßnitz-Lambrecht"
+},
+"8820": {
+"lat": 47.05942,
+"lng": 14.44241,
+"place": "Kulm am Zirbitz"
+},
+"8822": {
+"lat": 47.01195,
+"lng": 14.51128,
+"place": "Jakobsberg"
+},
+"8831": {
+"lat": 47.17457,
+"lng": 14.34673,
+"place": "Niederwölz"
+},
+"8832": {
+"lat": 47.20595,
+"lng": 14.27196,
+"place": "Eselsberg"
+},
+"8833": {
+"lat": 47.12975,
+"lng": 14.33385,
+"place": "Frojach"
+},
+"8841": {
+"lat": 47.1308,
+"lng": 14.3086,
+"place": "Frojach"
+},
+"8842": {
+"lat": 47.1575,
+"lng": 14.24938,
+"place": "Althofen"
+},
+"8843": {
+"lat": 47.18077,
+"lng": 14.18428,
+"place": "Althofen"
+},
+"8844": {
+"lat": 47.17715,
+"lng": 14.11265,
+"place": "Baierdorf"
+},
+"8850": {
+"lat": 47.09006,
+"lng": 14.19717,
+"place": "Auen"
+},
+"8852": {
+"lat": 47.1001,
+"lng": 14.1972,
+"place": "Stolzalpe"
+},
+"8853": {
+"lat": 47.16338,
+"lng": 14.08818,
+"place": "Freiberg"
+},
+"8854": {
+"lat": 47.18263,
+"lng": 13.9902,
+"place": "Krakaudorf"
+},
+"8861": {
+"lat": 47.1048,
+"lng": 14.08,
+"place": "Bodendorf"
+},
+"8862": {
+"lat": 47.08707,
+"lng": 13.9769,
+"place": "Einach"
+},
+"8863": {
+"lat": 47.075,
+"lng": 13.925,
+"place": "Einach"
+},
+"8864": {
+"lat": 46.9608,
+"lng": 13.8878,
+"place": "Turrach"
+},
+"8900": {
+"lat": 47.54546,
+"lng": 14.29234,
+"place": "Burgfried"
+},
+"8903": {
+"lat": 47.53396,
+"lng": 14.25444,
+"place": "Altlassing"
+},
+"8904": {
+"lat": 47.58593,
+"lng": 14.3601,
+"place": "Ardning"
+},
+"8911": {
+"lat": 47.57914,
+"lng": 14.4449,
+"place": "Admont"
+},
+"8912": {
+"lat": 47.5583,
+"lng": 14.55,
+"place": "Johnsbach"
+},
+"8913": {
+"lat": 47.58967,
+"lng": 14.5345,
+"place": "Admont"
+},
+"8920": {
+"lat": 47.59675,
+"lng": 14.7684,
+"place": "Hieflau"
+},
+"8921": {
+"lat": 47.64673,
+"lng": 14.75597,
+"place": "Kirchenlandl"
+},
+"8922": {
+"lat": 47.6667,
+"lng": 14.7833,
+"place": "Gams bei Hieflau"
+},
+"8923": {
+"lat": 47.7,
+"lng": 14.8,
+"place": "Palfau"
+},
+"8924": {
+"lat": 47.7893,
+"lng": 15.03685,
+"place": "Rothwald-Langau"
+},
+"8931": {
+"lat": 47.66423,
+"lng": 14.72948,
+"place": "Großreifling"
+},
+"8932": {
+"lat": 47.70485,
+"lng": 14.63912,
+"place": "Bichl"
+},
+"8933": {
+"lat": 47.68656,
+"lng": 14.61394,
+"place": "Bergerviertel"
+},
+"8934": {
+"lat": 47.74502,
+"lng": 14.62852,
+"place": "Unterlaussa"
+},
+"8940": {
+"lat": 47.56221,
+"lng": 14.2385,
+"place": "Döllach"
+},
+"8942": {
+"lat": 47.54885,
+"lng": 14.14475,
+"place": "Maitschern"
+},
+"8943": {
+"lat": 47.51566,
+"lng": 14.1545,
+"place": "Aich"
+},
+"8950": {
+"lat": 47.53685,
+"lng": 14.11345,
+"place": "Niederhofen"
+},
+"8951": {
+"lat": 47.5274,
+"lng": 14.07045,
+"place": "Pürgg"
+},
+"8952": {
+"lat": 47.49189,
+"lng": 14.09527,
+"place": "Altirdning"
+},
+"8953": {
+"lat": 47.44494,
+"lng": 14.13309,
+"place": "Donnersbach"
+},
+"8954": {
+"lat": 47.48082,
+"lng": 13.9706,
+"place": "Diemlern"
+},
+"8960": {
+"lat": 47.46838,
+"lng": 14.00451,
+"place": "Gritschenberg"
+},
+"8961": {
+"lat": 47.3974,
+"lng": 13.97652,
+"place": "Großsölk"
+},
+"8962": {
+"lat": 47.43893,
+"lng": 13.91207,
+"place": "Aich"
+},
+"8965": {
+"lat": 47.41418,
+"lng": 13.85642,
+"place": "Assach"
+},
+"8966": {
+"lat": 47.4148,
+"lng": 13.81634,
+"place": "Aich"
+},
+"8967": {
+"lat": 47.40879,
+"lng": 13.75931,
+"place": "Birnberg"
+},
+"8970": {
+"lat": 47.40042,
+"lng": 13.6676,
+"place": "Klaus"
+},
+"8971": {
+"lat": 47.37087,
+"lng": 13.68052,
+"place": "Fastenberg"
+},
+"8972": {
+"lat": 47.41233,
+"lng": 13.69487,
+"place": "Klaus"
+},
+"8973": {
+"lat": 47.396,
+"lng": 13.6093,
+"place": "Gleiming"
+},
+"8974": {
+"lat": 47.3963,
+"lng": 13.5925,
+"place": "Mandling"
+},
+"8982": {
+"lat": 47.5499,
+"lng": 14.02522,
+"place": "Furt"
+},
+"8983": {
+"lat": 47.5582,
+"lng": 13.92523,
+"place": "Bad Mitterndorf"
+},
+"8984": {
+"lat": 47.56395,
+"lng": 13.85265,
+"place": "Knoppen"
+},
+"8990": {
+"lat": 47.60422,
+"lng": 13.78687,
+"place": "Anger"
+},
+"8992": {
+"lat": 47.6339,
+"lng": 13.75036,
+"place": "Altaussee"
+},
+"8993": {
+"lat": 47.62162,
+"lng": 13.8335,
+"place": "Archkogl"
+},
+"9000": {
+"lat": 46.6103,
+"lng": 13.8558,
+"place": "Villach"
+},
+"9010": {
+"lat": 46.6247,
+"lng": 14.3053,
+"place": "Klagenfurt am Wörthersee"
+},
+"9020": {
+"lat": 46.63076,
+"lng": 14.334,
+"place": "Aich an der Straße"
+},
+"9021": {
+"lat": 46.633,
+"lng": 14.3299,
+"place": "Klagenfurt am Wörthersee Postfach"
+},
+"9022": {
+"lat": 46.6247,
+"lng": 14.3053,
+"place": "Klagenfurt am Wörthersee"
+},
+"9023": {
+"lat": 46.6247,
+"lng": 14.3053,
+"place": "Klagenfurt am Wörthersee"
+},
+"9025": {
+"lat": 46.6247,
+"lng": 14.3053,
+"place": "Klagenfurt am Wörthersee"
+},
+"9026": {
+"lat": 46.6247,
+"lng": 14.3053,
+"place": "Klagenfurt am Wörthersee"
+},
+"9027": {
+"lat": 46.6247,
+"lng": 14.3053,
+"place": "Klagenfurt am Wörthersee"
+},
+"9028": {
+"lat": 46.6247,
+"lng": 14.3053,
+"place": "Klagenfurt am Wörthersee"
+},
+"9033": {
+"lat": 46.6247,
+"lng": 14.3053,
+"place": "Klagenfurt"
+},
+"9034": {
+"lat": 46.6247,
+"lng": 14.3053,
+"place": "Klagenfurt"
+},
+"9061": {
+"lat": 46.65862,
+"lng": 14.23777,
+"place": "Klagenfurt,09.Bez.:Annabichl"
+},
+"9062": {
+"lat": 46.66755,
+"lng": 14.18751,
+"place": "Albern"
+},
+"9063": {
+"lat": 46.68985,
+"lng": 14.34125,
+"place": "Pörtschach am Berg"
+},
+"9064": {
+"lat": 46.67935,
+"lng": 14.42633,
+"place": "Christofberg"
+},
+"9065": {
+"lat": 46.58885,
+"lng": 14.39867,
+"place": "Berg"
+},
+"9071": {
+"lat": 46.56182,
+"lng": 14.22319,
+"place": "Am Teller"
+},
+"9072": {
+"lat": 46.54777,
+"lng": 14.13902,
+"place": "Bach / Potok"
+},
+"9073": {
+"lat": 46.58704,
+"lng": 14.2657,
+"place": "Aich"
+},
+"9074": {
+"lat": 46.58865,
+"lng": 14.18537,
+"place": "Dobein"
+},
+"9081": {
+"lat": 46.61455,
+"lng": 14.20305,
+"place": "Raunach"
+},
+"9082": {
+"lat": 46.61827,
+"lng": 14.13973,
+"place": "Maria Wörth"
+},
+"9100": {
+"lat": 46.66125,
+"lng": 14.63627,
+"place": "Arlsdorf"
+},
+"9102": {
+"lat": 46.70731,
+"lng": 14.55779,
+"place": "Bösenort"
+},
+"9103": {
+"lat": 46.72793,
+"lng": 14.63837,
+"place": "Bösenort"
+},
+"9111": {
+"lat": 46.68668,
+"lng": 14.64683,
+"place": "Attendorf"
+},
+"9112": {
+"lat": 46.71496,
+"lng": 14.7246,
+"place": "Großenegg"
+},
+"9113": {
+"lat": 46.65749,
+"lng": 14.76544,
+"place": "Bach"
+},
+"9121": {
+"lat": 46.63693,
+"lng": 14.53976,
+"place": "Admont"
+},
+"9122": {
+"lat": 46.60517,
+"lng": 14.57942,
+"place": "Brenndorf"
+},
+"9123": {
+"lat": 46.5761,
+"lng": 14.5215,
+"place": "Unterkrain"
+},
+"9125": {
+"lat": 46.62176,
+"lng": 14.66114,
+"place": "Edling"
+},
+"9130": {
+"lat": 46.65939,
+"lng": 14.46585,
+"place": "Ameisbichl"
+},
+"9131": {
+"lat": 46.61396,
+"lng": 14.45835,
+"place": "Haidach"
+},
+"9132": {
+"lat": 46.56244,
+"lng": 14.51212,
+"place": "Abriach"
+},
+"9133": {
+"lat": 46.55027,
+"lng": 14.6034,
+"place": "Hart"
+},
+"9135": {
+"lat": 46.49114,
+"lng": 14.59853,
+"place": "Bad Eisenkappel"
+},
+"9141": {
+"lat": 46.59186,
+"lng": 14.64465,
+"place": "Buchbrunn"
+},
+"9142": {
+"lat": 46.55839,
+"lng": 14.69662,
+"place": "Globasnitz / Globasnica"
+},
+"9143": {
+"lat": 46.56694,
+"lng": 14.76123,
+"place": "Dolintschitschach / Dolincice"
+},
+"9150": {
+"lat": 46.59309,
+"lng": 14.79265,
+"place": "Aich / Dob"
+},
+"9155": {
+"lat": 46.63381,
+"lng": 14.89339,
+"place": "Bach"
+},
+"9161": {
+"lat": 46.5602,
+"lng": 14.30062,
+"place": "Angern"
+},
+"9162": {
+"lat": 46.52878,
+"lng": 14.24103,
+"place": "Babniak"
+},
+"9163": {
+"lat": 46.49238,
+"lng": 14.2629,
+"place": "Bodental / Poden"
+},
+"9170": {
+"lat": 46.51148,
+"lng": 14.34162,
+"place": "Dörfl"
+},
+"9171": {
+"lat": 46.5269,
+"lng": 14.3019,
+"place": "Ferlach"
+},
+"9172": {
+"lat": 46.4722,
+"lng": 14.3889,
+"place": "Zell-Pfarre"
+},
+"9173": {
+"lat": 46.53114,
+"lng": 14.42274,
+"place": "Dobrowa"
+},
+"9181": {
+"lat": 46.5161,
+"lng": 14.16573,
+"place": "Bärental"
+},
+"9182": {
+"lat": 46.5322,
+"lng": 14.09052,
+"place": "Dragositschach"
+},
+"9183": {
+"lat": 46.5381,
+"lng": 14.03397,
+"place": "Frießnitz"
+},
+"9184": {
+"lat": 46.55692,
+"lng": 14.04085,
+"place": "Dreilach"
+},
+"9201": {
+"lat": 46.636,
+"lng": 14.21868,
+"place": "Görtschach"
+},
+"9210": {
+"lat": 46.63213,
+"lng": 14.17167,
+"place": "Kreggab"
+},
+"9212": {
+"lat": 46.64597,
+"lng": 14.08968,
+"place": "Arndorf"
+},
+"9220": {
+"lat": 46.61283,
+"lng": 14.02943,
+"place": "Aich"
+},
+"9231": {
+"lat": 46.64812,
+"lng": 14.00822,
+"place": "Dröschitz"
+},
+"9232": {
+"lat": 46.57828,
+"lng": 14.00777,
+"place": "Berg"
+},
+"9241": {
+"lat": 46.61677,
+"lng": 13.95936,
+"place": "Damtschach"
+},
+"9300": {
+"lat": 46.77094,
+"lng": 14.34839,
+"place": "Breitenstein"
+},
+"9311": {
+"lat": 46.81683,
+"lng": 14.31733,
+"place": "Föbing"
+},
+"9312": {
+"lat": 46.84047,
+"lng": 14.39124,
+"place": "Drasenberg"
+},
+"9313": {
+"lat": 46.78077,
+"lng": 14.42714,
+"place": "Bernaich"
+},
+"9314": {
+"lat": 46.77255,
+"lng": 14.46579,
+"place": "Pölling"
+},
+"9321": {
+"lat": 46.82298,
+"lng": 14.47745,
+"place": "Boden"
+},
+"9322": {
+"lat": 46.90593,
+"lng": 14.43873,
+"place": "Eberdorf"
+},
+"9323": {
+"lat": 47.0051,
+"lng": 14.4028,
+"place": "Dürnstein in der Steiermark"
+},
+"9330": {
+"lat": 46.87317,
+"lng": 14.45134,
+"place": "Aich"
+},
+"9334": {
+"lat": 46.89783,
+"lng": 14.50852,
+"place": "Deinsberg"
+},
+"9335": {
+"lat": 46.91208,
+"lng": 14.53657,
+"place": "Hinterberg"
+},
+"9341": {
+"lat": 46.90763,
+"lng": 14.331,
+"place": "Bachl"
+},
+"9342": {
+"lat": 46.85165,
+"lng": 14.28006,
+"place": "Dörfl"
+},
+"9343": {
+"lat": 46.88572,
+"lng": 14.20736,
+"place": "Ading"
+},
+"9344": {
+"lat": 46.83565,
+"lng": 14.19021,
+"place": "Dalling"
+},
+"9345": {
+"lat": 46.8681,
+"lng": 14.14702,
+"place": "Altenmarkt"
+},
+"9346": {
+"lat": 46.89739,
+"lng": 14.14144,
+"place": "Bach"
+},
+"9360": {
+"lat": 46.96348,
+"lng": 14.41837,
+"place": "Dobritsch"
+},
+"9361": {
+"lat": 46.98448,
+"lng": 14.32876,
+"place": "Gunzenberg"
+},
+"9362": {
+"lat": 46.97328,
+"lng": 14.22432,
+"place": "Feistritz"
+},
+"9363": {
+"lat": 46.97817,
+"lng": 14.1749,
+"place": "Auen"
+},
+"9371": {
+"lat": 46.75991,
+"lng": 14.50163,
+"place": "Brückl"
+},
+"9372": {
+"lat": 46.7969,
+"lng": 14.56777,
+"place": "Baumgarten"
+},
+"9373": {
+"lat": 46.82317,
+"lng": 14.54177,
+"place": "Filfing"
+},
+"9374": {
+"lat": 46.87154,
+"lng": 14.55262,
+"place": "Buch"
+},
+"9375": {
+"lat": 46.94809,
+"lng": 14.5318,
+"place": "Gobertal"
+},
+"9376": {
+"lat": 46.95137,
+"lng": 14.57781,
+"place": "Andreaskreuz"
+},
+"9400": {
+"lat": 46.84811,
+"lng": 14.8329,
+"place": "Auen"
+},
+"9402": {
+"lat": 46.8481,
+"lng": 14.8329,
+"place": "Wolfsberg, Kärnten"
+},
+"9411": {
+"lat": 46.83468,
+"lng": 14.77198,
+"place": "Aichberg"
+},
+"9412": {
+"lat": 46.87077,
+"lng": 14.78079,
+"place": "Arling"
+},
+"9413": {
+"lat": 46.87214,
+"lng": 14.89342,
+"place": "Auen"
+},
+"9421": {
+"lat": 46.76953,
+"lng": 14.90109,
+"place": "Eitweg"
+},
+"9422": {
+"lat": 46.74073,
+"lng": 14.88157,
+"place": "Aich"
+},
+"9423": {
+"lat": 46.73082,
+"lng": 14.93678,
+"place": "Andersdorf"
+},
+"9431": {
+"lat": 46.80891,
+"lng": 14.83444,
+"place": "Kleinedling"
+},
+"9433": {
+"lat": 46.76627,
+"lng": 14.81026,
+"place": "Magersdorf"
+},
+"9441": {
+"lat": 46.9236,
+"lng": 14.86074,
+"place": "Gräbern"
+},
+"9451": {
+"lat": 46.95274,
+"lng": 14.9443,
+"place": "Kleinpreitenegg"
+},
+"9461": {
+"lat": 46.92628,
+"lng": 14.80528,
+"place": "Gräbern"
+},
+"9462": {
+"lat": 46.95724,
+"lng": 14.7974,
+"place": "Bad St. Leonhard im Lavanttal"
+},
+"9463": {
+"lat": 47.01314,
+"lng": 14.72071,
+"place": "Großprethal"
+},
+"9470": {
+"lat": 46.70379,
+"lng": 14.85256,
+"place": "Aich"
+},
+"9472": {
+"lat": 46.67184,
+"lng": 14.93654,
+"place": "Unterholz"
+},
+"9473": {
+"lat": 46.65397,
+"lng": 14.93572,
+"place": "Achalm"
+},
+"9500": {
+"lat": 46.61809,
+"lng": 13.84517,
+"place": "Weißenbach"
+},
+"9501": {
+"lat": 46.6103,
+"lng": 13.8558,
+"place": "Villach"
+},
+"9503": {
+"lat": 46.6103,
+"lng": 13.8558,
+"place": "Villach"
+},
+"9504": {
+"lat": 46.603,
+"lng": 13.8326,
+"place": "Villach-Auen"
+},
+"9507": {
+"lat": 46.6103,
+"lng": 13.8558,
+"place": "Villach"
+},
+"9509": {
+"lat": 46.6167,
+"lng": 13.9,
+"place": "Zauchen"
+},
+"9520": {
+"lat": 46.66502,
+"lng": 13.91485,
+"place": "Annenheim"
+},
+"9521": {
+"lat": 46.66911,
+"lng": 13.86399,
+"place": "Eichholz"
+},
+"9523": {
+"lat": 46.63202,
+"lng": 13.87518,
+"place": "Gratschach"
+},
+"9524": {
+"lat": 46.61475,
+"lng": 13.88743,
+"place": "Landskron"
+},
+"9530": {
+"lat": 46.62615,
+"lng": 13.68753,
+"place": "Bad Bleiberg"
+},
+"9531": {
+"lat": 46.61518,
+"lng": 13.62852,
+"place": "Bleiberg-Kreuth"
+},
+"9535": {
+"lat": 46.59116,
+"lng": 14.13582,
+"place": "Aich"
+},
+"9536": {
+"lat": 46.5729,
+"lng": 14.04356,
+"place": "Dieschitz"
+},
+"9541": {
+"lat": 46.6899,
+"lng": 13.81642,
+"place": "Buchholz"
+},
+"9542": {
+"lat": 46.72928,
+"lng": 13.79028,
+"place": "Afritz"
+},
+"9543": {
+"lat": 46.73574,
+"lng": 13.87076,
+"place": "Arriach"
+},
+"9544": {
+"lat": 46.75762,
+"lng": 13.75826,
+"place": "Erlach"
+},
+"9545": {
+"lat": 46.81456,
+"lng": 13.67612,
+"place": "Dabor"
+},
+"9546": {
+"lat": 46.81835,
+"lng": 13.78174,
+"place": "Aigen"
+},
+"9551": {
+"lat": 46.68724,
+"lng": 13.96648,
+"place": "Bodensdorf"
+},
+"9552": {
+"lat": 46.70189,
+"lng": 14.01141,
+"place": "Fresen"
+},
+"9554": {
+"lat": 46.76167,
+"lng": 14.15443,
+"place": "Agsdorf"
+},
+"9555": {
+"lat": 46.71931,
+"lng": 14.20984,
+"place": "Metschach"
+},
+"9556": {
+"lat": 46.75944,
+"lng": 14.26612,
+"place": "Beißendorf"
+},
+"9560": {
+"lat": 46.72953,
+"lng": 14.10373,
+"place": "Hart"
+},
+"9562": {
+"lat": 46.74771,
+"lng": 14.02687,
+"place": "Außerteuchen"
+},
+"9563": {
+"lat": 46.79296,
+"lng": 13.93817,
+"place": "Bergl"
+},
+"9564": {
+"lat": 46.83299,
+"lng": 13.8655,
+"place": "Falkertsee"
+},
+"9565": {
+"lat": 46.86393,
+"lng": 13.89189,
+"place": "Ebene Reichenau"
+},
+"9566": {
+"lat": 46.7237,
+"lng": 14.0958,
+"place": "Feldkirchen"
+},
+"9570": {
+"lat": 46.6749,
+"lng": 13.99103,
+"place": "Alt-Ossiach"
+},
+"9571": {
+"lat": 46.83397,
+"lng": 14.04555,
+"place": "Hochrindl"
+},
+"9572": {
+"lat": 46.86842,
+"lng": 14.07174,
+"place": "Albern"
+},
+"9580": {
+"lat": 46.59264,
+"lng": 13.91961,
+"place": "Bogenfeld"
+},
+"9581": {
+"lat": 46.56274,
+"lng": 13.96984,
+"place": "Kopein"
+},
+"9582": {
+"lat": 46.55131,
+"lng": 13.92812,
+"place": "Altfinkenstein"
+},
+"9583": {
+"lat": 46.5648,
+"lng": 13.8903,
+"place": "Faak am See"
+},
+"9584": {
+"lat": 46.5863,
+"lng": 13.8338,
+"place": "Finkenstein"
+},
+"9585": {
+"lat": 46.56779,
+"lng": 13.8416,
+"place": "Gödersdorf"
+},
+"9586": {
+"lat": 46.56747,
+"lng": 13.80157,
+"place": "Fürnitz"
+},
+"9587": {
+"lat": 46.55043,
+"lng": 13.77849,
+"place": "Erlendorf"
+},
+"9601": {
+"lat": 46.54784,
+"lng": 13.71624,
+"place": "Agoritschach"
+},
+"9602": {
+"lat": 46.54696,
+"lng": 13.65043,
+"place": "Draschitz"
+},
+"9611": {
+"lat": 46.5909,
+"lng": 13.6141,
+"place": "Emmersdorf"
+},
+"9612": {
+"lat": 46.61557,
+"lng": 13.62374,
+"place": "Bach"
+},
+"9613": {
+"lat": 46.56622,
+"lng": 13.61732,
+"place": "Achomitz"
+},
+"9614": {
+"lat": 46.59805,
+"lng": 13.5305,
+"place": "Bodenhof"
+},
+"9615": {
+"lat": 46.62341,
+"lng": 13.46392,
+"place": "Schinzengraben"
+},
+"9620": {
+"lat": 46.63111,
+"lng": 13.34118,
+"place": "Aigen"
+},
+"9622": {
+"lat": 46.67904,
+"lng": 13.26346,
+"place": "Golz"
+},
+"9623": {
+"lat": 46.61789,
+"lng": 13.52675,
+"place": "Bach"
+},
+"9624": {
+"lat": 46.61341,
+"lng": 13.42578,
+"place": "Brugg"
+},
+"9631": {
+"lat": 46.62651,
+"lng": 13.26033,
+"place": "Achleiten"
+},
+"9632": {
+"lat": 46.64176,
+"lng": 13.20143,
+"place": "Hochwart"
+},
+"9633": {
+"lat": 46.6461,
+"lng": 13.15153,
+"place": "Forst"
+},
+"9634": {
+"lat": 46.6495,
+"lng": 13.12109,
+"place": "Bodenmühl"
+},
+"9635": {
+"lat": 46.66066,
+"lng": 13.07058,
+"place": "Dellach"
+},
+"9640": {
+"lat": 46.67059,
+"lng": 12.99918,
+"place": "Höfling"
+},
+"9651": {
+"lat": 46.68398,
+"lng": 12.92595,
+"place": "Aigen"
+},
+"9652": {
+"lat": 46.68553,
+"lng": 12.8842,
+"place": "Birnbaum"
+},
+"9653": {
+"lat": 46.69446,
+"lng": 12.82807,
+"place": "Assing"
+},
+"9654": {
+"lat": 46.70698,
+"lng": 12.766,
+"place": "Frohn"
+},
+"9655": {
+"lat": 46.7051,
+"lng": 12.73735,
+"place": "Guggenberg"
+},
+"9701": {
+"lat": 46.76466,
+"lng": 13.58463,
+"place": "Aichforst"
+},
+"9702": {
+"lat": 46.74458,
+"lng": 13.63867,
+"place": "Beinten"
+},
+"9710": {
+"lat": 46.68149,
+"lng": 13.66861,
+"place": "Duel"
+},
+"9711": {
+"lat": 46.70239,
+"lng": 13.63678,
+"place": "Aichach"
+},
+"9712": {
+"lat": 46.72102,
+"lng": 13.69905,
+"place": "Amberg"
+},
+"9713": {
+"lat": 46.71232,
+"lng": 13.61072,
+"place": "Alberden"
+},
+"9714": {
+"lat": 46.70391,
+"lng": 13.57472,
+"place": "Boden"
+},
+"9721": {
+"lat": 46.67472,
+"lng": 13.72234,
+"place": "Kellerberg"
+},
+"9722": {
+"lat": 46.66065,
+"lng": 13.75852,
+"place": "Gummern"
+},
+"9751": {
+"lat": 46.8197,
+"lng": 13.32384,
+"place": "Feistritz"
+},
+"9753": {
+"lat": 46.76897,
+"lng": 13.34652,
+"place": "Althaus"
+},
+"9754": {
+"lat": 46.76364,
+"lng": 13.25279,
+"place": "Flattachberg"
+},
+"9761": {
+"lat": 46.76209,
+"lng": 13.1931,
+"place": "Amberg"
+},
+"9762": {
+"lat": 46.72007,
+"lng": 13.28081,
+"place": "Gatschach"
+},
+"9771": {
+"lat": 46.74623,
+"lng": 13.13138,
+"place": "Berg"
+},
+"9772": {
+"lat": 46.74615,
+"lng": 13.08049,
+"place": "Dellach"
+},
+"9773": {
+"lat": 46.77363,
+"lng": 13.05764,
+"place": "Glanz"
+},
+"9781": {
+"lat": 46.75206,
+"lng": 12.95993,
+"place": "Flaschberg"
+},
+"9782": {
+"lat": 46.78977,
+"lng": 12.91437,
+"place": "Damer"
+},
+"9800": {
+"lat": 46.79211,
+"lng": 13.51455,
+"place": "Aich"
+},
+"9802": {
+"lat": 46.8,
+"lng": 13.5,
+"place": "Spittal an der Drau"
+},
+"9805": {
+"lat": 46.80184,
+"lng": 13.44577,
+"place": "Baldramsdorf"
+},
+"9811": {
+"lat": 46.84114,
+"lng": 13.44363,
+"place": "Feicht"
+},
+"9812": {
+"lat": 46.86059,
+"lng": 13.35903,
+"place": "Göriach"
+},
+"9813": {
+"lat": 46.87238,
+"lng": 13.32343,
+"place": "Altenmarkt"
+},
+"9814": {
+"lat": 46.84787,
+"lng": 13.35677,
+"place": "Mühldorf"
+},
+"9815": {
+"lat": 46.89049,
+"lng": 13.29238,
+"place": "Hattelberg"
+},
+"9816": {
+"lat": 46.89816,
+"lng": 13.26021,
+"place": "Gappen"
+},
+"9821": {
+"lat": 46.93754,
+"lng": 13.20522,
+"place": "Dürnvellach"
+},
+"9822": {
+"lat": 46.9866,
+"lng": 13.18055,
+"place": "Dösen"
+},
+"9831": {
+"lat": 46.94187,
+"lng": 13.10344,
+"place": "Außerfragant"
+},
+"9832": {
+"lat": 46.89971,
+"lng": 13.0329,
+"place": "Berg ob Stall"
+},
+"9833": {
+"lat": 46.86757,
+"lng": 12.94941,
+"place": "Lainach"
+},
+"9841": {
+"lat": 46.86988,
+"lng": 12.93586,
+"place": "Auen"
+},
+"9842": {
+"lat": 46.91963,
+"lng": 12.94264,
+"place": "Asten"
+},
+"9843": {
+"lat": 46.97532,
+"lng": 12.89069,
+"place": "Allas"
+},
+"9844": {
+"lat": 46.98796,
+"lng": 12.99221,
+"place": "Aichhorn"
+},
+"9851": {
+"lat": 46.84097,
+"lng": 13.46727,
+"place": "Karlsdorf"
+},
+"9852": {
+"lat": 46.87378,
+"lng": 13.46208,
+"place": "Aich"
+},
+"9853": {
+"lat": 46.91748,
+"lng": 13.51273,
+"place": "Brochendorf"
+},
+"9854": {
+"lat": 46.9655,
+"lng": 13.45768,
+"place": "Brandstatt"
+},
+"9861": {
+"lat": 46.92648,
+"lng": 13.59633,
+"place": "Densdorf"
+},
+"9862": {
+"lat": 46.96755,
+"lng": 13.63342,
+"place": "Illwitzen"
+},
+"9863": {
+"lat": 47.02278,
+"lng": 13.60471,
+"place": "Abwerzg"
+},
+"9871": {
+"lat": 46.84128,
+"lng": 13.50289,
+"place": "Kolm"
+},
+"9872": {
+"lat": 46.80745,
+"lng": 13.58912,
+"place": "Dellach"
+},
+"9873": {
+"lat": 46.77885,
+"lng": 13.6464,
+"place": "Döbriach"
+},
+"9900": {
+"lat": 46.83415,
+"lng": 12.7659,
+"place": "Lienz"
+},
+"9903": {
+"lat": 46.8533,
+"lng": 12.71303,
+"place": "Glanz"
+},
+"9904": {
+"lat": 46.8541,
+"lng": 12.76112,
+"place": "Oberdorf"
+},
+"9905": {
+"lat": 46.846,
+"lng": 12.78805,
+"place": "Obergaimberg"
+},
+"9906": {
+"lat": 46.7989,
+"lng": 12.8381,
+"place": "Lavant"
+},
+"9907": {
+"lat": 46.8161,
+"lng": 12.7897,
+"place": "Tristach"
+},
+"9908": {
+"lat": 46.8164,
+"lng": 12.7636,
+"place": "Amlach"
+},
+"9909": {
+"lat": 46.80493,
+"lng": 12.73917,
+"place": "Burgfrieden"
+},
+"9911": {
+"lat": 46.78904,
+"lng": 12.63824,
+"place": "Bannberg"
+},
+"9912": {
+"lat": 46.77032,
+"lng": 12.55879,
+"place": "Anras"
+},
+"9913": {
+"lat": 46.7572,
+"lng": 12.5283,
+"place": "Abfaltersbach"
+},
+"9918": {
+"lat": 46.7539,
+"lng": 12.4842,
+"place": "Strassen"
+},
+"9919": {
+"lat": 46.75275,
+"lng": 12.45745,
+"place": "Panzendorf"
+},
+"9920": {
+"lat": 46.75087,
+"lng": 12.409,
+"place": "Arnbach"
+},
+"9931": {
+"lat": 46.7875,
+"lng": 12.4314,
+"place": "Außervillgraten"
+},
+"9932": {
+"lat": 46.8119,
+"lng": 12.3747,
+"place": "Innervillgraten"
+},
+"9941": {
+"lat": 46.73195,
+"lng": 12.48135,
+"place": "Hollbruck"
+},
+"9942": {
+"lat": 46.71355,
+"lng": 12.60582,
+"place": "Bergen"
+},
+"9943": {
+"lat": 46.7035,
+"lng": 12.6776,
+"place": "Untertilliach"
+},
+"9951": {
+"lat": 46.87597,
+"lng": 12.68793,
+"place": "Ainet"
+},
+"9952": {
+"lat": 46.9108,
+"lng": 12.6226,
+"place": "St. Johann im Walde"
+},
+"9954": {
+"lat": 46.8794,
+"lng": 12.6542,
+"place": "Schlaiten"
+},
+"9961": {
+"lat": 46.92654,
+"lng": 12.51661,
+"place": "Dölach"
+},
+"9962": {
+"lat": 46.92355,
+"lng": 12.42218,
+"place": "Bruggen"
+},
+"9963": {
+"lat": 46.91722,
+"lng": 12.33532,
+"place": "Außerrotte"
+},
+"9971": {
+"lat": 47.00086,
+"lng": 12.53824,
+"place": "Berg"
+},
+"9972": {
+"lat": 47.00037,
+"lng": 12.45153,
+"place": "Göriach"
+},
+"9974": {
+"lat": 47.01716,
+"lng": 12.37302,
+"place": "Bichl"
+},
+"9981": {
+"lat": 46.98232,
+"lng": 12.62868,
+"place": "Arnig"
+},
+"9990": {
+"lat": 46.84285,
+"lng": 12.8126,
+"place": "Debant"
+},
+"9991": {
+"lat": 46.82618,
+"lng": 12.8417,
+"place": "Dölsach"
+},
+"9992": {
+"lat": 46.8357,
+"lng": 12.8497,
+"place": "Iselsberg"
+}
+}

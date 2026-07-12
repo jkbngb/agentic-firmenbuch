@@ -508,7 +508,10 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
           oenace_group (codes + German labels via describe_fields), NOT geschaeftszweig.
         - Industry by literal ACTIVITY TEXT: geschaeftszweig matches the Firmenbuch free-text
           description as substring ("anlagenbau" works; "technisch" won't — it's not semantic).
-        - Region: bundesland (broad) > city (exact town) > postal_code prefix.
+        - Region: bundesland (broad) > city (exact town) > postal_code prefix. Radius: use
+          near={"place":"Gmunden","radius_km":25} or near={"postal_code":"4810","radius_km":25};
+          cards get distance_km and sort by distance. An ambiguous town name is rejected with the
+          candidate PLZs.
         - Zero hits? Read `relaxations` in the response and adjust THAT filter; do not retry
           blind variations. `applied_filters` echoes how your inputs were normalized.
 
