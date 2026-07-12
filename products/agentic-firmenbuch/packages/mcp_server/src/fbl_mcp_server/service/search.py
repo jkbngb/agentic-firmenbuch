@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextvars
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any
 
@@ -258,10 +259,22 @@ def search_companies(
     def _count() -> Any:
         return next(iter(cosmos.query(PRESENTED, count_sql, params)), 0)
 
+    # Each worker runs inside a COPY of the current context so the RU metered by cosmos.query
+    # (a ContextVar in fbl_core.metrics) lands in this request's accumulator — ContextVars don't
+    # propagate into pool threads on their own. Separate copies per submit: a Context object
+    # can't be entered by two threads at once. (T4 + T5)
     with ThreadPoolExecutor(max_workers=2) as pool:
-        count_future = pool.submit(_count)
+        count_future = pool.submit(contextvars.copy_context().run, _count)
         page_future = pool.submit(
-            _cosmos_page, cosmos, where_sql, params, order_path, descending, start, page_size
+            contextvars.copy_context().run,
+            _cosmos_page,
+            cosmos,
+            where_sql,
+            params,
+            order_path,
+            descending,
+            start,
+            page_size,
         )
         raw_total = count_future.result()
         if isinstance(raw_total, int):  # Cosmos: COUNT(1) → real total; page server-side

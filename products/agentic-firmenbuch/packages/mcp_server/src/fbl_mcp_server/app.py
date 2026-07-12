@@ -31,6 +31,7 @@ from fbl_core_at.models import SearchFilters, Sort
 from . import plans, service
 from .errors import RateLimited, Unauthorized
 from .oauth_app import _OAuthChallenge, register_oauth_endpoints
+from .telemetry import configure_telemetry, instrumented, set_plan, set_session_id
 
 # FastMCP injects a tool param annotated as the bare `Context` class (its matcher needs a class,
 # not a parameterized generic). mypy --strict wants the type args, so alias it: at type-check time
@@ -79,6 +80,7 @@ class McpService:
         # never fail a tool call — the rate-limit counters above are authoritative.
         with contextlib.suppress(Exception):
             record_metered_usage(account, tool, self._cosmos)
+        set_plan(self._plan(account))  # telemetry: the plan actually in force for this call (T5)
         return account
 
     # --- plan feature gating (Free vs full-access plans; see fbl_mcp_server.plans) ----------
@@ -100,6 +102,7 @@ class McpService:
         stat = usage.get("by_tool", {}).get("get_company_details", {})
         return int(stat.get("calls", 0))
 
+    @instrumented
     def search_companies(
         self,
         token: str,
@@ -117,6 +120,7 @@ class McpService:
             resp = plans.flatten_free_search_response(resp)
         return resp
 
+    @instrumented
     def get_company_details(self, token: str, fnr: str) -> dict[str, Any]:
         account = self._authorize(token, "get_company_details")
         # Free plan: cap full profiles per month. ``_authorize`` has already metered THIS call,
@@ -134,11 +138,13 @@ class McpService:
             return None
         return plans.gate_pro_only(tool, self._settings.upgrade_url)
 
+    @instrumented
     def describe_fields(self, token: str) -> dict[str, Any]:
         """Static catalog of every field the server can return, by tool tier (§9)."""
         self._authorize(token, "describe_fields")
         return service.describe_fields()
 
+    @instrumented
     def get_company_history(
         self, token: str, fnr: str, metrics: list[str] | None = None
     ) -> dict[str, Any]:
@@ -148,6 +154,7 @@ class McpService:
             return gate
         return service.get_company_history(self._cosmos, fnr, metrics)
 
+    @instrumented
     def get_full_record(self, token: str, fnr: str) -> dict[str, Any]:
         """The complete consolidated/derived record — full superset, nothing reduced (§5.1)."""
         account = self._authorize(token, "get_full_record")
@@ -158,6 +165,7 @@ class McpService:
             self._cosmos, fnr, expose_personal_data=self._settings.expose_personal_data
         )
 
+    @instrumented
     def get_document(self, token: str, doc_key: str) -> dict[str, Any]:
         account = self._authorize(token, "get_document")
         gate = self._gate_pro_only(account, "get_document")
@@ -165,10 +173,12 @@ class McpService:
             return gate
         return service.get_document(self._cosmos, doc_key, self._blob)
 
+    @instrumented
     def list_sectors(self, token: str) -> dict[str, Any]:
         self._authorize(token, "list_sectors")
         return service.list_sectors(self._cosmos)
 
+    @instrumented
     def get_cohort_summary(self, token: str, dimension: str, value: str) -> dict[str, Any]:
         account = self._authorize(token, "get_cohort_summary")
         gate = self._gate_pro_only(account, "get_cohort_summary")
@@ -176,6 +186,7 @@ class McpService:
             return gate
         return service.get_cohort_summary(self._cosmos, dimension, value)
 
+    @instrumented
     def find_peers(self, token: str, fnr: str, n: int = 10) -> dict[str, Any]:
         account = self._authorize(token, "find_peers")
         gate = self._gate_pro_only(account, "find_peers")
@@ -183,6 +194,7 @@ class McpService:
             return gate
         return service.find_peers(self._cosmos, fnr, n)
 
+    @instrumented
     def list_events(
         self,
         token: str,
@@ -216,6 +228,7 @@ class McpService:
             page_size=page_size,
         )
 
+    @instrumented
     def get_event_stats(
         self,
         token: str,
@@ -241,12 +254,14 @@ class McpService:
             legal_form=legal_form,
         )
 
+    @instrumented
     def get_coverage(self, token: str) -> dict[str, Any]:
         """Internal coverage dashboard (XML vs PDF-only vs none) — auth-restricted (§11).
         Served from the precomputed ``__stats__`` doc so it can't full-scan in-request."""
         self._authorize(token, "get_coverage")
         return service.coverage(self._cosmos)
 
+    @instrumented
     def get_my_usage(self, token: str, window: str = "today") -> dict[str, Any]:
         """The caller's own consumption over *window* (Erweiterungen-Spec §8.5). Reads only
         the key's own usage docs; never exposes another user's data or the e-mail behind it."""
@@ -282,8 +297,20 @@ def _http_credential(ctx: Any) -> tuple[str, str]:
 
 def _http_token(ctx: Any) -> str:
     """Backwards-compatible: return whichever credential the client presented as a string.
-    McpService._authorize knows to try X-API-Key first then bearer (see ``McpService``)."""
+    McpService._authorize knows to try X-API-Key first then bearer (see ``McpService``).
+
+    Side effect: binds the streamable-HTTP ``mcp-session-id`` for telemetry (T5) — this is the
+    key that ties a burst of tool calls to one LLM conversation ("rounds per session"). Called
+    once in every tool wrapper, so binding here covers them all uniformly."""
     _, token = _http_credential(ctx)
+    session_id: str | None = None
+    try:
+        request = ctx.request_context.request
+        if request is not None:
+            session_id = request.headers.get("mcp-session-id")
+    except Exception:
+        session_id = None
+    set_session_id(session_id)
     return token
 
 
@@ -412,6 +439,10 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
 
     _settings = settings or get_settings()
     _email = email_sender_from_settings(_settings)
+
+    # Wire per-tool telemetry once at startup — a no-op unless APPINSIGHTS_CONNECTION_STRING is
+    # set (then it emits latency/RU/session events; see telemetry.py). Never fails startup. (T5)
+    configure_telemetry(_settings)
 
     # OAuth 2.1 discovery / DCR / authorize / token endpoints (§8.10b) live in oauth_app.py
     # to keep this file focused on the MCP tools.

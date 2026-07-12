@@ -80,13 +80,24 @@ class CosmosStore:
     def query(
         self, container: str, sql: str, params: list[dict[str, Any]] | None = None
     ) -> Iterator[dict[str, Any]]:
-        """Run a parameterized SQL query across partitions."""
+        """Run a parameterized SQL query across partitions.
+
+        Iterates ``by_page()`` so the server-reported request charge of each page can be metered
+        into the active RU accumulator (``fbl_core.metrics``); a no-op when nothing is capturing,
+        so offline/test callers are unaffected."""
+        from fbl_core.metrics import add_ru
+
         client = self._database().get_container_client(container)
-        yield from client.query_items(
+        pager = client.query_items(
             query=sql,
             parameters=params or [],
             enable_cross_partition_query=True,
-        )
+        ).by_page()
+        for page in pager:
+            # last_response_headers reflects the page just fetched by advancing the pager.
+            charge = client.client_connection.last_response_headers.get("x-ms-request-charge", 0)
+            add_ru(float(charge))
+            yield from page
 
     def query_by_field(self, container: str, field: str, value: Any) -> Iterator[dict[str, Any]]:
         """Yield documents where ``c.<field> == value`` (field is an identifier)."""

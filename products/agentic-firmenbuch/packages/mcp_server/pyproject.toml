@@ -11,6 +11,12 @@ dependencies = [
     "anthropic>=0.40",
 ]
 
+# Telemetry (T5) is an OPTIONAL extra: the production image installs `.[telemetry]` and sets
+# APPINSIGHTS_CONNECTION_STRING; offline/dev installs and tests never pull OpenTelemetry, and the
+# import stays lazy (fbl_mcp_server.telemetry) so search works identically with it absent.
+[project.optional-dependencies]
+telemetry = ["azure-monitor-opentelemetry>=1.6"]
+
 [project.scripts]
 fbl-mcp = "fbl_mcp_server.__main__:cli"
 
