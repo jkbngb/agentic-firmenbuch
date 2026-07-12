@@ -498,7 +498,8 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
 
         Query recipes (pick ONE primary strategy per user intent):
         - Specific company by name: filters={"name": "<name>"} — substring, case-insensitive.
-          Results are relevance-ordered (exact/prefix matches first).
+          Results are relevance-ordered (exact/prefix matches first) when the hit set is small
+          (≤200); a broader name acts as a market screen and keeps the numeric sort.
         - Industry as a CONCEPT ("tech companies", "Metallverarbeiter"): use oenace_division /
           oenace_group (codes + German labels via describe_fields), NOT geschaeftszweig.
         - Industry by literal ACTIVITY TEXT: geschaeftszweig matches the Firmenbuch free-text

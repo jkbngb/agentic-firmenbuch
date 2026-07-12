@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import contextvars
+import re
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any
 
@@ -438,10 +439,24 @@ def search_companies(
         )
         raw_total = count_future.result()
         relaxations: list[Relaxation] | None = None
+        # A NAME lookup over a small result set → rank by match quality, not the numeric sort (T10).
         if isinstance(raw_total, int):  # Cosmos: COUNT(1) → real total; page server-side
             total = raw_total
-            rows = page_future.result()
-            page_docs = [d for d in rows if not str(d.get("id", "")).startswith("__")]
+            if filters.name and 0 < total <= _POOL_LIMIT:
+                # Fetch the whole (small) candidate pool unordered and re-rank in Python; total
+                # stays exact. The parallel ordered page is discarded — cheap at ≤200 rows.
+                page_future.result()
+                pool_sql = f"SELECT * FROM c WHERE {where_sql} OFFSET 0 LIMIT {_POOL_LIMIT}"
+                candidates = [
+                    d
+                    for d in cosmos.query(PRESENTED, pool_sql, params)
+                    if not str(d.get("id", "")).startswith("__")
+                ]
+                ranked = _rank_by_name(candidates, filters.name, sort_field)
+                page_docs = ranked[start : start + page_size]
+            else:
+                rows = page_future.result()
+                page_docs = [d for d in rows if not str(d.get("id", "")).startswith("__")]
             if total == 0:
                 # Zero hits with ≥2 active filters → tell the caller which single filter to drop
                 # instead of forcing it into a blind retry spiral (T6). ~0.3 s, parallel.
@@ -454,8 +469,11 @@ def search_companies(
                 for d in rows
                 if not str(d.get("id", "")).startswith("__") and _matches(d, filters)
             ]
-            matched = _sorted_nulls_last(matched, sort_field, descending)
             total = len(matched)
+            if filters.name and 0 < total <= _POOL_LIMIT:
+                matched = _rank_by_name(matched, filters.name, sort_field)  # same fn as Cosmos path
+            else:
+                matched = _sorted_nulls_last(matched, sort_field, descending)
             page_docs = matched[start : start + page_size]
             if total == 0:
                 relaxations = _relaxations_memory(rows, filters)
@@ -483,6 +501,55 @@ _SORT_PATHS = {
     "employees": ("employees", "latest"),
     "last_filing_year": ("company", "last_filing_year"),
 }
+
+# --- name-relevance re-ranking (T10) -------------------------------------------
+# When a caller is FINDING a company (filters.name set) rather than SCREENING a market, match
+# quality must dominate over any numeric sort — otherwise "Novomatic" ranks a micro subsidiary
+# above NOVOMATIC AG just because the AG has no Bilanzsumme. Above this pool size the query is
+# treated as a screen and keeps the numeric sort (a fixed threshold, documented in the docstring).
+_POOL_LIMIT = 200
+_WORD_SPLIT = re.compile(r"[^0-9a-zà-ÿ]+")
+
+
+def _name_match_score(query: str, name: str) -> tuple[int, float]:
+    """Fixed, intent-independent text score (higher = better): exact > prefix > word-boundary
+    start > substring, tie-broken by how much of the name the query covers. Pure + unit-tested."""
+    q = query.casefold().strip()
+    n = (name or "").casefold().strip()
+    if not q or not n:
+        return (0, 0.0)
+    if n == q:
+        tier = 4  # exact
+    elif n.startswith(q):
+        tier = 3  # prefix
+    elif any(tok.startswith(q) for tok in _WORD_SPLIT.split(n) if tok):
+        tier = 2  # a word in the name starts with the query
+    elif q in n:
+        tier = 1  # substring anywhere
+    else:
+        tier = 0  # not a name match (the SQL filter shouldn't return these)
+    return (tier, len(q) / len(n))
+
+
+def _rank_by_name(
+    docs: list[dict[str, Any]], query: str, sort_field: str
+) -> list[dict[str, Any]]:
+    """Re-rank a candidate pool by name relevance, then the requested/default sort value (desc),
+    then fnr (asc, stable). Used by BOTH the Cosmos and in-memory paths so they stay identical."""
+    path = _SORT_PATHS.get(sort_field)
+
+    def key(d: dict[str, Any]) -> tuple[int, float, float]:
+        tier, ratio = _name_match_score(query, _g(d, "identity", "name") or "")
+        raw = _g(d, *path) if path else None
+        if isinstance(raw, int | float) and not isinstance(raw, bool):
+            value = float(raw)
+        else:
+            value = float("-inf")  # nulls sort last within a tier
+        return (tier, ratio, value)
+
+    ranked = sorted(docs, key=lambda d: str(d.get("fnr") or ""))  # fnr asc → stable final tiebreak
+    ranked.sort(key=key, reverse=True)
+    return ranked
 
 
 def _sort_key(doc: dict[str, Any], field: str) -> Any:
