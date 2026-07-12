@@ -18,6 +18,9 @@ from __future__ import annotations
 
 import csv
 import io
+import time
+import weakref
+from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -199,3 +202,32 @@ def load_fi_directory(cosmos: CosmosStoreLike) -> dict[str, str]:
         if fnr and d.get("active"):
             out[str(fnr)] = str(d.get("kind") or "bank")
     return out
+
+
+# Module-level TTL cache for the served FI directory. Without it every ``search_companies``
+# call (and each get_document / find_peers / cohort card builder) does a full ~450-row read of
+# ``00_directories`` — ~0.2 s of pure overhead on EVERY request. The register changes at most
+# daily, so 15 min of staleness is invisible to callers (T3).
+#
+# Keyed by the store OBJECT via a WeakKeyDictionary, deliberately not by ``id(cosmos)``: an int
+# id is recycled by CPython once the store is garbage-collected, so a fresh in-memory store in a
+# later test could collide with a dead store's id and get a stale hit. A weak key auto-evicts
+# when the store dies, so a new store is always a clean miss while a long-lived production store
+# keeps its warm entry.
+_FI_CACHE: weakref.WeakKeyDictionary[Any, tuple[float, dict[str, str]]] = (
+    weakref.WeakKeyDictionary()
+)
+_FI_TTL_SECONDS = 900.0
+
+
+def load_fi_directory_cached(cosmos: CosmosStoreLike) -> dict[str, str]:
+    """TTL-cached :func:`load_fi_directory`, keyed weakly by the store so a fresh store is always
+    a miss and a long-lived process keeps a warm cache. Returns the SAME dict object on a hit;
+    callers treat it as read-only (they do — it's only passed to ``_card``)."""
+    now = time.monotonic()
+    hit = _FI_CACHE.get(cosmos)
+    if hit is not None and now - hit[0] < _FI_TTL_SECONDS:
+        return hit[1]
+    data = load_fi_directory(cosmos)
+    _FI_CACHE[cosmos] = (now, data)
+    return data

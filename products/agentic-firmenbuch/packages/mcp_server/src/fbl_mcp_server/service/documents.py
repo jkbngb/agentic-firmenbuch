@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from fbl_core.storage import RAW_CONTAINER, BlobStoreLike, CosmosStoreLike
-from fbl_core_at.directories import load_fi_directory
+from fbl_core_at.directories import load_fi_directory_cached
 from fbl_core_at.models import PublicProvenance
 
 from ..errors import NotFound
@@ -82,7 +82,11 @@ def get_document(
             if filing.get("stichtag") == stichtag:
                 result["filing"] = filing
                 break
-    fi = _financial_institution(served, load_fi_directory(cosmos)) if served is not None else None
+    fi = (
+        _financial_institution(served, load_fi_directory_cached(cosmos))
+        if served is not None
+        else None
+    )
     if fi is not None:
         # An FI's UGB figures are absent by construction — surface the flag + caveat so the agent
         # reads the official PDF instead of treating "no Bilanz" as "no data" (ROADMAP P2.1).

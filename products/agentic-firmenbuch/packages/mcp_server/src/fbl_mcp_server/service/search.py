@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
+from concurrent.futures import ThreadPoolExecutor
 from typing import Any
 
 from fbl_core.storage import CosmosStoreLike
-from fbl_core_at.directories import load_fi_directory
+from fbl_core_at.directories import load_fi_directory_cached
 from fbl_core_at.models import PublicProvenance, SearchFilters, SearchResponse, Sort
 
 from ._common import (
@@ -108,8 +109,11 @@ def _build_where(f: SearchFilters) -> tuple[str, list[dict[str, Any]]]:
     if f.status in _STATUS_SQL:
         conds.append(_STATUS_SQL[f.status])
     if f.name:
-        conds.append("CONTAINS(LOWER(c.identity.name), @name)")
-        params.append({"name": "@name", "value": f.name.lower()})
+        # 3-arg case-insensitive CONTAINS: unlike CONTAINS(LOWER(x), …) it can use the string
+        # index on /identity/name (T1), roughly halving RU. Bind the value verbatim — the `true`
+        # flag does the case-folding, so lowering it here would defeat the point. (T2)
+        conds.append("CONTAINS(c.identity.name, @name, true)")
+        params.append({"name": "@name", "value": f.name})
     if f.bundesland is not None:
         conds.append("c.location.bundesland = @bundesland")
         params.append(
@@ -143,8 +147,8 @@ def _build_where(f: SearchFilters) -> tuple[str, list[dict[str, Any]]]:
         conds.append("c.management.primary_manager.age >= @gf_age_min")
         params.append({"name": "@gf_age_min", "value": f.gf_age_min})
     if f.manager_name:
-        conds.append("CONTAINS(LOWER(c.management.primary_manager_name), @manager_name)")
-        params.append({"name": "@manager_name", "value": f.manager_name.lower()})
+        conds.append("CONTAINS(c.management.primary_manager_name, @manager_name, true)")
+        params.append({"name": "@manager_name", "value": f.manager_name})
 
     # ÖNACE filters match BOTH classification vintages, transparently, so a caller never hits a
     # dead end for using the "wrong" one: the ÖNACE 2025 block (`oenace`), the ÖNACE 2008 twin
@@ -203,14 +207,15 @@ def _build_where(f: SearchFilters) -> tuple[str, list[dict[str, Any]]]:
             f.oenace_group,
         )
     if f.geschaeftszweig:
-        conds.append("CONTAINS(LOWER(c.company.description), @geschaeftszweig)")
-        params.append({"name": "@geschaeftszweig", "value": f.geschaeftszweig.lower()})
+        conds.append("CONTAINS(c.company.description, @geschaeftszweig, true)")
+        params.append({"name": "@geschaeftszweig", "value": f.geschaeftszweig})
     if f.postal_code:
+        # PLZ is digits — no case folding needed; STARTSWITH already rides the index.
         conds.append("STARTSWITH(c.location.postal_code, @postal_code)")
         params.append({"name": "@postal_code", "value": f.postal_code})
     if f.city:
-        conds.append("CONTAINS(LOWER(c.location.city), @city)")
-        params.append({"name": "@city", "value": f.city.lower()})
+        conds.append("CONTAINS(c.location.city, @city, true)")
+        params.append({"name": "@city", "value": f.city})
     rng("c.financials.latest.bilanzsumme", f.bilanzsumme_min, f.bilanzsumme_max, "bs")
     rng("c.ratios.equity_ratio.latest", f.equity_ratio_min, f.equity_ratio_max, "eq")
     rng("c.financials.latest.revenue", f.revenue_min, f.revenue_max, "rev")
@@ -243,22 +248,39 @@ def search_companies(
 
     where_sql, params = _build_where(filters)
     count_sql = f"SELECT VALUE COUNT(1) FROM c WHERE {where_sql}"
-    raw_total = next(iter(cosmos.query(PRESENTED, count_sql, params)), 0)
 
-    if isinstance(raw_total, int):  # Cosmos: COUNT(1) → real total; page server-side
-        total = raw_total
-        rows = _cosmos_page(cosmos, where_sql, params, order_path, descending, start, page_size)
-        page_docs = [d for d in rows if not str(d.get("id", "")).startswith("__")]
-    else:  # in-memory fake: SQL ignored, every doc returned → filter/sort/paginate in Python
-        rows = list(cosmos.query(PRESENTED, f"SELECT * FROM c WHERE {where_sql}", params))
-        matched = [
-            d for d in rows if not str(d.get("id", "")).startswith("__") and _matches(d, filters)
-        ]
-        matched = _sorted_nulls_last(matched, sort_field, descending)
-        total = len(matched)
-        page_docs = matched[start : start + page_size]
+    # Fire the total COUNT and the first page CONCURRENTLY. On real Cosmos these are two
+    # independent scans and the sync azure-cosmos client is thread-safe for reads, so running
+    # them in parallel roughly halves the wall-clock of a full-page search (T4). We can't know
+    # a priori whether the store is Cosmos (COUNT→int) or the in-memory twin (SQL ignored, COUNT
+    # returns a doc), so both futures always launch; on the in-memory branch the page future's
+    # result is simply discarded (its dataset is tiny — negligible waste).
+    def _count() -> Any:
+        return next(iter(cosmos.query(PRESENTED, count_sql, params)), 0)
 
-    directory = load_fi_directory(cosmos)
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        count_future = pool.submit(_count)
+        page_future = pool.submit(
+            _cosmos_page, cosmos, where_sql, params, order_path, descending, start, page_size
+        )
+        raw_total = count_future.result()
+        if isinstance(raw_total, int):  # Cosmos: COUNT(1) → real total; page server-side
+            total = raw_total
+            rows = page_future.result()
+            page_docs = [d for d in rows if not str(d.get("id", "")).startswith("__")]
+        else:  # in-memory fake: SQL ignored, every doc returned → filter/sort/paginate in Python
+            page_future.result()  # drain the (ignored) page future so no thread is left dangling
+            rows = list(cosmos.query(PRESENTED, f"SELECT * FROM c WHERE {where_sql}", params))
+            matched = [
+                d
+                for d in rows
+                if not str(d.get("id", "")).startswith("__") and _matches(d, filters)
+            ]
+            matched = _sorted_nulls_last(matched, sort_field, descending)
+            total = len(matched)
+            page_docs = matched[start : start + page_size]
+
+    directory = load_fi_directory_cached(cosmos)
     cards = [_card(d, directory) for d in page_docs]
     data_version_max = max((_g(d, "provenance", "data_version") or 0 for d in page_docs), default=0)
     return SearchResponse(
@@ -267,6 +289,7 @@ def search_companies(
         page=page,
         page_size=page_size,
         results=cards,
+        has_more=start + len(cards) < total,
         provenance=PublicProvenance(),
     )
 
@@ -299,7 +322,11 @@ def _cosmos_page(
     (#32). Cosmos ``ORDER BY`` silently omits docs where the path is undefined, so banks/insurers
     (no UGB Bilanzsumme) and any company without the metric vanished from every list page while
     still being counted. We therefore page in two ordered buckets — ranked docs (field present)
-    first, then the rest (field absent) ordered by name — and stitch across the boundary."""
+    first, then the rest (field absent) ordered by name — and stitch across the boundary.
+
+    The expensive ranked-bucket COUNT that this used to run on *every* call is now issued **only**
+    for the rare deep-page-into-bucket-B case (T4): for a full ranked page, or the boundary page
+    that straddles the two buckets, the bucket-A row count alone pins the B offset."""
     if order_path is None:
         sql = f"SELECT * FROM c WHERE {where_sql} OFFSET {start} LIMIT {page_size}"
         return list(cosmos.query(PRESENTED, sql, params))
@@ -308,25 +335,35 @@ def _cosmos_page(
     direction = "DESC" if descending else "ASC"
     ranked = f"{where_sql} AND IS_DEFINED({path}) AND NOT IS_NULL({path})"
     rest = f"{where_sql} AND (NOT IS_DEFINED({path}) OR IS_NULL({path}))"
-    _cr = next(
-        iter(cosmos.query(PRESENTED, f"SELECT VALUE COUNT(1) FROM c WHERE {ranked}", params)), 0
-    )
-    count_ranked = _cr if isinstance(_cr, int) else 0
 
-    rows: list[dict[str, Any]] = []
-    if start < count_ranked:
-        sql_a = (
-            f"SELECT * FROM c WHERE {ranked} ORDER BY {path} {direction} "
-            f"OFFSET {start} LIMIT {page_size}"
+    sql_a = (
+        f"SELECT * FROM c WHERE {ranked} ORDER BY {path} {direction} "
+        f"OFFSET {start} LIMIT {page_size}"
+    )
+    rows = list(cosmos.query(PRESENTED, sql_a, params))
+    if len(rows) == page_size:
+        return rows  # full page from the ranked bucket → no count needed (the common case)
+
+    # The ranked bucket is exhausted on this page; top up from the field-less "rest" bucket,
+    # ordered by c.id (always-present system property → stable order, no custom index path).
+    if rows:
+        # A short page WITH ranked rows means bucket A ran out exactly at start+len(rows), so the
+        # ranked bucket has that many rows total and bucket B has not started → B offset 0.
+        b_offset = 0
+    elif start == 0:
+        b_offset = 0  # first page, ranked bucket entirely empty → all from B, offset 0
+    else:
+        # Deep page fully past the ranked bucket (bucket A returned nothing at this offset): only
+        # NOW pay for the ranked COUNT, to place us within bucket B.
+        _cr = next(
+            iter(cosmos.query(PRESENTED, f"SELECT VALUE COUNT(1) FROM c WHERE {ranked}", params)), 0
         )
-        rows = list(cosmos.query(PRESENTED, sql_a, params))
-    remaining = page_size - len(rows)
-    if remaining > 0:  # boundary page or fully past the ranked bucket → draw from the rest
+        count_ranked = _cr if isinstance(_cr, int) else 0
         b_offset = max(0, start - count_ranked)
-        # c.id (= fnr) is a system property, always indexed + present → stable order for the
-        # field-less docs without needing a custom index path.
-        sql_b = f"SELECT * FROM c WHERE {rest} ORDER BY c.id OFFSET {b_offset} LIMIT {remaining}"
-        rows += list(cosmos.query(PRESENTED, sql_b, params))
+
+    remaining = page_size - len(rows)
+    sql_b = f"SELECT * FROM c WHERE {rest} ORDER BY c.id OFFSET {b_offset} LIMIT {remaining}"
+    rows += list(cosmos.query(PRESENTED, sql_b, params))
     return rows
 
 

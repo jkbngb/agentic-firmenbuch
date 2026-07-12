@@ -167,6 +167,9 @@ class SearchResponse(BaseModel):
     page: int = 1
     page_size: int = 25
     results: list[CompanyCard] = Field(default_factory=list)
+    # True when more pages exist after this one (start + len(results) < total). Lets a client
+    # page without re-deriving the arithmetic. Response-only, safe to ship (T4).
+    has_more: bool = False
     provenance: PublicProvenance = Field(default_factory=PublicProvenance)
 
 

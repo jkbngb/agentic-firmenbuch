@@ -7,6 +7,7 @@ upserted must carry ``id`` and its partition-key field (``fnr`` or ``token_hash`
 
 from __future__ import annotations
 
+import threading
 from collections.abc import Iterator
 from typing import TYPE_CHECKING, Any
 
@@ -39,19 +40,24 @@ class CosmosStore:
         self._credential = credential
         self._client: CosmosClient | None = None
         self._db: DatabaseProxy | None = None
+        # Guards the lazy client init so concurrent first-use (search_companies fires COUNT +
+        # page on two threads) can't race two CosmosClient constructions.
+        self._init_lock = threading.Lock()
 
     def _database(self) -> DatabaseProxy:
         if self._db is None:
-            from azure.cosmos import CosmosClient
-            from azure.identity import DefaultAzureCredential
+            with self._init_lock:
+                if self._db is None:  # double-checked: another thread may have won the lock
+                    from azure.cosmos import CosmosClient
+                    from azure.identity import DefaultAzureCredential
 
-            cred = self._credential or DefaultAzureCredential()
-            # Serverless Cosmos throttles (429) under concurrent load; give the SDK a
-            # generous throttle-retry budget before it surfaces the error to the caller.
-            self._client = CosmosClient(
-                self._endpoint, credential=cred, retry_total=30, retry_backoff_max=60
-            )
-            self._db = self._client.get_database_client(self._database_name)
+                    cred = self._credential or DefaultAzureCredential()
+                    # Serverless Cosmos throttles (429) under concurrent load; give the SDK a
+                    # generous throttle-retry budget before it surfaces the error to the caller.
+                    self._client = CosmosClient(
+                        self._endpoint, credential=cred, retry_total=30, retry_backoff_max=60
+                    )
+                    self._db = self._client.get_database_client(self._database_name)
         return self._db
 
     def upsert(self, container: str, doc: dict[str, Any]) -> None:

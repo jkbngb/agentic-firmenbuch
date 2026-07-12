@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from fbl_core.storage import CosmosStoreLike
-from fbl_core_at.directories import load_fi_directory
+from fbl_core_at.directories import load_fi_directory_cached
 from fbl_core_at.models import PublicProvenance
 
 from ..errors import BadRequest
@@ -135,7 +135,7 @@ def find_peers(cosmos: CosmosStoreLike, fnr: str, n: int = 10) -> dict[str, Any]
 
     if target_bs is not None:
         candidates.sort(key=lambda d: abs(_g(d, "financials", "latest", "bilanzsumme") - target_bs))
-    directory = load_fi_directory(cosmos)
+    directory = load_fi_directory_cached(cosmos)
     return {
         "schema_version": "1.0",
         "result": {

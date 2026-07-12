@@ -6,7 +6,7 @@ from __future__ import annotations
 from typing import Any
 
 from fbl_core.storage import CosmosStoreLike
-from fbl_core_at.directories import load_fi_directory
+from fbl_core_at.directories import load_fi_directory_cached
 from fbl_core_at.models import CompanyCard, PublicProvenance
 
 from ..errors import NotFound
@@ -33,7 +33,7 @@ def get_company_details(cosmos: CosmosStoreLike, fnr: str) -> dict[str, Any]:
     for f in result.get("filings", []):
         if isinstance(f, dict) and f.get("stichtag"):
             f["document_ref"] = f"{fnr}:{f['stichtag']}"
-    fi = _financial_institution(doc, load_fi_directory(cosmos))
+    fi = _financial_institution(doc, load_fi_directory_cached(cosmos))
     if fi is not None:
         # Surface the flag at the top of the record so an agent reads it before the (absent)
         # UGB figures, and doesn't mistake "no Bilanz" for "no data" (ROADMAP P2.1).

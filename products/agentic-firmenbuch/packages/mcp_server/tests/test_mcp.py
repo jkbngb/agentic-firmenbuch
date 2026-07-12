@@ -585,11 +585,16 @@ def test_register_directory_flag_overrides_name_heuristic() -> None:
     fi = svc.get_company_details(token, "012345a")["result"]["financial_institution"]
     assert fi["kind"] == "bank" and fi["source"] == "register"  # register-backed, not a name guess
     assert "BWG" in fi["caveat"]
-    # An inactive register row must NOT flag (licence lost).
+    # An inactive register row must NOT flag (licence lost). The served directory is TTL-cached
+    # (T3), so a same-process mutation isn't reflected until the entry expires (≤15 min) or the
+    # process restarts — invalidate here to exercise the post-refresh state deterministically.
     cosmos.upsert(
         DIRECTORIES_CONTAINER,
         {"id": "012345a", "fnr": "012345a", "kind": "bank", "active": False},
     )
+    from fbl_core_at import directories as _directories
+
+    _directories._FI_CACHE.clear()
     plain = svc.get_company_details(token, "012345a")["result"]
     assert "financial_institution" not in plain
 
