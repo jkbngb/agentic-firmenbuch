@@ -31,6 +31,11 @@ class Settings(BaseSettings):
     acs_connection_string: str | None = None
     acs_sender_address: str | None = None  # verified ACS sender, e.g. DoNotReply@<domain>
     appinsights_connection_string: str | None = None
+    # Azure OpenAI for semantic-search embeddings (T14). EU-region resource; key in Key Vault.
+    # None → the embeddings sync is skipped and the `query` filter uses its lexical fallback.
+    azure_openai_endpoint: str | None = None
+    azure_openai_embedding_deployment: str = "text-embedding-3-small"
+    azure_openai_embedding_dimensions: int = 512
     # Where pipeline ops alerts go (directory-sync failures etc.). Override with ALERT_EMAIL.
     alert_email: str = "jakobneugebauer@pm.me"
 

@@ -508,6 +508,9 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
           oenace_group (codes + German labels via describe_fields), NOT geschaeftszweig.
         - Industry by literal ACTIVITY TEXT: geschaeftszweig matches the Firmenbuch free-text
           description as substring ("anlagenbau" works; "technisch" won't — it's not semantic).
+        - Free-text query: filters={"query": "<text>"} searches name + activity and combines with
+          all structured filters; cards carry match_reason. (Concept recall improves once semantic
+          indexing is enabled; today it is a lexical match.)
         - Region: bundesland (broad) > city (exact town) > postal_code prefix. Radius: use
           near={"place":"Gmunden","radius_km":25} or near={"postal_code":"4810","radius_km":25};
           cards get distance_km and sort by distance. An ambiguous town name is rejected with the

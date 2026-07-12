@@ -132,6 +132,10 @@ class SearchFilters(BaseModel):
     postal_code: str | None = None  # PLZ prefix, e.g. "1010" (exact) or "10" (all 10xx)
     city: str | None = None  # case-insensitive substring on the seat city
     near: NearFilter | None = None  # radius search around a town/PLZ (T12)
+    # Free-text semantic search over name + activity (T14). Ships now as a lexical substring-OR
+    # (index-friendly); upgrades to an FTS+embedding RRF hybrid once those Cosmos capabilities and
+    # the embedding backfill are enabled — same field, better recall, no API change.
+    query: str | None = None
 
 
 class RankSignal(BaseModel):
@@ -188,6 +192,8 @@ class CompanyCard(BaseModel):
     oenace_group_2008: str | None = None  # e.g. "45.1"
     oenace_group_2008_label: str | None = None  # German 2008 group title
     distance_km: float | None = None  # set only when a `near` radius filter was used (T12)
+    # why a `query` search ranked this hit, e.g. "text: name match" (T14)
+    match_reason: str | None = None
 
 
 class Relaxation(BaseModel):

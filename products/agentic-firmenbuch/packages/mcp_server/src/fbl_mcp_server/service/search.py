@@ -135,8 +135,28 @@ def _matches(doc: dict[str, Any], f: SearchFilters) -> bool:
         or (_g(doc, "location", "postal_code") or "").startswith(f.postal_code),
         f.city is None or f.city.lower() in (_g(doc, "location", "city") or "").lower(),
         f.near is None or _near_matches(doc, f.near),
+        f.query is None or _query_matches(doc, f.query),
     ]
     return all(checks)
+
+
+def _query_matches(doc: dict[str, Any], query: str) -> bool:
+    """In-memory twin of the lexical `query` leg: substring in name OR activity/description."""
+    q = query.lower()
+    name = (_g(doc, "identity", "name") or "").lower()
+    desc = (_g(doc, "company", "description") or "").lower()
+    return q in name or q in desc
+
+
+def _match_reason(doc: dict[str, Any], query: str) -> str | None:
+    """Which lexical leg(s) a `query` hit matched, for the card's match_reason (T14)."""
+    q = query.lower()
+    legs = []
+    if q in (_g(doc, "identity", "name") or "").lower():
+        legs.append("name")
+    if q in (_g(doc, "company", "description") or "").lower():
+        legs.append("Tätigkeit")
+    return "text: " + " + ".join(legs) + " match" if legs else None
 
 
 def _near_matches(doc: dict[str, Any], near: NearFilter) -> bool:
@@ -267,6 +287,15 @@ def _build_where(f: SearchFilters) -> tuple[str, list[dict[str, Any]]]:
     if f.geschaeftszweig:
         conds.append("CONTAINS(c.company.description, @geschaeftszweig, true)")
         params.append({"name": "@geschaeftszweig", "value": f.geschaeftszweig})
+    if f.query:
+        # Free-text `query` (T14): lexical substring-OR over name + activity, index-friendly via
+        # the 3-arg CONTAINS. This is the shippable-now leg; when Cosmos FTS + /embedding vector
+        # search are enabled it becomes the lexical half of an RRF hybrid (see SEMANTIC_SEARCH.md).
+        conds.append(
+            "(CONTAINS(c.identity.name, @query, true) "
+            "OR CONTAINS(c.company.description, @query, true))"
+        )
+        params.append({"name": "@query", "value": f.query})
     if f.postal_code:
         # PLZ is digits — no case folding needed; STARTSWITH already rides the index.
         conds.append("STARTSWITH(c.location.postal_code, @postal_code)")
@@ -522,6 +551,8 @@ def _search_near(
         dist = _doc_distance_m(d, lat, lng)
         if dist is not None:
             card.distance_km = round(dist / 1000.0, 1)
+        if filters.query:
+            card.match_reason = _match_reason(d, filters.query)
         cards.append(card)
     data_version_max = max((_g(d, "provenance", "data_version") or 0 for d in page_docs), default=0)
     return SearchResponse(
@@ -661,6 +692,9 @@ def search_companies(
 
     directory = load_fi_directory_cached(cosmos)
     cards = [_card(d, directory) for d in page_docs]
+    if filters.query:  # annotate why each hit matched the free-text query (T14)
+        for card, doc in zip(cards, page_docs, strict=False):
+            card.match_reason = _match_reason(doc, filters.query)
     data_version_max = max((_g(d, "provenance", "data_version") or 0 for d in page_docs), default=0)
     return SearchResponse(
         data_version_max=data_version_max,
