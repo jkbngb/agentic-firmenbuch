@@ -1,0 +1,196 @@
+# Tier-1 search-quality goldens (T13). Each case is a direct search_companies tool call and an
+# expectation, replayed with NO LLM. `--ci` runs them against tests/eval/fixtures.py (the fnrs
+# below are the fixture ids); `--live`/`--base-url` runs the SAME calls against real data, where
+# the `_live` expectations (if present) apply instead. Categories: name lookup, concept industry,
+# region, radius, financial screen, intent ranking, zero-hit relaxation.
+
+# --- name lookup + relevance ---------------------------------------------------
+- id: name-novomatic-exact
+  intent: "Firma Novomatic finden"
+  call: {filters: {name: "novomatic"}}
+  expect_top1_fnr: "069548b"          # NOVOMATIC AG beats the bigger subsidiary
+  expect_total: 2
+
+- id: name-red-bull
+  intent: "Red Bull GmbH nachschlagen"
+  call: {filters: {name: "red bull"}}
+  expect_top1_fnr: "222222b"
+
+- id: name-substring-anlagenbau
+  intent: "Firmen mit 'Anlagen' im Namen"
+  call: {filters: {name: "anlagen"}}
+  expect_fnrs_in_top25: ["300001a"]
+
+- id: name-none
+  intent: "nicht existierende Firma"
+  call: {filters: {name: "zzz-gibt-es-nicht"}}
+  expect_total: 0
+
+# --- concept industry (ÖNACE division) -----------------------------------------
+- id: industry-division-28
+  intent: "Maschinen-/Anlagenbauer (ÖNACE 28)"
+  call: {filters: {oenace_division: "28"}}
+  expect_total: 3
+  expect_fnrs_in_top25: ["300001a", "300002b", "300003c"]
+
+- id: industry-division-28-in-ooe
+  intent: "Anlagenbauer in Oberösterreich"
+  call: {filters: {oenace_division: "28", bundesland: "Oberösterreich"}}
+  expect_total: 3
+
+- id: industry-activity-text
+  intent: "Tätigkeit enthält 'Immobilien'"
+  call: {filters: {geschaeftszweig: "immobilien"}}
+  expect_fnrs_in_top25: ["400002b"]
+
+# --- region --------------------------------------------------------------------
+- id: region-wien
+  intent: "Firmen in Wien"
+  call: {filters: {bundesland: "Wien"}}
+  expect_fnrs_in_top25: ["111111a", "400001a", "400002b"]
+
+- id: region-steiermark
+  intent: "Firmen in der Steiermark"
+  call: {filters: {bundesland: "Steiermark"}}
+  expect_top1_fnr: "600001a"
+  expect_total: 1
+
+- id: region-plz-prefix
+  intent: "PLZ 40xx (Linz)"
+  call: {filters: {postal_code: "40"}}
+  expect_fnrs_in_top25: ["300001a", "300002b"]
+
+# --- radius --------------------------------------------------------------------
+- id: radius-gmunden-25km
+  intent: "Umkreis 25 km um Gmunden"
+  call: {filters: {near: {place: "Gmunden", radius_km: 25}}}
+  expect_fnrs_in_top25: ["500001a", "500002b", "500003c"]
+
+- id: radius-voecklabruck-5km
+  intent: "sehr nah an Vöcklabruck (5 km)"
+  call: {filters: {near: {postal_code: "4840", radius_km: 5}}}
+  expect_top1_fnr: "500002b"
+
+- id: radius-excludes-vienna
+  intent: "Umkreis um Gmunden schließt Wien aus"
+  call: {filters: {near: {place: "Gmunden", radius_km: 25}}}
+  expect_fnrs_not_present: ["400001a"]
+
+# --- financial screen ----------------------------------------------------------
+- id: screen-bilanzsumme-min
+  intent: "Bilanzsumme ab 10 Mio"
+  call: {filters: {bilanzsumme_min: 10000000}}
+  expect_fnrs_in_top25: ["222222b", "400001a", "400002b"]
+
+- id: screen-bilanzsumme-range
+  intent: "Bilanzsumme 1-5 Mio in OÖ"
+  call: {filters: {bilanzsumme_min: 1000000, bilanzsumme_max: 5000000, bundesland: "Oberösterreich"}}
+  expect_fnrs_in_top25: ["500001a", "500002b", "300003c"]
+
+- id: screen-sort-bilanzsumme-desc
+  intent: "größte zuerst"
+  call: {filters: {}, sort: {field: "bilanzsumme", descending: true}}
+  expect_top1_fnr: "222222b"
+
+# --- intent ranking (scores + rank_by) -----------------------------------------
+- id: rank-growth
+  intent: "wachstumsstärkste Anlagenbauer"
+  call: {filters: {oenace_division: "28"}, sort: {field: "score_growth"}}
+  expect_top1_fnr: "300001a"
+
+- id: rank-solidity
+  intent: "solideste Anlagenbauer"
+  call: {filters: {oenace_division: "28"}, sort: {field: "score_solidity"}}
+  expect_top1_fnr: "300002b"
+
+- id: rank-weighted-growth-solidity
+  intent: "wachstumsstark & solide (0.7/0.3)"
+  call:
+    filters: {oenace_division: "28"}
+    sort: {rank_by: [{signal: "growth", weight: 0.7}, {signal: "solidity", weight: 0.3}]}
+  expect_top1_fnr: "300001a"
+
+# --- zero-hit relaxation -------------------------------------------------------
+- id: relax-region-and-bilanzsumme
+  intent: "Steiermark + Bilanzsumme ab 100 Mio (leer) -> Relaxation"
+  call: {filters: {bundesland: "Steiermark", bilanzsumme_min: 100000000}}
+  expect_total: 0
+  expect_relaxation_for: ["bundesland", "bilanzsumme_range"]
+
+- id: relax-industry-and-region
+  intent: "ÖNACE 28 in Wien (leer) -> drop einer Facette"
+  call: {filters: {oenace_division: "28", bundesland: "Wien"}}
+  expect_total: 0
+  expect_relaxation_for: ["oenace_division", "bundesland"]
+
+# --- extra coverage ------------------------------------------------------------
+- id: name-case-insensitive
+  intent: "Groß-/Kleinschreibung egal"
+  call: {filters: {name: "NOVOMATIC"}}
+  expect_top1_fnr: "069548b"
+
+- id: name-red-partial
+  intent: "'red' findet Red Bull GmbH"
+  call: {filters: {name: "red"}}
+  expect_top1_fnr: "222222b"
+  expect_total: 1
+
+- id: industry-group-28-9
+  intent: "ÖNACE-Gruppe 28.9"
+  call: {filters: {oenace_group: "28.9"}}
+  expect_top1_fnr: "300001a"
+  expect_total: 1
+
+- id: region-ooe-count
+  intent: "alle Firmen in Oberösterreich"
+  call: {filters: {bundesland: "Oberösterreich"}}
+  expect_total: 6
+
+- id: region-salzburg
+  intent: "Firmen in Salzburg"
+  call: {filters: {bundesland: "Salzburg"}}
+  expect_top1_fnr: "222222b"
+  expect_total: 1
+
+- id: region-plz-exact
+  intent: "genau PLZ 1010"
+  call: {filters: {postal_code: "1010"}}
+  expect_total: 1
+  expect_top1_fnr: "111111a"
+
+- id: radius-postal-gmunden
+  intent: "Umkreis 25 km um PLZ 4810"
+  call: {filters: {near: {postal_code: "4810", radius_km: 25}}}
+  expect_fnrs_in_top25: ["500001a", "500002b", "500003c"]
+
+- id: screen-equity-min
+  intent: "Eigenkapitalquote ab 70%"
+  call: {filters: {equity_ratio_min: 0.7}}
+  expect_fnrs_in_top25: ["300002b"]
+
+- id: screen-bilanzsumme-max
+  intent: "Bilanzsumme bis 1 Mio"
+  call: {filters: {bilanzsumme_max: 1000000}}
+  expect_fnrs_in_top25: ["500003c", "111111a"]
+
+- id: rank-scale
+  intent: "größte Anlagenbauer nach Skalen-Score"
+  call: {filters: {oenace_division: "28"}, sort: {field: "score_scale"}}
+  expect_top1_fnr: "300001a"
+
+- id: concept-software
+  intent: "Softwarefirmen (Tätigkeitstext)"
+  call: {filters: {geschaeftszweig: "software"}}
+  expect_top1_fnr: "600001a"
+
+- id: relax-three-filters
+  intent: "Wien + ÖNACE 28 + Bilanzsumme ab 1 Mio (leer)"
+  call: {filters: {bundesland: "Wien", oenace_division: "28", bilanzsumme_min: 1000000}}
+  expect_total: 0
+  expect_relaxation_for: ["oenace_division"]
+
+- id: growth-profile-filter
+  intent: "schnell wachsende Firmen"
+  call: {filters: {growth_profile: "fast_growing"}}
+  expect_top1_fnr: "300001a"
+  expect_total: 1
