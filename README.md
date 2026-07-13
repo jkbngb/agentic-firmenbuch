@@ -124,9 +124,8 @@ source-agnostic lineage/meta + metric contracts, config, storage) and
 [`orchestration`](products/agentic-firmenbuch/packages/orchestration/README.md)
 (`fbl_orchestration`, the `--mode` Job entrypoint),
 [`mcp_server`](products/agentic-firmenbuch/packages/mcp_server/README.md)
-(`fbl_mcp_server`, serving). Plus [`infra/`](infra/README.md) (Bicep),
-[`products/agentic-firmenbuch/tests/`](products/agentic-firmenbuch/tests/README.md) (fixtures),
-`docs/` (specs, incl. [API probe findings](docs/API_PROBE_FINDINGS.md)).
+(`fbl_mcp_server`, serving). Plus [`products/agentic-firmenbuch/tests/`](products/agentic-firmenbuch/tests/README.md) (fixtures),
+`docs/` (incl. [API probe findings](docs/API_PROBE_FINDINGS.md)).
 
 ## Build status – Version 1 complete ✅
 All ten §15 build stages are implemented, each committed in order, each with a passing
