@@ -337,6 +337,18 @@
         </tbody>
       </table></div>
 
+      <h3><code>scores</code> · Intent-Scores</h3>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Feld</th><th>Typ</th><th>Bedeutung</th></tr></thead>
+        <tbody>
+          <tr><td><code>growth</code></td><td>number | null</td><td>Wachstums-Perzentil 0–100 (aus den Bilanzsummen-/Eigenkapital-CAGR-Perzentilen; ersatzweise aus dem Wachstumsprofil)</td></tr>
+          <tr><td><code>solidity</code></td><td>number | null</td><td>Solidität 0–100 (Eigenkapitalquoten-Perzentil)</td></tr>
+          <tr><td><code>scale</code></td><td>number | null</td><td>Größe 0–100 (Bilanzsummen-Perzentil über den <strong>gesamten</strong> Datenbestand)</td></tr>
+          <tr><td><code>basis</code></td><td>list</td><td>welche Eingaben tatsächlich verwendet wurden (Ehrlichkeitsfeld; nie geraten)</td></tr>
+        </tbody>
+      </table></div>
+      <p style="font-size:.92em">Vorberechnet – <code>search_companies</code> sortiert direkt danach (<code>sort.field = score_growth</code> …) oder gewichtet mit <code>rank_by</code>. Fehlt eine Eingabe, fehlt der Score (kein Ratewert).</p>
+
       <h3><code>employees</code> · Beschäftigte</h3>
       <div class="tablewrap"><table>
         <thead><tr><th>Feld</th><th>Typ</th><th>Bedeutung</th></tr></thead>
@@ -464,12 +476,27 @@
           <tr><td><code>oenace_section</code> / <code>oenace_division</code> / <code>oenace_group</code></td><td>Branche: Abschnitt (<code>A</code>–<code>V</code>), Abteilung (<code>68</code>) oder Gruppe (<code>68.3</code>, präzise Peers). Matcht <strong>ÖNACE 2025 und ÖNACE 2008</strong> – z. B. Kfz-Handel als <code>45</code> (2008) oder <code>46</code>/<code>47</code> (2025)</td></tr>
           <tr><td><code>geschaeftszweig</code></td><td>Teilstring im Geschäftszweig-Freitext</td></tr>
           <tr><td><code>postal_code</code> / <code>city</code></td><td>PLZ-Präfix (<code>1010</code> exakt, <code>10</code> = alle 10xx) bzw. Ort (Teilstring)</td></tr>
+          <tr><td><code>near</code></td><td><strong>Umkreissuche</strong>: <code>{ place, radius_km }</code> oder <code>{ postal_code, radius_km }</code> (genau eines; Radius 1–150 km). Treffer erhalten <code>distance_km</code> und werden nach Entfernung sortiert. Ein mehrdeutiger Ortsname wird mit den Kandidaten-PLZ abgewiesen.</td></tr>
+          <tr><td><code>query</code></td><td><strong>Freitext-Suche</strong> über Name und Tätigkeit; frei mit allen strukturierten Filtern kombinierbar. Jede Karte erhält <code>match_reason</code> (welches Feld traf).</td></tr>
           <tr><td><code>status</code></td><td><code>active</code> / <code>inactive</code> / <code>all</code></td></tr>
         </tbody>
       </table></div>
       <p><strong>Sortierung:</strong> <code>sort = { field, descending }</code> über u. a.
-         <code>bilanzsumme</code>, <code>equity_ratio</code>, <code>revenue</code>.
+         <code>bilanzsumme</code>, <code>equity_ratio</code>, <code>revenue</code> sowie die
+         <strong>Intent-Scores</strong> <code>score_growth</code>, <code>score_solidity</code>,
+         <code>score_scale</code> (normierte 0–100-Perzentile). Für einen gewichteten Mix:
+         <code>sort = { rank_by: [{signal, weight}, …] }</code> mit den Signalen
+         <code>growth</code> / <code>solidity</code> / <code>scale</code> – z. B. „wachstumsstark &amp;
+         solide" → <code>[{growth:0.7},{solidity:0.3}]</code>. Ein unbekanntes Sortierfeld wird
+         mit der Liste der gültigen Felder abgewiesen.
          <strong>Seiten:</strong> <code>page</code> (ab 1), <code>page_size</code> (Standard 25).</p>
+      <div class="note"><strong>Antwort-Hilfen.</strong> Jede Suche liefert zusätzlich
+         <code>has_more</code> (weitere Seiten vorhanden), <code>applied_filters</code> (die
+         tatsächlich angewandten, normierten Filter – z. B. „Wien" → <code>W</code>) und, wenn eine
+         Suche mit ≥ 2 Filtern <strong>0 Treffer</strong> ergibt, <code>relaxations</code>: welcher
+         <em>eine</em> Filter fallen sollte, um Treffer zu erhalten (mit Trefferzahl je Variante).
+         So findet ein KI-Agent in <strong>einem</strong> Aufruf die richtige Einschränkung statt
+         blind zu variieren. Namenssuchen sind relevanz-sortiert (exakte/Präfix-Treffer zuerst).</div>
     </section>
 
     <section class="block" id="codes">

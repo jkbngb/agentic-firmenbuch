@@ -335,6 +335,18 @@
         </tbody>
       </table></div>
 
+      <h3><code>scores</code> · Intent scores</h3>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Field</th><th>Type</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>growth</code></td><td>number | null</td><td>growth percentile 0–100 (from the Bilanzsumme/equity 5y-CAGR percentiles; falls back to the growth profile)</td></tr>
+          <tr><td><code>solidity</code></td><td>number | null</td><td>solidity 0–100 (equity-ratio percentile)</td></tr>
+          <tr><td><code>scale</code></td><td>number | null</td><td>size 0–100 (Bilanzsumme percentile across the <strong>whole</strong> dataset)</td></tr>
+          <tr><td><code>basis</code></td><td>list</td><td>which inputs were actually used (honesty field; never fabricated)</td></tr>
+        </tbody>
+      </table></div>
+      <p style="font-size:.92em">Precomputed — <code>search_companies</code> sorts by them directly (<code>sort.field = score_growth</code> …) or weighted via <code>rank_by</code>. A missing input means the score is simply absent (never a guess).</p>
+
       <h3><code>employees</code> · Employees</h3>
       <div class="tablewrap"><table>
         <thead><tr><th>Field</th><th>Type</th><th>Meaning</th></tr></thead>
@@ -459,12 +471,27 @@
           <tr><td><code>oenace_section</code> / <code>oenace_division</code> / <code>oenace_group</code></td><td>industry by ÖNACE 2025: section (<code>A</code>–<code>V</code>), division (<code>68</code>) or group (<code>68.3</code>, precise peers)</td></tr>
           <tr><td><code>geschaeftszweig</code></td><td>substring of the free-text line of business</td></tr>
           <tr><td><code>postal_code</code> / <code>city</code></td><td>PLZ prefix (<code>1010</code> exact, <code>10</code> = all 10xx) or city (substring)</td></tr>
+          <tr><td><code>near</code></td><td><strong>Radius search</strong>: <code>{ place, radius_km }</code> or <code>{ postal_code, radius_km }</code> (exactly one; radius 1–150 km). Hits carry <code>distance_km</code> and sort by distance. An ambiguous town name is rejected with the candidate PLZs.</td></tr>
+          <tr><td><code>query</code></td><td><strong>Free-text search</strong> over name and activity; combines freely with every structured filter. Each card carries <code>match_reason</code> (which field matched).</td></tr>
           <tr><td><code>status</code></td><td><code>active</code> / <code>inactive</code> / <code>all</code></td></tr>
         </tbody>
       </table></div>
       <p><strong>Sorting:</strong> <code>sort = { field, descending }</code> over, among others,
-         <code>bilanzsumme</code>, <code>equity_ratio</code>, <code>revenue</code>.
+         <code>bilanzsumme</code>, <code>equity_ratio</code>, <code>revenue</code>, plus the
+         <strong>intent scores</strong> <code>score_growth</code>, <code>score_solidity</code>,
+         <code>score_scale</code> (normalized 0–100 percentiles). For a weighted mix:
+         <code>sort = { rank_by: [{signal, weight}, …] }</code> with signals
+         <code>growth</code> / <code>solidity</code> / <code>scale</code> — e.g. "high-growth &amp;
+         solid" → <code>[{growth:0.7},{solidity:0.3}]</code>. An unknown sort field is rejected
+         with the list of valid fields.
          <strong>Pages:</strong> <code>page</code> (from 1), <code>page_size</code> (default 25).</p>
+      <div class="note"><strong>Response helpers.</strong> Every search also returns
+         <code>has_more</code> (more pages exist), <code>applied_filters</code> (the filters as
+         actually applied after normalization — e.g. "Wien" → <code>W</code>) and, when a search
+         with ≥ 2 filters yields <strong>0 hits</strong>, <code>relaxations</code>: which
+         <em>single</em> filter to drop to get hits (with the match count per variant). So an AI
+         agent finds the right constraint in <strong>one</strong> call instead of guessing blindly.
+         Name searches are relevance-ranked (exact/prefix matches first).</div>
     </section>
 
     <section class="block" id="codes">
