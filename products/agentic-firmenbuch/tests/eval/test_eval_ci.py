@@ -20,7 +20,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))  # tests/eval → fixtu
 sys.path.insert(0, str(_REPO_ROOT / "scripts"))  # eval_search runner
 
 import fixtures  # noqa: E402
-from eval_search import run_tier1  # noqa: E402
+from eval_search import run_tier1  # type: ignore[import-not-found]  # noqa: E402
 
 _GOLDEN = Path(__file__).resolve().parent / "golden_search.yaml"
 

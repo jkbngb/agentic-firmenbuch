@@ -42,7 +42,7 @@ class _CountingCosmos:
 
     def query(
         self, container: str, sql: str, params: list[dict[str, Any]] | None = None
-    ) -> Iterator[dict[str, Any]]:
+    ) -> Iterator[Any]:  # yields ints for COUNT (like the real store), else docs
         self.queries.append(sql)
         is_rest = "NOT IS_DEFINED(" in sql
         is_ranked = "IS_DEFINED(" in sql and not is_rest
@@ -62,6 +62,11 @@ class _CountingCosmos:
 
     def iter_all(self, container: str) -> Iterator[dict[str, Any]]:
         yield from ()  # empty 00_directories
+
+    def query_by_field(
+        self, container: str, field: str, value: Any
+    ) -> Iterator[dict[str, Any]]:  # pragma: no cover
+        yield from ()
 
     def get(self, container: str, fnr: str) -> None:  # pragma: no cover
         return None

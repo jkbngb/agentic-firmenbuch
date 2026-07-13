@@ -3,6 +3,7 @@ a store swap must miss, and the entry must expire after the TTL."""
 
 from __future__ import annotations
 
+import time
 from collections.abc import Iterator
 from typing import Any
 
@@ -32,6 +33,11 @@ class _CountingStore:
     def query(self, container: str, sql: str, params: Any = None) -> Iterator[dict[str, Any]]:
         yield from ()
 
+    def query_by_field(
+        self, container: str, field: str, value: Any
+    ) -> Iterator[dict[str, Any]]:  # pragma: no cover
+        yield from ()
+
     def upsert(self, container: str, doc: dict[str, Any]) -> None:  # pragma: no cover
         raise AssertionError("read-only in this test")
 
@@ -45,7 +51,7 @@ def _clear_cache() -> Iterator[None]:
 
 def test_second_call_hits_cache_no_reread(monkeypatch: pytest.MonkeyPatch) -> None:
     clock = {"t": 1000.0}
-    monkeypatch.setattr(directories.time, "monotonic", lambda: clock["t"])
+    monkeypatch.setattr(time, "monotonic", lambda: clock["t"])
     store = _CountingStore([{"fnr": "123456a", "active": True, "kind": "bank"}])
 
     first = load_fi_directory_cached(store)
@@ -59,7 +65,7 @@ def test_second_call_hits_cache_no_reread(monkeypatch: pytest.MonkeyPatch) -> No
 
 def test_expiry_after_ttl_triggers_reread(monkeypatch: pytest.MonkeyPatch) -> None:
     clock = {"t": 0.0}
-    monkeypatch.setattr(directories.time, "monotonic", lambda: clock["t"])
+    monkeypatch.setattr(time, "monotonic", lambda: clock["t"])
     store = _CountingStore([{"fnr": "1a", "active": True, "kind": "insurer"}])
 
     load_fi_directory_cached(store)
@@ -71,7 +77,7 @@ def test_expiry_after_ttl_triggers_reread(monkeypatch: pytest.MonkeyPatch) -> No
 
 
 def test_new_store_identity_is_a_cache_miss(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setattr(directories.time, "monotonic", lambda: 500.0)
+    monkeypatch.setattr(time, "monotonic", lambda: 500.0)
     store_a = _CountingStore([{"fnr": "1a", "active": True, "kind": "bank"}])
     store_b = _CountingStore([{"fnr": "2b", "active": True, "kind": "insurer"}])
 
