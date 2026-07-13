@@ -419,14 +419,38 @@ def _relaxations_cosmos(cosmos: CosmosStoreLike, filters: SearchFilters) -> list
         rng = _RANGE_UNITS.get(label)
         if rng is not None:
             path = rng[2]
-            sql = f"SELECT COUNT(1) AS n, MIN({path}) AS lo, MAX({path}) AS hi FROM c WHERE {where}"
-            row = next(iter(cosmos.query(PRESENTED, sql, params)), None)
-            if not isinstance(row, dict):
-                return None
-            cnt = int(row.get("n") or 0)
+            # The Cosmos Python SDK rejects a cross-partition query with multiple or aliased
+            # aggregates (BadRequest: MultipleAggregates/NonValueAggregate), so COUNT+MIN+MAX
+            # cannot share one statement. That crashed every structured search hitting a range
+            # filter with few results. Run each as its own SELECT VALUE aggregate instead.
+            cnt_raw = next(
+                iter(
+                    cosmos.query(PRESENTED, f"SELECT VALUE COUNT(1) FROM c WHERE {where}", params)
+                ),
+                0,
+            )
+            cnt = cnt_raw if isinstance(cnt_raw, int) else 0
             if cnt <= 0:
                 return None
-            hint = _suggestion(label, row.get("lo"), row.get("hi"))
+            lo_raw = next(
+                iter(
+                    cosmos.query(
+                        PRESENTED, f"SELECT VALUE MIN({path}) FROM c WHERE {where}", params
+                    )
+                ),
+                None,
+            )
+            hi_raw = next(
+                iter(
+                    cosmos.query(
+                        PRESENTED, f"SELECT VALUE MAX({path}) FROM c WHERE {where}", params
+                    )
+                ),
+                None,
+            )
+            lo = lo_raw if isinstance(lo_raw, (int, float)) else None
+            hi = hi_raw if isinstance(hi_raw, (int, float)) else None
+            hint = _suggestion(label, lo, hi)
             return Relaxation(dropped=label, total=cnt, suggestion=hint)
         raw = next(
             iter(cosmos.query(PRESENTED, f"SELECT VALUE COUNT(1) FROM c WHERE {where}", params)), 0

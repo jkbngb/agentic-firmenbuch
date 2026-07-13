@@ -4,6 +4,7 @@ LLM adjusts THAT filter instead of retrying blind combinations."""
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from typing import Any
 
 from fbl_auth import signup
@@ -11,6 +12,7 @@ from fbl_core.config import Settings
 from fbl_core.storage import InMemoryCosmosStore
 from fbl_core_at.models import SearchFilters
 from fbl_mcp_server import McpService
+from fbl_mcp_server.service.search import _relaxations_cosmos
 
 PRESENTED = "10_presentation"
 
@@ -96,3 +98,39 @@ def test_no_relaxations_when_hits_exist() -> None:
     )
     assert resp["total"] == 2
     assert resp.get("relaxations") is None
+
+
+class _RecordingCosmos:
+    """Behaves like real Cosmos for aggregates (SELECT VALUE → scalar) and records every SQL, so
+    the relaxation path's query *shape* can be asserted. The in-memory store used elsewhere takes
+    a different code path and ignores SQL, which is why it never caught the aggregate-shape bug."""
+
+    def __init__(self) -> None:
+        self.queries: list[str] = []
+
+    def query(
+        self, container: str, sql: str, params: list[dict[str, Any]] | None = None
+    ) -> Iterator[Any]:
+        self.queries.append(sql)
+        if sql.startswith("SELECT VALUE COUNT(1)"):
+            yield 5
+        elif sql.startswith("SELECT VALUE MIN("):
+            yield 1_000_000.0
+        elif sql.startswith("SELECT VALUE MAX("):
+            yield 9_000_000.0
+
+
+def test_relaxations_cosmos_never_emits_multi_or_aliased_aggregates() -> None:
+    """Regression: the Cosmos Python SDK rejects a cross-partition query with multiple or aliased
+    aggregates (BadRequest: MultipleAggregates/NonValueAggregate). A range filter must therefore
+    probe COUNT/MIN/MAX as separate SELECT VALUE statements, not one combined aggregate query."""
+    store = _RecordingCosmos()
+    out = _relaxations_cosmos(store, SearchFilters(bundesland="Wien", bilanzsumme_min=10_000_000.0))
+    assert out is not None
+    assert store.queries  # it actually issued queries
+    for q in store.queries:
+        assert "COUNT(1) AS" not in q
+        assert " AS lo" not in q and " AS hi" not in q and " AS n" not in q
+    # The dropped range unit is probed with standalone SELECT VALUE MIN/MAX statements.
+    assert any(q.startswith("SELECT VALUE MIN(") for q in store.queries)
+    assert any(q.startswith("SELECT VALUE MAX(") for q in store.queries)
