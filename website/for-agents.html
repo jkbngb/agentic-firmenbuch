@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="mask-icon" href="favicon.svg" color="#19C37D" />
+<title>Austrian company data for AI agents – MCP server (Claude, Cursor, VS Code) | Agentic-Firmenbuch.at</title>
+<meta name="description" content="Agentic-Firmenbuch as an MCP server for AI agents: query official Austrian company and financial data in natural language. Endpoint, auth (OAuth or X-API-Key), tool list and quickstart." />
+<meta name="keywords" content="Austrian company data API, Firmenbuch API, Firmenbuch MCP, company data Austria, Firmenbuch for AI, MCP server company register" />
+<link rel="canonical" href="https://www.agentic-firmenbuch.at/for-agents.html" />
+<link rel="alternate" hreflang="en" href="https://www.agentic-firmenbuch.at/for-agents.html" />
+<link rel="alternate" hreflang="de" href="https://www.agentic-firmenbuch.at/fuer-agenten.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.agentic-firmenbuch.at/fuer-agenten.html" />
+<link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
+<meta name="robots" content="index,follow" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Austrian company data for AI agents – MCP server | Agentic-Firmenbuch.at" />
+<meta property="og:description" content="Query official Austrian company and financial data in natural language. MCP endpoint, auth and tools." />
+<meta property="og:url" content="https://www.agentic-firmenbuch.at/for-agents.html" />
+<meta name="theme-color" content="#0A0B0E" />
+<meta name="color-scheme" content="dark" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{--ink:#0A0B0E;--surface:#14161B;--surface-2:#181B22;--line:rgba(255,255,255,.08);
+    --line-2:rgba(255,255,255,.13);--text:#EDEFF3;--dim:#9AA2AF;--faint:#6B7280;--accent:#19C37D;
+    --r-sm:10px;--r-md:14px;--r-lg:20px;
+    --font-d:"Bricolage Grotesque",system-ui,sans-serif;--font-b:"IBM Plex Sans",system-ui,sans-serif;
+    --font-m:"IBM Plex Mono",ui-monospace,monospace;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{font-family:var(--font-b);background:var(--ink);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(55% 35% at 50% -10%,rgba(25,195,125,.13),transparent 70%)}
+  a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+  .wrap{width:100%;max-width:900px;margin-inline:auto;padding-inline:24px}
+  @media(max-width:560px){.wrap{padding-inline:18px}}
+  header{position:sticky;top:0;z-index:60;backdrop-filter:saturate(160%) blur(14px);background:rgba(10,11,14,.72);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+  .brand{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-d);font-weight:700;font-size:17px;letter-spacing:-.02em;color:var(--text)}
+  .brand .mark{width:26px;height:26px}
+  .nav-r{display:flex;align-items:center;gap:8px;font-size:14px}
+  .nav-r a{color:var(--dim)}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;border-radius:11px;padding:9px 15px;border:1px solid var(--line-2);color:var(--text)}
+  .btn-primary{background:var(--accent);color:#06130d;border-color:transparent}
+  .lang{border:1px solid var(--line-2);border-radius:9px;padding:5px 9px;color:var(--dim);font-size:13px}
+  main{padding:56px 0 40px}
+  .eyebrow{font-family:var(--font-m);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+  h1{font-family:var(--font-d);font-weight:700;font-size:clamp(2rem,5vw,3rem);line-height:1.05;letter-spacing:-.03em;margin-bottom:16px}
+  .lead{font-size:1.12rem;color:var(--dim);max-width:640px;margin-bottom:32px}
+  section{margin:44px 0}
+  h2{font-family:var(--font-d);font-weight:700;font-size:1.5rem;letter-spacing:-.02em;margin-bottom:16px}
+  h3{font-family:var(--font-d);font-weight:600;font-size:1.05rem;margin:0 0 6px}
+  p{color:var(--dim);margin-bottom:12px}
+  .card{background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid var(--line);border-radius:var(--r-lg);padding:24px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:640px){.grid2{grid-template-columns:1fr}}
+  code,.mono{font-family:var(--font-m);font-size:13.5px}
+  pre{background:#0d0f13;border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px;overflow-x:auto;margin:10px 0;color:#D6DBE3}
+  pre code{color:inherit}
+  .kv{color:var(--accent)}
+  ol.steps{counter-reset:s;list-style:none;display:grid;gap:14px}
+  ol.steps li{position:relative;padding-left:44px;color:var(--dim)}
+  ol.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:-2px;width:30px;height:30px;border-radius:50%;background:rgba(25,195,125,.14);border:1px solid rgba(25,195,125,.4);color:var(--accent);font-family:var(--font-d);font-weight:700;display:grid;place-items:center}
+  ol.steps li strong{color:var(--text)}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:4px}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--faint);font-weight:600;font-size:12.5px;text-transform:uppercase;letter-spacing:.04em}
+  td.tool{font-family:var(--font-m);color:var(--text);white-space:nowrap}
+  td.desc{color:var(--dim)}
+  .who{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:640px){.who{grid-template-columns:1fr}}
+  .who div{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px}
+  .who h3{font-size:.98rem}
+  .note{font-size:13.5px;color:var(--faint)}
+  footer{border-top:1px solid var(--line);margin-top:56px;padding:28px 0}
+  .foot{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;font-size:13.5px;color:var(--faint)}
+  .foot a{color:var(--dim)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="en.html">
+      <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="1" y="1" width="30" height="30" rx="9" fill="#14161B" stroke="#19C37D" stroke-opacity=".5"/>
+        <rect x="8" y="8" width="7" height="7" rx="2" fill="#19C37D"/>
+        <rect x="17" y="8" width="7" height="7" rx="2" fill="#19C37D" fill-opacity=".4"/>
+        <rect x="8" y="17" width="7" height="7" rx="2" fill="#19C37D" fill-opacity=".4"/>
+        <rect x="17" y="17" width="7" height="7" rx="2" fill="#19C37D"/>
+      </svg>
+      <span><span style="color:#19C37D">Agentic</span>-Firmenbuch</span>
+    </a>
+    <div class="nav-r">
+      <a href="onboarding.en.html">Guide</a>
+      <a class="lang" href="fuer-agenten.html">DE</a>
+      <a class="btn btn-primary" href="onboarding.en.html">Connect</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="eyebrow">MCP server</div>
+  <h1>Built for AI agents</h1>
+  <p class="lead">Agentic-Firmenbuch serves the official company and financial data of the
+    Austrian company register (Firmenbuch) as an MCP server. Your agent asks in natural
+    language, the server returns structured, filtered, and aggregated data on over 340,000
+    companies.</p>
+
+  <section>
+    <h2>Endpoint and connection</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3>One-click (OAuth)</h3>
+        <p>Claude web, desktop, and Cowork. Add a connector, confirm your email, done.
+          No API key needed.</p>
+        <pre><code>Address: <span class="kv">https://mcp.agentic-firmenbuch.at/mcp</span></code></pre>
+      </div>
+      <div class="card">
+        <h3>API key (header)</h3>
+        <p>Claude Code, Cursor, VS Code. Use the endpoint as an <code>http</code> transport
+          with your key from the email:</p>
+        <pre><code>Endpoint: <span class="kv">https://mcp.agentic-firmenbuch.at/mcp</span>
+Header:   <span class="kv">X-API-Key: YOUR_API_KEY</span></code></pre>
+      </div>
+    </div>
+    <p class="note">Cowork and an API key use the same account. Full per-client guide at
+      <a href="onboarding.en.html">onboarding.en.html</a>.</p>
+  </section>
+
+  <section>
+    <h2>Quickstart in 3 steps</h2>
+    <ol class="steps">
+      <li><strong>Get access.</strong> Verify your email (Free) or subscribe to Pro. Your API
+        key arrives by email; for Claude Cowork you need none.</li>
+      <li><strong>Connect your client.</strong> Point your MCP client at
+        <span class="mono">https://mcp.agentic-firmenbuch.at/mcp</span> - via OAuth click or with
+        the header <span class="mono">X-API-Key: YOUR_API_KEY</span>.</li>
+      <li><strong>Ask in natural language.</strong> For example: "Show me mechanical-engineering
+        companies in Styria with over 50 employees and compare equity ratio and revenue
+        growth."</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Available tools</h2>
+    <table>
+      <thead><tr><th>Tool</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td class="tool">search_companies</td><td class="desc">Search and filter companies by name, industry, Bundesland, size or financials, sorted and paginated.</td></tr>
+        <tr><td class="tool">get_company_details</td><td class="desc">Full financial profile of one company: multi-year balance sheet and P&amp;L, ratios, growth, management.</td></tr>
+        <tr><td class="tool">get_full_record</td><td class="desc">The complete record for one company, the full superset we hold.</td></tr>
+        <tr><td class="tool">get_company_history</td><td class="desc">Multi-year time series of individual metrics for one company.</td></tr>
+        <tr><td class="tool">get_cohort_summary</td><td class="desc">Aggregate statistics over a whole cohort or industry of companies.</td></tr>
+        <tr><td class="tool">find_peers</td><td class="desc">Find the companies closest in size to a given one.</td></tr>
+        <tr><td class="tool">get_coverage</td><td class="desc">How much of the register we actually serve, as an aggregate dashboard.</td></tr>
+        <tr><td class="tool">get_document</td><td class="desc">A time-limited download link to a company's official annual filing.</td></tr>
+        <tr><td class="tool">list_sectors</td><td class="desc">Valid filter values for search (industries, legal forms) with company counts.</td></tr>
+        <tr><td class="tool">describe_fields</td><td class="desc">Catalog of every field the server returns, with code tables and null rules.</td></tr>
+        <tr><td class="tool">get_my_usage</td><td class="desc">Your own API-key usage: call count and weighted compute-units per tool.</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Full field and code reference: <a href="felder.en.html">felder.en.html</a>.
+      The server does not understand language itself, it filters and aggregates
+      deterministically, your agent translates the question into these tools.</p>
+  </section>
+
+  <section>
+    <h2>Who it is for</h2>
+    <div class="who">
+      <div><h3>M&amp;A, PE, corporate finance</h3><p class="note">Target search, screening and metric comparison across whole industries.</p></div>
+      <div><h3>Due diligence &amp; compliance</h3><p class="note">Official financial data and company profiles on demand, not PDF hunting.</p></div>
+      <div><h3>Sales &amp; lead research</h3><p class="note">Narrow companies down by region, industry and size.</p></div>
+      <div><h3>Journalism &amp; research</h3><p class="note">Traceable, source-based company data with a clear license.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Data and license</h2>
+    <p>Source: Austrian company register (Firmenbuch) / BMJ - Justiz, licensed under
+      <strong>CC BY 4.0</strong>. Personal birth data is served year-only. No ownership or
+      shareholder data is served.</p>
+    <p class="note">Machine-readable summary of this page: <a href="/llms.txt">/llms.txt</a></p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>© <span id="y">2026</span> Agentic-Firmenbuch.at</span>
+    <nav style="display:flex;gap:14px;flex-wrap:wrap">
+      <a href="en.html">Home</a>
+      <a href="onboarding.en.html">Connect</a>
+      <a href="felder.en.html">Data fields</a>
+      <a href="/llms.txt">llms.txt</a>
+      <a href="fuer-agenten.html">Deutsch</a>
+    </nav>
+  </div>
+</footer>
+<script>document.getElementById('y').textContent=new Date().getFullYear();</script>
+</body>
+</html>

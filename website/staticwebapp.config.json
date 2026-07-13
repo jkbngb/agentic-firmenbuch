@@ -3,6 +3,9 @@
   "routes": [
     { "route": "/api/*", "allowedRoles": ["anonymous"] },
     { "route": "/.well-known/mcp-registry-auth", "headers": { "content-type": "text/plain" } },
+    { "route": "/llms.txt", "headers": { "content-type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" } },
+    { "route": "/for-agents", "rewrite": "/for-agents.html" },
+    { "route": "/fuer-agenten", "rewrite": "/fuer-agenten.html" },
     { "route": "/", "headers": { "Cache-Control": "no-cache, must-revalidate" } },
     { "route": "/*.html", "headers": { "Cache-Control": "no-cache, must-revalidate" } }
   ],

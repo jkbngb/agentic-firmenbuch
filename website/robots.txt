@@ -18,4 +18,5 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
+# Agent-/LLM-Kurzfassung (llms.txt): https://www.agentic-firmenbuch.at/llms.txt
 Sitemap: https://www.agentic-firmenbuch.at/sitemap.xml

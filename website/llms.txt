@@ -1,0 +1,103 @@
+# Agentic-Firmenbuch
+
+Natural-language access to the Austrian company register (Firmenbuch) for AI agents.
+A hosted, multi-tenant MCP server that lets an agent search, filter, and analyse
+official Austrian company and financial data inside Claude, Cursor, VS Code and other
+MCP clients, in plain language. Over 340,000 companies.
+
+Source: Oesterreichisches Firmenbuch / BMJ - Justiz, licensed CC BY 4.0.
+Homepage: https://www.agentic-firmenbuch.at/
+MCP endpoint: https://mcp.agentic-firmenbuch.at/mcp
+
+---
+
+## Deutsch
+
+Agentic-Firmenbuch ist ein gehosteter MCP-Server, der die offiziellen Firmen- und
+Bilanzdaten des oesterreichischen Firmenbuchs fuer KI-Agenten zugaenglich macht. Der
+Agent stellt eine Frage in natuerlicher Sprache, der Server liefert strukturierte,
+gefilterte und aggregierte Firmendaten zurueck. Deterministische Datenpipeline, kein
+LLM im Datenpfad.
+
+### Kernfaehigkeiten
+- Firmen suchen und filtern nach Name, Branche (Geschaeftszweig / OENACE), Bundesland,
+  Groessenklasse, Finanzkennzahlen (Bilanzsumme, Umsatz, Eigenkapitalquote,
+  Mitarbeiterzahl), Wachstum und GF-Alter. https://www.agentic-firmenbuch.at/felder.html
+- Vollstaendiges Finanzprofil einer Firma: mehrjaehrige Bilanz und GuV, alle berechneten
+  Kennzahlen, Wachstum, Management (Geschaeftsfuehrung). https://www.agentic-firmenbuch.at/felder.html
+- Aggregierte Analyse ueber eine ganze Branche oder Kohorte (Durchschnitte, Verteilungen).
+  https://www.agentic-firmenbuch.at/felder.html
+
+### Verbinden
+- Per Klick (OAuth): Claude Web, Desktop und Cowork. Connector mit der Adresse
+  https://mcp.agentic-firmenbuch.at/mcp hinzufuegen, E-Mail bestaetigen, fertig. Kein Key noetig.
+- Per API-Key (Header): Claude Code, Cursor, VS Code. Endpoint
+  https://mcp.agentic-firmenbuch.at/mcp, Typ http, Header "X-API-Key: DEIN_API_KEY".
+- Anleitung: https://www.agentic-firmenbuch.at/onboarding.html
+
+### Beispielanfragen
+- "Zeig mir Maschinenbau-Betriebe in der Steiermark mit ueber 50 Mitarbeitern und
+  vergleiche Eigenkapitalquote und Umsatzwachstum."
+- "Finde die 20 groessten GmbHs in Wien nach Bilanzsumme, gegruendet nach 2015."
+- "Zeig mir das vollstaendige Finanzprofil dieser Firma ueber die letzten Jahre."
+- "Wie hoch ist die durchschnittliche Eigenkapitalquote im Bauwesen in Oberoesterreich?"
+- "Welche Firmen aehneln dieser in der Groesse?"
+
+### Fuer wen
+M&A, Private Equity und Corporate Finance; Due Diligence und Compliance; Vertrieb und
+Lead-Recherche; Journalismus und Forschung.
+
+### Daten und Lizenz
+Quelle: Oesterreichisches Firmenbuch / BMJ - Justiz, CC BY 4.0. Personenbezogene
+Geburtsdaten nur jahresgenau. Keine Eigentuemer-/Gesellschafterdaten.
+
+### Links
+- Startseite: https://www.agentic-firmenbuch.at/
+- Fuer KI-Agenten: https://www.agentic-firmenbuch.at/fuer-agenten.html
+- Preise und Verbinden: https://www.agentic-firmenbuch.at/onboarding.html
+
+---
+
+## English
+
+Agentic-Firmenbuch is a hosted MCP server that exposes the official company and
+financial data of the Austrian company register (Firmenbuch) to AI agents. The agent
+asks in natural language; the server returns structured, filtered, and aggregated
+company data. Deterministic data pipeline, no LLM in the data path.
+
+### Core capabilities
+- Search and filter companies by name, industry (Geschaeftszweig / OENACE), Bundesland,
+  size class, financials (balance-sheet total, revenue, equity ratio, employees),
+  growth, and manager age. https://www.agentic-firmenbuch.at/felder.html
+- Full per-company financial profile: multi-year balance sheet and P&L, all computed
+  ratios, growth, management. https://www.agentic-firmenbuch.at/felder.html
+- Aggregate analysis over a whole industry or cohort (averages, distributions).
+  https://www.agentic-firmenbuch.at/felder.html
+
+### How to connect
+- One-click (OAuth): Claude web, desktop, and Cowork. Add a connector with the address
+  https://mcp.agentic-firmenbuch.at/mcp, confirm your email, done. No key needed.
+- API key (header): Claude Code, Cursor, VS Code. Endpoint
+  https://mcp.agentic-firmenbuch.at/mcp, type http, header "X-API-Key: YOUR_API_KEY".
+- Guide: https://www.agentic-firmenbuch.at/onboarding.en.html
+
+### Example queries
+- "Show me mechanical-engineering companies in Styria with over 50 employees and compare
+  equity ratio and revenue growth."
+- "Find the 20 largest GmbHs in Vienna by balance-sheet total, founded after 2015."
+- "Show me this company's full financial profile over the last years."
+- "What is the average equity ratio in construction in Upper Austria?"
+- "Which companies are closest in size to this one?"
+
+### Who it is for
+M&A, private equity, corporate finance; due diligence and compliance; sales and lead
+research; journalists and researchers.
+
+### Data and license
+Source: Austrian company register (Firmenbuch) / BMJ - Justiz, CC BY 4.0. Personal birth
+data is year-only. No ownership/shareholder data.
+
+### Links
+- Homepage: https://www.agentic-firmenbuch.at/en.html
+- For AI agents: https://www.agentic-firmenbuch.at/for-agents.html
+- Pricing and connect: https://www.agentic-firmenbuch.at/onboarding.en.html
