@@ -50,12 +50,9 @@ The headline documents:
 
 | Doc | What it is |
 |---|---|
-| [docs/specs/Technische_Spezifikation.md](docs/specs/Technische_Spezifikation.md) | The HOW – architecture, modules, schemas, runbook, edge cases, build order. **Primary.** |
-| [docs/specs/Fachliche_Spezifikation.md](docs/specs/Fachliche_Spezifikation.md) | The WHAT/WHY – scope and business rules. |
-| [docs/specs/Distribution_Spezifikation.md](docs/specs/Distribution_Spezifikation.md) | Go-to-market layer – site, email signup, API-key delivery, legal. |
 | [docs/pipeline-step-samples.md](docs/pipeline-step-samples.md) | File format + golden sample for every pipeline stage. |
 | [docs/FIELD_REFERENCE.md](docs/FIELD_REFERENCE.md) | **Served field dictionary** – every field each MCP tool returns, with type + null rules. Public page: [felder.html](https://www.agentic-firmenbuch.at/felder.html). |
-| [ROADMAP.md](ROADMAP.md) + [docs/specs/Erweiterungen_Spezifikation.md](docs/specs/Erweiterungen_Spezifikation.md) | Forward plan – status/priorities + the V2 design (banks/insurers, GISA, Ediktsdatei). |
+| [ROADMAP.md](ROADMAP.md) | Forward plan – status/priorities and the V2 direction (banks/insurers, GISA, Ediktsdatei). |
 | [docs/appendix_position_mapping.json](docs/appendix_position_mapping.json) | Full 317-entry canonical position taxonomy → copied into `products/agentic-firmenbuch/packages/core_at/…/mapping/`. |
 | [docs/reference/](docs/reference/) | Official source material (API reference, JAb 4.0 XSDs/Excel). |
 
@@ -82,8 +79,7 @@ agentic-first/                       (this repo)
 
 Additional source-specific products are added in their **own separate repositories** that consume
 `packages/{core,auth}` as a dependency (they are not scaffolded here). The precise
-1:1 / adapt / product-local reuse boundary is the **reuse table (Appendix R)** in the
-[Technische Spezifikation](docs/specs/Technische_Spezifikation.md), and the generic recipe is in
+1:1 / adapt / product-local reuse boundary is the **reuse table (Appendix R)** of the technical spec, and the generic recipe is in
 [docs/monorepo/ADDING_A_PRODUCT.md](docs/monorepo/ADDING_A_PRODUCT.md).
 
 **Product READMEs:** [agentic-firmenbuch](products/agentic-firmenbuch/README.md) · shared [`core`](packages/core/README.md) · [`auth`](packages/auth/README.md)
