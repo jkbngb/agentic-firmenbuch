@@ -2,7 +2,7 @@
 
 A small, hand-curated set of presented docs that exercises every search intent the goldens
 cover — name lookup + relevance, ÖNACE concept industry, region, radius, financial screen,
-intent scores, and a zero-hit relaxation case. Built into an in-memory store so `--ci` runs are
+and a zero-hit relaxation case. Built into an in-memory store so `--ci` runs are
 fast and reproducible (no live DB, RU cents = 0). Keep the fnrs stable — the goldens key on them.
 """
 
@@ -42,7 +42,6 @@ def _doc(
     oenace_division: str | None = None,
     oenace_group: str | None = None,
     geschaeftszweig: str | None = None,
-    scores: dict[str, Any] | None = None,
     legal_form: str = "GES",
 ) -> dict[str, Any]:
     doc: dict[str, Any] = {
@@ -74,8 +73,6 @@ def _doc(
                 "group_label_de": "Maschinenbau",
             },
         }
-    if scores is not None:
-        doc["scores"] = scores
     return doc
 
 
@@ -97,7 +94,7 @@ _DOCS: list[dict[str, Any]] = [
         plz="5330",
         bilanzsumme=2_000_000_000.0,
     ),
-    # OÖ Anlagenbau (division 28), varying growth scores for rank_by.
+    # OÖ Anlagenbau (division 28).
     _doc(
         "300001a",
         name="Oberösterreich Anlagenbau GmbH",
@@ -109,7 +106,6 @@ _DOCS: list[dict[str, Any]] = [
         bilanzsumme=8_000_000.0,
         equity_ratio=0.55,
         profile="fast_growing",
-        scores={"growth": 92.0, "solidity": 60.0, "scale": 70.0, "basis": ["x"]},
     ),
     _doc(
         "300002b",
@@ -122,7 +118,6 @@ _DOCS: list[dict[str, Any]] = [
         bilanzsumme=5_000_000.0,
         equity_ratio=0.75,
         profile="stable",
-        scores={"growth": 40.0, "solidity": 95.0, "scale": 55.0, "basis": ["x"]},
     ),
     _doc(
         "300003c",
@@ -135,7 +130,6 @@ _DOCS: list[dict[str, Any]] = [
         bilanzsumme=3_000_000.0,
         equity_ratio=0.40,
         profile="growing",
-        scores={"growth": 70.0, "solidity": 35.0, "scale": 40.0, "basis": ["x"]},
     ),
     # Vienna region companies (financial screen).
     _doc(

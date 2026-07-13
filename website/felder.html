@@ -337,17 +337,6 @@
         </tbody>
       </table></div>
 
-      <h3><code>scores</code> · Intent-Scores</h3>
-      <div class="tablewrap"><table>
-        <thead><tr><th>Feld</th><th>Typ</th><th>Bedeutung</th></tr></thead>
-        <tbody>
-          <tr><td><code>growth</code></td><td>number | null</td><td>Wachstums-Perzentil 0–100 (aus den Bilanzsummen-/Eigenkapital-CAGR-Perzentilen; ersatzweise aus dem Wachstumsprofil)</td></tr>
-          <tr><td><code>solidity</code></td><td>number | null</td><td>Solidität 0–100 (Eigenkapitalquoten-Perzentil)</td></tr>
-          <tr><td><code>scale</code></td><td>number | null</td><td>Größe 0–100 (Bilanzsummen-Perzentil über den <strong>gesamten</strong> Datenbestand)</td></tr>
-          <tr><td><code>basis</code></td><td>list</td><td>welche Eingaben tatsächlich verwendet wurden (Ehrlichkeitsfeld; nie geraten)</td></tr>
-        </tbody>
-      </table></div>
-      <p style="font-size:.92em">Vorberechnet – <code>search_companies</code> sortiert direkt danach (<code>sort.field = score_growth</code> …) oder gewichtet mit <code>rank_by</code>. Fehlt eine Eingabe, fehlt der Score (kein Ratewert).</p>
 
       <h3><code>employees</code> · Beschäftigte</h3>
       <div class="tablewrap"><table>
@@ -481,13 +470,10 @@
           <tr><td><code>status</code></td><td><code>active</code> / <code>inactive</code> / <code>all</code></td></tr>
         </tbody>
       </table></div>
-      <p><strong>Sortierung:</strong> <code>sort = { field, descending }</code> über u. a.
-         <code>bilanzsumme</code>, <code>equity_ratio</code>, <code>revenue</code> sowie die
-         <strong>Intent-Scores</strong> <code>score_growth</code>, <code>score_solidity</code>,
-         <code>score_scale</code> (normierte 0–100-Perzentile). Für einen gewichteten Mix:
-         <code>sort = { rank_by: [{signal, weight}, …] }</code> mit den Signalen
-         <code>growth</code> / <code>solidity</code> / <code>scale</code> – z. B. „wachstumsstark &amp;
-         solide" → <code>[{growth:0.7},{solidity:0.3}]</code>. Ein unbekanntes Sortierfeld wird
+      <p><strong>Sortierung:</strong> <code>sort = { field, descending }</code> über
+         <code>bilanzsumme</code>, <code>revenue</code>, <code>equity_ratio</code>,
+         <code>employees</code>, <code>last_filing_year</code> (oder <code>distance</code> bei
+         einer Umkreissuche). Standard: Bilanzsumme absteigend. Ein unbekanntes Sortierfeld wird
          mit der Liste der gültigen Felder abgewiesen.
          <strong>Seiten:</strong> <code>page</code> (ab 1), <code>page_size</code> (Standard 25).</p>
       <div class="note"><strong>Antwort-Hilfen.</strong> Jede Suche liefert zusätzlich

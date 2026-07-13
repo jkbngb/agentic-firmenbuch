@@ -20,11 +20,6 @@ PERCENTILE_METRICS = (
     "eigenkapital_5y_cagr",
 )
 
-# Pseudo-cohort key for the whole-dataset distribution (not a gkl band). Drives scores.scale —
-# a company's size relative to EVERY company, not just its own size class (T11). "all" can't
-# collide with a real gkl value (W/K/M/G).
-ALL_COHORT = "all"
-
 
 def company_gkl(company: ConsolidatedCompany) -> str | None:
     """The company's size class: its own size.gkl, else the latest filing's gkl."""
@@ -77,18 +72,11 @@ def build_cohort_stats(companies: Iterable[ConsolidatedCompany]) -> CohortStats:
     the full set of company objects (§15a.1 memory safety)."""
     by_gkl: dict[str, dict[str, list[float]]] = {}
     for company in companies:
-        metrics = _metric_values(company)
-        # Whole-dataset distribution (scores.scale): accumulate regardless of gkl, so even a
-        # company with no size class still ranks by absolute Bilanzsumme against everyone.
-        if metrics:
-            allband = by_gkl.setdefault(ALL_COHORT, {m: [] for m in PERCENTILE_METRICS})
-            for metric, value in metrics.items():
-                allband[metric].append(value)
         gkl = company_gkl(company)
         if gkl is None:
             continue
         band = by_gkl.setdefault(gkl, {m: [] for m in PERCENTILE_METRICS})
-        for metric, value in metrics.items():
+        for metric, value in _metric_values(company).items():
             band[metric].append(value)
     for band in by_gkl.values():
         for values in band.values():

@@ -485,13 +485,10 @@ def build_app(cosmos: CosmosStoreLike, settings: Settings | None = None) -> Any:
           equity_ratio / employees min+max ranges; growth_profile; has_guv; last_filing_year_min;
           founded_year_min/max; gf_age_min; status active/inactive/all). Omit for an unfiltered
           list. Full-name inputs like "Wien" or "GmbH" are mapped to stored codes automatically.
-        - sort (optional): {field, descending, rank_by}. field in {bilanzsumme, revenue,
-          equity_ratio, employees, last_filing_year, score_growth, score_solidity, score_scale};
-          default bilanzsumme descending. Companies missing the sort field sort last. The score_*
-          fields are precomputed 0-100 intent percentiles (growth / financial solidity / absolute
-          scale). rank_by mixes several: e.g. "wachstumsstark & solide" →
-          rank_by=[{"signal":"growth","weight":0.7},{"signal":"solidity","weight":0.3}] (signals:
-          growth, solidity, scale). An unknown sort field is rejected with the list of valid ones.
+        - sort (optional): {field, descending}; field in {bilanzsumme, revenue, equity_ratio,
+          employees, last_filing_year} (or "distance" with a near filter); default bilanzsumme
+          descending. Companies missing the sort field sort last. An unknown sort field is
+          rejected with the list of valid ones.
         - page (optional, default 1) and page_size (optional, default 25, clamped to 1..100).
 
         Returns the total match count plus a COMPACT summary card per company on the page (name,

@@ -14,7 +14,6 @@ from fbl_core_at.geo import haversine_km, plz_centroid, resolve_place
 from fbl_core_at.models import (
     NearFilter,
     PublicProvenance,
-    RankSignal,
     Relaxation,
     SearchFilters,
     SearchResponse,
@@ -500,13 +499,10 @@ def _order_near(
     anchor: tuple[float, float, float],
     sort_field: str,
     descending: bool,
-    rank_by: list[RankSignal] | None,
 ) -> list[dict[str, Any]]:
-    """Order the exact-radius result set: by weighted signals, an explicit metric, or (default)
-    ascending distance from the anchor, fnr-stable."""
+    """Order the exact-radius result set: by an explicit metric, or (default) ascending distance
+    from the anchor, fnr-stable."""
     lat, lng, _ = anchor
-    if rank_by:
-        return _rank_by_weighted(docs, rank_by)
     if sort_field != "distance":
         return _sorted_nulls_last(docs, sort_field, descending)
 
@@ -523,7 +519,6 @@ def _search_near(
     anchor: tuple[float, float, float],
     sort_field: str,
     descending: bool,
-    rank_by: list[RankSignal] | None,
     page: int,
     page_size: int,
     start: int,
@@ -540,7 +535,7 @@ def _search_near(
         for d in cosmos.query(PRESENTED, pool_sql, params)
         if not str(d.get("id", "")).startswith("__") and _matches(d, filters)
     ]
-    ordered = _order_near(pool, anchor, sort_field, descending, rank_by)
+    ordered = _order_near(pool, anchor, sort_field, descending)
     total = len(ordered)
     page_docs = ordered[start : start + page_size]
 
@@ -589,13 +584,12 @@ def search_companies(
     # Resolve the radius anchor up front so an ambiguous/unknown place fails fast and cleanly.
     near_anchor = _near_anchor(filters.near) if filters.near is not None else None
 
-    rank_by = sort.rank_by if sort else None
     requested_field = sort.field if sort and sort.field else None
     # Default sort: distance for a near query, else Bilanzsumme.
     sort_field = requested_field or ("distance" if near_anchor is not None else "bilanzsumme")
     descending = sort.descending if sort else True
     # Reject an unknown sort field loudly (it used to silently drop ordering): the LLM gets a
-    # clear list of valid fields instead of a mystifyingly unordered page. (T11) "distance" is a
+    # clear list of valid fields instead of a mystifyingly unordered page. "distance" is a
     # computed field valid only alongside a near filter (T12).
     if sort_field == "distance":
         if near_anchor is None:
@@ -609,7 +603,7 @@ def search_companies(
     # COUNT+page machinery, so it takes a dedicated pool path (T12).
     if near_anchor is not None:
         return _search_near(
-            cosmos, filters, near_anchor, sort_field, descending, rank_by, page, page_size, start
+            cosmos, filters, near_anchor, sort_field, descending, page, page_size, start
         )
 
     where_sql, params = _build_where(filters)
@@ -646,13 +640,7 @@ def search_companies(
         # A NAME lookup over a small result set → rank by match quality, not the numeric sort (T10).
         if isinstance(raw_total, int):  # Cosmos: COUNT(1) → real total; page server-side
             total = raw_total
-            if rank_by and total > 0:
-                # Weighted multi-signal ranking (T11): pool top-per-signal, re-rank by the mix.
-                page_future.result()
-                page_docs = _rank_by_signals_cosmos(
-                    cosmos, where_sql, params, rank_by, start, page_size
-                )
-            elif filters.name and 0 < total <= _POOL_LIMIT:
+            if filters.name and 0 < total <= _POOL_LIMIT:
                 # Fetch the whole (small) candidate pool unordered and re-rank in Python; total
                 # stays exact. The parallel ordered page is discarded — cheap at ≤200 rows.
                 page_future.result()
@@ -680,9 +668,7 @@ def search_companies(
                 if not str(d.get("id", "")).startswith("__") and _matches(d, filters)
             ]
             total = len(matched)
-            if rank_by and total > 0:
-                matched = _rank_by_weighted(matched, rank_by)  # same fn the Cosmos pool re-ranks by
-            elif filters.name and 0 < total <= _POOL_LIMIT:
+            if filters.name and 0 < total <= _POOL_LIMIT:
                 matched = _rank_by_name(matched, filters.name, sort_field)  # same fn as Cosmos path
             else:
                 matched = _sorted_nulls_last(matched, sort_field, descending)
@@ -715,10 +701,6 @@ _SORT_PATHS = {
     "equity_ratio": ("ratios", "equity_ratio", "latest"),
     "employees": ("employees", "latest"),
     "last_filing_year": ("company", "last_filing_year"),
-    # Precomputed intent scores (T11): a single-signal sort rides the same two-bucket machinery.
-    "score_growth": ("scores", "growth"),
-    "score_solidity": ("scores", "solidity"),
-    "score_scale": ("scores", "scale"),
 }
 
 # --- name-relevance re-ranking (T10) -------------------------------------------
@@ -767,55 +749,6 @@ def _rank_by_name(docs: list[dict[str, Any]], query: str, sort_field: str) -> li
     ranked = sorted(docs, key=lambda d: str(d.get("fnr") or ""))  # fnr asc → stable final tiebreak
     ranked.sort(key=key, reverse=True)
     return ranked
-
-
-# --- weighted multi-signal ranking (T11 rank_by) -------------------------------
-def _weighted_score(doc: dict[str, Any], rank_by: list[RankSignal]) -> float:
-    """Σ weight·score over the signals present on the doc, renormalized by the present weights
-    (a doc missing one signal is scored fairly on the others, never penalized to zero). ``-inf``
-    when the doc has none of the requested signals, so those sort last."""
-    scores = doc.get("scores") or {}
-    num = 0.0
-    wsum = 0.0
-    for sig in rank_by:
-        value = scores.get(sig.signal) if isinstance(scores, dict) else None
-        if isinstance(value, int | float) and not isinstance(value, bool):
-            num += sig.weight * float(value)
-            wsum += sig.weight
-    return num / wsum if wsum > 0 else float("-inf")
-
-
-def _rank_by_weighted(
-    docs: list[dict[str, Any]], rank_by: list[RankSignal]
-) -> list[dict[str, Any]]:
-    ranked = sorted(docs, key=lambda d: str(d.get("fnr") or ""))  # stable fnr tiebreak
-    ranked.sort(key=lambda d: _weighted_score(d, rank_by), reverse=True)
-    return ranked
-
-
-def _rank_by_signals_cosmos(
-    cosmos: CosmosStoreLike,
-    where_sql: str,
-    params: list[dict[str, Any]],
-    rank_by: list[RankSignal],
-    start: int,
-    page_size: int,
-) -> list[dict[str, Any]]:
-    """Pool the top candidates per signal via the indexed ORDER BY (union by fnr), then re-rank the
-    union by the weighted mix and slice the page. A screening operation — ``total`` (the filter
-    match count) is reported separately and stays exact."""
-    pool: dict[str, dict[str, Any]] = {}
-    for sig in rank_by:
-        path = f"c.scores.{sig.signal}"
-        sql = (
-            f"SELECT * FROM c WHERE {where_sql} AND IS_DEFINED({path}) "
-            f"ORDER BY {path} DESC OFFSET 0 LIMIT {_POOL_LIMIT}"
-        )
-        for d in cosmos.query(PRESENTED, sql, params):
-            if not str(d.get("id", "")).startswith("__"):
-                pool[str(d.get("fnr"))] = d
-    ranked = _rank_by_weighted(list(pool.values()), rank_by)
-    return ranked[start : start + page_size]
 
 
 def _sort_key(doc: dict[str, Any], field: str) -> Any:

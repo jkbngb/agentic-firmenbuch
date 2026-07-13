@@ -2,7 +2,7 @@
 # expectation, replayed with NO LLM. `--ci` runs them against tests/eval/fixtures.py (the fnrs
 # below are the fixture ids); `--live`/`--base-url` runs the SAME calls against real data, where
 # the `_live` expectations (if present) apply instead. Categories: name lookup, concept industry,
-# region, radius, financial screen, intent ranking, zero-hit relaxation.
+# region, radius, financial screen, zero-hit relaxation.
 
 # --- name lookup + relevance ---------------------------------------------------
 - id: name-novomatic-exact
@@ -92,22 +92,10 @@
   call: {filters: {}, sort: {field: "bilanzsumme", descending: true}}
   expect_top1_fnr: "222222b"
 
-# --- intent ranking (scores + rank_by) -----------------------------------------
-- id: rank-growth
-  intent: "wachstumsstärkste Anlagenbauer"
-  call: {filters: {oenace_division: "28"}, sort: {field: "score_growth"}}
-  expect_top1_fnr: "300001a"
-
-- id: rank-solidity
-  intent: "solideste Anlagenbauer"
-  call: {filters: {oenace_division: "28"}, sort: {field: "score_solidity"}}
-  expect_top1_fnr: "300002b"
-
-- id: rank-weighted-growth-solidity
-  intent: "wachstumsstark & solide (0.7/0.3)"
-  call:
-    filters: {oenace_division: "28"}
-    sort: {rank_by: [{signal: "growth", weight: 0.7}, {signal: "solidity", weight: 0.3}]}
+# --- sorting by objective metrics ----------------------------------------------
+- id: sort-bilanzsumme-in-division
+  intent: "größte Anlagenbauer nach Bilanzsumme"
+  call: {filters: {oenace_division: "28"}, sort: {field: "bilanzsumme"}}
   expect_top1_fnr: "300001a"
 
 # --- zero-hit relaxation -------------------------------------------------------
@@ -172,11 +160,6 @@
   intent: "Bilanzsumme bis 1 Mio"
   call: {filters: {bilanzsumme_max: 1000000}}
   expect_fnrs_in_top25: ["500003c", "111111a"]
-
-- id: rank-scale
-  intent: "größte Anlagenbauer nach Skalen-Score"
-  call: {filters: {oenace_division: "28"}, sort: {field: "score_scale"}}
-  expect_top1_fnr: "300001a"
 
 - id: concept-software
   intent: "Softwarefirmen (Tätigkeitstext)"

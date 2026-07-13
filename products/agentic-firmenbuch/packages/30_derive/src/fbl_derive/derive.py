@@ -18,9 +18,8 @@ from fbl_core_at.models import (
 from fbl_core_at.models.company import SizeClass
 
 from . import ratios as ratio_calc
-from .cohort import ALL_COHORT, CohortStats, company_gkl
+from .cohort import CohortStats, company_gkl
 from .growth import compute_growth
-from .scores import compute_scores
 
 _SIZE_CLASSES = ("W", "K", "M", "G")
 
@@ -62,13 +61,6 @@ def derive(
     size = _build_size(company, financials, cohort)
     growth = _build_growth(financials)
 
-    # Intent scores (T11): scale ranks Bilanzsumme over the WHOLE dataset ("all" cohort), the
-    # other two reuse the per-gkl peer percentiles just computed. Absent when inputs are missing.
-    bs_series = financials.bilanz.get("bilanzsumme")
-    bs_latest = bs_series.latest if bs_series else None
-    scale_pct = cohort.percentile(ALL_COHORT, "bilanzsumme", bs_latest)
-    scores = compute_scores(size.peer_percentiles, growth.profile, scale_pct)
-
     meta = _derived_meta(company, run_id)
 
     der = DerivedCompany(
@@ -83,7 +75,6 @@ def derive(
         events=company.events,
         ratios=ratios,
         growth=growth,
-        scores=scores,
         derivations=Derivations(metrics_version=METRICS_VERSION, formulas=dict(_FORMULAS)),
         meta=meta,
     )

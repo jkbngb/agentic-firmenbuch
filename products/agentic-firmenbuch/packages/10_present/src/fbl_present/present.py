@@ -78,7 +78,6 @@ def present(
         financials=_financials(company),
         ratios=company.ratios.model_dump(mode="json"),
         growth=company.growth.model_dump(mode="json"),
-        scores=company.scores,  # T11 intent scores; carried verbatim (flat, indexable path)
         employees=company.employees.model_dump(mode="json") if company.employees else None,
         filings=[f.model_dump(mode="json") for f in company.filings],
         events=[e.model_dump(mode="json") for e in company.events],
