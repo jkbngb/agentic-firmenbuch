@@ -15,3 +15,11 @@ products/agentic-firmenbuch/packages/core_at/src/fbl_core_at/mapping/plz_geo.jso
 plz_places.json are derived from the GeoNames postal-code dataset for Austria
 (https://download.geonames.org/export/zip/), licensed under CC BY 4.0 by GeoNames
 (https://www.geonames.org). Regenerate with scripts/build_plz_geo.py.
+
+The PLZ→Bundesland table in
+products/agentic-firmenbuch/packages/core_at/src/fbl_core_at/mapping/plz_bundesland.json is
+derived from the Austrian municipality list "oe_gemeinden" by bresu
+(https://github.com/bresu/oe_gemeinden), licensed under CC BY-SA 4.0, by joining each PLZ to
+its Gemeindekennziffer (whose leading digit encodes the Bundesland per Statistik Austria) and
+filling Wien plus PLZ without a municipal seat by postal-region. Regenerate with
+scripts/build_plz_bundesland.py.

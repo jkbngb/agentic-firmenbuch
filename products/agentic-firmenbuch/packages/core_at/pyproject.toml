@@ -21,5 +21,7 @@ packages = ["src/fbl_core_at"]
 # PLZ→centroid + place→PLZ tables for radius search (T12; GeoNames AT, CC-BY — see NOTICE)
 "src/fbl_core_at/mapping/plz_geo.json" = "fbl_core_at/mapping/plz_geo.json"
 "src/fbl_core_at/mapping/plz_places.json" = "fbl_core_at/mapping/plz_places.json"
+# exact PLZ→Bundesland table (Statistik Austria Gemeindekennziffer join, CC-BY-SA — see NOTICE)
+"src/fbl_core_at/mapping/plz_bundesland.json" = "fbl_core_at/mapping/plz_bundesland.json"
 # ÖNACE taxonomy + crosswalk data for the branch classifier (issue #14)
 "src/fbl_core_at/classification/data" = "fbl_core_at/classification/data"
