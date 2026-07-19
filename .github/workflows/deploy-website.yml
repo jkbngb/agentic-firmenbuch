@@ -1,0 +1,32 @@
+name: Deploy website
+
+# Deploys website/ to Azure Static Web Apps on every push to main that touches it
+# (plus manual runs via workflow_dispatch). Deliberately separate from ci.yml: the
+# site is plain static files the Python tests don't cover, and this file also lives
+# on the public mirror where the full CI workflow is disabled.
+# Skips cleanly when the SWA_DEPLOYMENT_TOKEN secret isn't configured (forks).
+# Token: Azure portal → swa-firmenbuch → "Manage deployment token", stored as the
+# SWA_DEPLOYMENT_TOKEN repo secret.
+
+on:
+  push:
+    branches: [main]
+    paths: ['website/**', '.github/workflows/deploy-website.yml']
+  workflow_dispatch:
+
+jobs:
+  deploy-website:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy website/ to Static Web Apps
+        env:
+          TOKEN: ${{ secrets.SWA_DEPLOYMENT_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "SWA_DEPLOYMENT_TOKEN not configured — skipping website deploy."
+            exit 0
+          fi
+          npx --yes @azure/static-web-apps-cli@2 deploy ./website \
+            --deployment-token "$TOKEN" --env production
