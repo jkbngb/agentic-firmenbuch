@@ -189,6 +189,7 @@
         <tbody>
           <tr><td><code>fnr</code></td><td>string</td><td>Firmenbuch number</td></tr>
           <tr><td><code>register_id</code></td><td>string</td><td>technical ID, format <code>AT_&lt;fnr&gt;</code></td></tr>
+          <tr><td><code>euid</code></td><td>string | null</td><td>European Unique Identifier (BRIS), e.g. <code>ATBRA.030444-000</code> — the EU-wide unique company ID</td></tr>
           <tr><td><code>name</code></td><td>string</td><td>Company name</td></tr>
           <tr><td><code>legal_form</code></td><td>string</td><td>Legal form as code (<code>GES</code> = GmbH family; <a href="#codes">all codes</a>)</td></tr>
           <tr><td><code>status</code></td><td>string</td><td><code>active</code> / <code>historical</code> / <code>deleted</code></td></tr>
@@ -216,7 +217,7 @@
           <tr><td><code>first_filing_year</code></td><td>int</td><td>first available statement year</td></tr>
           <tr><td><code>last_filing_year</code></td><td>int</td><td>most recent available statement year</td></tr>
           <tr><td><code>filing_years_available</code></td><td>int</td><td>number of available statement years</td></tr>
-          <tr><td><code>founded_year</code></td><td>int | null</td><td>year founded, if derivable</td></tr>
+          <tr><td><code>founded_year</code></td><td>int | null</td><td>founding year from the register's first registration (Neueintragung); available for companies registered from ~1995 on, else null</td></tr>
           <tr><td><code>founded_source</code></td><td>string | null</td><td>origin of the founded year</td></tr>
           <tr><td><code>description</code></td><td>null</td><td>not populated in V1</td></tr>
         </tbody>
@@ -355,7 +356,7 @@
           <tr><td><code>doc_key</code> · <code>document_url</code> · <code>pdf_doc_key</code></td><td>string | null</td><td>Document references (partly empty)</td></tr>
         </tbody>
       </table></div>
-      <p style="font-size:.92em"><code>events[]</code> – register events (Vollzüge), <strong>derived from the daily change feed from 1 July 2026</strong>. The official extract carries no change log, so on every daily update we compare the master data and record differences as typed events (<code>name_change</code>, <code>seat_change</code>, <code>legal_form_change</code>, <code>management_change</code>, <code>capital_change</code>) with <code>date</code>, <code>description</code> and <code>source</code> (<code>change_feed_delta</code>). Capital changes also carry <code>capital_from</code>/<code>capital_to</code>, management changes <code>managers_added</code>/<code>managers_removed</code> (role + name). <strong>Register changes have been recorded since 1 July 2026</strong> and are therefore queryable only from that date. Queryable across companies via <code>list_events</code> (see below).</p>
+      <p style="font-size:.92em"><code>events[]</code> – register events (Vollzüge), <strong>derived from the daily change feed from 1 July 2026</strong>. The official extract carries no change log, so on every daily update we compare the master data and record differences as typed events (<code>name_change</code>, <code>seat_change</code>, <code>legal_form_change</code>, <code>management_change</code>, <code>capital_change</code>) with <code>date</code>, <code>description</code> and <code>source</code>. Capital changes also carry <code>capital_from</code>/<code>capital_to</code>, management changes <code>managers_added</code>/<code>managers_removed</code> (role + name). <strong>Two layers:</strong> the <em>detailed</em> events (with before/after) are recorded from 1 July 2026; in addition there are <em>coarser historical</em> register events (type + date only, <code>source=change_feed</code>: <code>founding</code>, <code>deletion</code>, <code>merger</code>, <code>split</code>, <code>conversion</code>, <code>capital_change</code>, <code>legal_form_change</code>, and more) back to ~2020. Queryable across companies via <code>list_events</code> (see below).</p>
 
       <h3><code>financial_institution</code> · Regulated financial institution</h3>
       <p style="font-size:.92em">Present only for banks, insurers and similar regulated institutions. Sourced from the <strong>official register</strong> (OeNB bank list, joined by company-register number; insurers via EIOPA/GLEIF in progress) – no name guessing.</p>
@@ -396,6 +397,7 @@
           <tr><td><code>primary_manager.birth_year</code></td><td>int</td><td>Year of birth (year only)</td></tr>
           <tr><td><code>primary_manager.role_label</code></td><td>string</td><td>Role (e.g. Managing Director)</td></tr>
           <tr><td><code>primary_manager.vertretung</code></td><td>string | null</td><td>Type of representation (sole / joint)</td></tr>
+          <tr><td><code>signatories[]</code></td><td>list</td><td><strong>Full authorized-signatory roster</strong> (all officers: managing directors + Prokuristen …) — each with <code>name</code> (only with a lawful basis), <code>role_label</code>, <code>vertretung</code>, <code>birth_year</code> (year only), <code>age</code></td></tr>
         </tbody>
       </table></div>
       <div class="note"><strong>Privacy (GDPR):</strong> Names of authorised representatives
@@ -434,7 +436,8 @@
       </table></div>
       <p style="font-size:.92em">Per event: <code>fnr</code>, <code>name</code>, <code>date</code>, <code>type</code>, <code>description</code>, for capital <code>capital_from</code>/<code>capital_to</code>, for management <code>managers_added</code>/<code>managers_removed</code> (role + name), plus <code>bundesland</code>, <code>legal_form</code>, <code>industry_section</code>. Sorted by date (newest first).</p>
       <p style="font-size:.92em"><code>get_event_stats</code> returns, for the same filters, <strong>counts by type and by Bundesland</strong> – for market dashboards ("how many capital increases in Upper Austria this month").</p>
-      <div class="note"><strong>Recorded since 1 July 2026:</strong> register changes have been recorded since <strong>1 July 2026</strong> and are therefore queryable only from that date. An empty result means no change in the period – not missing data.</div>
+      <p style="font-size:.92em"><strong>Companies rather than events?</strong> To find <em>companies</em> that had an event – with financial context, ranked by size – use the <code>event_signal</code> filter in <code>search_companies</code> (see section 5). The triggering events then attach to each company card.</p>
+      <div class="note"><strong>Two layers:</strong> detailed events (with before/after) from <strong>1 July 2026</strong>; coarser historical register events (type + date, <code>source=change_feed</code>) back to <strong>~2020</strong>. An empty result means no change in the period – not missing data.</div>
     </section>
 
     <section class="block" id="filter">
@@ -462,12 +465,17 @@
           <tr><td><code>postal_code</code> / <code>city</code></td><td>PLZ prefix (<code>1010</code> exact, <code>10</code> = all 10xx) or city (substring)</td></tr>
           <tr><td><code>near</code></td><td><strong>Radius search</strong>: <code>{ place, radius_km }</code> or <code>{ postal_code, radius_km }</code> (exactly one; radius 1–150 km). Hits carry <code>distance_km</code> and sort by distance. An ambiguous town name is rejected with the candidate PLZs.</td></tr>
           <tr><td><code>query</code></td><td><strong>Free-text search</strong> over name and activity; combines freely with every structured filter. Each card carries <code>match_reason</code> (which field matched).</td></tr>
+          <tr><td><code>event_signal</code> <span class="muted">(Pro)</span></td><td><strong>Event-driven discovery</strong> – only companies that had a corporate-event signal in the window: <code>ownership_change</code> (shareholder capital change, often a share transfer), <code>leadership_change</code> (management/officer change), <code>capital_raise</code>, <code>restructuring</code> (merger/split/contribution/…), <code>new_company</code>, <code>closure</code>, <code>rebrand</code>, <code>relocation</code>. Combines with <strong>every</strong> financial/profile filter; each card gains the triggering <code>events</code> + <code>latest_event_date</code>. This is the deal-sourcing / sales-trigger surface.</td></tr>
+          <tr><td><code>event_since</code> / <code>event_until</code></td><td>time window for <code>event_signal</code> (ISO date); default: the last 365 days</td></tr>
           <tr><td><code>status</code></td><td><code>active</code> / <code>inactive</code> / <code>all</code></td></tr>
         </tbody>
       </table></div>
       <p><strong>Sorting:</strong> <code>sort = { field, descending }</code> over
          <code>bilanzsumme</code>, <code>revenue</code>, <code>equity_ratio</code>,
-         <code>employees</code>, <code>last_filing_year</code> (or <code>distance</code> with a
+         <code>employees</code>, <code>last_filing_year</code>,
+         <code>revenue_growth_1y</code>, <code>revenue_growth_3y</code>, <code>revenue_growth_5y</code>
+         (revenue growth: 1-year, 3- and 5-year CAGR; only where a multi-year GuV exists, others sort last)
+         (or <code>distance</code> with a
          near filter). Default: Bilanzsumme descending. An unknown sort field is rejected with the
          list of valid fields.
          <strong>Pages:</strong> <code>page</code> (from 1), <code>page_size</code> (default 25).</p>

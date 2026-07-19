@@ -125,12 +125,14 @@
     <span class="eyebrow">Legal</span>
     <h1>Privacy Policy</h1>
     <p class="sub">This notice informs you, in accordance with the General Data Protection Regulation (GDPR) and the Austrian Data Protection Act (DSG), about the processing of personal data when using this website and the Agentic-Firmenbuch.at service.</p>
-    <p class="meta">As of: 9 July 2026</p>
+    <p class="meta">As of: 19 July 2026</p>
 
     <div style="margin:1.2rem 0;padding:1rem 1.2rem;border-left:4px solid #19C37D;background:rgba(25,195,125,.08);border-radius:8px">
       <strong>Privacy.</strong> The content of your queries is not stored — no prompts, company
-      names, filters or search terms. Per account we keep only call counters (which tool, how
-      often) for rate limits and billing. <a href="#anmeldung">Details</a>.
+      names or search terms. Per account we keep call counters (which tool, how often) for rate
+      limits and billing; for fault detection we also record technical measurements per call
+      (including duration, result count and the <strong>names</strong> of the filters you set —
+      never their contents). <a href="#anmeldung">Details</a>.
     </div>
 
     <div class="callout">
@@ -177,6 +179,7 @@
       <p><strong>Purpose:</strong> provision of the service, verification of the e-mail address and prevention of misuse.</p>
       <p><strong>Legal basis:</strong> performance of a contract or pre-contractual measures (Art. 6 (1) (b) GDPR) as well as consent within the framework of the double opt-in (Art. 6 (1) (a) GDPR). Consent can be withdrawn at any time with effect for the future.</p>
       <p><strong>Usage data per API key:</strong> To provide the service, to enforce fair-use limits (rate limit) and to prevent misuse, we log per API key <strong>which tools are queried how often and when</strong> (aggregated counters per day). The key is stored only as a <strong>hash value</strong>; the usage log contains <strong>neither the content of the queries nor the e-mail address</strong>. <strong>Legal basis:</strong> performance of a contract (Art. 6 (1) (b) GDPR) and our legitimate interest in stable, misuse-free operation (Art. 6 (1) (f) GDPR). <strong>Retention period:</strong> a maximum of 12 months, then automatic deletion.</p>
+      <p><strong>Technical measurements per call:</strong> To detect faults and gaps in the service — such as queries that return no result — we record technical measurements for each tool call: the <strong>tool</strong> called, the <strong>processing time</strong>, the <strong>database load</strong> caused, the <strong>number of results</strong> (or whether there were none), the <strong>page number</strong>, the <strong>plan</strong> (e.g. Free or Pro) and the <strong>names</strong> of the filters set (such as “bundesland” or “branche”). <strong>The contents of the filters are not recorded</strong> — no search terms, no company names, no prompts. A technical session identifier is added that groups the calls of one connection; no link to an account, API key or e-mail address is stored. Processing takes place in Azure Application Insights (Germany West Central region, EU). <strong>Legal basis:</strong> our legitimate interest in a functioning, low-fault service (Art. 6 (1) (f) GDPR). <strong>Retention period:</strong> 90 days, then automatic deletion.</p>
     </section>
 
     <section class="block" id="firmenbuch">
@@ -235,7 +238,7 @@
 
     <section class="block" id="speicherdauer">
       <h2><span class="n">09</span> Retention Period</h2>
-      <p>We store personal data only for as long as is necessary for the stated purposes or for as long as statutory retention obligations exist. Sign-up and API-key data is deleted as soon as the account or the key is revoked or requested for deletion, at the latest after 12 months of inactivity.</p>
+      <p>We store personal data only for as long as is necessary for the stated purposes or for as long as statutory retention obligations exist. Sign-up and API-key data is deleted as soon as the account or the key is revoked or requested for deletion, at the latest after 12 months of inactivity. Technical measurements per call (see section 02) are deleted automatically after <strong>90 days</strong>.</p>
     </section>
 
     <section class="block" id="rechte">

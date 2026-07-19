@@ -122,12 +122,14 @@
     <span class="eyebrow">Rechtliches</span>
     <h1>Datenschutzerklärung</h1>
     <p class="sub">Diese Erklärung informiert gemäß der Datenschutz-Grundverordnung (DSGVO) und dem österreichischen Datenschutzgesetz (DSG) über die Verarbeitung personenbezogener Daten bei der Nutzung dieser Website und des Dienstes Agentic-Firmenbuch.at.</p>
-    <p class="meta">Stand: 9. Juli 2026</p>
+    <p class="meta">Stand: 19. Juli 2026</p>
 
     <div style="margin:1.2rem 0;padding:1rem 1.2rem;border-left:4px solid #19C37D;background:rgba(25,195,125,.08);border-radius:8px">
       <strong>Datenschutz.</strong> Inhalte deiner Abfragen werden nicht gespeichert — keine
-      Prompts, Firmennamen, Filter oder Suchbegriffe. Pro Konto bleiben nur Aufruf-Zähler
-      (welches Werkzeug, wie oft) für Nutzungsgrenzen und Abrechnung. <a href="#anmeldung">Details</a>.
+      Prompts, Firmennamen oder Suchbegriffe. Pro Konto bleiben Aufruf-Zähler (welches Werkzeug,
+      wie oft) für Nutzungsgrenzen und Abrechnung; zur Fehlererkennung kommen technische Messwerte
+      je Aufruf dazu (u. a. Dauer, Trefferanzahl und die <strong>Bezeichnungen</strong> der
+      gesetzten Filter — nie deren Inhalte). <a href="#anmeldung">Details</a>.
     </div>
 
     <nav class="toc" aria-label="Inhaltsverzeichnis">
@@ -170,6 +172,7 @@
       <p><strong>Zweck:</strong> Bereitstellung des Dienstes, Verifizierung der E-Mail-Adresse und Missbrauchsprävention.</p>
       <p><strong>Rechtsgrundlage:</strong> Vertragserfüllung bzw. vorvertragliche Maßnahmen (Art. 6 Abs. 1 lit. b DSGVO) sowie die Einwilligung im Rahmen des Double-Opt-in (Art. 6 Abs. 1 lit. a DSGVO). Die Einwilligung kann jederzeit mit Wirkung für die Zukunft widerrufen werden.</p>
       <p><strong>Nutzungsdaten je API-Key:</strong> Zur Bereitstellung des Dienstes, zur Durchsetzung fairer Nutzungsgrenzen (Rate-Limit) und zur Missbrauchsprävention protokollieren wir pro API-Key, <strong>welche Werkzeuge wie oft und wann</strong> abgefragt werden (aggregierte Zähler je Tag). Der Key wird dabei nur als <strong>Hashwert</strong> gespeichert; das Nutzungsprotokoll enthält <strong>weder den Inhalt der Abfragen noch die E-Mail-Adresse</strong>. <strong>Rechtsgrundlage:</strong> Vertragserfüllung (Art. 6 Abs. 1 lit. b DSGVO) und unser berechtigtes Interesse an einem stabilen, missbrauchsfreien Betrieb (Art. 6 Abs. 1 lit. f DSGVO). <strong>Speicherdauer:</strong> höchstens 12 Monate, danach automatische Löschung.</p>
+      <p><strong>Technische Messwerte je Aufruf:</strong> Um Fehler und Lücken im Dienst zu erkennen — etwa Abfragen, die kein Ergebnis liefern — erfassen wir je Werkzeugaufruf technische Messwerte: das aufgerufene <strong>Werkzeug</strong>, die <strong>Verarbeitungsdauer</strong>, die verursachte <strong>Datenbanklast</strong>, die <strong>Anzahl der Treffer</strong> (bzw. ob es null Treffer waren), die <strong>Seitenzahl</strong>, den <strong>Tarif</strong> (z. B. Free oder Pro) sowie die <strong>Bezeichnungen</strong> der gesetzten Filter (etwa „bundesland“ oder „branche“). <strong>Die Inhalte der Filter werden nicht erfasst</strong> — keine Suchbegriffe, keine Firmennamen, keine Prompts. Hinzu kommt eine technische Sitzungs-Kennung, die die Aufrufe einer Verbindung zusammenfasst; ein Bezug zu Konto, API-Key oder E-Mail-Adresse wird dabei <strong>nicht</strong> gespeichert. Die Verarbeitung erfolgt in Azure Application Insights (Region Germany West Central, EU). <strong>Rechtsgrundlage:</strong> unser berechtigtes Interesse an einem funktionsfähigen, fehlerarmen Dienst (Art. 6 Abs. 1 lit. f DSGVO). <strong>Speicherdauer:</strong> 90 Tage, danach automatische Löschung.</p>
     </section>
 
     <section class="block" id="firmenbuch">
@@ -228,7 +231,7 @@
 
     <section class="block" id="speicherdauer">
       <h2><span class="n">09</span> Speicherdauer</h2>
-      <p>Wir speichern personenbezogene Daten nur so lange, wie es für die genannten Zwecke erforderlich ist oder gesetzliche Aufbewahrungspflichten bestehen. Anmelde- und API-Key-Daten werden gelöscht, sobald das Konto bzw. der Key widerrufen oder zur Löschung beantragt wird, spätestens nach 12 Monaten Inaktivität.</p>
+      <p>Wir speichern personenbezogene Daten nur so lange, wie es für die genannten Zwecke erforderlich ist oder gesetzliche Aufbewahrungspflichten bestehen. Anmelde- und API-Key-Daten werden gelöscht, sobald das Konto bzw. der Key widerrufen oder zur Löschung beantragt wird, spätestens nach 12 Monaten Inaktivität. Technische Messwerte je Aufruf (siehe Abschnitt 02) werden nach <strong>90 Tagen</strong> automatisch gelöscht.</p>
     </section>
 
     <section class="block" id="rechte">

@@ -4,8 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
-<title>Firmenbuch für KI – in Claude, Cursor, Copilot &amp; VS Code | Agentic-Firmenbuch.at</title>
-<meta name="description" content="Amtliche österreichische Firmen- und Bilanzdaten direkt im KI-Tool – in Claude, Cursor, VS Code, GitHub Copilot und jedem MCP-Client. In natürlicher Sprache nach Firmendaten fragen, geprüfte Antworten erhalten. Kostenlos starten, Pro 79 €/Monat inkl. USt." />
+<title>Agentic-Firmenbuch – Österreichisches Firmenbuch als MCP-Server</title>
+<meta name="description" content="Offizielle Firmen- und Bilanzdaten aus dem österreichischen Firmenbuch für KI-Agenten – MCP-Server für Claude, Cursor &amp; Co. Kostenlos starten, Pro 79 €/Monat." />
 <link rel="canonical" href="https://www.agentic-firmenbuch.at/" />
 <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
 <link rel="alternate" hreflang="de" href="https://www.agentic-firmenbuch.at/" />
@@ -20,8 +20,8 @@
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="de_AT" />
 <meta property="og:site_name" content="Agentic-Firmenbuch.at" />
-<meta property="og:title" content="Firmenbuch für KI – in Claude, Cursor, Copilot &amp; VS Code" />
-<meta property="og:description" content="Amtliche österreichische Firmen- und Bilanzdaten direkt in Claude, Cursor, VS Code, GitHub Copilot und jedem MCP-Client. In natürlicher Sprache nach Firmendaten fragen, geprüfte Antworten erhalten. Kostenlos starten." />
+<meta property="og:title" content="Agentic-Firmenbuch – Österreichisches Firmenbuch als MCP-Server" />
+<meta property="og:description" content="Offizielle Firmen- und Bilanzdaten aus dem österreichischen Firmenbuch für KI-Agenten – MCP-Server für Claude, Cursor &amp; Co. Kostenlos starten, Pro 79 €/Monat." />
 <meta property="og:url" content="https://www.agentic-firmenbuch.at/" />
 <meta property="og:image" content="https://www.agentic-firmenbuch.at/og-image.png" />
 <meta property="og:image:width" content="1200" />
@@ -29,8 +29,8 @@
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Firmenbuch für KI – in Claude, Cursor, Copilot &amp; VS Code" />
-<meta name="twitter:description" content="Amtliche österreichische Firmen- und Bilanzdaten direkt in Claude, Cursor, VS Code, GitHub Copilot und jedem MCP-Client. In natürlicher Sprache nach Firmendaten fragen." />
+<meta name="twitter:title" content="Agentic-Firmenbuch – Österreichisches Firmenbuch als MCP-Server" />
+<meta name="twitter:description" content="Offizielle Firmen- und Bilanzdaten aus dem österreichischen Firmenbuch für KI-Agenten – MCP-Server für Claude, Cursor &amp; Co. Kostenlos starten, Pro 79 €/Monat." />
 <meta name="twitter:image" content="https://www.agentic-firmenbuch.at/og-image.png" />
 
 <!-- JSON-LD -->
@@ -469,7 +469,7 @@
   .free-points svg{flex:none;width:20px;height:20px;color:var(--mint)}
   form{display:flex;flex-direction:column;gap:14px}
   .field label{display:block;font-size:13px;font-weight:500;color:var(--dim);margin-bottom:7px}
-  .field input[type=email]{
+  .field input[type=email],.field input[type=text]{
     width:100%;font-family:var(--font-b);font-size:16px;color:var(--text);
     padding:14px 16px;border-radius:var(--r-md);border:1px solid var(--line-2);
     background:rgba(10,11,14,.6);transition:border-color .18s,box-shadow .18s;
@@ -1123,8 +1123,12 @@
               <label for="proEmailInput">E-Mail-Adresse deines Zugangs</label>
               <input type="email" id="proEmailInput" inputmode="email" autocomplete="email" placeholder="name@firma.at" />
             </div>
-            <button type="button" class="btn btn-primary btn-lg" id="proGo" style="width:100%">Weiter zu Stripe – 14 Tage gratis testen →</button>
-            <p class="form-note" id="proNote">Heute keine Zahlung. Die ersten 14 Tage sind gratis, danach 79 € pro Monat inkl. USt, jederzeit kündbar. Deinen API-Key bekommst du gleich danach per E-Mail.</p>
+            <div class="field">
+              <label for="proCodeInput">Gutschein-Code (optional)</label>
+              <input type="text" id="proCodeInput" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Falls du einen Code hast" />
+            </div>
+            <button type="button" class="btn btn-primary btn-lg" id="proGo" style="width:100%">Weiter zu Stripe →</button>
+            <p class="form-note" id="proNote">Ohne Code: die ersten 14 Tage gratis – Kreditkarte wird hinterlegt, erst danach 79 € pro Monat inkl. USt, jederzeit kündbar. Mit gültigem Gutschein-Code: gratis bis zum Aktionsende, ganz ohne Kreditkarte. Deinen API-Key bekommst du gleich danach per E-Mail.</p>
           </div>
           <div class="signup-connect">
             <h3 class="connect-h">So verbindest du deinen Client</h3>
@@ -1608,28 +1612,32 @@ play(0);
       proBox.scrollIntoView({behavior:"smooth",block:"nearest"});
     });
   }
-  // Promo link: /?promo=1 (or #…promo) starts the card-less, no-trial promo checkout (free until the
-  // promo ends). The plain button is the 14-day trial (card up front). Both post to the same endpoint.
-  // The default copy advertises the trial; on a promo link we swap it to the card-less wording so a
-  // voucher visitor never sees "14 Tage" (that mismatch is exactly what confused an early promo user).
-  var isPromo=/[?&]promo=1\b/.test(location.search)||/promo/.test(location.hash);
-  if(isPromo){
-    if(proBadge) proBadge.textContent="Gutschein";
-    if(proGo) proGo.textContent="Weiter zu Stripe – ohne Kreditkarte →";
-    if(proNote) proNote.textContent="Mit deinem Gutschein-Code ist Pro bis zum Ende der Aktion gratis – keine Kreditkarte nötig. Deinen API-Key bekommst du gleich danach per E-Mail.";
+  // ONE checkout: the optional voucher code is typed HERE and validated by our server before
+  // any Stripe page exists. Valid code -> the Stripe checkout is card-less (free until the
+  // code's end date). No code -> card up front + 14-day trial. Old voucher links (/?promo=1
+  // or #promo) just open the form and focus the code field.
+  var proCode=document.getElementById("proCodeInput");
+  if(/[?&]promo=1\b/.test(location.search)||/promo/.test(location.hash)){
+    if(proBox){proBox.hidden=false;}
+    if(proStart){proStart.style.display="none";}
+    if(proCode){proCode.focus();}
   }
   function checkout(){
     if(!proInput) return;
     var email=(proInput.value||"").trim();
     if(email.indexOf("@")<1){proInput.focus();return;}
+    var payload={email:email};
+    var code=proCode?(proCode.value||"").trim():"";
+    if(code) payload.code=code;
     var label=proGo.textContent; proGo.disabled=true; proGo.textContent="Wird geöffnet …";
-    fetch(API+"/api/billing/checkout",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({email:email,promo:isPromo})})
+    fetch(API+"/api/billing/checkout",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(payload)})
       .then(function(r){return r.json().catch(function(){return {};}).then(function(j){return {s:r.status,j:j};});})
       .then(function(res){
         if(res.j&&res.j.url){window.location.href=res.j.url;return;}
         proGo.disabled=false; proGo.textContent=label;
         if(res.s===400){
-          proNote.textContent="Bitte eine gültige E-Mail-Adresse angeben.";
+          proNote.textContent=(res.j&&res.j.message)||"Bitte eine gültige E-Mail-Adresse angeben.";
+          if(res.j&&res.j.error==="invalid_code"&&proCode){proCode.focus();}
         }else if(res.s===503){
           proNote.textContent="Die Zahlung ist gerade nicht verfügbar. Bitte später erneut versuchen.";
         }else{

@@ -24,6 +24,11 @@ API (the Starlette app in [`../api/`](../api/README.md)) and points users at the
 - Bot protection on the forms uses Cloudflare Turnstile (cookieless).
 
 ## Deploy
-Deployed via the SWA CLI: `swa deploy ./website --deployment-token <token> --env production`.
+Deployed automatically by CI: the `deploy-website` job in
+[`.github/workflows/ci.yml`](../.github/workflows/ci.yml) runs on every push to `main` that
+touches `website/` (requires the `SWA_DEPLOYMENT_TOKEN` repo secret — Azure portal →
+`swa-firmenbuch` → "Manage deployment token").
+
+Manual fallback: `swa deploy ./website --deployment-token <token> --env production`.
 See the [root README](../README.md) and the Distribution spec (`../docs/specs/Distribution_Spezifikation.md`)
 for the full go-live checklist.

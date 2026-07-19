@@ -191,6 +191,7 @@
         <tbody>
           <tr><td><code>fnr</code></td><td>string</td><td>Firmenbuchnummer</td></tr>
           <tr><td><code>register_id</code></td><td>string</td><td>technische ID, Form <code>AT_&lt;fnr&gt;</code></td></tr>
+          <tr><td><code>euid</code></td><td>string | null</td><td>European Unique Identifier (BRIS), z. B. <code>ATBRA.030444-000</code> — EU-weit eindeutige Firmen-ID</td></tr>
           <tr><td><code>name</code></td><td>string</td><td>Firmenwortlaut</td></tr>
           <tr><td><code>legal_form</code></td><td>string</td><td>Rechtsform als Code (<code>GES</code> = GmbH-Familie; <a href="#codes">alle Codes</a>)</td></tr>
           <tr><td><code>status</code></td><td>string</td><td><code>active</code> / <code>historical</code> / <code>deleted</code></td></tr>
@@ -218,8 +219,8 @@
           <tr><td><code>first_filing_year</code></td><td>int</td><td>erstes verfügbares Abschlussjahr</td></tr>
           <tr><td><code>last_filing_year</code></td><td>int</td><td>letztes verfügbares Abschlussjahr</td></tr>
           <tr><td><code>filing_years_available</code></td><td>int</td><td>Anzahl vorhandener Abschlussjahre</td></tr>
-          <tr><td><code>founded_year</code></td><td>int | null</td><td>Gründungsjahr, sofern ableitbar</td></tr>
-          <tr><td><code>founded_source</code></td><td>string | null</td><td>Herkunft des Gründungsjahrs</td></tr>
+          <tr><td><code>founded_year</code></td><td>int | null</td><td>Gründungsjahr aus der Ersteintragung (Neueintragung im Firmenbuch); verfügbar für ab ~1995 eingetragene Firmen, sonst null</td></tr>
+          <tr><td><code>founded_source</code></td><td>string | null</td><td>Herkunft des Gründungsjahrs (z. B. <code>neueintragung</code>)</td></tr>
           <tr><td><code>description</code></td><td>null</td><td>in V1 nicht befüllt</td></tr>
         </tbody>
       </table></div>
@@ -357,7 +358,7 @@
           <tr><td><code>doc_key</code> · <code>document_url</code> · <code>pdf_doc_key</code></td><td>string | null</td><td>Dokument-Verweise (teils leer)</td></tr>
         </tbody>
       </table></div>
-      <p style="font-size:.92em"><code>events[]</code> – Registerereignisse (Vollzüge), <strong>abgeleitet aus dem täglichen Änderungs-Feed ab 1. Juli 2026</strong>. Der amtliche Auszug liefert kein Vollzugs-Logbuch; wir vergleichen bei jeder Tages-Aktualisierung die Stammdaten und erfassen Abweichungen als typisierte Ereignisse (<code>name_change</code>, <code>seat_change</code>, <code>legal_form_change</code>, <code>management_change</code>, <code>capital_change</code>) mit <code>date</code>, <code>description</code> und <code>source</code> (<code>change_feed_delta</code>). Bei Kapitaländerungen zusätzlich <code>capital_from</code>/<code>capital_to</code>, bei Geschäftsführungs-Änderungen <code>managers_added</code>/<code>managers_removed</code> (Rolle + Name). <strong>Registeränderungen werden seit dem 1. Juli 2026 erfasst</strong> und sind daher erst ab diesem Datum abfragbar. Firmenübergreifend abfragbar über <code>list_events</code> (siehe unten).</p>
+      <p style="font-size:.92em"><code>events[]</code> – Registerereignisse (Vollzüge), <strong>abgeleitet aus dem täglichen Änderungs-Feed ab 1. Juli 2026</strong>. Der amtliche Auszug liefert kein Vollzugs-Logbuch; wir vergleichen bei jeder Tages-Aktualisierung die Stammdaten und erfassen Abweichungen als typisierte Ereignisse (<code>name_change</code>, <code>seat_change</code>, <code>legal_form_change</code>, <code>management_change</code>, <code>capital_change</code>) mit <code>date</code>, <code>description</code> und <code>source</code>. Bei Kapitaländerungen zusätzlich <code>capital_from</code>/<code>capital_to</code>, bei Geschäftsführungs-Änderungen <code>managers_added</code>/<code>managers_removed</code> (Rolle + Name). <strong>Zwei Ebenen:</strong> die <em>detaillierten</em> Ereignisse (mit Vorher/Nachher) werden ab 1. Juli 2026 erfasst; zusätzlich gibt es <em>gröbere historische</em> Register-Ereignisse (nur Typ + Datum, <code>source=change_feed</code>: <code>founding</code>, <code>deletion</code>, <code>merger</code>, <code>split</code>, <code>conversion</code>, <code>capital_change</code>, <code>legal_form_change</code> u. a.) zurück bis ~2020. Firmenübergreifend abfragbar über <code>list_events</code> (siehe unten).</p>
 
       <h3><code>financial_institution</code> · Reguliertes Finanzunternehmen</h3>
       <p style="font-size:.92em">Nur bei Banken, Versicherungen und ähnlichen regulierten Instituten vorhanden. Quelle ist das <strong>amtliche Register</strong> (OeNB-Bankenliste, per Firmenbuchnummer verknüpft; Versicherer via EIOPA/GLEIF in Vorbereitung) – kein Namens-Raten.</p>
@@ -400,6 +401,7 @@
           <tr><td><code>primary_manager.birth_year</code></td><td>int</td><td>Geburtsjahr (nur Jahr)</td></tr>
           <tr><td><code>primary_manager.role_label</code></td><td>string</td><td>Funktion (z. B. Geschäftsführer/in)</td></tr>
           <tr><td><code>primary_manager.vertretung</code></td><td>string | null</td><td>Vertretungsart (Einzel- / Gemeinschaftsvertretung)</td></tr>
+          <tr><td><code>signatories[]</code></td><td>Liste</td><td><strong>Vollständige Zeichnungsberechtigte</strong> (alle Organe: GF + Prokuristen …) — je Eintrag <code>name</code> (nur mit Rechtsgrundlage), <code>role_label</code>, <code>vertretung</code>, <code>birth_year</code> (nur Jahr), <code>age</code></td></tr>
         </tbody>
       </table></div>
       <div class="note"><strong>Datenschutz (DSGVO):</strong> Namen der vertretungsbefugten Personen
@@ -439,7 +441,8 @@
       </table></div>
       <p style="font-size:.92em">Rückgabe je Ereignis: <code>fnr</code>, <code>name</code>, <code>date</code>, <code>type</code>, <code>description</code>, bei Kapital <code>capital_from</code>/<code>capital_to</code>, bei Geschäftsführung <code>managers_added</code>/<code>managers_removed</code> (Rolle + Name), plus <code>bundesland</code>, <code>legal_form</code>, <code>industry_section</code>. Sortiert nach Datum (neueste zuerst).</p>
       <p style="font-size:.92em"><code>get_event_stats</code> liefert zu denselben Filtern <strong>Zähler nach Typ und nach Bundesland</strong> – für Markt-Dashboards („wie viele Kapitalerhöhungen in OÖ diesen Monat").</p>
-      <div class="note"><strong>Erfasst seit 1. Juli 2026:</strong> Registeränderungen werden seit dem <strong>1. Juli 2026</strong> erfasst und sind daher erst ab diesem Datum abfragbar. Ein leeres Ergebnis heißt: keine Änderung im Zeitraum – keine fehlenden Daten.</div>
+      <p style="font-size:.92em"><strong>Firmen statt Ereignisse?</strong> Wer <em>Firmen</em> sucht, die ein Ereignis hatten – mit Finanzkontext und nach Größe gereiht –, nutzt den Filter <code>event_signal</code> in <code>search_companies</code> (siehe Abschnitt 5). Die auslösenden Ereignisse hängen dann an jeder Firmenkarte.</p>
+      <div class="note"><strong>Zwei Ebenen.</strong> <em>Detaillierte</em> Änderungen mit Vorher/Nachher (<code>capital_from</code>/<code>capital_to</code>, <code>managers_added</code>/<code>managers_removed</code>) werden <strong>ab 1. Juli 2026</strong> laufend aus dem täglichen Stammdaten-Vergleich erfasst. Zusätzlich reichen <em>gröbere historische</em> Register-Ereignisse (nur Typ + Datum, <code>source=change_feed</code>) <strong>bis ~2020</strong> zurück. Ein leeres Ergebnis heißt: keine Änderung im Zeitraum – keine fehlenden Daten.</div>
     </section>
 
     <section class="block" id="filter">
@@ -467,12 +470,17 @@
           <tr><td><code>postal_code</code> / <code>city</code></td><td>PLZ-Präfix (<code>1010</code> exakt, <code>10</code> = alle 10xx) bzw. Ort (Teilstring)</td></tr>
           <tr><td><code>near</code></td><td><strong>Umkreissuche</strong>: <code>{ place, radius_km }</code> oder <code>{ postal_code, radius_km }</code> (genau eines; Radius 1–150 km). Treffer erhalten <code>distance_km</code> und werden nach Entfernung sortiert. Ein mehrdeutiger Ortsname wird mit den Kandidaten-PLZ abgewiesen.</td></tr>
           <tr><td><code>query</code></td><td><strong>Freitext-Suche</strong> über Name und Tätigkeit; frei mit allen strukturierten Filtern kombinierbar. Jede Karte erhält <code>match_reason</code> (welches Feld traf).</td></tr>
+          <tr><td><code>event_signal</code> <span class="muted">(Pro)</span></td><td><strong>Ereignis-getriebene Suche</strong> – nur Firmen, die im Zeitraum ein Corporate-Event-Signal hatten: <code>ownership_change</code> (Gesellschafter-Kapitaländerung, oft Anteilsübertragung), <code>leadership_change</code> (GF-/Organ-Wechsel), <code>capital_raise</code> (Kapitalerhöhung), <code>restructuring</code> (Verschmelzung/Spaltung/Einbringung/…), <code>new_company</code>, <code>closure</code>, <code>rebrand</code>, <code>relocation</code>. Kombiniert mit <strong>allen</strong> Finanz-/Profilfiltern; jede Karte erhält die auslösenden <code>events</code> + <code>latest_event_date</code>. Das ist die Deal-Sourcing-/Vertriebs-Trigger-Sicht.</td></tr>
+          <tr><td><code>event_since</code> / <code>event_until</code></td><td>Zeitfenster für <code>event_signal</code> (ISO-Datum); Standard: letzte 365 Tage</td></tr>
           <tr><td><code>status</code></td><td><code>active</code> / <code>inactive</code> / <code>all</code></td></tr>
         </tbody>
       </table></div>
       <p><strong>Sortierung:</strong> <code>sort = { field, descending }</code> über
          <code>bilanzsumme</code>, <code>revenue</code>, <code>equity_ratio</code>,
-         <code>employees</code>, <code>last_filing_year</code> (oder <code>distance</code> bei
+         <code>employees</code>, <code>last_filing_year</code>,
+         <code>revenue_growth_1y</code>, <code>revenue_growth_3y</code>, <code>revenue_growth_5y</code>
+         (Umsatzwachstum: 1 Jahr, 3- und 5-Jahres-CAGR; nur bei mehrjähriger GuV, sonst zuletzt gereiht)
+         (oder <code>distance</code> bei
          einer Umkreissuche). Standard: Bilanzsumme absteigend. Ein unbekanntes Sortierfeld wird
          mit der Liste der gültigen Felder abgewiesen.
          <strong>Seiten:</strong> <code>page</code> (ab 1), <code>page_size</code> (Standard 25).</p>
