@@ -30,3 +30,16 @@ jobs:
           fi
           npx --yes @azure/static-web-apps-cli@2 deploy ./website \
             --deployment-token "$TOKEN" --env production
+
+      # IndexNow: tell Bing & friends right away which URLs changed. The key is
+      # public by design (it must be served at /<key>.txt), so no secret needed.
+      - name: Ping IndexNow with the sitemap URLs
+        run: |
+          KEY="48eff26c76f4061fe1c56ff548e082f2"
+          URLS=$(grep -o '<loc>[^<]*</loc>' website/sitemap.xml \
+            | sed -e 's/<loc>//' -e 's|</loc>||' \
+            | sed 's/.*/"&"/' | paste -sd, -)
+          curl -s -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "{\"host\":\"www.agentic-firmenbuch.at\",\"key\":\"$KEY\",\"keyLocation\":\"https://www.agentic-firmenbuch.at/$KEY.txt\",\"urlList\":[$URLS]}" \
+            -w "\nIndexNow HTTP %{http_code}\n" || true
