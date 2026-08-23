@@ -6,6 +6,8 @@
 
 A live, automated data product over the Austrian **Firmenbuch** (free EU **HVD** / High Value Datasets), served through a **multi-tenant MCP server**. A deterministic Azure pipeline pulls the published Jahresabschluss (annual financial statement) filings from the official register, parses them, consolidates per company, computes ratios/growth/trends, and serves the result to MCP clients. The whole register holds ~640k legal entities; the served slice is currently ~341k and grows as the backfill progresses. **Version 1** = facts + clean derivations only (no scoring, no third-party enrichment, no NACE, no AI summaries).
 
+> **Also available: Germany and the wider DACH region.** Alongside this Austrian product, a unified **`agentic-register`** endpoint serves both the Austrian **Firmenbuch** and the German **Handelsregister / Unternehmensregister** over a single MCP. It is listed in the official MCP registry as **`io.github.jkbngb/handelsregister`** (spec: [`handelsregister.server.json`](handelsregister.server.json)) and reachable at `https://register.agentic-firmenbuch.at/mcp` with the same free API key. A search returns matches from both countries, tagged by `country` (`AT` / `DE`).
+
 ## Quickstart
 
 **Use the hosted service** – query official Firmenbuch data from an MCP client that accepts an HTTP header key (Claude Code, VS Code with GitHub Copilot, Cursor, …):
