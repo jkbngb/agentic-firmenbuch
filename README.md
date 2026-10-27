@@ -2,17 +2,17 @@
 
 > **Austria's entire company register, queryable by AI agents in plain language.** Official master data, annual accounts and key ratios for every firm – served over MCP, answered on real numbers instead of hallucinations.
 
-**[Try the playground](https://www.agentic-firmenbuch.at/playground.html)** &nbsp;·&nbsp; **[Get a free key](https://www.agentic-firmenbuch.at)** &nbsp;·&nbsp; **[Quickstart ↓](#quickstart)**
+**[Try the playground](https://www.agentic-firmenbuch.at/playground.html)** &nbsp;·&nbsp; **[Start free: 50 credits, 7 days](https://www.agentic-firmenbuch.at)** &nbsp;·&nbsp; **[Quickstart ↓](#quickstart)**
 
 A live, automated data product over the Austrian **Firmenbuch** (free EU **HVD** / High Value Datasets), served through a **multi-tenant MCP server**. A deterministic Azure pipeline pulls the published Jahresabschluss (annual financial statement) filings from the official register, parses them, consolidates per company, computes ratios/growth/trends, and serves the result to MCP clients. The whole register holds ~640k legal entities; the served slice is currently ~341k and grows as the backfill progresses. **Version 1** = facts + clean derivations only (no scoring, no third-party enrichment, no NACE, no AI summaries).
 
-> **Also available: Germany and the wider DACH region.** Alongside this Austrian product, a unified **`agentic-register`** endpoint serves both the Austrian **Firmenbuch** and the German **Handelsregister / Unternehmensregister** over a single MCP. It is listed in the official MCP registry as **`io.github.jkbngb/handelsregister`** (spec: [`handelsregister.server.json`](handelsregister.server.json)) and reachable at `https://register.agentic-firmenbuch.at/mcp` with the same free API key. A search returns matches from both countries, tagged by `country` (`AT` / `DE`).
+> **Also available: Germany and the wider DACH region.** Alongside this Austrian product, a unified **`agentic-register`** endpoint serves both the Austrian **Firmenbuch** and the German **Handelsregister / Unternehmensregister** over a single MCP. It is listed in the official MCP registry as **`io.github.jkbngb/handelsregister`** (spec: [`handelsregister.server.json`](handelsregister.server.json)) and reachable at `https://register.agentic-firmenbuch.at/mcp` with the same account and the same access rules (free trial, then Pro). A search returns matches from both countries, tagged by `country` (`AT` / `DE`).
 
 ## Quickstart
 
 **Use the hosted service** – query official Firmenbuch data from an MCP client that accepts an HTTP header key (Claude Code, VS Code with GitHub Copilot, Cursor, …):
 
-1. Get a free API key at **[agentic-firmenbuch.at](https://www.agentic-firmenbuch.at)** – just a verified email.
+1. Get an API key at **[agentic-firmenbuch.at](https://www.agentic-firmenbuch.at)**. Every new account starts with **50 free credits, valid for 7 days** (1 credit per company, so about 50 companies), one allowance shared by the web console and Claude. After the trial, access from Claude, Cursor or any MCP/API client needs **Pro at €79/month plus VAT**: unlimited queries within fair-use limits (10,000 calls per day, 20,000 export rows and 50 documents per month), cancel monthly. Credit packs are a **web-console** product and do not unlock MCP/API access. (Connecting via a sandboxed client like Claude Cowork/claude.ai grants the 50 credits on first connect, no key needed, see below.)
 2. Add the server. **Claude Code** (terminal), one line:
    ```bash
    claude mcp add --scope user --transport http agentic-firmenbuch https://mcp.agentic-firmenbuch.at/mcp --header "X-API-Key: <your-key>"
@@ -32,13 +32,22 @@ Prefer to try before signing up? Use the **[playground](https://www.agentic-firm
 | `search_companies` | Filter / rank Austrian companies by region, size, balance-sheet total, equity ratio, revenue, growth profile, management age, last filing year, status. Returns a compact result card per match. |
 | `get_company_details` | Full served profile of one company: identity, location, founding/filing years, size class, multi-year balance sheet + P&L, 13 computed ratios, growth, management, list of filings. |
 | `get_full_record` | Superset of `get_company_details`: full 317-position UGB taxonomy, passthrough unknown codes, completeness, GuV-years, signatories history, derivations registry. |
-| `get_company_history` | Filing-by-filing time series of every reported position for one company. |
+| `get_company_history` | Filing-by-filing time series of every reported position — one company, or a batch via `fnrs` (max 50; 1 credit per company found where credits apply). |
 | `find_peers` | K-nearest peer set for a company within its size class / region. |
 | `get_cohort_summary` | Aggregate statistics (counts, percentiles, distributions) for a filtered cohort. |
 | `get_coverage` | Per-Bundesland / per-Rechtsform / per-size-class coverage statistics for the served dataset. |
 | `list_sectors` | Available legal-form (`Rechtsform`) and Bundesland codes for use in filters. |
 | `describe_fields` | Self-describing field dictionary with type + null-rules + EBIT/EBITDA definition. |
 | `get_document` | Fetch the URL/blob key for an original filed annual statement (XML or PDF). |
+| `get_document_text` | Return the extracted text of a filed annual statement (parsed XML/PDF) for direct reading. |
+| `list_documents` | One newest-first chronology of a company's Abschluss documents: filed annual statements plus register-held PDFs (Konzernabschluss, HV-Protokoll) with their Dokumentart. |
+| `search_person` | Find companies by an officer / representative (managing directors, board members, signatories) by name. |
+| `benchmark_company` | Position one company against its peer cohort (percentile ranks on key metrics). |
+| `list_events` | Register-change events (name/seat/legal-form/capital/management changes, derived daily since 2026-07) for a company or cohort. |
+| `get_event_stats` | Aggregate event statistics (counts by type/period) across a filtered cohort. |
+| `export_companies_csv` | Export a filtered company set as a CSV download (server-generated, time-limited link). |
+| `get_my_usage` | The caller's own usage, plan, remaining trial credits and the upgrade link. |
+| `ping` | Connection test; always free. |
 
 All tools return a **processed derivative of official Austrian Firmenbuch data** (source: BMJ – Justiz, CC BY 4.0). Concretely: we ingest the published filings from the register, parse and consolidate them, compute ratios, and serve that from our own database — no web scraping, no LLM-generated summaries, no third-party data mixed in (V1). Every response carries `provenance.data_version` + `built_at` and names the original source, so the agent can attribute it correctly; for the authoritative record, the official Firmenbuch always governs.
 
@@ -129,19 +138,13 @@ source-agnostic lineage/meta + metric contracts, config, storage) and
 (`fbl_mcp_server`, serving). Plus [`products/agentic-firmenbuch/tests/`](products/agentic-firmenbuch/tests/README.md) (fixtures),
 `docs/` (incl. [API probe findings](docs/API_PROBE_FINDINGS.md)).
 
-## Build status – Version 1 complete ✅
-All ten §15 build stages are implemented, each committed in order, each with a passing
-Definition of Done. **`ruff` + `mypy --strict` + `pytest` (with an 80% coverage gate) are
-green** in CI. The HVD API was live-probed (§16 resolved) and the full chain
-raw→present was verified on live data end-to-end.
-
-- **Stage 10:** an auth-restricted **coverage** tool (XML vs PDF-only vs none, by
-  format/status – §11) and **GitHub Actions CI** (`uv sync` → ruff → ruff format →
-  `mypy --strict` → pytest with an 80% coverage gate, plus a Bicep-compile job).
-
-**What's left to operate** (not code): provision Azure (`infra/setup.sh`, billable),
-push the FIRMENBUCH_API_KEY to Key Vault, build/push images, then run the Initial Load
-(`sync-registry → backfill-ingest → backfill-process`) and enable the daily cron.
+## Build status – live in production ✅
+All build stages are implemented and the service is **live in production**: the multi-tenant MCP server is
+deployed, the daily pipeline runs on a cron, and the backfill keeps growing the served slice. Since the V1
+launch the register has gained semantic vector search, ÖNACE/WZ industry classification, register-change
+events, German Handelsregister coverage through the unified endpoint, and the trial-then-Pro access model
+described above. **`ruff` + `mypy --strict` + `pytest` (with an 80% coverage gate) are green** in CI;
+deployment of the backend is manual after review.
 
 ## Develop
 ```bash
