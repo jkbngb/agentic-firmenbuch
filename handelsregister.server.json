@@ -3,7 +3,7 @@
   "name": "io.github.jkbngb/handelsregister",
   "title": "Handelsregister",
   "description": "German Handelsregister + Austrian Firmenbuch for AI agents: master data, financials & ratios.",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "repository": {
     "url": "https://github.com/jkbngb/agentic-firmenbuch",
     "source": "github"

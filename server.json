@@ -3,7 +3,7 @@
   "name": "io.github.jkbngb/firmenbuch",
   "title": "Firmenbuch",
   "description": "Austria's official company register (Firmenbuch) – master data, financials & ratios for AI agents.",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "repository": {
     "url": "https://github.com/jkbngb/agentic-firmenbuch",
     "source": "github"
